@@ -77,19 +77,27 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "الطلبة والمستقبل | مستشار المسار الأكاديمي والمهني" },
+      {
+        name: "description",
+        content:
+          "منصة عربية تحلل نسب التشغيل للتخصصات في الجامعات الأردنية وتوجه الطلبة إلى شهادات عالمية مجانية معتمدة.",
+      },
+      { property: "og:title", content: "الطلبة والمستقبل" },
+      {
+        property: "og:description",
+        content: "تحليل نسب التشغيل للتخصصات الأردنية ودليل شهادات مجانية معتمدة.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: appCss,
+        href: "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@500;700;800&display=swap",
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
@@ -102,7 +110,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="ar" dir="rtl">
       <head>
         <HeadContent />
       </head>
@@ -114,13 +122,58 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+const navLinks = [
+  { to: "/", label: "الرئيسية" },
+  { to: "/advisor", label: "المستشار الذكي" },
+  { to: "/majors", label: "دليل التخصصات" },
+  { to: "/certifications", label: "الشهادات المجانية" },
+  { to: "/sources", label: "المصادر الرسمية" },
+] as const;
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <div className="flex min-h-screen flex-col bg-background">
+        <header className="border-b border-border bg-primary text-primary-foreground">
+          <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
+            <Link to="/" className="font-display text-lg font-extrabold">
+              الطلبة <span className="text-accent">والمستقبل</span>
+            </Link>
+            <nav className="flex flex-wrap items-center gap-1 text-sm">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className="rounded-md px-3 py-1.5 transition-colors hover:bg-white/10"
+                  activeProps={{ className: "bg-white/15 font-semibold text-accent" }}
+                  activeOptions={{ exact: link.to === "/" }}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+        </header>
+
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <main className="flex-1">
+          <Outlet />
+        </main>
+
+        <footer className="border-t border-border bg-secondary/60">
+          <div className="mx-auto max-w-6xl px-4 py-6 text-sm text-muted-foreground">
+            <p className="font-semibold text-foreground">منصة الطلبة والمستقبل</p>
+            <p className="mt-2 leading-7">
+              جميع نِسَب التشغيل والتصنيفات تقديرات استرشادية مبنية على أحدث البيانات الرسمية
+              المتاحة من ديوان الخدمة المدنية ودائرة الإحصاءات العامة ووزارة التعليم العالي ومنصة
+              سجّل، وليست أرقاماً لحظية.
+            </p>
+          </div>
+        </footer>
+      </div>
     </QueryClientProvider>
   );
 }
+

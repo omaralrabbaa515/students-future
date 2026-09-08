@@ -142,3 +142,81 @@
     color: var(--color-foreground);
   }
 }
+
+/* هوية «الطلبة والمستقبل»: أزرق مؤسسي داكن مع ذهبي هادئ */
+:root {
+  --radius: 0.5rem;
+  --background: oklch(0.985 0.006 90);
+  --foreground: oklch(0.22 0.045 255);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.045 255);
+  --primary: oklch(0.31 0.08 259);
+  --primary-foreground: oklch(0.98 0.01 90);
+  --secondary: oklch(0.95 0.015 250);
+  --secondary-foreground: oklch(0.31 0.08 259);
+  --muted: oklch(0.955 0.012 250);
+  --muted-foreground: oklch(0.5 0.03 255);
+  --accent: oklch(0.78 0.12 82);
+  --accent-foreground: oklch(0.25 0.05 259);
+  --border: oklch(0.9 0.015 250);
+  --input: oklch(0.9 0.015 250);
+  --ring: oklch(0.78 0.12 82);
+}
+
+html[dir="rtl"] body {
+  font-family: "IBM Plex Sans Arabic", "Noto Kufi Arabic", system-ui, sans-serif;
+}
+
+.font-display {
+  font-family: "Noto Kufi Arabic", "IBM Plex Sans Arabic", system-ui, sans-serif;
+}
+
+.prose-ar table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.9rem;
+}
+.prose-ar th,
+.prose-ar td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.75rem;
+  text-align: right;
+}
+.prose-ar th {
+  background: var(--secondary);
+  font-weight: 600;
+}
+.prose-ar h2 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin: 1.25rem 0 0.5rem;
+  color: var(--primary);
+}
+.prose-ar h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 1rem 0 0.4rem;
+}
+.prose-ar p {
+  margin: 0.5rem 0;
+  line-height: 1.9;
+}
+.prose-ar ul,
+.prose-ar ol {
+  margin: 0.5rem 0;
+  padding-inline-start: 1.25rem;
+  list-style: disc;
+}
+.prose-ar li {
+  margin: 0.3rem 0;
+  line-height: 1.85;
+}
+.prose-ar a {
+  color: oklch(0.45 0.14 250);
+  text-decoration: underline;
+  word-break: break-all;
+}
+.prose-ar strong {
+  font-weight: 700;
+}

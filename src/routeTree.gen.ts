@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdvisorRouteImport } from './routes/advisor'
+import { Route as CertificationsRouteImport } from './routes/certifications'
+import { Route as SourcesRouteImport } from './routes/sources'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as MajorsIndexRouteImport } from './routes/majors.index'
+import { Route as MajorsSlugRouteImport } from './routes/majors.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdvisorRoute = AdvisorRouteImport.update({
+  id: '/advisor',
+  path: '/advisor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CertificationsRoute = CertificationsRouteImport.update({
+  id: '/certifications',
+  path: '/certifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SourcesRoute = SourcesRouteImport.update({
+  id: '/sources',
+  path: '/sources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MajorsIndexRoute = MajorsIndexRouteImport.update({
+  id: '/majors/',
+  path: '/majors/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MajorsSlugRoute = MajorsSlugRouteImport.update({
+  id: '/majors/$slug',
+  path: '/majors/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/advisor': typeof AdvisorRoute
+  '/certifications': typeof CertificationsRoute
+  '/sources': typeof SourcesRoute
+  '/api/chat': typeof ApiChatRoute
+  '/majors/$slug': typeof MajorsSlugRoute
+  '/majors/': typeof MajorsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/advisor': typeof AdvisorRoute
+  '/certifications': typeof CertificationsRoute
+  '/sources': typeof SourcesRoute
+  '/api/chat': typeof ApiChatRoute
+  '/majors/$slug': typeof MajorsSlugRoute
+  '/majors': typeof MajorsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/advisor': typeof AdvisorRoute
+  '/certifications': typeof CertificationsRoute
+  '/sources': typeof SourcesRoute
+  '/api/chat': typeof ApiChatRoute
+  '/majors/$slug': typeof MajorsSlugRoute
+  '/majors/': typeof MajorsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/advisor'
+    | '/certifications'
+    | '/sources'
+    | '/api/chat'
+    | '/majors/$slug'
+    | '/majors/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/advisor'
+    | '/certifications'
+    | '/sources'
+    | '/api/chat'
+    | '/majors/$slug'
+    | '/majors'
+  id:
+    | '__root__'
+    | '/'
+    | '/advisor'
+    | '/certifications'
+    | '/sources'
+    | '/api/chat'
+    | '/majors/$slug'
+    | '/majors/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdvisorRoute: typeof AdvisorRoute
+  CertificationsRoute: typeof CertificationsRoute
+  SourcesRoute: typeof SourcesRoute
+  ApiChatRoute: typeof ApiChatRoute
+  MajorsSlugRoute: typeof MajorsSlugRoute
+  MajorsIndexRoute: typeof MajorsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +130,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/advisor': {
+      id: '/advisor'
+      path: '/advisor'
+      fullPath: '/advisor'
+      preLoaderRoute: typeof AdvisorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/certifications': {
+      id: '/certifications'
+      path: '/certifications'
+      fullPath: '/certifications'
+      preLoaderRoute: typeof CertificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sources': {
+      id: '/sources'
+      path: '/sources'
+      fullPath: '/sources'
+      preLoaderRoute: typeof SourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/majors/': {
+      id: '/majors/'
+      path: '/majors'
+      fullPath: '/majors/'
+      preLoaderRoute: typeof MajorsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/majors/$slug': {
+      id: '/majors/$slug'
+      path: '/majors/$slug'
+      fullPath: '/majors/$slug'
+      preLoaderRoute: typeof MajorsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdvisorRoute: AdvisorRoute,
+  CertificationsRoute: CertificationsRoute,
+  SourcesRoute: SourcesRoute,
+  ApiChatRoute: ApiChatRoute,
+  MajorsSlugRoute: MajorsSlugRoute,
+  MajorsIndexRoute: MajorsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
