@@ -7,12 +7,14 @@ import remarkGfm from "remark-gfm";
 
 import { majors } from "@/data/majors";
 
-type AdvisorSearch = { q?: string };
+type AdvisorSearch = { q?: string | undefined };
 
 export const Route = createFileRoute("/advisor")({
-  validateSearch: (search: Record<string, unknown>): AdvisorSearch => ({
-    q: typeof search.q === "string" && search.q.trim() ? search.q.trim() : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): AdvisorSearch => {
+    const raw = search["q"];
+    return { q: typeof raw === "string" && raw.trim() ? raw.trim() : undefined };
+  },
+
   head: () => ({
     meta: [
       { title: "المستشار الذكي | الطلبة والمستقبل" },
