@@ -10,21 +10,34 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AdvisorRouteImport } from './routes/advisor'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CertificationsRouteImport } from './routes/certifications'
 import { Route as SourcesRouteImport } from './routes/sources'
+import { Route as AuthenticatedUpdatesRouteImport } from './routes/_authenticated/updates'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as MajorsIndexRouteImport } from './routes/majors.index'
 import { Route as MajorsSlugRouteImport } from './routes/majors.$slug'
+import { Route as ApiPublicScanRouteImport } from './routes/api/public/scan'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdvisorRoute = AdvisorRouteImport.update({
   id: '/advisor',
   path: '/advisor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CertificationsRoute = CertificationsRouteImport.update({
@@ -36,6 +49,11 @@ const SourcesRoute = SourcesRouteImport.update({
   id: '/sources',
   path: '/sources',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedUpdatesRoute = AuthenticatedUpdatesRouteImport.update({
+  id: '/updates',
+  path: '/updates',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
@@ -52,73 +70,101 @@ const MajorsSlugRoute = MajorsSlugRouteImport.update({
   path: '/majors/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicScanRoute = ApiPublicScanRouteImport.update({
+  id: '/api/public/scan',
+  path: '/api/public/scan',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/advisor': typeof AdvisorRoute
+  '/auth': typeof AuthRoute
   '/certifications': typeof CertificationsRoute
   '/sources': typeof SourcesRoute
+  '/updates': typeof AuthenticatedUpdatesRoute
   '/api/chat': typeof ApiChatRoute
   '/majors/$slug': typeof MajorsSlugRoute
   '/majors/': typeof MajorsIndexRoute
+  '/api/public/scan': typeof ApiPublicScanRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/advisor': typeof AdvisorRoute
+  '/auth': typeof AuthRoute
   '/certifications': typeof CertificationsRoute
   '/sources': typeof SourcesRoute
+  '/updates': typeof AuthenticatedUpdatesRoute
   '/api/chat': typeof ApiChatRoute
   '/majors/$slug': typeof MajorsSlugRoute
   '/majors': typeof MajorsIndexRoute
+  '/api/public/scan': typeof ApiPublicScanRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/advisor': typeof AdvisorRoute
+  '/auth': typeof AuthRoute
   '/certifications': typeof CertificationsRoute
   '/sources': typeof SourcesRoute
+  '/_authenticated/updates': typeof AuthenticatedUpdatesRoute
   '/api/chat': typeof ApiChatRoute
   '/majors/$slug': typeof MajorsSlugRoute
   '/majors/': typeof MajorsIndexRoute
+  '/api/public/scan': typeof ApiPublicScanRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/advisor'
+    | '/auth'
     | '/certifications'
     | '/sources'
+    | '/updates'
     | '/api/chat'
     | '/majors/$slug'
     | '/majors/'
+    | '/api/public/scan'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/advisor'
+    | '/auth'
     | '/certifications'
     | '/sources'
+    | '/updates'
     | '/api/chat'
     | '/majors/$slug'
     | '/majors'
+    | '/api/public/scan'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/advisor'
+    | '/auth'
     | '/certifications'
     | '/sources'
+    | '/_authenticated/updates'
     | '/api/chat'
     | '/majors/$slug'
     | '/majors/'
+    | '/api/public/scan'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AdvisorRoute: typeof AdvisorRoute
+  AuthRoute: typeof AuthRoute
   CertificationsRoute: typeof CertificationsRoute
   SourcesRoute: typeof SourcesRoute
   ApiChatRoute: typeof ApiChatRoute
   MajorsSlugRoute: typeof MajorsSlugRoute
   MajorsIndexRoute: typeof MajorsIndexRoute
+  ApiPublicScanRoute: typeof ApiPublicScanRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -130,11 +176,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/advisor': {
       id: '/advisor'
       path: '/advisor'
       fullPath: '/advisor'
       preLoaderRoute: typeof AdvisorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/certifications': {
@@ -150,6 +210,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/sources'
       preLoaderRoute: typeof SourcesRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/updates': {
+      id: '/_authenticated/updates'
+      path: '/updates'
+      fullPath: '/updates'
+      preLoaderRoute: typeof AuthenticatedUpdatesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/api/chat': {
       id: '/api/chat'
@@ -172,17 +239,38 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MajorsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/scan': {
+      id: '/api/public/scan'
+      path: '/api/public/scan'
+      fullPath: '/api/public/scan'
+      preLoaderRoute: typeof ApiPublicScanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedUpdatesRoute: typeof AuthenticatedUpdatesRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedUpdatesRoute: AuthenticatedUpdatesRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AdvisorRoute: AdvisorRoute,
+  AuthRoute: AuthRoute,
   CertificationsRoute: CertificationsRoute,
   SourcesRoute: SourcesRoute,
   ApiChatRoute: ApiChatRoute,
   MajorsSlugRoute: MajorsSlugRoute,
   MajorsIndexRoute: MajorsIndexRoute,
+  ApiPublicScanRoute: ApiPublicScanRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
