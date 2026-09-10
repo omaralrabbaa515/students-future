@@ -124,6 +124,11 @@ function Certifications() {
             </span>
             <h2 className="font-display mt-3 font-bold">{cert.title}</h2>
             <p className="text-muted-foreground mt-1 text-xs">الجهة المانحة: {cert.provider}</p>
+            {brokenLinks.has(cert.id) && (
+              <p className="mt-2 rounded-md bg-rose-50 px-3 py-2 text-xs leading-6 text-rose-900">
+                تنبيه: تعذّر الوصول إلى رابط هذه الدورة في آخر فحص ({brokenLinks.get(cert.id)}).
+              </p>
+            )}
             <p className="mt-3 flex-1 text-sm leading-7">{cert.summary}</p>
             <p className="bg-secondary text-secondary-foreground mt-3 rounded-md px-3 py-2 text-xs leading-6">
               <span className="font-bold">طريقة الحصول على الشهادة: </span>
