@@ -81,12 +81,12 @@ function Home() {
           <Stat label="تخصصات راكدة" value={stagnant.length} tone="tone-bad" />
         </div>
 
-        <div className="mt-6 grid gap-4 md:grid-cols-3 md:grid-rows-2">
+        <div className="mt-6 grid gap-4 md:grid-cols-3">
           <CardLink
             to="/majors"
             title="دليل التخصصات"
             body={`${majors.length} تخصصاً مع تقدير نسبة التشغيل ومستوى الخطر وخريطة الجامعات والاعتمادات.`}
-            className="md:col-span-2 md:row-span-2"
+            className="md:col-span-3 lg:col-span-1"
             featured
           />
           <CardLink
