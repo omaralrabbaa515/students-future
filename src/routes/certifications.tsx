@@ -42,6 +42,18 @@ export const Route = createFileRoute("/certifications")({
 });
 
 function Certifications() {
+  const { meta } = Route.useLoaderData();
+  const brokenLinks = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const check of meta.linkChecks) {
+      if (!check.ok) map.set(check.certification_id, check.error ?? "تعذّر الوصول إلى الرابط");
+    }
+    return map;
+  }, [meta]);
+  const lastLinkCheck = useMemo(() => {
+    const dates = meta.linkChecks.map((check) => check.checked_at).sort();
+    return dates.at(-1) ?? meta.lastScan?.finished_at ?? meta.lastScan?.started_at ?? null;
+  }, [meta]);
   const [category, setCategory] = useState("الكل");
   const [provider, setProvider] = useState("الكل");
   const [query, setQuery] = useState("");
