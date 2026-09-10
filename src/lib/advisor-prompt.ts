@@ -2,7 +2,10 @@ import { certifications } from "@/data/certifications";
 import { majors } from "@/data/majors";
 
 const certificationsCatalog = certifications
-  .map((c) => `- ${c.title} | ${c.provider} | ${c.url} | التصنيف: ${c.category} | ${c.summary}`)
+  .map(
+    (c) =>
+      `- ${c.title} | ${c.provider} | ${c.url} | التصنيف: ${c.category} | ${c.summary} | طريقة الحصول: ${c.howToGet}`,
+  )
   .join("\n");
 
 const majorsSnapshot = majors
