@@ -105,7 +105,7 @@ function AuthPage() {
         <button
           type="submit"
           disabled={busy}
-          className="bg-primary text-primary-foreground w-full rounded-md px-4 py-2.5 text-sm font-bold disabled:opacity-60"
+          className="bg-brand text-brand-foreground w-full rounded-xl px-4 py-2.5 text-sm font-bold disabled:opacity-60"
         >
           {mode === "signin" ? "تسجيل الدخول" : "إنشاء حساب المشرف"}
         </button>
@@ -121,12 +121,12 @@ function AuthPage() {
 
       <button
         onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-        className="text-primary mt-4 text-sm underline"
+        className="text-brand mt-4 text-sm underline"
       >
         {mode === "signin" ? "ليس لديك حساب؟ أنشئ حساب المشرف" : "لديك حساب؟ سجّل الدخول"}
       </button>
 
-      {message && <p className="mt-4 text-sm leading-7 text-rose-700">{message}</p>}
+      {message && <p className="text-danger mt-4 text-sm leading-7">{message}</p>}
     </div>
   );
 }

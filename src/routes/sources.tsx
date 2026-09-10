@@ -81,8 +81,8 @@ function Sources() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10">
-      <h1 className="font-display text-2xl font-extrabold">المصادر الرسمية</h1>
-      <p className="bg-secondary text-secondary-foreground mt-3 inline-block rounded-full px-3 py-1 text-xs font-bold">
+      <h1 className="font-display text-3xl font-extrabold sm:text-4xl">المصادر الرسمية</h1>
+      <p className="pill tone-neutral mt-3">
         آخر فحص شامل للمصادر: {formatDateTime(lastScan?.finished_at ?? lastScan?.started_at)}
       </p>
       <p className="text-muted-foreground mt-3 text-sm leading-8">
@@ -95,7 +95,7 @@ function Sources() {
         {sources.map((source) => {
           const status = statuses.get(source.key);
           return (
-            <div key={source.key} className="border-border bg-card rounded-lg border p-5">
+            <div key={source.key} className="card-surface p-6">
               <h2 className="font-display font-bold">{source.name}</h2>
               <p className="text-muted-foreground mt-2 text-sm leading-7">{source.note}</p>
               <p className="text-muted-foreground mt-2 text-xs leading-6">
@@ -106,7 +106,7 @@ function Sources() {
                 href={source.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-primary mt-2 inline-block text-sm underline"
+                className="text-brand mt-2 inline-block text-sm underline"
               >
                 {source.url}
               </a>

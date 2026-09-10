@@ -143,32 +143,182 @@
   }
 }
 
-/* هوية «الطلبة والمستقبل»: أزرق مؤسسي داكن مع ذهبي هادئ */
+/* هوية «الطلبة والمستقبل» 2026: كحلي أكاديمي عميق + أزرق حيوي + ذهبي هادئ */
 :root {
-  --radius: 0.5rem;
-  --background: oklch(0.985 0.006 90);
-  --foreground: oklch(0.22 0.045 255);
+  --radius: 0.875rem;
+  --background: oklch(0.985 0.005 250);
+  --foreground: oklch(0.21 0.04 258);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.22 0.045 255);
-  --primary: oklch(0.31 0.08 259);
-  --primary-foreground: oklch(0.98 0.01 90);
-  --secondary: oklch(0.95 0.015 250);
-  --secondary-foreground: oklch(0.31 0.08 259);
-  --muted: oklch(0.955 0.012 250);
-  --muted-foreground: oklch(0.5 0.03 255);
-  --accent: oklch(0.78 0.12 82);
-  --accent-foreground: oklch(0.25 0.05 259);
-  --border: oklch(0.9 0.015 250);
-  --input: oklch(0.9 0.015 250);
-  --ring: oklch(0.78 0.12 82);
+  --card-foreground: oklch(0.21 0.04 258);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.21 0.04 258);
+  --primary: oklch(0.28 0.09 262);
+  --primary-foreground: oklch(0.985 0.006 250);
+  --secondary: oklch(0.955 0.012 252);
+  --secondary-foreground: oklch(0.28 0.09 262);
+  --muted: oklch(0.962 0.01 252);
+  --muted-foreground: oklch(0.52 0.03 258);
+  --accent: oklch(0.79 0.13 84);
+  --accent-foreground: oklch(0.24 0.06 262);
+  --border: oklch(0.905 0.014 252);
+  --input: oklch(0.905 0.014 252);
+  --ring: oklch(0.58 0.16 258);
+
+  --surface: oklch(0.972 0.009 252);
+  --surface-2: oklch(0.945 0.016 252);
+  --brand: oklch(0.56 0.17 258);
+  --brand-foreground: oklch(0.985 0.006 250);
+  --success: oklch(0.5 0.12 158);
+  --success-soft: oklch(0.94 0.05 158);
+  --warning: oklch(0.52 0.12 72);
+  --warning-soft: oklch(0.95 0.06 82);
+  --danger: oklch(0.51 0.17 20);
+  --danger-soft: oklch(0.95 0.04 20);
+
+  --gradient-hero: radial-gradient(
+      120% 130% at 88% 0%,
+      color-mix(in oklab, var(--brand) 55%, transparent) 0%,
+      transparent 60%
+    ),
+    linear-gradient(215deg, oklch(0.32 0.1 264) 0%, oklch(0.2 0.06 262) 100%);
+  --gradient-accent: linear-gradient(120deg, var(--brand), oklch(0.66 0.15 216));
+  --shadow-card: 0 1px 2px oklch(0.28 0.09 262 / 6%), 0 8px 24px -16px oklch(0.28 0.09 262 / 22%);
+  --shadow-elevated: 0 2px 6px oklch(0.28 0.09 262 / 8%), 0 24px 48px -24px oklch(0.28 0.09 262 / 32%);
+}
+
+.dark {
+  --background: oklch(0.17 0.035 262);
+  --foreground: oklch(0.955 0.008 250);
+  --card: oklch(0.222 0.04 262);
+  --card-foreground: oklch(0.955 0.008 250);
+  --popover: oklch(0.222 0.04 262);
+  --popover-foreground: oklch(0.955 0.008 250);
+  --primary: oklch(0.26 0.075 262);
+  --primary-foreground: oklch(0.965 0.008 250);
+  --secondary: oklch(0.27 0.045 262);
+  --secondary-foreground: oklch(0.955 0.008 250);
+  --muted: oklch(0.27 0.045 262);
+  --muted-foreground: oklch(0.73 0.03 254);
+  --accent: oklch(0.8 0.13 84);
+  --accent-foreground: oklch(0.2 0.05 262);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.66 0.15 254);
+
+  --surface: oklch(0.215 0.04 262);
+  --surface-2: oklch(0.26 0.045 262);
+  --brand: oklch(0.68 0.15 254);
+  --brand-foreground: oklch(0.16 0.04 262);
+  --success: oklch(0.78 0.13 160);
+  --success-soft: oklch(0.32 0.07 160);
+  --warning: oklch(0.83 0.13 82);
+  --warning-soft: oklch(0.34 0.07 78);
+  --danger: oklch(0.72 0.16 20);
+  --danger-soft: oklch(0.33 0.09 20);
+
+  --gradient-hero: radial-gradient(
+      120% 130% at 88% 0%,
+      color-mix(in oklab, var(--brand) 32%, transparent) 0%,
+      transparent 62%
+    ),
+    linear-gradient(215deg, oklch(0.24 0.06 264) 0%, oklch(0.16 0.035 262) 100%);
+  --shadow-card: 0 1px 2px oklch(0 0 0 / 30%), 0 10px 28px -18px oklch(0 0 0 / 60%);
+  --shadow-elevated: 0 2px 8px oklch(0 0 0 / 38%), 0 26px 52px -26px oklch(0 0 0 / 70%);
+}
+
+@theme inline {
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --font-sans: "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --font-display: "Noto Kufi Arabic", "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --shadow-card: var(--shadow-card);
+  --shadow-elevated: var(--shadow-elevated);
 }
 
 html[dir="rtl"] body {
   font-family: "IBM Plex Sans Arabic", "Noto Kufi Arabic", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 .font-display {
   font-family: "Noto Kufi Arabic", "IBM Plex Sans Arabic", system-ui, sans-serif;
+  letter-spacing: -0.01em;
+}
+
+@utility hero-surface {
+  background: var(--gradient-hero);
+  position: relative;
+  isolation: isolate;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.14;
+    background-image:
+      linear-gradient(to left, oklch(1 0 0 / 45%) 1px, transparent 1px),
+      linear-gradient(to bottom, oklch(1 0 0 / 45%) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(120% 100% at 80% 0%, black 0%, transparent 70%);
+  }
+}
+
+@utility card-surface {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.25s ease,
+    border-color 0.25s ease;
+}
+
+@utility card-hover {
+  &:hover {
+    box-shadow: var(--shadow-elevated);
+    border-color: color-mix(in oklab, var(--brand) 45%, var(--border));
+    transform: translateY(-3px);
+  }
+}
+
+@utility pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+@utility tone-good {
+  background-color: var(--success-soft);
+  color: var(--success);
+}
+
+@utility tone-warn {
+  background-color: var(--warning-soft);
+  color: var(--warning);
+}
+
+@utility tone-bad {
+  background-color: var(--danger-soft);
+  color: var(--danger);
+}
+
+@utility tone-neutral {
+  background-color: var(--surface-2);
+  color: var(--foreground);
 }
 
 .prose-ar table {
@@ -213,7 +363,7 @@ html[dir="rtl"] body {
   line-height: 1.85;
 }
 .prose-ar a {
-  color: oklch(0.45 0.14 250);
+  color: var(--brand);
   text-decoration: underline;
   word-break: break-all;
 }

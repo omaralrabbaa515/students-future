@@ -27,7 +27,7 @@ export const Route = createFileRoute("/majors/$slug")({
   notFoundComponent: () => (
     <div className="mx-auto max-w-3xl px-4 py-12 text-sm leading-8">
       <h1 className="font-display text-xl font-bold">هذا التخصص غير متوفر في الدليل</h1>
-      <Link to="/majors" className="text-primary mt-3 inline-block underline">
+      <Link to="/majors" className="text-brand mt-3 inline-block underline">
         رجوع إلى دليل التخصصات
       </Link>
     </div>
@@ -53,9 +53,9 @@ export const Route = createFileRoute("/majors/$slug")({
 });
 
 function badge(value: string) {
-  if (value === "مطلوب" || value === "منخفض") return "bg-emerald-100 text-emerald-800";
-  if (value === "مشبع" || value === "متوسط") return "bg-amber-100 text-amber-800";
-  return "bg-rose-100 text-rose-800";
+  if (value === "مطلوب" || value === "منخفض") return "tone-good";
+  if (value === "مشبع" || value === "متوسط") return "tone-warn";
+  return "tone-bad";
 }
 
 function MajorPage() {
@@ -73,9 +73,9 @@ function MajorPage() {
       <Link to="/majors" className="text-muted-foreground text-sm underline">
         رجوع إلى دليل التخصصات
       </Link>
-      <h1 className="font-display mt-3 text-2xl font-extrabold">{major.name}</h1>
+      <h1 className="font-display mt-3 text-3xl font-extrabold sm:text-4xl">{major.name}</h1>
       <p className="text-muted-foreground mt-1 text-sm">{major.field}</p>
-      <p className="bg-secondary text-secondary-foreground mt-3 inline-block rounded-full px-3 py-1 text-xs font-bold">
+      <p className="pill tone-neutral mt-3">
         آخر تحديث للبيانات: {formatDate(lastUpdated)}
       </p>
       <p className="mt-4 leading-8">{major.summary}</p>
@@ -84,13 +84,13 @@ function MajorPage() {
         <Link
           to="/advisor"
           search={{ q: major.name }}
-          className="bg-primary text-primary-foreground rounded-md px-5 py-2.5 text-sm font-bold"
+          className="bg-brand text-brand-foreground rounded-xl px-5 py-2.5 text-sm font-bold transition-transform hover:-translate-y-0.5"
         >
           اسأل المستشار عن هذا التخصص
         </Link>
         <a
           href="#certs"
-          className="border-border rounded-md border px-5 py-2.5 text-sm font-bold"
+          className="border-border hover:border-brand rounded-xl border px-5 py-2.5 text-sm font-bold transition-colors"
         >
           الشهادات الموصى بها
         </a>
@@ -122,7 +122,7 @@ function MajorPage() {
         <div className="overflow-x-auto">
           <table className="w-full border-collapse text-sm">
             <thead>
-              <tr className="bg-secondary">
+              <tr className="bg-surface-2">
                 <th className="border-border border p-2 text-right">جامعات حكومية</th>
                 <th className="border-border border p-2 text-right">جامعات خاصة</th>
               </tr>
@@ -154,7 +154,7 @@ function MajorPage() {
       <Section title="3) أثر الذكاء الاصطناعي والأتمتة">
         <p className="mb-2">
           <span className="font-bold">مدى التعرض للأتمتة: </span>
-          <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${badge(major.automation.exposure)}`}>
+          <span className={`pill ${badge(major.automation.exposure)}`}>
             {major.automation.exposure}
           </span>
         </p>
@@ -164,13 +164,13 @@ function MajorPage() {
       <Section title="4) مسار المهارات والشهادات التنافسية" id="certs">
         <div className="space-y-3">
           {certs.map((cert) => (
-            <div key={cert.id} className="border-border bg-card rounded-lg border p-4">
+            <div key={cert.id} className="card-surface p-5">
               <h3 className="font-display font-bold">{cert.title}</h3>
               <p className="text-muted-foreground mt-1 text-xs">
                 الجهة المانحة: {cert.provider} · {cert.category}
               </p>
               <p className="mt-2 text-sm leading-7">{cert.summary}</p>
-              <p className="bg-secondary text-secondary-foreground mt-2 rounded-md px-3 py-2 text-xs leading-6">
+              <p className="bg-surface text-foreground mt-2 rounded-xl px-3 py-2 text-xs leading-6">
                 <span className="font-bold">طريقة الحصول على الشهادة: </span>
                 {cert.howToGet}
               </p>
@@ -178,7 +178,7 @@ function MajorPage() {
                 href={cert.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-primary mt-2 inline-block text-sm break-all underline"
+                className="text-brand mt-2 inline-block text-sm break-all underline"
               >
                 {cert.url}
               </a>
@@ -198,10 +198,10 @@ function MajorPage() {
         </ul>
       </Section>
 
-      <div className="border-border mt-10 rounded-lg border border-dashed p-5 text-sm leading-8">
+      <div className="border-brand/40 bg-surface/60 mt-12 rounded-2xl border border-dashed p-6 text-sm leading-8">
         للحصول على توجيه مخصص بالكامل، أخبر المستشار الذكي بمعدل الثانوية العامة (التوجيهي)،
         والجامعات المفضلة لديك، وميولك المهنية.
-        <Link to="/advisor" search={{ q: major.name }} className="text-primary ms-2 underline">
+        <Link to="/advisor" search={{ q: major.name }} className="text-brand ms-2 font-bold underline">
           ابدأ المحادثة
         </Link>
       </div>
@@ -219,8 +219,11 @@ function Section({
   id?: string;
 }) {
   return (
-    <section id={id} className="border-border mt-8 border-t pt-6">
-      <h2 className="font-display text-primary mb-3 text-lg font-bold">{title}</h2>
+    <section id={id} className="border-border mt-10 border-t pt-7">
+      <h2 className="font-display text-foreground mb-4 flex items-center gap-2 text-xl font-bold">
+        <span className="bg-brand inline-block h-5 w-1 rounded-full" />
+        {title}
+      </h2>
       {children}
     </section>
   );
@@ -238,7 +241,7 @@ function Fact({
   updatedAt?: string | null;
 }) {
   return (
-    <div className="border-border bg-card rounded-lg border p-4">
+    <div className="card-surface p-5">
       <p className="text-muted-foreground text-xs">{label}</p>
       <p className={`mt-1 inline-block rounded-full px-2.5 py-0.5 font-bold ${tone ?? ""}`}>
         {value}

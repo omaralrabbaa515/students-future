@@ -25,15 +25,15 @@ export const Route = createFileRoute("/majors/")({
 const classifications: MarketClassification[] = ["مطلوب", "مشبع", "راكد"];
 
 export function classificationBadge(value: string) {
-  if (value === "مطلوب") return "bg-emerald-100 text-emerald-800";
-  if (value === "مشبع") return "bg-amber-100 text-amber-800";
-  return "bg-rose-100 text-rose-800";
+  if (value === "مطلوب") return "tone-good";
+  if (value === "مشبع") return "tone-warn";
+  return "tone-bad";
 }
 
 export function riskBadge(value: string) {
-  if (value === "منخفض") return "bg-emerald-100 text-emerald-800";
-  if (value === "متوسط") return "bg-amber-100 text-amber-800";
-  return "bg-rose-100 text-rose-800";
+  if (value === "منخفض") return "tone-good";
+  if (value === "متوسط") return "tone-warn";
+  return "tone-bad";
 }
 
 function MajorsIndex() {
@@ -54,7 +54,7 @@ function MajorsIndex() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
-      <h1 className="font-display text-2xl font-extrabold">دليل التخصصات</h1>
+      <h1 className="font-display text-3xl font-extrabold sm:text-4xl">دليل التخصصات</h1>
       <p className="text-muted-foreground mt-2 text-sm leading-7">
         {majors.length} تخصصاً مع تقدير نسبة التشغيل خلال أول سنتين بعد التخرج، ومستوى الخطر،
         والتصنيف الرسمي في سوق العمل الأردني.
@@ -65,12 +65,12 @@ function MajorsIndex() {
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="ابحث باسم التخصص"
-          className="border-border bg-card rounded-md border px-4 py-2 text-sm"
+          className="border-border bg-card focus:border-brand rounded-xl border px-4 py-2.5 text-sm focus:outline-none"
         />
         <select
           value={classification}
           onChange={(event) => setClassification(event.target.value)}
-          className="border-border bg-card rounded-md border px-4 py-2 text-sm"
+          className="border-border bg-card focus:border-brand rounded-xl border px-4 py-2.5 text-sm focus:outline-none"
         >
           <option value="الكل">كل التصنيفات</option>
           {classifications.map((item) => (
@@ -82,7 +82,7 @@ function MajorsIndex() {
         <select
           value={field}
           onChange={(event) => setField(event.target.value)}
-          className="border-border bg-card rounded-md border px-4 py-2 text-sm"
+          className="border-border bg-card focus:border-brand rounded-xl border px-4 py-2.5 text-sm focus:outline-none"
         >
           <option value="الكل">كل المجالات</option>
           {majorFields.map((item) => (
@@ -99,16 +99,16 @@ function MajorsIndex() {
             key={major.slug}
             to="/majors/$slug"
             params={{ slug: major.slug }}
-            className="border-border bg-card hover:border-accent flex flex-col rounded-lg border p-5 transition-colors"
+            className="card-surface card-hover flex flex-col p-5"
           >
             <div className="flex flex-wrap items-center gap-2">
               <span
-                className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${classificationBadge(major.classification)}`}
+                className={`pill ${classificationBadge(major.classification)}`}
               >
                 {major.classification}
               </span>
               <span
-                className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${riskBadge(major.risk)}`}
+                className={`pill ${riskBadge(major.risk)}`}
               >
                 الخطر: {major.risk}
               </span>
@@ -119,7 +119,7 @@ function MajorsIndex() {
               {major.summary}
             </p>
             <p className="mt-4 text-sm font-bold">
-              تقدير التشغيل: <span className="text-primary">{major.employmentRate}</span>
+              تقدير التشغيل: <span className="text-brand">{major.employmentRate}</span>
             </p>
           </Link>
         ))}
