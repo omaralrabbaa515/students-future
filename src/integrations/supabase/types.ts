@@ -229,6 +229,24 @@ export type Database = {
         }
         Relationships: []
       }
+      scan_tokens: {
+        Row: {
+          created_at: string
+          id: string
+          token: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          token: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          token?: string
+        }
+        Relationships: []
+      }
       sources: {
         Row: {
           key: string

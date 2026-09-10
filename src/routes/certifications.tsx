@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, ErrorComponent } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 
 import {
@@ -6,8 +6,23 @@ import {
   certificationProviders,
   certifications,
 } from "@/data/certifications";
+import { getPlatformMeta } from "@/lib/public-data.functions";
+import { EMPTY_PLATFORM_META, formatDate, type PlatformMeta } from "@/lib/platform-data";
 
 export const Route = createFileRoute("/certifications")({
+  loader: async () => {
+    let meta: PlatformMeta = EMPTY_PLATFORM_META;
+    try {
+      meta = await getPlatformMeta();
+    } catch {
+      meta = EMPTY_PLATFORM_META;
+    }
+    return { meta };
+  },
+  errorComponent: ErrorComponent,
+  notFoundComponent: () => (
+    <p className="mx-auto max-w-3xl px-4 py-12 text-sm">الصفحة غير موجودة.</p>
+  ),
   head: () => ({
     meta: [
       { title: "دليل الشهادات المجانية المعتمدة | الطلبة والمستقبل" },
@@ -27,6 +42,18 @@ export const Route = createFileRoute("/certifications")({
 });
 
 function Certifications() {
+  const { meta } = Route.useLoaderData();
+  const brokenLinks = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const check of meta.linkChecks) {
+      if (!check.ok) map.set(check.certification_id, check.error ?? "تعذّر الوصول إلى الرابط");
+    }
+    return map;
+  }, [meta]);
+  const lastLinkCheck = useMemo(() => {
+    const dates = meta.linkChecks.map((check) => check.checked_at).sort();
+    return dates.at(-1) ?? meta.lastScan?.finished_at ?? meta.lastScan?.started_at ?? null;
+  }, [meta]);
   const [category, setCategory] = useState("الكل");
   const [provider, setProvider] = useState("الكل");
   const [query, setQuery] = useState("");
@@ -48,6 +75,9 @@ function Certifications() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
       <h1 className="font-display text-2xl font-extrabold">دليل الشهادات المجانية المعتمدة</h1>
+      <p className="bg-secondary text-secondary-foreground mt-3 inline-block rounded-full px-3 py-1 text-xs font-bold">
+        آخر فحص للروابط: {formatDate(lastLinkCheck)}
+      </p>
       <p className="text-muted-foreground mt-2 text-sm leading-7">
         {certifications.length} شهادة مجانية من جهات عالمية موثوقة، مصنّفة حسب المجال، مع نبذة عن كل
         دورة والتخصصات التي تستفيد منها ورابط التسجيل المباشر.
@@ -94,6 +124,11 @@ function Certifications() {
             </span>
             <h2 className="font-display mt-3 font-bold">{cert.title}</h2>
             <p className="text-muted-foreground mt-1 text-xs">الجهة المانحة: {cert.provider}</p>
+            {brokenLinks.has(cert.id) && (
+              <p className="mt-2 rounded-md bg-rose-50 px-3 py-2 text-xs leading-6 text-rose-900">
+                تنبيه: تعذّر الوصول إلى رابط هذه الدورة في آخر فحص ({brokenLinks.get(cert.id)}).
+              </p>
+            )}
             <p className="mt-3 flex-1 text-sm leading-7">{cert.summary}</p>
             <p className="bg-secondary text-secondary-foreground mt-3 rounded-md px-3 py-2 text-xs leading-6">
               <span className="font-bold">طريقة الحصول على الشهادة: </span>

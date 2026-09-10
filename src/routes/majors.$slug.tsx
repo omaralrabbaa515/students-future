@@ -1,14 +1,37 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, ErrorComponent, Link, notFound } from "@tanstack/react-router";
 
 import { getCertificationsByIds } from "@/data/certifications";
 import { getMajor } from "@/data/majors";
+import { getPlatformMeta } from "@/lib/public-data.functions";
+import {
+  EMPTY_PLATFORM_META,
+  formatDate,
+  lastUpdatedFor,
+  overridesFor,
+  type PlatformMeta,
+} from "@/lib/platform-data";
 
 export const Route = createFileRoute("/majors/$slug")({
-  loader: ({ params }) => {
+  loader: async ({ params }) => {
     const major = getMajor(params.slug);
     if (!major) throw notFound();
-    return { major };
+    let meta: PlatformMeta = EMPTY_PLATFORM_META;
+    try {
+      meta = await getPlatformMeta();
+    } catch {
+      meta = EMPTY_PLATFORM_META;
+    }
+    return { major, meta };
   },
+  errorComponent: ErrorComponent,
+  notFoundComponent: () => (
+    <div className="mx-auto max-w-3xl px-4 py-12 text-sm leading-8">
+      <h1 className="font-display text-xl font-bold">هذا التخصص غير متوفر في الدليل</h1>
+      <Link to="/majors" className="text-primary mt-3 inline-block underline">
+        رجوع إلى دليل التخصصات
+      </Link>
+    </div>
+  ),
   head: ({ loaderData }) => {
     if (!loaderData) {
       return {
@@ -36,9 +59,14 @@ function badge(value: string) {
 }
 
 function MajorPage() {
-  const { major } = Route.useLoaderData();
+  const { major, meta } = Route.useLoaderData();
   const certs = getCertificationsByIds(major.certificationIds);
   const rows = Math.max(major.publicUniversities.length, major.privateUniversities.length);
+  const overrides = overridesFor(meta, "major", major.slug);
+  const employmentRate = overrides["employmentRate"]?.value ?? major.employmentRate;
+  const risk = overrides["risk"]?.value ?? major.risk;
+  const classification = overrides["classification"]?.value ?? major.classification;
+  const lastUpdated = lastUpdatedFor(meta, "major", major.slug);
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10">
@@ -47,6 +75,9 @@ function MajorPage() {
       </Link>
       <h1 className="font-display mt-3 text-2xl font-extrabold">{major.name}</h1>
       <p className="text-muted-foreground mt-1 text-sm">{major.field}</p>
+      <p className="bg-secondary text-secondary-foreground mt-3 inline-block rounded-full px-3 py-1 text-xs font-bold">
+        آخر تحديث للبيانات: {formatDate(lastUpdated)}
+      </p>
       <p className="mt-4 leading-8">{major.summary}</p>
 
       <div className="mt-6 flex flex-wrap gap-2">
@@ -67,12 +98,22 @@ function MajorPage() {
 
       <Section title="1) مؤشر التشغيل والطلب">
         <div className="grid gap-3 sm:grid-cols-3">
-          <Fact label="تقدير التشغيل (أول سنتين)" value={major.employmentRate} />
-          <Fact label="مستوى الخطر" value={major.risk} tone={badge(major.risk)} />
+          <Fact
+            label="تقدير التشغيل (أول سنتين)"
+            value={employmentRate}
+            updatedAt={overrides["employmentRate"]?.updated_at ?? null}
+          />
+          <Fact
+            label="مستوى الخطر"
+            value={risk}
+            tone={badge(risk)}
+            updatedAt={overrides["risk"]?.updated_at ?? null}
+          />
           <Fact
             label="التصنيف في سوق العمل"
-            value={major.classification}
-            tone={badge(major.classification)}
+            value={classification}
+            tone={badge(classification)}
+            updatedAt={overrides["classification"]?.updated_at ?? null}
           />
         </div>
       </Section>
@@ -185,13 +226,28 @@ function Section({
   );
 }
 
-function Fact({ label, value, tone }: { label: string; value: string; tone?: string }) {
+function Fact({
+  label,
+  value,
+  tone,
+  updatedAt,
+}: {
+  label: string;
+  value: string;
+  tone?: string;
+  updatedAt?: string | null;
+}) {
   return (
     <div className="border-border bg-card rounded-lg border p-4">
       <p className="text-muted-foreground text-xs">{label}</p>
       <p className={`mt-1 inline-block rounded-full px-2.5 py-0.5 font-bold ${tone ?? ""}`}>
         {value}
       </p>
+      {updatedAt && (
+        <p className="text-muted-foreground mt-1 text-[11px]">
+          محدَّث في {formatDate(updatedAt)}
+        </p>
+      )}
     </div>
   );
 }
