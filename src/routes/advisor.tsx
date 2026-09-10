@@ -73,7 +73,7 @@ function Advisor() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
-      <h1 className="font-display text-2xl font-extrabold">المستشار الأكاديمي والمهني</h1>
+      <h1 className="font-display text-3xl font-extrabold sm:text-4xl">المستشار الأكاديمي والمهني</h1>
       <p className="text-muted-foreground mt-2 text-sm leading-7">
         اكتب اسم أي تخصص أكاديمي، وسيأتيك التحليل بخمسة أقسام: مؤشر التشغيل والطلب، خريطة التخصص في
         الجامعات الأردنية، أثر الذكاء الاصطناعي والأتمتة، مسار الشهادات التنافسية، والبدائل
@@ -88,7 +88,7 @@ function Advisor() {
               <button
                 key={major.slug}
                 onClick={() => submit(`أرغب بتحليل كامل لتخصص: ${major.name}`)}
-                className="border-border bg-card hover:border-accent rounded-full border px-4 py-2 text-sm"
+                className="border-border bg-card hover:border-brand hover:text-brand rounded-full border px-4 py-2 text-sm transition-colors"
               >
                 {major.name}
               </button>
@@ -108,8 +108,8 @@ function Advisor() {
               key={message.id}
               className={
                 isUser
-                  ? "bg-primary text-primary-foreground ms-auto max-w-[85%] rounded-lg px-4 py-3 text-sm"
-                  : "border-border bg-card rounded-lg border p-4"
+                  ? "bg-brand text-brand-foreground ms-auto max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-[var(--shadow-card)]"
+                  : "card-surface p-5"
               }
             >
               {isUser ? (
@@ -144,7 +144,7 @@ function Advisor() {
       </div>
 
       <form
-        className="bg-background/95 sticky bottom-0 mt-6 flex gap-2 py-4"
+        className="bg-background/90 sticky bottom-0 mt-6 flex gap-2 py-4 backdrop-blur-xl"
         onSubmit={(event) => {
           event.preventDefault();
           submit(input);
@@ -154,12 +154,12 @@ function Advisor() {
           value={input}
           onChange={(event) => setInput(event.target.value)}
           placeholder="اكتب سؤالك… مثال: ما مستقبل تخصص الهندسة المدنية في الأردن؟"
-          className="border-border bg-card focus:ring-accent min-w-0 flex-1 rounded-md border px-4 py-3 text-sm focus:ring-2 focus:outline-none"
+          className="border-border bg-card focus:border-brand min-w-0 flex-1 rounded-xl border px-4 py-3 text-sm focus:outline-none"
         />
         <button
           type="submit"
           disabled={isLoading}
-          className="bg-primary text-primary-foreground rounded-md px-6 py-3 text-sm font-bold disabled:opacity-50"
+          className="bg-brand text-brand-foreground rounded-xl px-6 py-3 text-sm font-bold transition-transform hover:-translate-y-0.5 disabled:opacity-50"
         >
           إرسال
         </button>

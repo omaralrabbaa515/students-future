@@ -134,7 +134,7 @@ function UpdatesPage() {
 
   if (dashboard.isError) {
     return (
-      <p className="mx-auto max-w-4xl px-4 py-12 text-sm text-rose-700">
+      <p className="mx-auto max-w-4xl px-4 py-12 text-danger text-sm">
         تعذّر تحميل اللوحة: {(dashboard.error as Error).message}
       </p>
     );
@@ -151,14 +151,14 @@ function UpdatesPage() {
         <button
           onClick={() => claimMutation.mutate()}
           disabled={claimMutation.isPending}
-          className="bg-primary text-primary-foreground mt-5 rounded-md px-5 py-2.5 text-sm font-bold disabled:opacity-60"
+          className="bg-brand text-brand-foreground mt-5 rounded-xl px-5 py-2.5 text-sm font-bold disabled:opacity-60"
         >
           تنشيط صلاحية الإشراف
         </button>
-        {notice && <p className="mt-4 text-sm text-rose-700">{notice}</p>}
+        {notice && <p className="mt-4 text-danger text-sm">{notice}</p>}
         <button
           onClick={() => void supabase.auth.signOut().then(() => window.location.assign("/auth"))}
-          className="text-primary mt-6 block text-sm underline"
+          className="text-brand mt-6 block text-sm underline"
         >
           تسجيل الخروج
         </button>
@@ -182,7 +182,7 @@ function UpdatesPage() {
           <button
             onClick={() => scanMutation.mutate()}
             disabled={scanMutation.isPending}
-            className="bg-primary text-primary-foreground rounded-md px-5 py-2.5 text-sm font-bold disabled:opacity-60"
+            className="bg-brand text-brand-foreground rounded-xl px-5 py-2.5 text-sm font-bold disabled:opacity-60"
           >
             {scanMutation.isPending ? "جارٍ الفحص…" : "افحص الآن"}
           </button>
@@ -214,7 +214,7 @@ function UpdatesPage() {
             key={item.key}
             onClick={() => setTab(item.key)}
             className={`rounded-t-md px-4 py-2 text-sm font-bold ${
-              tab === item.key ? "bg-secondary text-primary" : "text-muted-foreground"
+              tab === item.key ? "bg-surface-2 text-foreground font-bold" : "text-muted-foreground"
             }`}
           >
             {item.label}
@@ -228,7 +228,7 @@ function UpdatesPage() {
             <p className="text-muted-foreground text-sm">لا توجد تغييرات بانتظار المراجعة.</p>
           )}
           {data?.pending.map((change) => (
-            <div key={change.id} className="border-border bg-card rounded-lg border p-4">
+            <div key={change.id} className="card-surface p-4">
               <p className="text-muted-foreground text-xs">
                 {ENTITY_LABELS[change.entity_type] ?? change.entity_type} · {change.field_label} ·
                 تاريخ الفحص {formatDateTime(change.created_at)}
@@ -239,7 +239,7 @@ function UpdatesPage() {
                   <span className="font-bold">القيمة الحالية: </span>
                   {change.old_value || "—"}
                 </p>
-                <p className="rounded-md bg-emerald-50 px-3 py-2 leading-7 text-emerald-900">
+                <p className="tone-good rounded-xl px-3 py-2 leading-7">
                   <span className="font-bold">القيمة الجديدة: </span>
                   {change.new_value || "—"}
                 </p>
@@ -250,7 +250,7 @@ function UpdatesPage() {
                   href={change.source_url}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-primary mt-2 inline-block text-xs break-all underline"
+                  className="text-brand mt-2 inline-block text-xs break-all underline"
                 >
                   {change.source_url}
                 </a>
@@ -259,7 +259,7 @@ function UpdatesPage() {
                 <button
                   onClick={() => decideMutation.mutate({ id: change.id, decision: "approve" })}
                   disabled={decideMutation.isPending}
-                  className="bg-primary text-primary-foreground rounded-md px-4 py-2 text-xs font-bold disabled:opacity-60"
+                  className="bg-brand text-brand-foreground rounded-xl px-4 py-2 text-xs font-bold disabled:opacity-60"
                 >
                   اعتماد
                 </button>
@@ -276,7 +276,7 @@ function UpdatesPage() {
 
           {(data?.overrides.length ?? 0) > 0 && (
             <div className="border-border mt-8 border-t pt-6">
-              <h2 className="font-display text-primary text-lg font-bold">
+              <h2 className="font-display text-foreground text-lg font-bold">
                 القيم المعتمدة الظاهرة للطلبة
               </h2>
               <div className="mt-3 space-y-2">
@@ -324,11 +324,11 @@ function UpdatesPage() {
             </p>
           )}
           {data?.brokenLinks.map((link) => (
-            <div key={link.certification_id} className="rounded-lg border border-rose-200 bg-rose-50 p-4">
-              <h3 className="font-display font-bold text-rose-900">
+            <div key={link.certification_id} className="tone-bad border-danger/30 rounded-xl border p-4">
+              <h3 className="font-display font-bold">
                 {certTitles.get(link.certification_id) ?? link.certification_id}
               </h3>
-              <p className="mt-1 text-xs leading-6 text-rose-900">
+              <p className="mt-1 text-xs leading-6">
                 سبب العطل: {link.error ?? "غير معروف"}
                 {link.http_status ? ` (رمز ${link.http_status})` : ""} · تاريخ الفحص{" "}
                 {formatDateTime(link.checked_at)} · آخر فحص ناجح {formatDate(link.last_ok_at)}
@@ -337,7 +337,7 @@ function UpdatesPage() {
                 href={link.url}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-2 inline-block text-xs break-all text-rose-900 underline"
+                className="mt-2 inline-block text-xs break-all underline"
               >
                 {link.url}
               </a>
@@ -399,7 +399,7 @@ function UpdatesPage() {
                           href={entry.source_url}
                           target="_blank"
                           rel="noreferrer"
-                          className="text-primary break-all underline"
+                          className="text-brand break-all underline"
                         >
                           الرابط
                         </a>
@@ -469,7 +469,7 @@ function UpdatesPage() {
       <p className="text-muted-foreground mt-10 text-xs leading-7">
         الفحص المجدول يعمل تلقائياً كل أسبوع. لا يظهر أي تغيير للطلبة قبل اعتمادك، عدا حالة الروابط
         المعطّلة التي تُعلَّم فوراً.{" "}
-        <Link to="/sources" className="text-primary underline">
+        <Link to="/sources" className="text-brand underline">
           عرض المصادر الرسمية
         </Link>
       </p>
@@ -479,7 +479,7 @@ function UpdatesPage() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="border-border bg-card rounded-lg border p-4">
+    <div className="card-surface p-4">
       <p className="text-muted-foreground text-xs leading-6">{label}</p>
       <p className="font-display mt-1 text-2xl font-extrabold">{value}</p>
     </div>

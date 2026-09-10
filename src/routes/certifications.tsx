@@ -74,8 +74,8 @@ function Certifications() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
-      <h1 className="font-display text-2xl font-extrabold">دليل الشهادات المجانية المعتمدة</h1>
-      <p className="bg-secondary text-secondary-foreground mt-3 inline-block rounded-full px-3 py-1 text-xs font-bold">
+      <h1 className="font-display text-3xl font-extrabold sm:text-4xl">دليل الشهادات المجانية المعتمدة</h1>
+      <p className="pill tone-neutral mt-3">
         آخر فحص للروابط: {formatDate(lastLinkCheck)}
       </p>
       <p className="text-muted-foreground mt-2 text-sm leading-7">
@@ -88,12 +88,12 @@ function Certifications() {
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="ابحث باسم الدورة أو التخصص"
-          className="border-border bg-card rounded-md border px-4 py-2 text-sm"
+          className="border-border bg-card focus:border-brand rounded-xl border px-4 py-2.5 text-sm focus:outline-none"
         />
         <select
           value={category}
           onChange={(event) => setCategory(event.target.value)}
-          className="border-border bg-card rounded-md border px-4 py-2 text-sm"
+          className="border-border bg-card focus:border-brand rounded-xl border px-4 py-2.5 text-sm focus:outline-none"
         >
           <option value="الكل">كل المجالات</option>
           {certificationCategories.map((item) => (
@@ -105,7 +105,7 @@ function Certifications() {
         <select
           value={provider}
           onChange={(event) => setProvider(event.target.value)}
-          className="border-border bg-card rounded-md border px-4 py-2 text-sm"
+          className="border-border bg-card focus:border-brand rounded-xl border px-4 py-2.5 text-sm focus:outline-none"
         >
           <option value="الكل">كل الجهات المانحة</option>
           {certificationProviders.map((item) => (
@@ -118,19 +118,19 @@ function Certifications() {
 
       <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {filtered.map((cert) => (
-          <div key={cert.id} className="border-border bg-card flex flex-col rounded-lg border p-5">
-            <span className="bg-secondary text-secondary-foreground self-start rounded-full px-2.5 py-0.5 text-xs font-bold">
+          <div key={cert.id} className="card-surface card-hover flex flex-col p-5">
+            <span className="pill tone-neutral self-start">
               {cert.category}
             </span>
             <h2 className="font-display mt-3 font-bold">{cert.title}</h2>
             <p className="text-muted-foreground mt-1 text-xs">الجهة المانحة: {cert.provider}</p>
             {brokenLinks.has(cert.id) && (
-              <p className="mt-2 rounded-md bg-rose-50 px-3 py-2 text-xs leading-6 text-rose-900">
+              <p className="tone-bad mt-2 rounded-xl px-3 py-2 text-xs leading-6">
                 تنبيه: تعذّر الوصول إلى رابط هذه الدورة في آخر فحص ({brokenLinks.get(cert.id)}).
               </p>
             )}
             <p className="mt-3 flex-1 text-sm leading-7">{cert.summary}</p>
-            <p className="bg-secondary text-secondary-foreground mt-3 rounded-md px-3 py-2 text-xs leading-6">
+            <p className="bg-surface text-foreground mt-3 rounded-xl px-3 py-2 text-xs leading-6">
               <span className="font-bold">طريقة الحصول على الشهادة: </span>
               {cert.howToGet}
             </p>
@@ -141,7 +141,7 @@ function Certifications() {
               href={cert.url}
               target="_blank"
               rel="noreferrer"
-              className="text-primary mt-3 text-sm break-all underline"
+              className="text-brand mt-3 text-sm break-all underline"
             >
               {cert.url}
             </a>
