@@ -226,13 +226,28 @@ function Section({
   );
 }
 
-function Fact({ label, value, tone }: { label: string; value: string; tone?: string }) {
+function Fact({
+  label,
+  value,
+  tone,
+  updatedAt,
+}: {
+  label: string;
+  value: string;
+  tone?: string;
+  updatedAt?: string | null;
+}) {
   return (
     <div className="border-border bg-card rounded-lg border p-4">
       <p className="text-muted-foreground text-xs">{label}</p>
       <p className={`mt-1 inline-block rounded-full px-2.5 py-0.5 font-bold ${tone ?? ""}`}>
         {value}
       </p>
+      {updatedAt && (
+        <p className="text-muted-foreground mt-1 text-[11px]">
+          محدَّث في {formatDate(updatedAt)}
+        </p>
+      )}
     </div>
   );
 }
