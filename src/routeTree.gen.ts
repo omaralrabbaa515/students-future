@@ -16,6 +16,7 @@ import { Route as SourcesRouteImport } from './routes/sources'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as MajorsIndexRouteImport } from './routes/majors.index'
 import { Route as MajorsSlugRouteImport } from './routes/majors.$slug'
+import { Route as ApiPublicScanRouteImport } from './routes/api/public/scan'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,6 +53,11 @@ const MajorsSlugRoute = MajorsSlugRouteImport.update({
   path: '/majors/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicScanRoute = ApiPublicScanRouteImport.update({
+  id: '/api/public/scan',
+  path: '/api/public/scan',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -61,6 +67,7 @@ export interface FileRoutesByFullPath {
   '/api/chat': typeof ApiChatRoute
   '/majors/$slug': typeof MajorsSlugRoute
   '/majors/': typeof MajorsIndexRoute
+  '/api/public/scan': typeof ApiPublicScanRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,6 +77,7 @@ export interface FileRoutesByTo {
   '/api/chat': typeof ApiChatRoute
   '/majors/$slug': typeof MajorsSlugRoute
   '/majors': typeof MajorsIndexRoute
+  '/api/public/scan': typeof ApiPublicScanRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,6 +88,7 @@ export interface FileRoutesById {
   '/api/chat': typeof ApiChatRoute
   '/majors/$slug': typeof MajorsSlugRoute
   '/majors/': typeof MajorsIndexRoute
+  '/api/public/scan': typeof ApiPublicScanRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,6 +100,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/majors/$slug'
     | '/majors/'
+    | '/api/public/scan'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,6 +110,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/majors/$slug'
     | '/majors'
+    | '/api/public/scan'
   id:
     | '__root__'
     | '/'
@@ -109,6 +120,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/majors/$slug'
     | '/majors/'
+    | '/api/public/scan'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -119,6 +131,7 @@ export interface RootRouteChildren {
   ApiChatRoute: typeof ApiChatRoute
   MajorsSlugRoute: typeof MajorsSlugRoute
   MajorsIndexRoute: typeof MajorsIndexRoute
+  ApiPublicScanRoute: typeof ApiPublicScanRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -172,6 +185,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MajorsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/scan': {
+      id: '/api/public/scan'
+      path: '/api/public/scan'
+      fullPath: '/api/public/scan'
+      preLoaderRoute: typeof ApiPublicScanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -183,6 +203,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiChatRoute: ApiChatRoute,
   MajorsSlugRoute: MajorsSlugRoute,
   MajorsIndexRoute: MajorsIndexRoute,
+  ApiPublicScanRoute: ApiPublicScanRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
