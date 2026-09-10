@@ -46,13 +46,13 @@ export type ScanRunRow = {
   id: string;
   started_at: string;
   finished_at: string | null;
-  trigger: string;
+  trigger?: string;
   status: string;
   sources_checked: number;
   links_checked: number;
   broken_links: number;
   changes_found: number;
-  error: string | null;
+  error?: string | null;
 };
 
 export type PlatformMeta = {
