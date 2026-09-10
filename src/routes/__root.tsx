@@ -154,13 +154,6 @@ function RootComponent() {
                   {link.label}
                 </Link>
               ))}
-              <Link
-                to="/auth"
-                className="me-2 rounded-md border border-white/30 px-3 py-1.5 transition-colors hover:bg-white/10"
-                activeProps={{ className: "bg-white/15 font-semibold text-accent" }}
-              >
-                دخول المشرف
-              </Link>
             </nav>
           </div>
         </header>
