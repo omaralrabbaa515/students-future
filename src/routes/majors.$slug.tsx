@@ -1,14 +1,37 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, ErrorComponent, Link, notFound } from "@tanstack/react-router";
 
 import { getCertificationsByIds } from "@/data/certifications";
 import { getMajor } from "@/data/majors";
+import { getPlatformMeta } from "@/lib/public-data.functions";
+import {
+  EMPTY_PLATFORM_META,
+  formatDate,
+  lastUpdatedFor,
+  overridesFor,
+  type PlatformMeta,
+} from "@/lib/platform-data";
 
 export const Route = createFileRoute("/majors/$slug")({
-  loader: ({ params }) => {
+  loader: async ({ params }) => {
     const major = getMajor(params.slug);
     if (!major) throw notFound();
-    return { major };
+    let meta: PlatformMeta = EMPTY_PLATFORM_META;
+    try {
+      meta = await getPlatformMeta();
+    } catch {
+      meta = EMPTY_PLATFORM_META;
+    }
+    return { major, meta };
   },
+  errorComponent: ErrorComponent,
+  notFoundComponent: () => (
+    <div className="mx-auto max-w-3xl px-4 py-12 text-sm leading-8">
+      <h1 className="font-display text-xl font-bold">هذا التخصص غير متوفر في الدليل</h1>
+      <Link to="/majors" className="text-primary mt-3 inline-block underline">
+        رجوع إلى دليل التخصصات
+      </Link>
+    </div>
+  ),
   head: ({ loaderData }) => {
     if (!loaderData) {
       return {
