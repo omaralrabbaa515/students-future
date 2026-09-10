@@ -52,7 +52,7 @@ export const majors: Major[] = [
       exposure: "متوسط",
       note: "أدوات توليد الكود تقلّص الطلب على المهام البرمجية البسيطة وترفع سقف المهارة المطلوبة نحو تصميم الأنظمة والأمن والبيانات.",
     },
-    certificationIds: ["cs50x", "fullstackopen", "aws-cloud-practitioner", "cs50sql", "google-genai"],
+    certificationIds: ["cs50x", "fullstackopen", "cs50sql", "cisco-linux-basics", "cs50ai"],
     alternatives: [
       { name: "علم البيانات والذكاء الاصطناعي", reason: "طلب متسارع محلياً وخليجياً ورواتب أعلى" },
       { name: "الأمن السيبراني", reason: "فجوة كوادر واضحة في القطاع المصرفي والحكومي" },
@@ -80,7 +80,7 @@ export const majors: Major[] = [
       exposure: "متوسط",
       note: "المهام التكرارية (اختبار، توثيق، شيفرة نمطية) تتأتمت بسرعة، بينما يزداد الطلب على مهارات المعمارية والمراجعة الأمنية.",
     },
-    certificationIds: ["fullstackopen", "cs50w", "helsinki-java", "cognitive-docker", "cs50mobile"],
+    certificationIds: ["fullstackopen", "cs50w", "helsinki-java", "fcc-javascript", "fcc-frontend-libraries"],
     alternatives: [
       { name: "هندسة الحوسبة السحابية وDevOps", reason: "نقص حاد في الكوادر المؤهلة إقليمياً" },
       { name: "علم البيانات", reason: "مسار انتقال طبيعي لمن يمتلك أساس برمجي قوي" },
@@ -108,7 +108,7 @@ export const majors: Major[] = [
       exposure: "منخفض",
       note: "الذكاء الاصطناعي يعزّز هذا التخصص بدل أن يهدده، لكنه يرفع الحد الأدنى المطلوب من فهم النماذج اللغوية الكبيرة.",
     },
-    certificationIds: ["fcc-data", "fcc-ml", "google-genai", "cs50ai", "ms-azure-data"],
+    certificationIds: ["cs50ai", "building-ai", "cs50sql", "cs50p", "elements-of-ai"],
     alternatives: [
       { name: "هندسة البيانات", reason: "طلب مؤسسي مرتفع على بناء خطوط البيانات" },
       { name: "الأمن السيبراني", reason: "تكامل مباشر مع تحليلات الكشف عن التهديدات" },
@@ -132,7 +132,7 @@ export const majors: Major[] = [
       exposure: "منخفض",
       note: "الأتمتة تتولى الفحص والمراقبة الأولية، ويبقى التحليل والاستجابة للحوادث والتحقيق الجنائي الرقمي بشرياً.",
     },
-    certificationIds: ["cisco-cyber", "ou-cybersecurity", "fcc-infosec", "ibm-cyber-defense", "ms-azure-fundamentals"],
+    certificationIds: ["cisco-cyber-essentials", "cisco-networking-basics", "fcc-infosec", "cisco-intro-cyber", "cisco-linux-basics"],
     alternatives: [
       { name: "الحوسبة السحابية", reason: "مسار مكمل بطلب مرتفع على أمن السحابة" },
       { name: "الحكامة الرقمية والامتثال", reason: "حاجة مؤسسية متزايدة للتدقيق والامتثال" },
@@ -156,7 +156,7 @@ export const majors: Major[] = [
       exposure: "مرتفع",
       note: "المهام الوصفية والتقارير اليدوية تُؤتمت بسرعة عبر أدوات التحليل الجاهزة، ما يجعل التمكن من SQL وتحليل البيانات شرطاً للتشغيل.",
     },
-    certificationIds: ["cs50sql", "cisco-data-analytics", "ms-azure-data", "fcc-data", "ibm-professional"],
+    certificationIds: ["cs50sql", "cisco-networking-basics", "openlearn-bookkeeping", "cs50p", "hubspot-seo"],
     alternatives: [
       { name: "علم البيانات وتحليلات الأعمال", reason: "طلب مرتفع ورواتب أعلى بنفس الخلفية" },
       { name: "الأمن السيبراني", reason: "مسار تقني قابل للانتقال إليه بشهادات معتمدة" },
@@ -187,7 +187,7 @@ export const majors: Major[] = [
       exposure: "متوسط",
       note: "أدوات BIM والتصميم التوليدي تقلل الحاجة إلى الرسم والحساب اليدوي وترفع الطلب على إدارة المشاريع والاستدامة والنمذجة الرقمية.",
     },
-    certificationIds: ["un-cc-learn", "worldbank-olc", "ibm-professional", "cisco-data-analytics", "hp-life"],
+    certificationIds: ["cs50p", "cisco-python-1", "elements-of-ai", "openlearn-bookkeeping", "cs50x"],
     alternatives: [
       { name: "هندسة الطاقة المتجددة", reason: "توسع مشاريع الطاقة الشمسية وطلب خليجي مرتفع" },
       { name: "إدارة المشاريع الهندسية", reason: "مسار مهني بشهادات معتمدة وفرص إقليمية" },
@@ -217,7 +217,7 @@ export const majors: Major[] = [
       exposure: "متوسط",
       note: "التصميم المدعوم بالذكاء الاصطناعي والأنظمة الذكية يغيّران مزيج المهارات نحو البرمجة والتحكم وتحليل البيانات.",
     },
-    certificationIds: ["cs50p", "un-cc-learn", "ms-azure-fundamentals", "ibm-professional", "julia-academy"],
+    certificationIds: ["cs50p", "cisco-networking-basics", "cisco-hardware-basics", "elements-of-ai", "helsinki-java"],
     alternatives: [
       { name: "هندسة الطاقة المتجددة", reason: "قطاع نامٍ محلياً وإقليمياً" },
       { name: "الميكاترونكس والأتمتة الصناعية", reason: "طلب صناعي على التحكم والروبوتات" },
@@ -247,7 +247,7 @@ export const majors: Major[] = [
       exposure: "منخفض",
       note: "المهنة قائمة على الرعاية المباشرة؛ الأتمتة تمس التوثيق والجرعات، ويزداد الطلب على الإلمام بالسجلات الصحية الإلكترونية.",
     },
-    certificationIds: ["openwho", "disasterready", "ibm-professional", "ou-openlearn", "cisco-data-analytics"],
+    certificationIds: ["openwho-ipc", "openwho-ims", "openwho-health-logistics", "openlearn-psychology", "elements-of-ai"],
     alternatives: [
       { name: "التخدير والعناية الحرجة", reason: "طلب مرتفع ورواتب أعلى محلياً وخليجياً" },
       { name: "إدارة الجودة والسلامة الصحية", reason: "حاجة المستشفيات للاعتمادات الدولية" },
@@ -271,7 +271,7 @@ export const majors: Major[] = [
       exposure: "متوسط",
       note: "أنظمة الصرف الآلي ومراجعة التفاعلات الدوائية بالذكاء الاصطناعي تقلل المهام الروتينية وترفع قيمة الاستشارة الدوائية وتحليل البيانات.",
     },
-    certificationIds: ["openwho", "fcc-data", "cisco-data-analytics", "ibm-professional", "hubspot-academy"],
+    certificationIds: ["openwho-health-logistics", "openwho-ipc", "openwho-ims", "cs50p", "elements-of-ai"],
     alternatives: [
       { name: "علوم الصيدلة الصناعية وضبط الجودة", reason: "الصناعة الدوائية من أكبر مصدّري الأردن" },
       { name: "الأبحاث الإكلينيكية وشؤون التسجيل", reason: "طلب متزايد في الشركات والمنظمات" },
@@ -293,7 +293,7 @@ export const majors: Major[] = [
       exposure: "مرتفع",
       note: "المحلّلات الآلية وقراءة الصور المخبرية بالذكاء الاصطناعي تقلل المهام اليدوية وترفع قيمة الجودة والتحقق والتحليل.",
     },
-    certificationIds: ["openwho", "fcc-data", "cisco-data-analytics", "ou-openlearn", "ibm-ai-fundamentals"],
+    certificationIds: ["openwho-ipc", "openlearn-forensic", "openwho-ims", "cs50sql", "elements-of-ai"],
     alternatives: [
       { name: "الوراثة الجزيئية والتقنيات الحيوية", reason: "نمو مخابر التشخيص الجزيئي" },
       { name: "الصحة العامة والوبائيات", reason: "طلب من المنظمات الدولية العاملة في الأردن" },
@@ -317,7 +317,7 @@ export const majors: Major[] = [
       exposure: "مرتفع",
       note: "القيود ومطابقة الحسابات والتقارير الدورية من أكثر المهام تعرضاً للأتمتة، بينما ينمو الطلب على التحليل المالي والتدقيق الرقمي.",
     },
-    certificationIds: ["ou-openlearn", "cs50sql", "ms-azure-data", "hp-life", "cisco-data-analytics"],
+    certificationIds: ["openlearn-bookkeeping", "cs50sql", "cs50p", "elements-of-ai", "hubspot-digital-marketing"],
     alternatives: [
       { name: "تحليلات البيانات المالية", reason: "طلب مرتفع في البنوك والشركات" },
       { name: "التدقيق الداخلي وإدارة المخاطر", reason: "متطلبات حكامة متزايدة" },
@@ -342,7 +342,7 @@ export const majors: Major[] = [
       exposure: "متوسط",
       note: "المهام الإدارية والتقارير تُؤتمت، ويزداد الطلب على من يجيد أدوات التحليل والتسويق الرقمي وإدارة المشاريع.",
     },
-    certificationIds: ["hubspot-academy", "google-skillshop", "ibm-professional", "hp-life", "cisco-data-analytics"],
+    certificationIds: ["hubspot-digital-marketing", "hubspot-inbound-marketing", "openlearn-bookkeeping", "hubspot-seo", "elements-of-ai"],
     alternatives: [
       { name: "التسويق الرقمي والتجارة الإلكترونية", reason: "أسرع نمو في الطلب داخل قطاع الأعمال" },
       { name: "إدارة سلاسل التوريد واللوجستيات", reason: "توسع الشركات اللوجستية والمناطق الحرة" },
@@ -367,7 +367,7 @@ export const majors: Major[] = [
       exposure: "متوسط",
       note: "البحث القانوني ومراجعة العقود يتأتمتان جزئياً بالذكاء الاصطناعي، ويبقى التمثيل والتفاوض والصياغة المتقدمة بشرياً.",
     },
-    certificationIds: ["ou-openlearn", "ou-cybersecurity", "un-sdg-learn", "ibm-professional", "google-genai"],
+    certificationIds: ["openlearn-law", "cisco-intro-cyber", "openlearn-forensic", "elements-of-ai", "openlearn-bookkeeping"],
     alternatives: [
       { name: "الامتثال وحماية البيانات", reason: "قانون حماية البيانات الشخصية خلق طلباً جديداً" },
       { name: "القانون التجاري الدولي والتحكيم", reason: "طلب من الشركات والمكاتب الإقليمية" },
@@ -390,7 +390,7 @@ export const majors: Major[] = [
       exposure: "مرتفع",
       note: "الترجمة الآلية وتوليد المحتوى غيّرا المهنة جذرياً؛ القيمة اليوم في التحرير الاحترافي والتوطين وإدارة المحتوى.",
     },
-    certificationIds: ["hubspot-academy", "semrush-academy", "google-skillshop", "cognitive-chatbots", "ou-openlearn"],
+    certificationIds: ["hubspot-content-marketing", "hubspot-seo", "fcc-responsive-web", "elements-of-ai", "hubspot-digital-marketing"],
     alternatives: [
       { name: "الترجمة المتخصصة والتوطين", reason: "طلب على التوطين التقني والقانوني والطبي" },
       { name: "التسويق بالمحتوى وتحسين محركات البحث", reason: "فرص محلية وعمل حر عالمي" },
@@ -414,7 +414,7 @@ export const majors: Major[] = [
       exposure: "متوسط",
       note: "أدوات التصحيح والتوليد اللغوي تقلل الطلب على التحرير البسيط، وترفع الطلب على من يجيد تدقيق مخرجات الذكاء الاصطناعي ومعالجة اللغة العربية.",
     },
-    certificationIds: ["cognitive-chatbots", "semrush-academy", "hubspot-academy", "ibm-ai-fundamentals", "google-skillshop"],
+    certificationIds: ["hubspot-content-marketing", "hubspot-seo", "hubspot-digital-marketing", "elements-of-ai", "fcc-responsive-web"],
     alternatives: [
       { name: "معالجة اللغة العربية والمحتوى الرقمي", reason: "شركات التقنية تحتاج مختصين باللغة العربية" },
       { name: "الإعلام الرقمي وصناعة المحتوى", reason: "طلب متزايد على المحتوى العربي" },
@@ -438,7 +438,7 @@ export const majors: Major[] = [
       exposure: "متوسط",
       note: "الذكاء الاصطناعي يغيّر إعداد الدروس والتقييم؛ المعلم الذي يجيد التعلم الرقمي وتصميم التعليم يصبح أكثر تنافسية.",
     },
-    certificationIds: ["elements-of-ai", "ibm-professional", "google-genai", "ou-openlearn", "disasterready"],
+    certificationIds: ["elements-of-ai", "openlearn-psychology", "cisco-python-1", "hubspot-content-marketing", "fcc-responsive-web"],
     alternatives: [
       { name: "تصميم التعلم والتعليم الرقمي", reason: "طلب من منصات التعليم والمنظمات" },
       { name: "التربية الخاصة", reason: "نقص كوادر واضح مقارنة بالتعليم العام" },
@@ -462,7 +462,7 @@ export const majors: Major[] = [
       exposure: "منخفض",
       note: "الجوهر الإنساني للمهنة يحميها، لكن أدوات القياس والتحليل الرقمي تصبح مهارة مطلوبة.",
     },
-    certificationIds: ["ou-openlearn", "disasterready", "un-sdg-learn", "ibm-professional", "cisco-data-analytics"],
+    certificationIds: ["openlearn-psychology", "openlearn-law", "elements-of-ai", "openwho-ims", "hubspot-digital-marketing"],
     alternatives: [
       { name: "الدعم النفسي الاجتماعي وحماية الطفل", reason: "طلب مستمر من المنظمات الدولية" },
       { name: "إدارة الموارد البشرية وتحليلات الأفراد", reason: "مسار مؤسسي أوسع فرصاً" },
@@ -486,7 +486,7 @@ export const majors: Major[] = [
       exposure: "متوسط",
       note: "تحليل البيانات والرصد الإعلامي الآلي يغيّران عمل المحلل السياسي ويجعلان مهارات البيانات ميزة مباشرة.",
     },
-    certificationIds: ["un-sdg-learn", "worldbank-olc", "disasterready", "cisco-data-analytics", "ou-openlearn"],
+    certificationIds: ["openlearn-law", "elements-of-ai", "hubspot-content-marketing", "openlearn-bookkeeping", "cs50sql"],
     alternatives: [
       { name: "التنمية الدولية وإدارة المشاريع الإنسانية", reason: "الأردن مركز إقليمي للمنظمات الدولية" },
       { name: "السياسات العامة وتحليل البيانات", reason: "طلب حكومي ومؤسسي على صنع القرار بالبيانات" },
@@ -509,7 +509,7 @@ export const majors: Major[] = [
       exposure: "مرتفع",
       note: "توليد النصوص والصور والفيديو يضغط على المهام التحريرية النمطية، ويرفع قيمة التحقق والتحقيقات والتحليل.",
     },
-    certificationIds: ["semrush-academy", "hubspot-academy", "google-skillshop", "google-genai", "fcc-web"],
+    certificationIds: ["hubspot-seo", "hubspot-content-marketing", "hubspot-digital-marketing", "fcc-responsive-web", "elements-of-ai"],
     alternatives: [
       { name: "التسويق الرقمي وصناعة المحتوى", reason: "أوسع سوق للخريجين الإعلاميين" },
       { name: "صحافة البيانات", reason: "تخصص نادر محلياً وطلب دولي" },
@@ -533,7 +533,7 @@ export const majors: Major[] = [
       exposure: "متوسط",
       note: "الاستشعار عن بعد والزراعة الدقيقة يقللان العمل التقليدي ويرفعان الطلب على تحليل البيانات وإدارة الأنظمة الذكية.",
     },
-    certificationIds: ["un-cc-learn", "worldbank-olc", "un-sdg-learn", "cisco-data-analytics", "hp-life"],
+    certificationIds: ["elements-of-ai", "cs50p", "openlearn-bookkeeping", "hubspot-digital-marketing", "openwho-health-logistics"],
     alternatives: [
       { name: "إدارة المياه والزراعة الذكية", reason: "أولوية وطنية وتمويل دولي" },
       { name: "سلامة الغذاء وضبط الجودة", reason: "طلب من مصانع الغذاء والتصدير" },
@@ -556,7 +556,7 @@ export const majors: Major[] = [
       exposure: "منخفض",
       note: "الرياضيات هي عصب الذكاء الاصطناعي؛ الأتمتة تزيد قيمة صاحب الأساس الرياضي القادر على البرمجة.",
     },
-    certificationIds: ["cs50p", "fcc-ml", "julia-academy", "fcc-data", "cs50ai"],
+    certificationIds: ["cs50p", "cs50ai", "cs50sql", "building-ai", "cs50x"],
     alternatives: [
       { name: "علم البيانات", reason: "أقرب مسار تحويل بأعلى طلب" },
       { name: "العلوم الاكتوارية والتمويل الكمي", reason: "نقص كوادر في التأمين والبنوك" },
@@ -580,7 +580,7 @@ export const majors: Major[] = [
       exposure: "متوسط",
       note: "الحجوزات وخدمة العملاء تتأتمت، ويزداد الطلب على التسويق الرقمي وإدارة الإيرادات وتجربة الضيف.",
     },
-    certificationIds: ["google-skillshop", "hubspot-academy", "semrush-academy", "hp-life", "ibm-professional"],
+    certificationIds: ["hubspot-digital-marketing", "hubspot-inbound-marketing", "hubspot-seo", "hubspot-content-marketing", "openlearn-bookkeeping"],
     alternatives: [
       { name: "إدارة الإيرادات والتسويق السياحي الرقمي", reason: "مهارة نادرة ومطلوبة في الفنادق" },
       { name: "إدارة الفعاليات والمؤتمرات", reason: "نمو سياحة الأعمال في عمّان والبحر الميت" },
