@@ -29,7 +29,7 @@ export type LinkCheckRow = {
   certification_id: string;
   ok: boolean;
   http_status: number | null;
-  error: string | null;
+  error?: string | null;
   checked_at: string;
   last_ok_at: string | null;
 };
@@ -46,13 +46,13 @@ export type ScanRunRow = {
   id: string;
   started_at: string;
   finished_at: string | null;
-  trigger: string;
+  trigger?: string;
   status: string;
   sources_checked: number;
   links_checked: number;
   broken_links: number;
   changes_found: number;
-  error: string | null;
+  error?: string | null;
 };
 
 export type PlatformMeta = {

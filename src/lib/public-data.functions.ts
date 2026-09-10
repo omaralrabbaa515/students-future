@@ -39,12 +39,12 @@ export const getPlatformMeta = createServerFn({ method: "GET" }).handler(
           .select("entity_type, entity_id, field, value, source_url, updated_at"),
         supabase
           .from("link_checks")
-          .select("certification_id, ok, http_status, error, checked_at, last_ok_at"),
+          .select("certification_id, ok, http_status, checked_at, last_ok_at"),
         supabase.from("sources").select("key, name, url, last_reviewed_at, last_status"),
         supabase
           .from("scan_runs")
           .select(
-            "id, started_at, finished_at, trigger, status, sources_checked, links_checked, broken_links, changes_found, error",
+            "id, started_at, finished_at, status, sources_checked, links_checked, broken_links, changes_found",
           )
           .order("started_at", { ascending: false })
           .limit(1),
