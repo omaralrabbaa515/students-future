@@ -29,7 +29,7 @@ export type LinkCheckRow = {
   certification_id: string;
   ok: boolean;
   http_status: number | null;
-  error: string | null;
+  error?: string | null;
   checked_at: string;
   last_ok_at: string | null;
 };
