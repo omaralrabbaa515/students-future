@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, ErrorComponent } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 
 import {
@@ -6,8 +6,23 @@ import {
   certificationProviders,
   certifications,
 } from "@/data/certifications";
+import { getPlatformMeta } from "@/lib/public-data.functions";
+import { EMPTY_PLATFORM_META, formatDate, type PlatformMeta } from "@/lib/platform-data";
 
 export const Route = createFileRoute("/certifications")({
+  loader: async () => {
+    let meta: PlatformMeta = EMPTY_PLATFORM_META;
+    try {
+      meta = await getPlatformMeta();
+    } catch {
+      meta = EMPTY_PLATFORM_META;
+    }
+    return { meta };
+  },
+  errorComponent: ErrorComponent,
+  notFoundComponent: () => (
+    <p className="mx-auto max-w-3xl px-4 py-12 text-sm">الصفحة غير موجودة.</p>
+  ),
   head: () => ({
     meta: [
       { title: "دليل الشهادات المجانية المعتمدة | الطلبة والمستقبل" },
