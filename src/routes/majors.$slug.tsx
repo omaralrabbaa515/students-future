@@ -75,6 +75,9 @@ function MajorPage() {
       </Link>
       <h1 className="font-display mt-3 text-2xl font-extrabold">{major.name}</h1>
       <p className="text-muted-foreground mt-1 text-sm">{major.field}</p>
+      <p className="bg-secondary text-secondary-foreground mt-3 inline-block rounded-full px-3 py-1 text-xs font-bold">
+        آخر تحديث للبيانات: {formatDate(lastUpdated)}
+      </p>
       <p className="mt-4 leading-8">{major.summary}</p>
 
       <div className="mt-6 flex flex-wrap gap-2">
