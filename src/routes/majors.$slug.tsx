@@ -59,9 +59,14 @@ function badge(value: string) {
 }
 
 function MajorPage() {
-  const { major } = Route.useLoaderData();
+  const { major, meta } = Route.useLoaderData();
   const certs = getCertificationsByIds(major.certificationIds);
   const rows = Math.max(major.publicUniversities.length, major.privateUniversities.length);
+  const overrides = overridesFor(meta, "major", major.slug);
+  const employmentRate = overrides["employmentRate"]?.value ?? major.employmentRate;
+  const risk = overrides["risk"]?.value ?? major.risk;
+  const classification = overrides["classification"]?.value ?? major.classification;
+  const lastUpdated = lastUpdatedFor(meta, "major", major.slug);
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10">
