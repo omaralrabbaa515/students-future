@@ -268,16 +268,28 @@ export const runScanNow = createServerFn({ method: "POST" })
     return await runScan("manual");
   });
 
-/** أول مستخدم مسجّل يستلم صلاحية المشرف */
+/** بريد المشرف الوحيد المسموح له بإدارة المنصة */
+const ADMIN_EMAIL = "mralrba0@gmail.com";
+
+/** تنشيط صلاحية الإشراف لحساب المشرف المعتمد فقط */
 export const claimAdminRole = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
+    const email = String((context.claims as { email?: string } | null)?.email ?? "")
+      .trim()
+      .toLowerCase();
+    if (email !== ADMIN_EMAIL) {
+      throw new Error("هذا الحساب غير مصرّح له بصلاحية الإشراف على المنصة");
+    }
+
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { count } = await supabaseAdmin
+    const { data: existing } = await supabaseAdmin
       .from("user_roles")
-      .select("id", { count: "exact", head: true })
-      .eq("role", "admin");
-    if ((count ?? 0) > 0) throw new Error("تم تعيين مشرف للمنصة مسبقاً");
+      .select("id")
+      .eq("user_id", context.userId)
+      .eq("role", "admin")
+      .maybeSingle();
+    if (existing) return { ok: true };
 
     const { error } = await supabaseAdmin
       .from("user_roles")

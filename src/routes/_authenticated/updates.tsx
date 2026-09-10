@@ -144,25 +144,17 @@ function UpdatesPage() {
     return (
       <div className="mx-auto max-w-2xl px-4 py-14 text-sm leading-8">
         <h1 className="font-display text-2xl font-extrabold">لوحة التحديثات</h1>
-        {data.adminExists ? (
-          <p className="text-muted-foreground mt-3">
-            هذا الحساب لا يملك صلاحية الإشراف على المنصة. سجّل الدخول بحساب المشرف.
-          </p>
-        ) : (
-          <>
-            <p className="text-muted-foreground mt-3">
-              لم يُعيَّن مشرف للمنصة بعد. بما أنك أول من سجّل الدخول، يمكنك استلام صلاحية الإشراف
-              الآن.
-            </p>
-            <button
-              onClick={() => claimMutation.mutate()}
-              disabled={claimMutation.isPending}
-              className="bg-primary text-primary-foreground mt-5 rounded-md px-5 py-2.5 text-sm font-bold disabled:opacity-60"
-            >
-              استلام صلاحية الإشراف
-            </button>
-          </>
-        )}
+        <p className="text-muted-foreground mt-3">
+          هذه اللوحة مخصّصة لحساب المشرف الوحيد للمنصة. إن كنت المشرف فاضغط الزر أدناه لتنشيط
+          صلاحيتك، وإلا فلا صلاحية لهذا الحساب.
+        </p>
+        <button
+          onClick={() => claimMutation.mutate()}
+          disabled={claimMutation.isPending}
+          className="bg-primary text-primary-foreground mt-5 rounded-md px-5 py-2.5 text-sm font-bold disabled:opacity-60"
+        >
+          تنشيط صلاحية الإشراف
+        </button>
         {notice && <p className="mt-4 text-sm text-rose-700">{notice}</p>}
         <button
           onClick={() => void supabase.auth.signOut().then(() => window.location.assign("/auth"))}
