@@ -2,7 +2,10 @@ import { certifications } from "@/data/certifications";
 import { majors } from "@/data/majors";
 
 const certificationsCatalog = certifications
-  .map((c) => `- ${c.title} | ${c.provider} | ${c.url} | التصنيف: ${c.category} | ${c.summary}`)
+  .map(
+    (c) =>
+      `- ${c.title} | ${c.provider} | ${c.url} | التصنيف: ${c.category} | ${c.summary} | طريقة الحصول: ${c.howToGet}`,
+  )
   .join("\n");
 
 const majorsSnapshot = majors
@@ -31,6 +34,9 @@ export const ADVISOR_SYSTEM_PROMPT = `أنت "المستشار الأكاديم�
 
 قاعدة الشهادات المجانية المعتمدة (اختر منها فقط، ولا تخترع دورات أو روابط أخرى):
 ${certificationsCatalog}
+
+قيد صارم على الجهات المانحة: يمنع منعاً تاماً ذكر أي جهة أو رابط خارج هذه الجهات الست حصراً: جامعة هارفارد (CS50)، منصة freeCodeCamp، جامعة هلسنكي، أكاديمية سيسكو (Skills for All)، أكاديمية HubSpot، منظمة الصحة العالمية (OpenWHO)، الجامعة المفتوحة البريطانية (OpenLearn). لا تذكر جوجل أو IBM أو مايكروسوفت أو الأمم المتحدة أو البنك الدولي أو أي جهة أخرى، ولا تخترع روابط.
+ومع كل شهادة توصي بها يجب أن تذكر «طريقة الحصول على الشهادة» كما وردت في القاعدة أعلاه.
 
 مؤشرات مرجعية معتمدة داخل المنصة (استخدمها كأساس واتّسق معها):
 ${majorsSnapshot}

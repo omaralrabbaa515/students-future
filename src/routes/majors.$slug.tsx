@@ -129,6 +129,10 @@ function MajorPage() {
                 الجهة المانحة: {cert.provider} · {cert.category}
               </p>
               <p className="mt-2 text-sm leading-7">{cert.summary}</p>
+              <p className="bg-secondary text-secondary-foreground mt-2 rounded-md px-3 py-2 text-xs leading-6">
+                <span className="font-bold">طريقة الحصول على الشهادة: </span>
+                {cert.howToGet}
+              </p>
               <a
                 href={cert.url}
                 target="_blank"
