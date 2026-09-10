@@ -75,6 +75,9 @@ function Certifications() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
       <h1 className="font-display text-2xl font-extrabold">دليل الشهادات المجانية المعتمدة</h1>
+      <p className="bg-secondary text-secondary-foreground mt-3 inline-block rounded-full px-3 py-1 text-xs font-bold">
+        آخر فحص للروابط: {formatDate(lastLinkCheck)}
+      </p>
       <p className="text-muted-foreground mt-2 text-sm leading-7">
         {certifications.length} شهادة مجانية من جهات عالمية موثوقة، مصنّفة حسب المجال، مع نبذة عن كل
         دورة والتخصصات التي تستفيد منها ورابط التسجيل المباشر.
