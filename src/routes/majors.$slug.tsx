@@ -98,12 +98,22 @@ function MajorPage() {
 
       <Section title="1) مؤشر التشغيل والطلب">
         <div className="grid gap-3 sm:grid-cols-3">
-          <Fact label="تقدير التشغيل (أول سنتين)" value={major.employmentRate} />
-          <Fact label="مستوى الخطر" value={major.risk} tone={badge(major.risk)} />
+          <Fact
+            label="تقدير التشغيل (أول سنتين)"
+            value={employmentRate}
+            updatedAt={overrides["employmentRate"]?.updated_at ?? null}
+          />
+          <Fact
+            label="مستوى الخطر"
+            value={risk}
+            tone={badge(risk)}
+            updatedAt={overrides["risk"]?.updated_at ?? null}
+          />
           <Fact
             label="التصنيف في سوق العمل"
-            value={major.classification}
-            tone={badge(major.classification)}
+            value={classification}
+            tone={badge(classification)}
+            updatedAt={overrides["classification"]?.updated_at ?? null}
           />
         </div>
       </Section>
