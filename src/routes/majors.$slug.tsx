@@ -35,16 +35,16 @@ export const Route = createFileRoute("/majors/$slug")({
   head: ({ loaderData }) => {
     if (!loaderData) {
       return {
-        meta: [{ title: "تخصص غير متوفر | الطلبة والمستقبل" }, { name: "robots", content: "noindex" }],
+        meta: [{ title: "تخصص غير متوفر | الطلاب والمستقبل" }, { name: "robots", content: "noindex" }],
       };
     }
     const { major } = loaderData;
     const description = `تصنيف تخصص ${major.name} في سوق العمل الأردني: ${major.classification}، تقدير التشغيل ${major.employmentRate}، مستوى الخطر ${major.risk}، مع مسار شهادات مجانية معتمدة.`;
     return {
       meta: [
-        { title: `${major.name} | نسبة التشغيل والشهادات — الطلبة والمستقبل` },
+        { title: `${major.name} | نسبة التشغيل والشهادات — الطلاب والمستقبل` },
         { name: "description", content: description },
-        { property: "og:title", content: `${major.name} | الطلبة والمستقبل` },
+        { property: "og:title", content: `${major.name} | الطلاب والمستقبل` },
         { property: "og:description", content: description },
       ],
     };
