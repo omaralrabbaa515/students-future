@@ -82,7 +82,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "منصة عربية تحلل نسب التشغيل للتخصصات في الجامعات الأردنية وتوجه الطلبة إلى شهادات عالمية مجانية معتمدة.",
+          "منصة عربية تحلل نسب التشغيل للتخصصات في الجامعات الأردنية وتوجه الطلاب إلى شهادات عالمية مجانية معتمدة.",
       },
       { property: "og:title", content: "الطلاب والمستقبل" },
       {
@@ -174,7 +174,7 @@ function RootComponent() {
                 طم
               </span>
               <span className="font-display text-base font-extrabold tracking-tight">
-                الطلبة <span className="text-brand">والمستقبل</span>
+                الطلاب <span className="text-brand">والمستقبل</span>
               </span>
             </Link>
             <nav className="flex flex-wrap items-center gap-0.5 text-sm">
