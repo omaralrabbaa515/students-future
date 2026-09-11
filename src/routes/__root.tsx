@@ -10,7 +10,7 @@ import {
 import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import logoImg from "../assets/logo.png";
+import graduateLogo from "../assets/graduate-logo.png.asset.json";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
