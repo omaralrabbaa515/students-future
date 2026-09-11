@@ -10,7 +10,6 @@ import {
 import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import graduateLogo from "../assets/graduate-logo.png.asset.json";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -101,7 +100,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@500;700;800&display=swap",
       },
-      { rel: "icon", href: "/favicon.png", type: "image/png" },
+      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
   shellComponent: RootShell,
@@ -171,11 +170,9 @@ function RootComponent() {
         <header className="border-border/70 bg-background/85 sticky top-0 z-50 border-b backdrop-blur-xl">
           <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
             <Link to="/" className="group flex items-center gap-2.5">
-              <img
-                src={graduateLogo.url}
-                alt="شعار الطلاب والمستقبل"
-                className="size-9 rounded-xl object-cover shadow-[var(--shadow-card)]"
-              />
+              <span className="from-brand to-accent grid size-9 place-items-center rounded-xl bg-gradient-to-br text-sm font-extrabold text-white shadow-[var(--shadow-card)]">
+                طم
+              </span>
               <span className="font-display text-base font-extrabold tracking-tight">
                 الطلبة <span className="text-brand">والمستقبل</span>
               </span>
@@ -213,9 +210,6 @@ function RootComponent() {
               جميع نِسَب التشغيل والتصنيفات تقديرات استرشادية مبنية على أحدث البيانات الرسمية
               المتاحة من ديوان الخدمة المدنية ودائرة الإحصاءات العامة ووزارة التعليم العالي ومنصة
               سجّل، وليست أرقاماً لحظية.
-            </p>
-            <p className="mt-6 border-t border-border/50 pt-4 text-xs">
-              جميع الحقوق محفوظه 2026 · بإعداد الطالب عمر الرباع
             </p>
           </div>
         </footer>
