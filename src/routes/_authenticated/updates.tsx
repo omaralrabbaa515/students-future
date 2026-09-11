@@ -18,14 +18,14 @@ import { ENTITY_LABELS, formatDate, formatDateTime } from "@/lib/platform-data";
 export const Route = createFileRoute("/_authenticated/updates")({
   head: () => ({
     meta: [
-      { title: "لوحة التحديثات | الطلبة والمستقبل" },
+      { title: "لوحة التحديثات | الطلاب والمستقبل" },
       {
         name: "description",
         content:
           "لوحة داخلية لمراجعة التحديثات المقترحة من المصادر الرسمية واعتمادها، ومتابعة سجل التغييرات وحالة روابط الشهادات.",
       },
       { name: "robots", content: "noindex" },
-      { property: "og:title", content: "لوحة التحديثات | الطلبة والمستقبل" },
+      { property: "og:title", content: "لوحة التحديثات | الطلاب والمستقبل" },
       {
         property: "og:description",
         content: "مراجعة التحديثات المقترحة وسجل التغييرات وحالة الروابط.",

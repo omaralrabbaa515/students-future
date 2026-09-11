@@ -6,7 +6,7 @@ import { majorFields, majors, type MarketClassification } from "@/data/majors";
 export const Route = createFileRoute("/majors/")({
   head: () => ({
     meta: [
-      { title: "دليل التخصصات الأردنية | الطلبة والمستقبل" },
+      { title: "دليل التخصصات الأردنية | الطلاب والمستقبل" },
       {
         name: "description",
         content:

@@ -78,13 +78,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "الطلبة والمستقبل | مستشار المسار الأكاديمي والمهني" },
+      { title: "الطلاب والمستقبل | مستشار المسار الأكاديمي والمهني" },
       {
         name: "description",
         content:
           "منصة عربية تحلل نسب التشغيل للتخصصات في الجامعات الأردنية وتوجه الطلبة إلى شهادات عالمية مجانية معتمدة.",
       },
-      { property: "og:title", content: "الطلبة والمستقبل" },
+      { property: "og:title", content: "الطلاب والمستقبل" },
       {
         property: "og:description",
         content: "تحليل نسب التشغيل للتخصصات الأردنية ودليل شهادات مجانية معتمدة.",
@@ -204,7 +204,7 @@ function RootComponent() {
         <footer className="border-border/70 bg-surface/70 mt-16 border-t">
           <div className="text-muted-foreground mx-auto max-w-6xl px-4 py-10 text-sm">
             <p className="font-display text-foreground text-base font-bold">
-              منصة الطلبة والمستقبل
+              منصة الطلاب والمستقبل
             </p>
             <p className="mt-3 max-w-3xl leading-8">
               جميع نِسَب التشغيل والتصنيفات تقديرات استرشادية مبنية على أحدث البيانات الرسمية

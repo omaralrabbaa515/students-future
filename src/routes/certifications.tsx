@@ -25,7 +25,7 @@ export const Route = createFileRoute("/certifications")({
   ),
   head: () => ({
     meta: [
-      { title: "دليل الشهادات المجانية المعتمدة | الطلبة والمستقبل" },
+      { title: "دليل الشهادات المجانية المعتمدة | الطلاب والمستقبل" },
       {
         name: "description",
         content:

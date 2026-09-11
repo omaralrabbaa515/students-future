@@ -7,16 +7,16 @@ import { lovable } from "@/integrations/lovable/index";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "دخول المشرف | الطلبة والمستقبل" },
+      { title: "دخول المشرف | الطلاب والمستقبل" },
       {
         name: "description",
         content: "صفحة دخول خاصة بمشرف المنصة للوصول إلى لوحة التحديثات وسجل التغييرات.",
       },
       { name: "robots", content: "noindex" },
-      { property: "og:title", content: "دخول المشرف | الطلبة والمستقبل" },
+      { property: "og:title", content: "دخول المشرف | الطلاب والمستقبل" },
       {
         property: "og:description",
-        content: "دخول خاص بإدارة تحديثات منصة الطلبة والمستقبل.",
+        content: "دخول خاص بإدارة تحديثات منصة الطلاب والمستقبل.",
       },
     ],
   }),
