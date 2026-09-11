@@ -172,11 +172,11 @@ function RootComponent() {
           <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
             <Link to="/" className="group flex items-center gap-2.5">
               <img
-                src={logoImg}
+                src={graduateLogo.url}
                 alt="شعار منصة الطلاب والمستقبل"
-                width={816}
-                height={816}
-                className="size-9 rounded-xl object-contain"
+                width={512}
+                height={512}
+                className="size-9 object-contain"
               />
               <span className="font-display text-base font-extrabold tracking-tight">
                 الطلاب <span className="text-brand">والمستقبل</span>
