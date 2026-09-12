@@ -19,14 +19,14 @@ function sanitizeMessages(input: unknown): UIMessage[] | null {
   for (const raw of input) {
     if (typeof raw !== "object" || raw === null) return null;
     const msg = raw as Record<string, unknown>;
-    if (typeof msg.role !== "string" || !ALLOWED_ROLES.has(msg.role)) return null;
-    if (!Array.isArray(msg.parts)) return null;
+    if (typeof msg["role"] !== "string" || !ALLOWED_ROLES.has(msg["role"])) return null;
+    if (!Array.isArray(msg["parts"])) return null;
     let chars = 0;
-    for (const part of msg.parts) {
+    for (const part of msg["parts"] as unknown[]) {
       if (typeof part !== "object" || part === null) return null;
       const p = part as Record<string, unknown>;
-      if (p.type === "text" && typeof p.text === "string") {
-        chars += p.text.length;
+      if (p["type"] === "text" && typeof p["text"] === "string") {
+        chars += p["text"].length;
       }
     }
     if (chars > MAX_MESSAGE_CHARS) return null;

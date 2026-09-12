@@ -74,10 +74,23 @@ export type UpdatesDashboard = {
 };
 
 async function isAdminUser(supabase: {
-  rpc: (fn: "has_role", args: { _user_id: string; _role: "admin" }) => Promise<{ data: unknown }>;
+  from: (table: "user_roles") => {
+    select: (
+      columns: string,
+      options?: { count?: "exact"; head?: boolean },
+    ) => {
+      eq: (column: string, value: string) => {
+        eq: (column: string, value: string) => Promise<{ count: number | null }>;
+      };
+    };
+  };
 }, userId: string) {
-  const { data } = await supabase.rpc("has_role", { _user_id: userId, _role: "admin" });
-  return data === true;
+  const { count } = await supabase
+    .from("user_roles")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", userId)
+    .eq("role", "admin");
+  return (count ?? 0) > 0;
 }
 
 /** كل بيانات لوحة التحديثات */
