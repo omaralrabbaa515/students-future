@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 
-import type {
+import {
   EMPTY_PLATFORM_META,
   type LinkCheckRow,
   type OverrideRow,
