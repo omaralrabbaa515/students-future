@@ -59,6 +59,7 @@ function Home() {
             }}
           >
             <input
+              aria-label="اكتب اسم تخصصك للسؤال عن مساره"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="اكتب اسم تخصصك… مثال: الصيدلة"
@@ -147,7 +148,7 @@ function CardLink({
       className={`card-surface card-hover flex flex-col justify-between p-6 ${className ?? ""}`}
     >
       <div>
-        <h3 className={`font-display font-bold ${featured ? "text-2xl" : "text-lg"}`}>{title}</h3>
+        <h2 className={`font-display font-bold ${featured ? "text-2xl" : "text-lg"}`}>{title}</h2>
         <p className="text-muted-foreground mt-3 text-sm leading-7">{body}</p>
       </div>
       <span className="text-brand mt-5 text-sm font-bold">استعرض ←</span>
