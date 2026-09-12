@@ -62,12 +62,14 @@ function MajorsIndex() {
 
       <div className="mt-6 flex flex-wrap gap-3">
         <input
+          aria-label="ابحث باسم التخصص"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="ابحث باسم التخصص"
           className="border-border bg-card focus:border-brand rounded-xl border px-4 py-2.5 text-sm focus:outline-none"
         />
         <select
+          aria-label="تصفية حسب التصنيف في سوق العمل"
           value={classification}
           onChange={(event) => setClassification(event.target.value)}
           className="border-border bg-card focus:border-brand rounded-xl border px-4 py-2.5 text-sm focus:outline-none"
@@ -80,6 +82,7 @@ function MajorsIndex() {
           ))}
         </select>
         <select
+          aria-label="تصفية حسب المجال"
           value={field}
           onChange={(event) => setField(event.target.value)}
           className="border-border bg-card focus:border-brand rounded-xl border px-4 py-2.5 text-sm focus:outline-none"

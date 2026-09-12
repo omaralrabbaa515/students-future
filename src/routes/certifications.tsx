@@ -85,12 +85,14 @@ function Certifications() {
 
       <div className="mt-6 flex flex-wrap gap-3">
         <input
+          aria-label="ابحث باسم الدورة أو التخصص"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="ابحث باسم الدورة أو التخصص"
           className="border-border bg-card focus:border-brand rounded-xl border px-4 py-2.5 text-sm focus:outline-none"
         />
         <select
+          aria-label="تصفية حسب المجال"
           value={category}
           onChange={(event) => setCategory(event.target.value)}
           className="border-border bg-card focus:border-brand rounded-xl border px-4 py-2.5 text-sm focus:outline-none"
@@ -103,6 +105,7 @@ function Certifications() {
           ))}
         </select>
         <select
+          aria-label="تصفية حسب الجهة المانحة"
           value={provider}
           onChange={(event) => setProvider(event.target.value)}
           className="border-border bg-card focus:border-brand rounded-xl border px-4 py-2.5 text-sm focus:outline-none"
