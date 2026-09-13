@@ -7,7 +7,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import graduateLogo from "../assets/graduate-logo.png.asset.json";
@@ -132,35 +132,6 @@ const navLinks = [
   { to: "/sources", label: "المصادر الرسمية" },
 ] as const;
 
-function ThemeToggle() {
-  const [dark, setDark] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    const stored = window.localStorage.getItem("saf-theme");
-    const initial =
-      stored === "dark" ||
-      (stored === null && window.matchMedia("(prefers-color-scheme: dark)").matches);
-    setDark(initial);
-  }, []);
-
-  useEffect(() => {
-    if (dark === null) return;
-    document.documentElement.classList.toggle("dark", dark);
-    window.localStorage.setItem("saf-theme", dark ? "dark" : "light");
-  }, [dark]);
-
-  return (
-    <button
-      type="button"
-      onClick={() => setDark((value) => !value)}
-      aria-label="تبديل النمط الليلي"
-      title="تبديل النمط الليلي"
-      className="border-border/70 text-foreground/80 hover:border-brand hover:text-foreground ms-1 rounded-full border px-3 py-1.5 text-xs font-bold transition-colors"
-    >
-      {dark ? "نمط نهاري" : "نمط ليلي"}
-    </button>
-  );
-}
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
@@ -196,7 +167,6 @@ function RootComponent() {
                   {link.label}
                 </Link>
               ))}
-              <ThemeToggle />
             </nav>
           </div>
         </header>
