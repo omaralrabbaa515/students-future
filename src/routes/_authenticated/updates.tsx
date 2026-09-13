@@ -151,14 +151,14 @@ function UpdatesPage() {
         <button
           onClick={() => claimMutation.mutate()}
           disabled={claimMutation.isPending}
-          className="bg-brand text-brand-foreground mt-5 rounded-xl px-5 py-2.5 text-sm font-bold disabled:opacity-60"
+          className="bg-brand text-brand-ink-foreground mt-5 rounded-xl px-5 py-2.5 text-sm font-bold disabled:opacity-60"
         >
           تنشيط صلاحية الإشراف
         </button>
         {notice && <p className="mt-4 text-danger text-sm">{notice}</p>}
         <button
           onClick={() => void supabase.auth.signOut().then(() => window.location.assign("/auth"))}
-          className="text-brand mt-6 block text-sm underline"
+          className="text-brand-ink mt-6 block text-sm underline"
         >
           تسجيل الخروج
         </button>
@@ -182,7 +182,7 @@ function UpdatesPage() {
           <button
             onClick={() => scanMutation.mutate()}
             disabled={scanMutation.isPending}
-            className="bg-brand text-brand-foreground rounded-xl px-5 py-2.5 text-sm font-bold disabled:opacity-60"
+            className="bg-brand text-brand-ink-foreground rounded-xl px-5 py-2.5 text-sm font-bold disabled:opacity-60"
           >
             {scanMutation.isPending ? "جارٍ الفحص…" : "افحص الآن"}
           </button>
@@ -250,7 +250,7 @@ function UpdatesPage() {
                   href={change.source_url}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-brand mt-2 inline-block text-xs break-all underline"
+                  className="text-brand-ink mt-2 inline-block text-xs break-all underline"
                 >
                   {change.source_url}
                 </a>
@@ -259,7 +259,7 @@ function UpdatesPage() {
                 <button
                   onClick={() => decideMutation.mutate({ id: change.id, decision: "approve" })}
                   disabled={decideMutation.isPending}
-                  className="bg-brand text-brand-foreground rounded-xl px-4 py-2 text-xs font-bold disabled:opacity-60"
+                  className="bg-brand text-brand-ink-foreground rounded-xl px-4 py-2 text-xs font-bold disabled:opacity-60"
                 >
                   اعتماد
                 </button>
@@ -399,7 +399,7 @@ function UpdatesPage() {
                           href={entry.source_url}
                           target="_blank"
                           rel="noreferrer"
-                          className="text-brand break-all underline"
+                          className="text-brand-ink break-all underline"
                         >
                           الرابط
                         </a>
@@ -469,7 +469,7 @@ function UpdatesPage() {
       <p className="text-muted-foreground mt-10 text-xs leading-7">
         الفحص المجدول يعمل تلقائياً كل أسبوع. لا يظهر أي تغيير للطلبة قبل اعتمادك، عدا حالة الروابط
         المعطّلة التي تُعلَّم فوراً.{" "}
-        <Link to="/sources" className="text-brand underline">
+        <Link to="/sources" className="text-brand-ink underline">
           عرض المصادر الرسمية
         </Link>
       </p>

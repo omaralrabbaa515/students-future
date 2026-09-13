@@ -109,7 +109,7 @@ function Home() {
               key={major.slug}
               to="/majors/$slug"
               params={{ slug: major.slug }}
-              className="border-border bg-card hover:border-brand hover:text-brand rounded-full border px-4 py-2 text-sm transition-colors"
+              className="border-border bg-card hover:border-brand hover:text-brand-ink-ink rounded-full border px-4 py-2 text-sm transition-colors"
             >
               {major.name}
             </Link>
@@ -151,7 +151,7 @@ function CardLink({
         <h2 className={`font-display font-bold ${featured ? "text-2xl" : "text-lg"}`}>{title}</h2>
         <p className="text-muted-foreground mt-3 text-sm leading-7">{body}</p>
       </div>
-      <span className="text-brand mt-5 text-sm font-bold">استعرض ←</span>
+      <span className="text-brand-ink mt-5 text-sm font-bold">استعرض ←</span>
     </Link>
   );
 }

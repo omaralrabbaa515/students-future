@@ -105,7 +105,7 @@ function AuthPage() {
         <button
           type="submit"
           disabled={busy}
-          className="bg-brand text-brand-foreground w-full rounded-xl px-4 py-2.5 text-sm font-bold disabled:opacity-60"
+          className="bg-brand text-brand-ink-foreground w-full rounded-xl px-4 py-2.5 text-sm font-bold disabled:opacity-60"
         >
           {mode === "signin" ? "تسجيل الدخول" : "إنشاء حساب المشرف"}
         </button>
@@ -121,7 +121,7 @@ function AuthPage() {
 
       <button
         onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-        className="text-brand mt-4 text-sm underline"
+        className="text-brand-ink mt-4 text-sm underline"
       >
         {mode === "signin" ? "ليس لديك حساب؟ أنشئ حساب المشرف" : "لديك حساب؟ سجّل الدخول"}
       </button>

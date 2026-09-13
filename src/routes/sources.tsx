@@ -105,7 +105,7 @@ function Sources() {
                 href={source.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-brand mt-2 inline-block text-sm underline"
+                className="text-brand-ink mt-2 inline-block text-sm underline"
               >
                 {source.url}
               </a>
