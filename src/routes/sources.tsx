@@ -99,8 +99,7 @@ function Sources() {
               <h2 className="font-display font-bold">{source.name}</h2>
               <p className="text-muted-foreground mt-2 text-sm leading-7">{source.note}</p>
               <p className="text-muted-foreground mt-2 text-xs leading-6">
-                آخر مراجعة: {formatDate(status?.last_reviewed_at ?? null)} · الحالة:{" "}
-                {status?.last_status ?? "لم يُفحَص بعد"}
+                آخر مراجعة: {formatDate(status?.last_reviewed_at ?? null)}
               </p>
               <a
                 href={source.url}
