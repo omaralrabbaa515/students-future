@@ -35,7 +35,7 @@ function Home() {
     <div>
       <section className="hero-surface text-primary-foreground border-border/50 border-b">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
-          <p className="border-accent/40 text-accent pill border bg-white/5">
+          <p className="border-brand/50 text-brand pill border bg-white/5">
             مستشار المسار الأكاديمي والمهني · الأردن · 2026
           </p>
           <h1 className="font-display mt-5 max-w-3xl text-3xl leading-snug font-extrabold sm:text-5xl">
@@ -67,7 +67,7 @@ function Home() {
             />
             <button
               type="submit"
-              className="bg-accent text-accent-foreground rounded-xl px-6 py-3 text-sm font-bold transition-transform hover:-translate-y-0.5"
+              className="bg-brand text-brand-foreground rounded-xl px-6 py-3 text-sm font-bold shadow-[0_8px_24px_-8px_var(--brand)] transition-transform hover:-translate-y-0.5"
             >
               اسأل المستشار
             </button>
