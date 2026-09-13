@@ -150,7 +150,7 @@ function RootComponent() {
                 className="size-9 object-contain"
               />
               <span className="font-display text-base font-extrabold tracking-tight">
-                الطلاب <span className="text-brand">والمستقبل</span>
+                الطلاب <span className="text-brand-ink">والمستقبل</span>
               </span>
             </Link>
             <nav className="flex flex-wrap items-center gap-0.5 text-sm">

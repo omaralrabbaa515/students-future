@@ -158,7 +158,7 @@ function UpdatesPage() {
         {notice && <p className="mt-4 text-danger text-sm">{notice}</p>}
         <button
           onClick={() => void supabase.auth.signOut().then(() => window.location.assign("/auth"))}
-          className="text-brand mt-6 block text-sm underline"
+          className="text-brand-ink mt-6 block text-sm underline"
         >
           تسجيل الخروج
         </button>
@@ -250,7 +250,7 @@ function UpdatesPage() {
                   href={change.source_url}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-brand mt-2 inline-block text-xs break-all underline"
+                  className="text-brand-ink mt-2 inline-block text-xs break-all underline"
                 >
                   {change.source_url}
                 </a>
@@ -399,7 +399,7 @@ function UpdatesPage() {
                           href={entry.source_url}
                           target="_blank"
                           rel="noreferrer"
-                          className="text-brand break-all underline"
+                          className="text-brand-ink break-all underline"
                         >
                           الرابط
                         </a>
@@ -469,7 +469,7 @@ function UpdatesPage() {
       <p className="text-muted-foreground mt-10 text-xs leading-7">
         الفحص المجدول يعمل تلقائياً كل أسبوع. لا يظهر أي تغيير للطلبة قبل اعتمادك، عدا حالة الروابط
         المعطّلة التي تُعلَّم فوراً.{" "}
-        <Link to="/sources" className="text-brand underline">
+        <Link to="/sources" className="text-brand-ink underline">
           عرض المصادر الرسمية
         </Link>
       </p>

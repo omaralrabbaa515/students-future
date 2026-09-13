@@ -122,7 +122,7 @@ function MajorsIndex() {
               {major.summary}
             </p>
             <p className="mt-4 text-sm font-bold">
-              تقدير التشغيل: <span className="text-brand">{major.employmentRate}</span>
+              تقدير التشغيل: <span className="text-brand-ink">{major.employmentRate}</span>
             </p>
           </Link>
         ))}

@@ -27,7 +27,7 @@ export const Route = createFileRoute("/majors/$slug")({
   notFoundComponent: () => (
     <div className="mx-auto max-w-3xl px-4 py-12 text-sm leading-8">
       <h1 className="font-display text-xl font-bold">هذا التخصص غير متوفر في الدليل</h1>
-      <Link to="/majors" className="text-brand mt-3 inline-block underline">
+      <Link to="/majors" className="text-brand-ink mt-3 inline-block underline">
         رجوع إلى دليل التخصصات
       </Link>
     </div>
@@ -178,7 +178,7 @@ function MajorPage() {
                 href={cert.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-brand mt-2 inline-block text-sm break-all underline"
+                className="text-brand-ink mt-2 inline-block text-sm break-all underline"
               >
                 {cert.url}
               </a>
@@ -201,7 +201,7 @@ function MajorPage() {
       <div className="border-brand/40 bg-surface/60 mt-12 rounded-2xl border border-dashed p-6 text-sm leading-8">
         للحصول على توجيه مخصص بالكامل، أخبر المستشار الذكي بمعدل الثانوية العامة (التوجيهي)،
         والجامعات المفضلة لديك، وميولك المهنية.
-        <Link to="/advisor" search={{ q: major.name }} className="text-brand ms-2 font-bold underline">
+        <Link to="/advisor" search={{ q: major.name }} className="text-brand-ink ms-2 font-bold underline">
           ابدأ المحادثة
         </Link>
       </div>

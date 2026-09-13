@@ -144,7 +144,7 @@ function Certifications() {
               href={cert.url}
               target="_blank"
               rel="noreferrer"
-              className="text-brand mt-3 text-sm break-all underline"
+              className="text-brand-ink mt-3 text-sm break-all underline"
             >
               {cert.url}
             </a>

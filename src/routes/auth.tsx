@@ -121,7 +121,7 @@ function AuthPage() {
 
       <button
         onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-        className="text-brand mt-4 text-sm underline"
+        className="text-brand-ink mt-4 text-sm underline"
       >
         {mode === "signin" ? "ليس لديك حساب؟ أنشئ حساب المشرف" : "لديك حساب؟ سجّل الدخول"}
       </button>
