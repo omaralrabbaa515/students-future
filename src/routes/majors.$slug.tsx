@@ -84,7 +84,7 @@ function MajorPage() {
         <Link
           to="/advisor"
           search={{ q: major.name }}
-          className="bg-brand text-brand-ink-foreground rounded-xl px-5 py-2.5 text-sm font-bold transition-transform hover:-translate-y-0.5"
+          className="bg-brand text-brand-foreground rounded-xl px-5 py-2.5 text-sm font-bold transition-transform hover:-translate-y-0.5"
         >
           اسأل المستشار عن هذا التخصص
         </Link>

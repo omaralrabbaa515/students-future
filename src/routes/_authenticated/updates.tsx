@@ -151,7 +151,7 @@ function UpdatesPage() {
         <button
           onClick={() => claimMutation.mutate()}
           disabled={claimMutation.isPending}
-          className="bg-brand text-brand-ink-foreground mt-5 rounded-xl px-5 py-2.5 text-sm font-bold disabled:opacity-60"
+          className="bg-brand text-brand-foreground mt-5 rounded-xl px-5 py-2.5 text-sm font-bold disabled:opacity-60"
         >
           تنشيط صلاحية الإشراف
         </button>
@@ -182,7 +182,7 @@ function UpdatesPage() {
           <button
             onClick={() => scanMutation.mutate()}
             disabled={scanMutation.isPending}
-            className="bg-brand text-brand-ink-foreground rounded-xl px-5 py-2.5 text-sm font-bold disabled:opacity-60"
+            className="bg-brand text-brand-foreground rounded-xl px-5 py-2.5 text-sm font-bold disabled:opacity-60"
           >
             {scanMutation.isPending ? "جارٍ الفحص…" : "افحص الآن"}
           </button>
@@ -259,7 +259,7 @@ function UpdatesPage() {
                 <button
                   onClick={() => decideMutation.mutate({ id: change.id, decision: "approve" })}
                   disabled={decideMutation.isPending}
-                  className="bg-brand text-brand-ink-foreground rounded-xl px-4 py-2 text-xs font-bold disabled:opacity-60"
+                  className="bg-brand text-brand-foreground rounded-xl px-4 py-2 text-xs font-bold disabled:opacity-60"
                 >
                   اعتماد
                 </button>

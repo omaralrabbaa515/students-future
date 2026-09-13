@@ -109,7 +109,7 @@ function Home() {
               key={major.slug}
               to="/majors/$slug"
               params={{ slug: major.slug }}
-              className="border-border bg-card hover:border-brand hover:text-brand-ink-ink rounded-full border px-4 py-2 text-sm transition-colors"
+              className="border-border bg-card hover:border-brand hover:text-brand-ink rounded-full border px-4 py-2 text-sm transition-colors"
             >
               {major.name}
             </Link>
