@@ -128,6 +128,53 @@ export type Database = {
         }
         Relationships: []
       }
+      major_reviews: {
+        Row: {
+          created_at: string
+          evidence: string | null
+          inferred_classification: string | null
+          inferred_employment_rate: string | null
+          inferred_risk: string | null
+          last_reviewed_at: string
+          last_scan_run_id: string | null
+          slug: string
+          source_url: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          evidence?: string | null
+          inferred_classification?: string | null
+          inferred_employment_rate?: string | null
+          inferred_risk?: string | null
+          last_reviewed_at?: string
+          last_scan_run_id?: string | null
+          slug: string
+          source_url?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          evidence?: string | null
+          inferred_classification?: string | null
+          inferred_employment_rate?: string | null
+          inferred_risk?: string | null
+          last_reviewed_at?: string
+          last_scan_run_id?: string | null
+          slug?: string
+          source_url?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "major_reviews_last_scan_run_id_fkey"
+            columns: ["last_scan_run_id"]
+            isOneToOne: false
+            referencedRelation: "scan_runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pending_changes: {
         Row: {
           created_at: string
@@ -198,9 +245,11 @@ export type Database = {
           finished_at: string | null
           id: string
           links_checked: number
+          reviewed_majors: number
           sources_checked: number
           started_at: string
           status: string
+          status_changes: number
           trigger: string
         }
         Insert: {
@@ -210,9 +259,11 @@ export type Database = {
           finished_at?: string | null
           id?: string
           links_checked?: number
+          reviewed_majors?: number
           sources_checked?: number
           started_at?: string
           status?: string
+          status_changes?: number
           trigger?: string
         }
         Update: {
@@ -222,9 +273,11 @@ export type Database = {
           finished_at?: string | null
           id?: string
           links_checked?: number
+          reviewed_majors?: number
           sources_checked?: number
           started_at?: string
           status?: string
+          status_changes?: number
           trigger?: string
         }
         Relationships: []
