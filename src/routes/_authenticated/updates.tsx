@@ -49,6 +49,7 @@ export const Route = createFileRoute("/_authenticated/updates")({
 const TABS = [
   { key: "pending", label: "التغييرات المقترحة" },
   { key: "links", label: "حالة الروابط" },
+  { key: "reviews", label: "مراجعة التخصصات" },
   { key: "log", label: "سجل التحديثات" },
   { key: "scans", label: "عمليات الفحص" },
 ] as const;
@@ -186,11 +187,18 @@ function UpdatesPage() {
         </div>
         <div className="flex flex-wrap gap-2">
           <button
-            onClick={() => scanMutation.mutate()}
+            onClick={() => scanMutation.mutate({ fullReview: false })}
             disabled={scanMutation.isPending}
             className="bg-brand text-brand-foreground rounded-xl px-5 py-2.5 text-sm font-bold disabled:opacity-60"
           >
             {scanMutation.isPending ? "جارٍ الفحص…" : "افحص الآن"}
+          </button>
+          <button
+            onClick={() => scanMutation.mutate({ fullReview: true })}
+            disabled={scanMutation.isPending}
+            className="border-brand text-brand-ink rounded-xl border px-5 py-2.5 text-sm font-bold disabled:opacity-60"
+          >
+            مراجعة شاملة الآن
           </button>
           <button
             onClick={() => void supabase.auth.signOut().then(() => window.location.assign("/auth"))}
