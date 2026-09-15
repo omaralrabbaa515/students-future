@@ -156,7 +156,7 @@ export const getUpdatesDashboard = createServerFn({ method: "GET" })
       supabase
         .from("scan_runs")
         .select(
-          "id, started_at, finished_at, trigger, status, sources_checked, links_checked, broken_links, changes_found, error",
+          "id, started_at, finished_at, trigger, status, sources_checked, links_checked, broken_links, changes_found, reviewed_majors, status_changes, error",
         )
         .order("started_at", { ascending: false })
         .limit(20),
@@ -164,6 +164,12 @@ export const getUpdatesDashboard = createServerFn({ method: "GET" })
         .from("data_overrides")
         .select("entity_type, entity_id, field, value, source_url, updated_at")
         .order("updated_at", { ascending: false }),
+      supabase
+        .from("major_reviews")
+        .select(
+          "slug, last_reviewed_at, inferred_classification, inferred_risk, inferred_employment_rate, evidence, source_url",
+        )
+        .order("last_reviewed_at", { ascending: false }),
     ]);
 
     return {
@@ -174,6 +180,7 @@ export const getUpdatesDashboard = createServerFn({ method: "GET" })
       brokenLinks: (links.data ?? []) as BrokenLink[],
       scans: (scans.data ?? []) as ScanRun[],
       overrides: (overrides.data ?? []) as ActiveOverride[],
+      majorReviews: (reviews.data ?? []) as MajorReview[],
     };
   });
 
