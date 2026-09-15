@@ -7,6 +7,7 @@ import {
   EMPTY_PLATFORM_META,
   formatDate,
   lastUpdatedFor,
+  majorReviewedAt,
   overridesFor,
   type PlatformMeta,
 } from "@/lib/platform-data";

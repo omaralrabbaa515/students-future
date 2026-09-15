@@ -52,7 +52,14 @@ export type ScanRunRow = {
   links_checked: number;
   broken_links: number;
   changes_found: number;
+  reviewed_majors?: number;
+  status_changes?: number;
   error?: string | null;
+};
+
+export type MajorReviewRow = {
+  slug: string;
+  last_reviewed_at: string;
 };
 
 export type PlatformMeta = {
@@ -60,6 +67,7 @@ export type PlatformMeta = {
   linkChecks: LinkCheckRow[];
   sources: SourceRow[];
   lastScan: ScanRunRow | null;
+  majorReviews: MajorReviewRow[];
 };
 
 export const EMPTY_PLATFORM_META: PlatformMeta = {
@@ -67,7 +75,13 @@ export const EMPTY_PLATFORM_META: PlatformMeta = {
   linkChecks: [],
   sources: [],
   lastScan: null,
+  majorReviews: [],
 };
+
+/** تاريخ آخر مراجعة آلية لحالة تخصص معيّن */
+export function majorReviewedAt(meta: PlatformMeta, slug: string): string | null {
+  return meta.majorReviews.find((row) => row.slug === slug)?.last_reviewed_at ?? null;
+}
 
 /** يبني خريطة القيم المعتمدة لعنصر واحد */
 export function overridesFor(
