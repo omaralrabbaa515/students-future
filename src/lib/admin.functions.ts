@@ -83,6 +83,7 @@ export type UpdatesDashboard = {
   brokenLinks: BrokenLink[];
   scans: ScanRun[];
   overrides: ActiveOverride[];
+  majorReviews: MajorReview[];
 };
 
 async function isAdminUser(supabase: {
