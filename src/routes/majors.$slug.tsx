@@ -7,6 +7,7 @@ import {
   EMPTY_PLATFORM_META,
   formatDate,
   lastUpdatedFor,
+  majorReviewedAt,
   overridesFor,
   type PlatformMeta,
 } from "@/lib/platform-data";
@@ -67,6 +68,7 @@ function MajorPage() {
   const risk = overrides["risk"]?.value ?? major.risk;
   const classification = overrides["classification"]?.value ?? major.classification;
   const lastUpdated = lastUpdatedFor(meta, "major", major.slug);
+  const reviewedAt = majorReviewedAt(meta, major.slug);
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10">
@@ -75,9 +77,12 @@ function MajorPage() {
       </Link>
       <h1 className="font-display mt-3 text-3xl font-extrabold sm:text-4xl">{major.name}</h1>
       <p className="text-muted-foreground mt-1 text-sm">{major.field}</p>
-      <p className="pill tone-neutral mt-3">
-        آخر تحديث للبيانات: {formatDate(lastUpdated)}
-      </p>
+      <div className="mt-3 flex flex-wrap gap-2">
+        <span className="pill tone-neutral">آخر تحديث للبيانات: {formatDate(lastUpdated)}</span>
+        <span className="pill tone-neutral">
+          آخر مراجعة للحالة: {formatDate(reviewedAt)}
+        </span>
+      </div>
       <p className="mt-4 leading-8">{major.summary}</p>
 
       <div className="mt-6 flex flex-wrap gap-2">

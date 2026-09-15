@@ -51,7 +51,19 @@ export type ScanRun = {
   links_checked: number;
   broken_links: number;
   changes_found: number;
+  reviewed_majors: number;
+  status_changes: number;
   error: string | null;
+};
+
+export type MajorReview = {
+  slug: string;
+  last_reviewed_at: string;
+  inferred_classification: string | null;
+  inferred_risk: string | null;
+  inferred_employment_rate: string | null;
+  evidence: string | null;
+  source_url: string | null;
 };
 
 export type ActiveOverride = {
@@ -71,6 +83,7 @@ export type UpdatesDashboard = {
   brokenLinks: BrokenLink[];
   scans: ScanRun[];
   overrides: ActiveOverride[];
+  majorReviews: MajorReview[];
 };
 
 async function isAdminUser(supabase: {
@@ -116,10 +129,11 @@ export const getUpdatesDashboard = createServerFn({ method: "GET" })
         brokenLinks: [],
         scans: [],
         overrides: [],
+        majorReviews: [],
       };
     }
 
-    const [pending, log, links, scans, overrides] = await Promise.all([
+    const [pending, log, links, scans, overrides, reviews] = await Promise.all([
       supabase
         .from("pending_changes")
         .select(
@@ -142,7 +156,7 @@ export const getUpdatesDashboard = createServerFn({ method: "GET" })
       supabase
         .from("scan_runs")
         .select(
-          "id, started_at, finished_at, trigger, status, sources_checked, links_checked, broken_links, changes_found, error",
+          "id, started_at, finished_at, trigger, status, sources_checked, links_checked, broken_links, changes_found, reviewed_majors, status_changes, error",
         )
         .order("started_at", { ascending: false })
         .limit(20),
@@ -150,6 +164,12 @@ export const getUpdatesDashboard = createServerFn({ method: "GET" })
         .from("data_overrides")
         .select("entity_type, entity_id, field, value, source_url, updated_at")
         .order("updated_at", { ascending: false }),
+      supabase
+        .from("major_reviews")
+        .select(
+          "slug, last_reviewed_at, inferred_classification, inferred_risk, inferred_employment_rate, evidence, source_url",
+        )
+        .order("last_reviewed_at", { ascending: false }),
     ]);
 
     return {
@@ -160,6 +180,7 @@ export const getUpdatesDashboard = createServerFn({ method: "GET" })
       brokenLinks: (links.data ?? []) as BrokenLink[],
       scans: (scans.data ?? []) as ScanRun[],
       overrides: (overrides.data ?? []) as ActiveOverride[],
+      majorReviews: (reviews.data ?? []) as MajorReview[],
     };
   });
 
@@ -271,14 +292,17 @@ export const revertOverride = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
-/** تشغيل الفحص يدوياً */
+/** تشغيل الفحص يدوياً — مع خيار المراجعة الشاملة لكل التخصصات */
 export const runScanNow = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => {
+  .inputValidator((input?: { fullReview?: boolean }) => ({
+    fullReview: input?.fullReview === true,
+  }))
+  .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
     if (!(await isAdminUser(supabase as never, userId))) throw new Error("غير مصرّح");
     const { runScan } = await import("@/lib/scan.server");
-    return await runScan("manual");
+    return await runScan("manual", { fullReview: data.fullReview });
   });
 
 /** بريد المشرف الوحيد المسموح له بإدارة المنصة */

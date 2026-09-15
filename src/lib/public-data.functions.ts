@@ -3,6 +3,7 @@ import { createServerFn } from "@tanstack/react-start";
 import {
   EMPTY_PLATFORM_META,
   type LinkCheckRow,
+  type MajorReviewRow,
   type OverrideRow,
   type PlatformMeta,
   type ScanRunRow,
@@ -17,7 +18,7 @@ export const getPlatformMeta = createServerFn({ method: "GET" }).handler(
     const supabase = supabaseAdmin;
 
     try {
-      const [overrides, linkChecks, sources, scans] = await Promise.all([
+      const [overrides, linkChecks, sources, scans, reviews] = await Promise.all([
         supabase
           .from("data_overrides")
           .select("entity_type, entity_id, field, value, source_url, updated_at"),
@@ -28,10 +29,11 @@ export const getPlatformMeta = createServerFn({ method: "GET" }).handler(
         supabase
           .from("scan_runs")
           .select(
-            "id, started_at, finished_at, status, sources_checked, links_checked, broken_links, changes_found",
+            "id, started_at, finished_at, status, sources_checked, links_checked, broken_links, changes_found, reviewed_majors, status_changes",
           )
           .order("started_at", { ascending: false })
           .limit(1),
+        supabase.from("major_reviews").select("slug, last_reviewed_at"),
       ]);
 
       return {
@@ -39,6 +41,7 @@ export const getPlatformMeta = createServerFn({ method: "GET" }).handler(
         linkChecks: (linkChecks.data ?? []) as LinkCheckRow[],
         sources: (sources.data ?? []) as SourceRow[],
         lastScan: ((scans.data ?? [])[0] ?? null) as ScanRunRow | null,
+        majorReviews: (reviews.data ?? []) as MajorReviewRow[],
       };
     } catch {
       return EMPTY_PLATFORM_META;

@@ -49,6 +49,7 @@ export const Route = createFileRoute("/_authenticated/updates")({
 const TABS = [
   { key: "pending", label: "التغييرات المقترحة" },
   { key: "links", label: "حالة الروابط" },
+  { key: "reviews", label: "مراجعة التخصصات" },
   { key: "log", label: "سجل التحديثات" },
   { key: "scans", label: "عمليات الفحص" },
 ] as const;
@@ -96,12 +97,18 @@ function UpdatesPage() {
   });
 
   const scanMutation = useMutation({
-    mutationFn: () => scan(),
+    mutationFn: (input: { fullReview: boolean }) => scan({ data: input }),
     onSuccess: (result) => {
-      setNotice(
-        `انتهى الفحص: ${result.linksChecked} رابطاً و${result.sourcesChecked} مصدراً، ` +
-          `${result.brokenLinks} رابطاً معطّلاً، ${result.changesFound} تغييراً جديداً للمراجعة.`,
-      );
+      if (result.skipped) {
+        setNotice("هناك فحص قيد التنفيذ حالياً، انتظر انتهاءه قبل تشغيل فحص جديد.");
+      } else {
+        setNotice(
+          `انتهى الفحص: ${result.linksChecked} رابطاً و${result.sourcesChecked} مصدراً، ` +
+            `${result.brokenLinks} رابطاً معطّلاً، ${result.reviewedMajors} تخصصاً روجعت، ` +
+            `${result.statusChanges} حالة تغيّرت، ${result.changesFound} تغييراً مسجّلاً.` +
+            (result.paused ? ` ${result.paused}` : ""),
+        );
+      }
       void invalidate();
     },
     onError: (error: Error) => setNotice(error.message),
@@ -127,6 +134,13 @@ function UpdatesPage() {
         (!term || entry.entity_label.includes(term) || entry.field_label.includes(term)),
     );
   }, [data, logFilter, logType]);
+
+  const reviewMap = useMemo(
+    () => new Map((data?.majorReviews ?? []).map((row) => [row.slug, row])),
+    [data],
+  );
+
+
 
   if (dashboard.isLoading) {
     return <p className="mx-auto max-w-4xl px-4 py-12 text-sm">جارٍ تحميل اللوحة…</p>;
@@ -180,11 +194,18 @@ function UpdatesPage() {
         </div>
         <div className="flex flex-wrap gap-2">
           <button
-            onClick={() => scanMutation.mutate()}
+            onClick={() => scanMutation.mutate({ fullReview: false })}
             disabled={scanMutation.isPending}
             className="bg-brand text-brand-foreground rounded-xl px-5 py-2.5 text-sm font-bold disabled:opacity-60"
           >
             {scanMutation.isPending ? "جارٍ الفحص…" : "افحص الآن"}
+          </button>
+          <button
+            onClick={() => scanMutation.mutate({ fullReview: true })}
+            disabled={scanMutation.isPending}
+            className="border-brand text-brand-ink rounded-xl border px-5 py-2.5 text-sm font-bold disabled:opacity-60"
+          >
+            مراجعة شاملة الآن
           </button>
           <button
             onClick={() => void supabase.auth.signOut().then(() => window.location.assign("/auth"))}
@@ -201,11 +222,16 @@ function UpdatesPage() {
         </p>
       )}
 
-      <div className="mt-6 grid gap-3 sm:grid-cols-4">
+      <div className="mt-6 grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
         <Stat label="تغييرات بانتظار المراجعة" value={String(data?.pending.length ?? 0)} />
         <Stat label="روابط معطّلة" value={String(data?.brokenLinks.length ?? 0)} />
         <Stat label="قيم معتمدة ظاهرة للطلبة" value={String(data?.overrides.length ?? 0)} />
         <Stat label="سجلات في سجل التحديثات" value={String(data?.log.length ?? 0)} />
+        <Stat
+          label="تخصصات روجعت في آخر جولة"
+          value={String(lastScan?.reviewed_majors ?? 0)}
+        />
+        <Stat label="حالات تغيّرت في آخر جولة" value={String(lastScan?.status_changes ?? 0)} />
       </div>
 
       <div className="border-border mt-8 flex flex-wrap gap-1 border-b">
@@ -345,6 +371,67 @@ function UpdatesPage() {
           ))}
         </div>
       )}
+
+      {tab === "reviews" && (
+        <div className="mt-6 overflow-x-auto">
+          <p className="text-muted-foreground mb-4 text-sm leading-7">
+            كل تخصص يُراجَع آلياً مقابل نصوص المصادر الرسمية. التخصصات التي لم تُراجَع بعد تدخل
+            المراجعة في أقرب فحص.
+          </p>
+          <table className="w-full border-collapse text-sm">
+            <thead>
+              <tr className="bg-secondary">
+                <th className="border-border border p-2 text-right">التخصص</th>
+                <th className="border-border border p-2 text-right">آخر مراجعة</th>
+                <th className="border-border border p-2 text-right">التصنيف المستنتج</th>
+                <th className="border-border border p-2 text-right">الخطر المستنتج</th>
+                <th className="border-border border p-2 text-right">التشغيل المستنتج</th>
+                <th className="border-border border p-2 text-right">الدليل من المصدر</th>
+              </tr>
+            </thead>
+            <tbody>
+              {majors.map((major) => {
+                const review = reviewMap.get(major.slug);
+                return (
+                  <tr key={major.slug}>
+                    <td className="border-border border p-2">{major.name}</td>
+                    <td className="border-border border p-2 whitespace-nowrap">
+                      {review ? formatDateTime(review.last_reviewed_at) : "لم يُراجَع بعد"}
+                    </td>
+                    <td className="border-border border p-2">
+                      {review?.inferred_classification ?? "—"}
+                    </td>
+                    <td className="border-border border p-2">{review?.inferred_risk ?? "—"}</td>
+                    <td className="border-border border p-2">
+                      {review?.inferred_employment_rate ?? "—"}
+                    </td>
+                    <td className="border-border border p-2 text-xs leading-6">
+                      {review?.evidence ? (
+                        review.source_url ? (
+                          <a
+                            href={review.source_url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-brand-ink underline"
+                          >
+                            {review.evidence.slice(0, 160)}
+                          </a>
+                        ) : (
+                          review.evidence.slice(0, 160)
+                        )
+                      ) : (
+                        "—"
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+
 
       {tab === "log" && (
         <div className="mt-6">
