@@ -129,10 +129,11 @@ export const getUpdatesDashboard = createServerFn({ method: "GET" })
         brokenLinks: [],
         scans: [],
         overrides: [],
+        majorReviews: [],
       };
     }
 
-    const [pending, log, links, scans, overrides] = await Promise.all([
+    const [pending, log, links, scans, overrides, reviews] = await Promise.all([
       supabase
         .from("pending_changes")
         .select(
