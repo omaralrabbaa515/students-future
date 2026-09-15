@@ -215,11 +215,16 @@ function UpdatesPage() {
         </p>
       )}
 
-      <div className="mt-6 grid gap-3 sm:grid-cols-4">
+      <div className="mt-6 grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
         <Stat label="تغييرات بانتظار المراجعة" value={String(data?.pending.length ?? 0)} />
         <Stat label="روابط معطّلة" value={String(data?.brokenLinks.length ?? 0)} />
         <Stat label="قيم معتمدة ظاهرة للطلبة" value={String(data?.overrides.length ?? 0)} />
         <Stat label="سجلات في سجل التحديثات" value={String(data?.log.length ?? 0)} />
+        <Stat
+          label="تخصصات روجعت في آخر جولة"
+          value={String(lastScan?.reviewed_majors ?? 0)}
+        />
+        <Stat label="حالات تغيّرت في آخر جولة" value={String(lastScan?.status_changes ?? 0)} />
       </div>
 
       <div className="border-border mt-8 flex flex-wrap gap-1 border-b">
