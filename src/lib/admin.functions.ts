@@ -292,14 +292,17 @@ export const revertOverride = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
-/** تشغيل الفحص يدوياً */
+/** تشغيل الفحص يدوياً — مع خيار المراجعة الشاملة لكل التخصصات */
 export const runScanNow = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => {
+  .inputValidator((input?: { fullReview?: boolean }) => ({
+    fullReview: input?.fullReview === true,
+  }))
+  .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
     if (!(await isAdminUser(supabase as never, userId))) throw new Error("غير مصرّح");
     const { runScan } = await import("@/lib/scan.server");
-    return await runScan("manual");
+    return await runScan("manual", { fullReview: data.fullReview });
   });
 
 /** بريد المشرف الوحيد المسموح له بإدارة المنصة */
