@@ -51,7 +51,19 @@ export type ScanRun = {
   links_checked: number;
   broken_links: number;
   changes_found: number;
+  reviewed_majors: number;
+  status_changes: number;
   error: string | null;
+};
+
+export type MajorReview = {
+  slug: string;
+  last_reviewed_at: string;
+  inferred_classification: string | null;
+  inferred_risk: string | null;
+  inferred_employment_rate: string | null;
+  evidence: string | null;
+  source_url: string | null;
 };
 
 export type ActiveOverride = {
