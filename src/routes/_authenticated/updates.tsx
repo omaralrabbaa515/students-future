@@ -96,12 +96,18 @@ function UpdatesPage() {
   });
 
   const scanMutation = useMutation({
-    mutationFn: () => scan(),
+    mutationFn: (input: { fullReview: boolean }) => scan({ data: input }),
     onSuccess: (result) => {
-      setNotice(
-        `انتهى الفحص: ${result.linksChecked} رابطاً و${result.sourcesChecked} مصدراً، ` +
-          `${result.brokenLinks} رابطاً معطّلاً، ${result.changesFound} تغييراً جديداً للمراجعة.`,
-      );
+      if (result.skipped) {
+        setNotice("هناك فحص قيد التنفيذ حالياً، انتظر انتهاءه قبل تشغيل فحص جديد.");
+      } else {
+        setNotice(
+          `انتهى الفحص: ${result.linksChecked} رابطاً و${result.sourcesChecked} مصدراً، ` +
+            `${result.brokenLinks} رابطاً معطّلاً، ${result.reviewedMajors} تخصصاً روجعت، ` +
+            `${result.statusChanges} حالة تغيّرت، ${result.changesFound} تغييراً مسجّلاً.` +
+            (result.paused ? ` ${result.paused}` : ""),
+        );
+      }
       void invalidate();
     },
     onError: (error: Error) => setNotice(error.message),
