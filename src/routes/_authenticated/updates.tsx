@@ -135,6 +135,13 @@ function UpdatesPage() {
     );
   }, [data, logFilter, logType]);
 
+  const reviewMap = useMemo(
+    () => new Map((data?.majorReviews ?? []).map((row) => [row.slug, row])),
+    [data],
+  );
+
+
+
   if (dashboard.isLoading) {
     return <p className="mx-auto max-w-4xl px-4 py-12 text-sm">جارٍ تحميل اللوحة…</p>;
   }
