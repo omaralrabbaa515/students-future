@@ -365,6 +365,67 @@ function UpdatesPage() {
         </div>
       )}
 
+      {tab === "reviews" && (
+        <div className="mt-6 overflow-x-auto">
+          <p className="text-muted-foreground mb-4 text-sm leading-7">
+            كل تخصص يُراجَع آلياً مقابل نصوص المصادر الرسمية. التخصصات التي لم تُراجَع بعد تدخل
+            المراجعة في أقرب فحص.
+          </p>
+          <table className="w-full border-collapse text-sm">
+            <thead>
+              <tr className="bg-secondary">
+                <th className="border-border border p-2 text-right">التخصص</th>
+                <th className="border-border border p-2 text-right">آخر مراجعة</th>
+                <th className="border-border border p-2 text-right">التصنيف المستنتج</th>
+                <th className="border-border border p-2 text-right">الخطر المستنتج</th>
+                <th className="border-border border p-2 text-right">التشغيل المستنتج</th>
+                <th className="border-border border p-2 text-right">الدليل من المصدر</th>
+              </tr>
+            </thead>
+            <tbody>
+              {majors.map((major) => {
+                const review = reviewMap.get(major.slug);
+                return (
+                  <tr key={major.slug}>
+                    <td className="border-border border p-2">{major.name}</td>
+                    <td className="border-border border p-2 whitespace-nowrap">
+                      {review ? formatDateTime(review.last_reviewed_at) : "لم يُراجَع بعد"}
+                    </td>
+                    <td className="border-border border p-2">
+                      {review?.inferred_classification ?? "—"}
+                    </td>
+                    <td className="border-border border p-2">{review?.inferred_risk ?? "—"}</td>
+                    <td className="border-border border p-2">
+                      {review?.inferred_employment_rate ?? "—"}
+                    </td>
+                    <td className="border-border border p-2 text-xs leading-6">
+                      {review?.evidence ? (
+                        review.source_url ? (
+                          <a
+                            href={review.source_url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-brand-ink underline"
+                          >
+                            {review.evidence.slice(0, 160)}
+                          </a>
+                        ) : (
+                          review.evidence.slice(0, 160)
+                        )
+                      ) : (
+                        "—"
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+
+
       {tab === "log" && (
         <div className="mt-6">
           <div className="flex flex-wrap gap-3">
