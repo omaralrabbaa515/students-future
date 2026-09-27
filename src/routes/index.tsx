@@ -26,6 +26,10 @@ import {
   Globe,
   Newspaper,
   BookOpenCheck,
+  Calculator,
+  MapPin,
+  School,
+  Wallet,
 } from "lucide-react";
 
 import { majors } from "@/data/majors";
@@ -58,13 +62,13 @@ export const Route = createFileRoute("/")({
   component: HomePageTour,
 });
 
-// Interactive 5-Stage Tour Navigation
+// Interactive 7-Stage Tour Navigation
 const TOUR_STAGES = [
   {
     step: "01",
     id: "stage-matching",
     title: "المطابقة الذكية للمعدل والفرع",
-    desc: "مطابقة فورية لمعدلك في التوجيهي مع الحدود الدنيا في 10 جامعات أردنية",
+    desc: "محاكي تفاعلي حي يطابق معدلك مع الحدود الدنيا في 10 جامعات أردنية",
     icon: Compass,
     color: "from-blue-500/20 to-indigo-500/10 text-blue-600 dark:text-blue-400 border-blue-500/30",
   },
@@ -72,7 +76,7 @@ const TOUR_STAGES = [
     step: "02",
     id: "stage-advisor",
     title: "المستشار الذكي والبث المباشر",
-    desc: "ذكاء اصطناعي محلي فائق السرعة يجيبك ببيانات موثوقة بنسبة جهوزية 100%",
+    desc: "محرك ذكاء اصطناعي محلي فائق السرعة يجيبك ببيانات موثوقة بنسبة جهوزية 100%",
     icon: Bot,
     color: "from-purple-500/20 to-pink-500/10 text-purple-600 dark:text-purple-400 border-purple-500/30",
   },
@@ -94,11 +98,110 @@ const TOUR_STAGES = [
   },
   {
     step: "05",
+    id: "stage-calculator",
+    title: "حاسبة الرسوم والميزانية الجامعية",
+    desc: "احسب القسط الفصلي والتكلفة الإجمالية في الجامعات الأردنية (تنافسي وموازي)",
+    icon: Calculator,
+    color: "from-rose-500/20 to-orange-500/10 text-rose-600 dark:text-rose-400 border-rose-500/30",
+  },
+  {
+    step: "06",
     id: "stage-magazine",
     title: "المجلة الخبيرية الأكاديمية",
     desc: "مقالات ودراسات حصرية بأقلام كبار المرشدين الأكاديميين وخبراء التوظيف",
     icon: Newspaper,
     color: "from-cyan-500/20 to-sky-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/30",
+  },
+  {
+    step: "07",
+    id: "stage-universities",
+    title: "خريطة الجامعات الرسمية الـ 10",
+    desc: "استكشف أفضل الجامعات الحكومية الأردنية ونقاط قوتها الأكاديمية ومواقعها",
+    icon: Building2,
+    color: "from-violet-500/20 to-purple-500/10 text-violet-600 dark:text-violet-400 border-violet-500/30",
+  },
+];
+
+const JORDAN_PUBLIC_UNIVERSITIES = [
+  {
+    name: "الجامعة الأردنية",
+    city: "عمان",
+    established: "1962",
+    badge: "أم الجامعات الأردنية",
+    topMajors: ["الطب والجراحة", "الذكاء الاصطناعي", "الحقوق", "طب الأسنان"],
+    description: "أقدم وأعرق صرح أكاديمي في المملكة، المتصدرة محلياً في تصنيف QS العالمي.",
+  },
+  {
+    name: "جامعة العلوم والتكنولوجيا الأردنية",
+    city: "الرمثا / إربد",
+    established: "1986",
+    badge: "جوهرة الجامعات التكنولوجية",
+    topMajors: ["هندسة البرمجيات", "الأمن السيبراني", "الطب البشري", "الهندسة المدنية"],
+    description: "واحدة من أفضل الجامعات التكنولوجية والطبية في الشرق الأوسط.",
+  },
+  {
+    name: "جامعة اليرموك",
+    city: "إربد",
+    established: "1976",
+    badge: "منارة الشمال الأكاديمية",
+    topMajors: ["علوم الحاسوب", "الإعلام الرقمي", "الترجمة واللغات", "العلوم المالية"],
+    description: "صرح عريق يتميز بكلية الإعلام والحاسوب والعلوم الإنسانية والتربوية.",
+  },
+  {
+    name: "الجامعة الهاشمية",
+    city: "الزرقاء",
+    established: "1995",
+    badge: "قلب الزرقاء التعليمي",
+    topMajors: ["العلوم الطبية المخبرية", "الصيدلة", "هندسة الميكاترونكس", "التمريض"],
+    description: "جامعة خالية من الكربون تعتمد كلياً على الطاقة الشمسية ومتميزة بالعلوم الصحية.",
+  },
+  {
+    name: "جامعة البلقاء التطبيقية",
+    city: "السلط (وكافة المحافظات)",
+    established: "1997",
+    badge: "رائدة التعليم التقني والتطبيقي",
+    topMajors: ["الذكاء الاصطناعي التطبيقي", "هندسة الأوتوترونكس", "الطاقة المتجددة"],
+    description: "تشرف على كافة كليات المجتمع والكليات التقنية المنتشرة في محافظات المملكة.",
+  },
+  {
+    name: "جامعة مؤتة",
+    city: "الكرك",
+    established: "1981",
+    badge: "سيف الجنوب وصرح التميز",
+    topMajors: ["الطب البشري", "التمريض", "الهندسة الكيميائية", "العلوم الإدارية"],
+    description: "تضم جناحين عسكرياً ومدنياً، ومصدر فخر لأبناء الجنوب وكافة طلبة الأردن.",
+  },
+  {
+    name: "جامعة آل البيت",
+    city: "المفرق",
+    established: "1992",
+    badge: "واحة البادية الأكاديمية",
+    topMajors: ["تكنولوجيا المعلومات", "الفقه وأصوله", "القانون", "العلوم الإدارية"],
+    description: "صرح جامعي متميز يربط بين الأصالة والعلوم الحديثة في محافظة المفرق.",
+  },
+  {
+    name: "جامعة الحسين بن طلال",
+    city: "معان",
+    established: "1999",
+    badge: "جامعة أغلى الرجال",
+    topMajors: ["هندسة التعدين", "إدارة الضيافة والسياحة", "الآثار", "علم الحاسوب"],
+    description: "تقع في معان التاريخية، وتتفرد في تخصصات التعدين وسلاسل الإمداد والتراث.",
+  },
+  {
+    name: "جامعة الطفيلة التقنية",
+    city: "الطفيلة",
+    established: "2005",
+    badge: "أول جامعة تقنية حكومية",
+    topMajors: ["هندسة الطاقة المتجددة", "الجيولوجيا والتعدين", "الميكاترونكس"],
+    description: "تركز على التخصصات الهندسية النادرة واحتياجات المشروعات الصناعية الكبرى.",
+  },
+  {
+    name: "الجامعة الألمانية الأردنية",
+    city: "عمان / مادبا",
+    established: "2005",
+    badge: "جسر الأردن نحو الصناعة الألمانية",
+    topMajors: ["الهندسة الصناعية", "علوم البيانات", "العمارة", "إدارة الأعمال الدولية"],
+    description: "نموذج فريد من الجامعات التطبيقية يتضمن سنة دراسية وتدريبية كاملة في ألمانيا.",
   },
 ];
 
@@ -129,6 +232,48 @@ function HomePageTour() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTourStage, setActiveTourStage] = useState(0);
+
+  // Tour Stage 1: Simulator GPA & Branch
+  const [simGpa, setSimGpa] = useState<number>(85.5);
+  const [simBranch, setSimBranch] = useState<"علمي" | "أدبي" | "صناعي" | "IT">("علمي");
+
+  // Tour Stage 2: AI Simulator Prompts
+  const [selectedAiPromptIdx, setSelectedAiPromptIdx] = useState(0);
+  const AI_SIM_PROMPTS = [
+    {
+      q: "معدلي 85% فرع علمي، ما هي أفضل التخصصات المتاحة لي ذات المستقبل الواعد؟",
+      answer:
+        "وفقاً للحدود الدنيا في القبول الموحد لعام 2024/2025 وسوق العمل الأردني، معدل 85% علمي يؤهلك تنافسياً لتخصصات واعدة جداً مثل: 1) الأمن السيبراني في اليرموك أو البلقاء، 2) علوم البيانات والذكاء الاصطناعي في الهاشمية، 3) التمريض في العلوم والتكنولوجيا، 4) هندسة البرمجيات بالبرنامج الموازي، وجميعها تسجل نسب تشغيل بين 75% و 90% مع متوسط رواتب بداية تفوق 600 دينار.",
+      badges: ["توجيهي علمي", "أمن سيبراني", "قبول موحد"],
+    },
+    {
+      q: "هل الهندسة المدنية والمعمارية راكدة فعلاً في ديوان الخدمة المدنية؟",
+      answer:
+        "نعم، مصنفة رسمياً في التقرير السنوي الصادر عن هيئة الخدمة والإدارة العامة (ديوان الخدمة سابقاً) كـ 'تخصص راكد' للإناث والذكور في الجهاز الحكومي بانتظار يفوق 10 سنوات وتراكم آلاف الطلبات. لكن إذا كنت تحب الهندسة، فإن دراستها مع احتراف برمجيات النمذجة (BIM) وإدارة المشاريع (PMP) واللغة الإنجليزية يفتح لك سوق المقاولات والشركات الاستشارية في دول الخليج برواتب مجزية.",
+      badges: ["هندسة", "ديوان الخدمة", "سوق الخليج"],
+    },
+    {
+      q: "كيف أحصل على دخل بالدولار من الأردن أثناء دراستي الجامعية؟",
+      answer:
+        "المسار الأسرع يبدأ باختيار مهارة رقمية محددة (مثل: تحليل البيانات، برمجة بايثون، أو تطوير واجهات React)، وإكمال شهادة معتمدة مجانية مثل Google Data Analytics أو CS50x من هارفارد المتوفرة على منصتنا. ثم إنشاء حساب على منصات العمل الحر (Upwork، Mostaql) وبناء سابقة أعمال تجريبية. متوسط دخل الخريج الماهر عن بُعد يتراوح بين 600 إلى 2000 دولار شهرياً.",
+      badges: ["فريلانس", "شهادات هارفارد", "عمل عن بعد"],
+    },
+  ];
+
+  // Tour Stage 3: Market Sector Index
+  const [selectedSectorIdx, setSelectedSectorIdx] = useState(0);
+
+  // Tour Stage 4: Certifications Provider Filter
+  const [selectedCertProvider, setSelectedCertProvider] = useState<string>("الكل");
+
+  // Tour Stage 5: Tuition Calculator
+  const [calcUni, setCalcUni] = useState("الجامعة الأردنية");
+  const [calcMajorSlug, setCalcMajorSlug] = useState("artificial-intelligence");
+  const [calcHours, setCalcHours] = useState(15);
+  const [calcProgram, setCalcProgram] = useState<"competitive" | "parallel">("competitive");
+
+  // Tour Stage 7: Selected University
+  const [selectedUniIdx, setSelectedUniIdx] = useState(0);
 
   // Quick Comparison State
   const [compMajor1Slug, setCompMajor1Slug] = useState("artificial-intelligence");
@@ -313,15 +458,15 @@ function HomePageTour() {
               الجولة التعريفية الشاملة بالمنصة
             </span>
             <h2 className="font-display text-2xl sm:text-4xl font-extrabold text-foreground">
-              خمس محطات تأخذك من حيرة التوجيهي إلى أول وظيفة
+              سبع محطات تفاعلية تأخذك من حيرة التوجيهي إلى أول وظيفة
             </h2>
             <p className="mt-3 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-              استكشف قدرات المنصة خطوة بخطوة وكيف تمنحك الأرقام الحقيقية الموثقة الثقة في اختيار مستقبلك الأكاديمي.
+              استكشف قدرات المنصة خطوة بخطوة من خلال محاكيات حية ومباشرة تربط خياراتك بالأرقام والرسوم الجامعية الرسمية.
             </p>
           </div>
 
-          {/* Tour Stage Tabs Selector */}
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 mb-10">
+          {/* Tour Stage Tabs Selector (7 Tabs) */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5 mb-10">
             {TOUR_STAGES.map((stage, idx) => {
               const Icon = stage.icon;
               const isActive = activeTourStage === idx;
@@ -329,17 +474,17 @@ function HomePageTour() {
                 <button
                   key={stage.id}
                   onClick={() => setActiveTourStage(idx)}
-                  className={`p-4 rounded-2xl border text-right transition-all flex flex-col justify-between cursor-pointer ${
+                  className={`p-3.5 sm:p-4 rounded-2xl border text-right transition-all flex flex-col justify-between cursor-pointer ${
                     isActive
                       ? "bg-card border-primary shadow-lg ring-2 ring-primary/20 scale-[1.02]"
                       : "bg-surface/60 border-border hover:bg-card text-muted-foreground"
                   }`}
                 >
-                  <div className="flex items-center justify-between w-full mb-3">
+                  <div className="flex items-center justify-between w-full mb-2.5">
                     <span className="font-mono text-xs font-bold opacity-60">محطة {stage.step}</span>
-                    <Icon className={`size-5 ${isActive ? "text-primary" : "text-muted-foreground"}`} />
+                    <Icon className={`size-4 sm:size-5 ${isActive ? "text-primary" : "text-muted-foreground"}`} />
                   </div>
-                  <span className={`font-bold text-xs sm:text-sm block ${isActive ? "text-foreground" : ""}`}>
+                  <span className={`font-bold text-[11px] sm:text-xs block line-clamp-2 ${isActive ? "text-foreground" : ""}`}>
                     {stage.title}
                   </span>
                 </button>
@@ -349,20 +494,20 @@ function HomePageTour() {
 
           {/* Active Tour Stage Interactive Showcase */}
           <div className="bg-card border border-border rounded-3xl p-6 sm:p-10 shadow-xl transition-all">
-            {/* STAGE 1: Smart Matching */}
+            {/* STAGE 1: Smart Matching with LIVE SIMULATOR SLIDER */}
             {activeTourStage === 0 && (
               <div className="grid md:grid-cols-2 gap-8 items-center animate-in fade-in">
                 <div className="space-y-4">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
                     <Compass className="size-3.5" />
-                    المحطة الأولى: المطابقة الذكية
+                    المحطة الأولى: المطابقة الذكية الحية
                   </div>
                   <h3 className="font-display text-xl sm:text-3xl font-extrabold text-foreground leading-snug">
-                    لا تضيع وقتك في تخصصات لا تقبل معدلك
+                    حرّك شريط المعدل واكتشف ما تقبله كليات الأردن في ثوانٍ
                   </h3>
                   <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                    من خلال معالج التهيئة الأكاديمي، تدخل معدلك المتوقع أو الحقيقي في التوجيهي وفرعك الدراسي (علمي، أدبي، صناعي، صحي، IT)،
-                    فتقوم خوارزمية المنصة بعزل التخصصات التي تناسبك تلقائياً وعرض الحدود الدنيا في الجامعات الأردنية.
+                    تقوم خوارزمية المنصة بعزل التخصصات والجامعات المطابقة لمعدلك في التوجيهي وفرعك الدراسي فورياً،
+                    وتقارنها مع الحدود الدنيا المعتمدة في وحدة تنسيق القبول الموحد.
                   </p>
                   <ul className="space-y-2 text-xs sm:text-sm">
                     <li className="flex items-center gap-2 text-foreground">
@@ -383,47 +528,130 @@ function HomePageTour() {
                       to="/dashboard"
                       className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground font-bold text-xs shadow-xs hover:opacity-90"
                     >
-                      <span>جرب لوحة التحكم والمطابقة</span>
+                      <span>فتح معالج المطابقة الكامل في لوحة التحكم</span>
                       <ArrowLeft className="size-3.5" />
                     </Link>
                   </div>
                 </div>
 
-                {/* Visual Simulation Card */}
-                <div className="bg-surface-2 p-6 rounded-2xl border border-border space-y-4">
-                  <div className="flex items-center justify-between pb-3 border-b border-border">
-                    <span className="text-xs font-bold text-foreground">معاينة مطابقة المعدل الحية:</span>
-                    <span className="text-xs font-mono font-bold text-primary">المعدل: 88.5% · علمي</span>
+                {/* Interactive Live GPA Simulator Card */}
+                <div className="bg-surface-2 p-6 rounded-2xl border border-border space-y-4 shadow-sm">
+                  {/* Branch selector pills */}
+                  <div>
+                    <span className="text-xs font-bold text-muted-foreground block mb-2">اختر فرع الثانوية:</span>
+                    <div className="flex flex-wrap gap-2">
+                      {(["علمي", "أدبي", "صناعي", "IT"] as const).map((b) => (
+                        <button
+                          key={b}
+                          type="button"
+                          onClick={() => setSimBranch(b)}
+                          className={`px-3 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                            simBranch === b
+                              ? "bg-primary text-primary-foreground shadow-xs"
+                              : "bg-card border border-border text-muted-foreground hover:text-foreground"
+                          }`}
+                        >
+                          {b}
+                        </button>
+                      ))}
+                    </div>
                   </div>
 
-                  <div className="space-y-2.5">
+                  {/* GPA Slider */}
+                  <div className="space-y-1.5 pt-2">
+                    <div className="flex items-center justify-between text-xs font-bold">
+                      <span className="text-foreground">معدلك في التوجيهي:</span>
+                      <span className="font-mono text-base font-extrabold text-primary bg-primary/10 px-2.5 py-0.5 rounded-lg border border-primary/20">
+                        {simGpa.toFixed(1)}%
+                      </span>
+                    </div>
+                    <input
+                      type="range"
+                      min="65"
+                      max="99.5"
+                      step="0.1"
+                      value={simGpa}
+                      onChange={(e) => setSimGpa(parseFloat(e.target.value))}
+                      className="w-full accent-primary cursor-pointer"
+                    />
+                    <div className="flex justify-between text-[10px] text-muted-foreground">
+                      <span>الحد الأدنى للقبول (65%)</span>
+                      <span>امتياز (99.5%)</span>
+                    </div>
+                  </div>
+
+                  {/* Reactive Matches Preview */}
+                  <div className="space-y-2 pt-2 border-t border-border">
+                    <span className="text-[11px] font-bold text-muted-foreground block">
+                      التوافق الفوري وفق هذا المعدل ({simBranch}):
+                    </span>
+
+                    {/* Major 1: AI */}
                     <div className="p-3 rounded-xl bg-card border border-border flex items-center justify-between">
                       <div>
-                        <span className="text-xs font-bold text-foreground block">علوم الحاسوب والذكاء الاصطناعي</span>
-                        <span className="text-[11px] text-muted-foreground">جامعة اليرموك والهاشمية والتكنو</span>
+                        <span className="text-xs font-bold text-foreground block">الذكاء الاصطناعي وعلم البيانات</span>
+                        <span className="text-[10px] text-muted-foreground">الجامعة الأردنية والتكنولوجيا والهاشمية</span>
                       </div>
-                      <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-lg">
-                        متاح تنافسي ✓
+                      <span
+                        className={`text-[11px] font-bold px-2 py-0.5 rounded-md ${
+                          simGpa >= 88.0
+                            ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                            : simGpa >= 83.0
+                              ? "bg-amber-500/10 text-amber-600 dark:text-amber-400"
+                              : "bg-rose-500/10 text-rose-600 dark:text-rose-400"
+                        }`}
+                      >
+                        {simGpa >= 88.0
+                          ? "متاح تنافسي ✓"
+                          : simGpa >= 83.0
+                            ? "متاح موازي / أقاليم"
+                            : "يتطلب رفع المعدل"}
                       </span>
                     </div>
 
+                    {/* Major 2: Cybersecurity */}
                     <div className="p-3 rounded-xl bg-card border border-border flex items-center justify-between">
                       <div>
-                        <span className="text-xs font-bold text-foreground block">هندسة الميكاترونكس والأتمتة</span>
-                        <span className="text-[11px] text-muted-foreground">جامعة البلقاء التطبيقية</span>
+                        <span className="text-xs font-bold text-foreground block">الأمن السيبراني والشبكات</span>
+                        <span className="text-[10px] text-muted-foreground">جامعة اليرموك والبلقاء التطبيقية</span>
                       </div>
-                      <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-lg">
-                        متاح تنافسي ✓
+                      <span
+                        className={`text-[11px] font-bold px-2 py-0.5 rounded-md ${
+                          simGpa >= 82.5
+                            ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                            : simGpa >= 78.0
+                              ? "bg-amber-500/10 text-amber-600 dark:text-amber-400"
+                              : "bg-rose-500/10 text-rose-600 dark:text-rose-400"
+                        }`}
+                      >
+                        {simGpa >= 82.5
+                          ? "متاح تنافسي ✓"
+                          : simGpa >= 78.0
+                            ? "متاح موازي / أقاليم"
+                            : "يتطلب رفع المعدل"}
                       </span>
                     </div>
 
+                    {/* Major 3: Nursing */}
                     <div className="p-3 rounded-xl bg-card border border-border flex items-center justify-between">
                       <div>
                         <span className="text-xs font-bold text-foreground block">التمريض القانوني</span>
-                        <span className="text-[11px] text-muted-foreground">الجامعة الأردنية</span>
+                        <span className="text-[10px] text-muted-foreground">الجامعة الهاشمية وجامعة مؤتة</span>
                       </div>
-                      <span className="text-xs font-bold text-amber-600 dark:text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-lg">
-                        متاح موازي / تنافسي مرن
+                      <span
+                        className={`text-[11px] font-bold px-2 py-0.5 rounded-md ${
+                          simGpa >= 78.0
+                            ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                            : simGpa >= 72.0
+                              ? "bg-amber-500/10 text-amber-600 dark:text-amber-400"
+                              : "bg-rose-500/10 text-rose-600 dark:text-rose-400"
+                        }`}
+                      >
+                        {simGpa >= 78.0
+                          ? "متاح تنافسي ✓"
+                          : simGpa >= 72.0
+                            ? "متاح موازي / أقاليم"
+                            : "يتطلب رفع المعدل"}
                       </span>
                     </div>
                   </div>
@@ -431,7 +659,7 @@ function HomePageTour() {
               </div>
             )}
 
-            {/* STAGE 2: AI Advisor */}
+            {/* STAGE 2: AI Advisor with Interactive Prompt Simulator */}
             {activeTourStage === 1 && (
               <div className="grid md:grid-cols-2 gap-8 items-center animate-in fade-in">
                 <div className="space-y-4">
@@ -443,63 +671,86 @@ function HomePageTour() {
                     استشر خبيراً مدرباً على أرقام ديوان الخدمة الأردني
                   </h3>
                   <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                    يعمل المستشار الذكي بنظام البث المباشر (SSE Streaming) المدعوم بمحرك ذكاء محلي لا يتعطل أبداً.
-                    يمكنك اختيار نبرة المستشار الأنسب لك من بين 4 شخصيات أكاديمية متخصصة.
+                    يعمل المستشار الذكي بنظام البث المباشر (SSE Streaming) مع محرك محلي لا يتعطل أبداً.
+                    اختر أحد الأسئلة الشائعة لمعاينة أسلوب التحليل الفوري المبني على الأرقام الرسمية:
                   </p>
-                  <div className="grid grid-cols-2 gap-2 text-xs">
-                    <div className="p-2.5 rounded-xl bg-surface border border-border">
-                      <span className="font-bold text-foreground block">🏛️ المستشار الرسمي</span>
-                      <span className="text-[11px] text-muted-foreground">تحليل معتمد وفق ديوان الخدمة</span>
-                    </div>
-                    <div className="p-2.5 rounded-xl bg-surface border border-border">
-                      <span className="font-bold text-foreground block">💼 خبير سوق العمل</span>
-                      <span className="text-[11px] text-muted-foreground">منصة سجّل ورواتب القطاع الخاص</span>
-                    </div>
-                    <div className="p-2.5 rounded-xl bg-surface border border-border">
-                      <span className="font-bold text-foreground block">🚀 رائد الأعمال الرقمي</span>
-                      <span className="text-[11px] text-muted-foreground">فرص العمل عن بُعد بالدولار</span>
-                    </div>
-                    <div className="p-2.5 rounded-xl bg-surface border border-border">
-                      <span className="font-bold text-foreground block">🤝 المرشد الأخوي الداعم</span>
-                      <span className="text-[11px] text-muted-foreground">تفكيك قلق وحيرة التوجيهي</span>
+
+                  {/* Clickable Prompt Chips */}
+                  <div className="space-y-2">
+                    <span className="text-xs font-bold text-muted-foreground block">
+                      جرّب الضغط على أي سؤال للاستجابة الحية:
+                    </span>
+                    <div className="flex flex-col gap-2">
+                      {AI_SIM_PROMPTS.map((p, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => setSelectedAiPromptIdx(idx)}
+                          className={`p-2.5 rounded-xl text-right text-xs transition-all border cursor-pointer ${
+                            selectedAiPromptIdx === idx
+                              ? "bg-primary/10 border-primary text-primary font-bold shadow-xs"
+                              : "bg-surface border-border text-foreground hover:bg-card"
+                          }`}
+                        >
+                          <span className="line-clamp-1">{p.q}</span>
+                        </button>
+                      ))}
                     </div>
                   </div>
+
                   <div className="pt-2">
                     <Link
                       to="/advisor"
                       className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground font-bold text-xs shadow-xs hover:opacity-90"
                     >
-                      <span>تحدث مع المستشار الآن</span>
+                      <span>تحدث مع المستشار الذكي الآن</span>
                       <ArrowLeft className="size-3.5" />
                     </Link>
                   </div>
                 </div>
 
-                {/* AI Chat Stream Simulation */}
+                {/* AI Chat Stream Simulation Box */}
                 <div className="bg-surface-2 p-5 rounded-2xl border border-border font-sans space-y-3">
-                  <div className="flex items-center gap-2 pb-2 border-b border-border">
-                    <Bot className="size-4 text-primary" />
-                    <span className="text-xs font-bold text-foreground">بث حي من المستشار الأكاديمي:</span>
+                  <div className="flex items-center justify-between pb-2 border-b border-border">
+                    <div className="flex items-center gap-2">
+                      <Bot className="size-4 text-primary" />
+                      <span className="text-xs font-bold text-foreground">بث حي من المستشار الأكاديمي:</span>
+                    </div>
+                    <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md font-bold">
+                      جاهز 100% · استجابة سريعة
+                    </span>
                   </div>
-                  <div className="p-3 rounded-xl bg-primary/10 text-primary text-xs leading-relaxed">
-                    طالب: &quot;معدلي 85 علمي، محتار بين الأمن السيبراني والهندسة المدنية؟&quot;
+
+                  {/* Student Question Balloon */}
+                  <div className="p-3 rounded-xl bg-primary/10 text-primary text-xs leading-relaxed font-semibold">
+                    طالب: &quot;{AI_SIM_PROMPTS[selectedAiPromptIdx].q}&quot;
                   </div>
-                  <div className="p-4 rounded-xl bg-card border border-border text-xs leading-7 text-foreground space-y-2">
-                    <p className="font-bold text-emerald-600 dark:text-emerald-400">
-                      تقرير المستشار الأكاديمي الموثق:
+
+                  {/* AI Response Balloon */}
+                  <div className="p-4 rounded-xl bg-card border border-border text-xs leading-relaxed text-foreground space-y-2.5">
+                    <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-bold">
+                      <CheckCircle2 className="size-3.5" />
+                      <span>تقرير المستشار الأكاديمي الموثق بالأرقام:</span>
+                    </div>
+                    <p className="text-muted-foreground leading-6">
+                      {AI_SIM_PROMPTS[selectedAiPromptIdx].answer}
                     </p>
-                    <p>
-                      <strong>1. الأمن السيبراني:</strong> تخصص مطلوب بشدة في الأردن والخليج، نسبة التشغيل 80%+، ومتوسط راتب البداية 600 دينار.
-                    </p>
-                    <p>
-                      <strong>2. الهندسة المدنية:</strong> مصنفة رسمياً كـ &quot;راكدة&quot; في مخزون ديوان الخدمة بانتظار يتجاوز 10 سنوات، ولا ينصح بها إلا مع إتقان برمجيات BIM وإدارة المشاريع.
-                    </p>
+                    <div className="pt-2 border-t border-border/60 flex flex-wrap gap-1.5">
+                      {AI_SIM_PROMPTS[selectedAiPromptIdx].badges.map((b) => (
+                        <span
+                          key={b}
+                          className="text-[10px] bg-surface text-muted-foreground px-2 py-0.5 rounded-md border border-border"
+                        >
+                          #{b}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
             )}
 
-            {/* STAGE 3: Market Data */}
+            {/* STAGE 3: Market Data & Salaries */}
             {activeTourStage === 2 && (
               <div className="grid md:grid-cols-2 gap-8 items-center animate-in fade-in">
                 <div className="space-y-4">
@@ -514,7 +765,7 @@ function HomePageTour() {
                     تحليل كامل لـ 30 تخصصاً يشمل: معدلات التعيين السنوي في ديوان الخدمة، فترات الانتظار بالأشهر،
                     مؤشر العمل عن بُعد، والطلب في المملكة العربية السعودية والإمارات وقطر.
                   </p>
-                  <div className="flex items-center gap-4 text-xs font-bold">
+                  <div className="flex items-center gap-3 text-xs font-bold">
                     <span className="text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-lg">
                       {demandedCount} تخصصاً مطلوباً
                     </span>
@@ -536,27 +787,35 @@ function HomePageTour() {
                   </div>
                 </div>
 
-                {/* Market Benchmark Simulation */}
+                {/* Market Benchmark Simulation with Sector Tabs */}
                 <div className="bg-surface-2 p-5 rounded-2xl border border-border space-y-3">
-                  <span className="text-xs font-bold text-foreground block">
-                    مقارنة سريعة لرواتب وفترات الانتظار (بيانات سجّل والضمان):
-                  </span>
-                  {SECTOR_SALARY_BENCHMARKS.slice(0, 3).map((sec, i) => (
-                    <div key={i} className="p-3 rounded-xl bg-card border border-border flex items-center justify-between text-xs">
-                      <div>
-                        <span className="font-bold text-foreground block">{sec.sector}</span>
-                        <span className="text-[10px] text-muted-foreground">
-                          فترة الانتظار: {sec.averageWaitTimeMonths} أشهر
-                        </span>
+                  <div className="flex items-center justify-between pb-2 border-b border-border">
+                    <span className="text-xs font-bold text-foreground">
+                      مقارنة الرواتب وفترات الانتظار (بيانات سجّل والضمان):
+                    </span>
+                  </div>
+
+                  <div className="space-y-2.5">
+                    {SECTOR_SALARY_BENCHMARKS.map((sec, i) => (
+                      <div
+                        key={i}
+                        className="p-3.5 rounded-xl bg-card border border-border flex items-center justify-between text-xs"
+                      >
+                        <div>
+                          <span className="font-bold text-foreground block">{sec.sector}</span>
+                          <span className="text-[10px] text-muted-foreground">
+                            فترة الانتظار التقريبية: {sec.averageWaitTimeMonths} شهراً
+                          </span>
+                        </div>
+                        <div className="text-left">
+                          <span className="font-mono font-bold text-primary block">
+                            {sec.entrySalaryJOD} د.أ
+                          </span>
+                          <span className="text-[10px] text-muted-foreground">راتب البداية</span>
+                        </div>
                       </div>
-                      <div className="text-left">
-                        <span className="font-mono font-bold text-primary block">
-                          {sec.entrySalaryJOD} د.أ
-                        </span>
-                        <span className="text-[10px] text-muted-foreground">راتب البداية</span>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
@@ -595,38 +854,232 @@ function HomePageTour() {
                       to="/certifications"
                       className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground font-bold text-xs shadow-xs hover:opacity-90"
                     >
-                      <span>استكشف الشهادات المجانية</span>
+                      <span>استكشف بنك الشهادات المجانية الكامل</span>
                       <ArrowLeft className="size-3.5" />
                     </Link>
                   </div>
                 </div>
 
-                {/* Certifications preview cards */}
+                {/* Certifications preview cards with provider filter */}
                 <div className="space-y-3">
-                  {certifications.slice(0, 3).map((cert) => (
-                    <div key={cert.id} className="p-4 rounded-2xl bg-surface-2 border border-border flex items-center justify-between">
-                      <div>
-                        <span className="text-xs font-bold text-foreground block">{cert.name}</span>
-                        <span className="text-[11px] text-muted-foreground block">
-                          الجهة المانحة: {cert.provider} · {cert.estimatedHours} ساعة
+                  <div className="flex flex-wrap gap-1.5 pb-2">
+                    {["الكل", "Harvard", "Google", "IBM"].map((p) => (
+                      <button
+                        key={p}
+                        type="button"
+                        onClick={() => setSelectedCertProvider(p)}
+                        className={`px-3 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                          selectedCertProvider === p
+                            ? "bg-amber-500 text-white shadow-xs"
+                            : "bg-surface border border-border text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
+                        {p}
+                      </button>
+                    ))}
+                  </div>
+
+                  {certifications
+                    .filter((c) =>
+                      selectedCertProvider === "الكل" ? true : c.provider.includes(selectedCertProvider)
+                    )
+                    .slice(0, 3)
+                    .map((cert) => (
+                      <div
+                        key={cert.id}
+                        className="p-4 rounded-2xl bg-surface-2 border border-border flex items-center justify-between"
+                      >
+                        <div>
+                          <span className="text-xs font-bold text-foreground block">{cert.name}</span>
+                          <span className="text-[11px] text-muted-foreground block">
+                            الجهة المانحة: {cert.provider} · {cert.estimatedHours} ساعة
+                          </span>
+                        </div>
+                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                          مجانية 100% ✓
                         </span>
                       </div>
-                      <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                        مجانية 100% ✓
-                      </span>
-                    </div>
-                  ))}
+                    ))}
                 </div>
               </div>
             )}
 
-            {/* STAGE 5: Magazine */}
+            {/* STAGE 5: Interactive University Tuition & Budget Calculator */}
             {activeTourStage === 4 && (
+              <div className="grid md:grid-cols-2 gap-8 items-center animate-in fade-in">
+                <div className="space-y-4">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                    <Calculator className="size-3.5" />
+                    المحطة الخامسة: حاسبة الرسوم والميزانية الجامعية
+                  </div>
+                  <h3 className="font-display text-xl sm:text-3xl font-extrabold text-foreground leading-snug">
+                    خطط لميزانية دراستك في الجامعات الأردنية بشفافية تامة
+                  </h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                    احسب التكلفة التقديرية للفصل الدراسي وكامل سنوات التخرج بدقة، وقارن بين أسعار الساعات في البرنامج التنافسي
+                    والبرنامج الموازي مع رسوم التسجيل والخدمات الطلابية.
+                  </p>
+                  <ul className="space-y-2 text-xs sm:text-sm">
+                    <li className="flex items-center gap-2 text-foreground">
+                      <CheckCircle2 className="size-4 text-emerald-500 shrink-0" />
+                      <span>أسعار الساعات المعتمدة في الجامعات الأردنية الرسمية.</span>
+                    </li>
+                    <li className="flex items-center gap-2 text-foreground">
+                      <CheckCircle2 className="size-4 text-emerald-500 shrink-0" />
+                      <span>احتساب رسوم التسجيل الفصلية الثابتة.</span>
+                    </li>
+                    <li className="flex items-center gap-2 text-foreground">
+                      <CheckCircle2 className="size-4 text-emerald-500 shrink-0" />
+                      <span>المقارنة الذكية بين التنافسي والموازي لتجنب المفاجآت المالية.</span>
+                    </li>
+                  </ul>
+                  <div className="pt-2">
+                    <Link
+                      to="/majors"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground font-bold text-xs shadow-xs hover:opacity-90"
+                    >
+                      <span>استكشف أسعار الساعات لكافة التخصصات</span>
+                      <ArrowLeft className="size-3.5" />
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Calculator Interactive Widget */}
+                {(() => {
+                  const currentMajor =
+                    majors.find((m) => m.slug === calcMajorSlug) || majors[0];
+                  const hourPrice =
+                    calcProgram === "competitive"
+                      ? currentMajor.averageHourPriceJOD.competitive
+                      : currentMajor.averageHourPriceJOD.parallel;
+                  const regFee = calcProgram === "competitive" ? 45 : 85;
+                  const semesterTuition = calcHours * hourPrice;
+                  const semesterTotal = semesterTuition + regFee;
+                  const totalDegreeCost = 132 * hourPrice + 8 * regFee;
+
+                  return (
+                    <div className="bg-surface-2 p-6 rounded-2xl border border-border space-y-4 shadow-sm">
+                      <div className="flex items-center justify-between pb-3 border-b border-border">
+                        <span className="text-xs font-bold text-foreground">حاسبة الرسوم الفورية:</span>
+                        <div className="flex items-center gap-1">
+                          <button
+                            type="button"
+                            onClick={() => setCalcProgram("competitive")}
+                            className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                              calcProgram === "competitive"
+                                ? "bg-primary text-primary-foreground shadow-2xs"
+                                : "bg-card border border-border text-muted-foreground"
+                            }`}
+                          >
+                            تنافسي
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setCalcProgram("parallel")}
+                            className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                              calcProgram === "parallel"
+                                ? "bg-primary text-primary-foreground shadow-2xs"
+                                : "bg-card border border-border text-muted-foreground"
+                            }`}
+                          >
+                            موازي
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Pickers */}
+                      <div className="grid grid-cols-2 gap-3 text-xs">
+                        <div>
+                          <label className="font-bold text-muted-foreground block mb-1">الجامعة:</label>
+                          <select
+                            value={calcUni}
+                            onChange={(e) => setCalcUni(e.target.value)}
+                            className="w-full bg-card border border-border rounded-xl p-2.5 text-foreground font-semibold"
+                          >
+                            <option value="الجامعة الأردنية">الجامعة الأردنية</option>
+                            <option value="جامعة العلوم والتكنولوجيا">جامعة العلوم والتكنولوجيا</option>
+                            <option value="جامعة اليرموك">جامعة اليرموك</option>
+                            <option value="الجامعة الهاشمية">الجامعة الهاشمية</option>
+                            <option value="جامعة البلقاء التطبيقية">جامعة البلقاء التطبيقية</option>
+                          </select>
+                        </div>
+
+                        <div>
+                          <label className="font-bold text-muted-foreground block mb-1">التخصص:</label>
+                          <select
+                            value={calcMajorSlug}
+                            onChange={(e) => setCalcMajorSlug(e.target.value)}
+                            className="w-full bg-card border border-border rounded-xl p-2.5 text-foreground font-semibold"
+                          >
+                            {majors.slice(0, 10).map((m) => (
+                              <option key={m.slug} value={m.slug}>
+                                {m.name}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+
+                      {/* Credit Hours Slider */}
+                      <div className="space-y-1">
+                        <div className="flex items-center justify-between text-xs font-bold">
+                          <span className="text-foreground">عدد الساعات في الفصل الدراسي:</span>
+                          <span className="font-mono text-primary bg-primary/10 px-2 py-0.5 rounded-md">
+                            {calcHours} ساعة معتمدة
+                          </span>
+                        </div>
+                        <input
+                          type="range"
+                          min="12"
+                          max="18"
+                          step="3"
+                          value={calcHours}
+                          onChange={(e) => setCalcHours(parseInt(e.target.value, 10))}
+                          className="w-full accent-primary cursor-pointer"
+                        />
+                        <div className="flex justify-between text-[10px] text-muted-foreground">
+                          <span>12 ساعة (حد أدنى)</span>
+                          <span>15 ساعة (متوسط)</span>
+                          <span>18 ساعة (حد أقصى)</span>
+                        </div>
+                      </div>
+
+                      {/* Resulting Price Cards */}
+                      <div className="grid grid-cols-3 gap-2 pt-2 border-t border-border text-center">
+                        <div className="p-2.5 rounded-xl bg-card border border-border">
+                          <span className="text-[10px] text-muted-foreground block">سعر الساعة</span>
+                          <span className="font-mono font-bold text-xs sm:text-sm text-foreground block mt-0.5">
+                            {hourPrice} د.أ
+                          </span>
+                        </div>
+
+                        <div className="p-2.5 rounded-xl bg-primary/10 border border-primary/20">
+                          <span className="text-[10px] text-primary font-bold block">القسط الفصلي</span>
+                          <span className="font-mono font-extrabold text-xs sm:text-sm text-primary block mt-0.5">
+                            {semesterTotal} د.أ
+                          </span>
+                        </div>
+
+                        <div className="p-2.5 rounded-xl bg-card border border-border">
+                          <span className="text-[10px] text-muted-foreground block">التكلفة التقديرية للدرجة</span>
+                          <span className="font-mono font-bold text-xs sm:text-sm text-emerald-600 dark:text-emerald-400 block mt-0.5">
+                            {totalDegreeCost.toLocaleString()} د.أ
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })()}
+              </div>
+            )}
+
+            {/* STAGE 6: Verified Expert Magazine */}
+            {activeTourStage === 5 && (
               <div className="grid md:grid-cols-2 gap-8 items-center animate-in fade-in">
                 <div className="space-y-4">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20">
                     <Newspaper className="size-3.5" />
-                    المحطة الخامسة: المجلة الخبيرية الأكاديمية
+                    المحطة السادسة: المجلة الخبيرية الأكاديمية الموثقة 100%
                   </div>
                   <h3 className="font-display text-xl sm:text-3xl font-extrabold text-foreground leading-snug">
                     مقالات ودراسات حصرية من كبار مستشاري التوجيه في المملكة
@@ -650,7 +1103,7 @@ function HomePageTour() {
                       to="/magazine"
                       className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground font-bold text-xs shadow-xs hover:opacity-90"
                     >
-                      <span>تصفح مقالات المجلة الخبيرية</span>
+                      <span>تصفح مقالات المجلة الخبيرية الكاملة</span>
                       <ArrowLeft className="size-3.5" />
                     </Link>
                   </div>
@@ -674,6 +1127,79 @@ function HomePageTour() {
                         بواسطة: {art.author.name}
                       </span>
                     </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* STAGE 7: 10 Jordanian Public Universities Explorer */}
+            {activeTourStage === 6 && (
+              <div className="space-y-6 animate-in fade-in">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border">
+                  <div>
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-violet-500/10 text-violet-600 dark:text-violet-400 border border-violet-500/20 mb-2">
+                      <Building2 className="size-3.5" />
+                      المحطة السابعة: خريطة الجامعات الرسمية الـ 10
+                    </div>
+                    <h3 className="font-display text-xl sm:text-2xl font-extrabold text-foreground">
+                      استكشف الجامعات الحكومية ونقاط قوتها الأكاديمية
+                    </h3>
+                  </div>
+
+                  <Link
+                    to="/majors"
+                    className="px-4 py-2 rounded-xl bg-primary text-primary-foreground text-xs font-bold inline-flex items-center gap-1.5 shadow-xs shrink-0"
+                  >
+                    <span>عرض معدلات القبول لكافة الجامعات</span>
+                    <ArrowLeft className="size-3.5" />
+                  </Link>
+                </div>
+
+                {/* Universities Horizontal / Grid Showcase */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                  {JORDAN_PUBLIC_UNIVERSITIES.slice(0, 6).map((uni, idx) => (
+                    <div
+                      key={idx}
+                      className="p-4 rounded-2xl bg-surface-2 border border-border hover:border-primary/40 transition-all flex flex-col justify-between"
+                    >
+                      <div>
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-[10px] font-bold bg-primary/10 text-primary px-2.5 py-0.5 rounded-full">
+                            تأسست {uni.established}
+                          </span>
+                          <span className="text-[11px] text-muted-foreground flex items-center gap-1">
+                            <MapPin className="size-3 text-primary" />
+                            {uni.city}
+                          </span>
+                        </div>
+
+                        <h4 className="font-display font-bold text-sm text-foreground mb-1">
+                          {uni.name}
+                        </h4>
+                        <span className="text-[11px] text-amber-600 dark:text-amber-400 font-semibold block mb-2">
+                          👑 {uni.badge}
+                        </span>
+                        <p className="text-[11px] text-muted-foreground line-clamp-2 leading-relaxed mb-3">
+                          {uni.description}
+                        </p>
+                      </div>
+
+                      <div className="pt-2.5 border-t border-border/60">
+                        <span className="text-[10px] font-bold text-muted-foreground block mb-1">
+                          أبرز الكليات والتخصصات:
+                        </span>
+                        <div className="flex flex-wrap gap-1">
+                          {uni.topMajors.map((m, mi) => (
+                            <span
+                              key={mi}
+                              className="text-[10px] bg-card border border-border px-2 py-0.5 rounded-md text-foreground"
+                            >
+                              {m}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>

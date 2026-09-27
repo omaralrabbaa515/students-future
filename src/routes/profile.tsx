@@ -20,6 +20,11 @@ import {
   ArrowRight,
   TrendingUp,
   Share2,
+  Printer,
+  Target,
+  FileText,
+  Check,
+  Bot,
 } from "lucide-react";
 
 import type { User as SupabaseUser } from "@supabase/supabase-js";
@@ -108,12 +113,26 @@ function ProfilePage() {
   const [formGov, setFormGov] = useState<string>(student.profile.governorate);
   const [formInterests, setFormInterests] = useState<string[]>(student.profile.interests || []);
 
+  // Academic Goal Tracker State
+  const [targetMajorSlug, setTargetMajorSlug] = useState<string>("artificial-intelligence");
+  const [targetUni, setTargetUni] = useState<string>("جامعة العلوم والتكنولوجيا الأردنية");
+
+  // Personal Academic Notes State
+  const [personalNotes, setPersonalNotes] = useState<string>("");
+  const [notesSaved, setNotesSaved] = useState(false);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
       if (params.get("onboarding") === "true" || params.get("setup") === "true") {
         setShowOnboarding(true);
       }
+      const savedNotes = localStorage.getItem("student_personal_notes");
+      if (savedNotes) setPersonalNotes(savedNotes);
+      const savedTargetMajor = localStorage.getItem("student_target_major");
+      if (savedTargetMajor) setTargetMajorSlug(savedTargetMajor);
+      const savedTargetUni = localStorage.getItem("student_target_uni");
+      if (savedTargetUni) setTargetUni(savedTargetUni);
     }
 
     void supabase.auth.getSession().then(({ data }) => {
@@ -125,6 +144,16 @@ function ProfilePage() {
       }
     });
   }, []);
+
+  const handleSaveNotes = () => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("student_personal_notes", personalNotes);
+      localStorage.setItem("student_target_major", targetMajorSlug);
+      localStorage.setItem("student_target_uni", targetUni);
+    }
+    setNotesSaved(true);
+    setTimeout(() => setNotesSaved(false), 2500);
+  };
 
   const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -333,6 +362,16 @@ function ProfilePage() {
 
             <div className="flex items-center gap-2">
               <button
+                type="button"
+                onClick={() => window.print()}
+                className="bg-card hover:bg-surface border-border text-foreground font-semibold px-3 py-1.5 rounded-xl border transition-colors inline-flex items-center gap-1 text-xs cursor-pointer"
+                title="طباعة الهوية الأكاديمية الرسمية"
+              >
+                <Printer className="size-3.5 text-primary" />
+                <span>طباعة الهوية</span>
+              </button>
+              <button
+                type="button"
                 onClick={copyShareCard}
                 className="bg-card hover:bg-surface border-border text-foreground font-semibold px-3 py-1.5 rounded-xl border transition-colors inline-flex items-center gap-1 text-xs cursor-pointer"
               >
@@ -340,6 +379,7 @@ function ProfilePage() {
                 <span>{copiedLink ? "تم النسخ!" : "مشاركة الهوية"}</span>
               </button>
               <button
+                type="button"
                 onClick={() => setIsEditing(!isEditing)}
                 className="bg-primary text-primary-foreground font-bold px-3 py-1.5 rounded-xl shadow-xs transition-opacity hover:opacity-90 inline-flex items-center gap-1 text-xs cursor-pointer"
               >
@@ -538,6 +578,158 @@ function ProfilePage() {
           </div>
         </form>
       )}
+
+      {/* ================= ACADEMIC TARGET & DEGREE RADAR ================= */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+        {/* Goal Tracker */}
+        <div className="rounded-3xl border border-border bg-card p-6 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-3 mb-4 border-b border-border">
+              <span className="font-display font-bold text-sm text-foreground flex items-center gap-2">
+                <Target className="size-4 text-primary" />
+                بوصلة التخصص والجامعة المنشودة
+              </span>
+              <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full">
+                محدد الهدف 🎯
+              </span>
+            </div>
+
+            <p className="text-xs text-muted-foreground mb-4">
+              حدد التخصص والجامعة التي تطمح لدخولها، وسيقوم النظام باحتساب الفارق التنافسي ونسبة فرصتك في القبول.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+              <div>
+                <label className="text-xs font-bold text-foreground block mb-1">الجامعة المنشودة:</label>
+                <select
+                  value={targetUni}
+                  onChange={(e) => {
+                    setTargetUni(e.target.value);
+                    if (typeof window !== "undefined") localStorage.setItem("student_target_uni", e.target.value);
+                  }}
+                  className="w-full bg-surface border border-border rounded-xl p-2.5 text-xs text-foreground font-semibold"
+                >
+                  <option value="الجامعة الأردنية">الجامعة الأردنية</option>
+                  <option value="جامعة العلوم والتكنولوجيا الأردنية">جامعة العلوم والتكنولوجيا</option>
+                  <option value="جامعة اليرموك">جامعة اليرموك</option>
+                  <option value="الجامعة الهاشمية">الجامعة الهاشمية</option>
+                  <option value="جامعة البلقاء التطبيقية">جامعة البلقاء التطبيقية</option>
+                  <option value="جامعة مؤتة">جامعة مؤتة</option>
+                  <option value="جامعة آل البيت">جامعة آل البيت</option>
+                  <option value="جامعة الحسين بن طلال">جامعة الحسين بن طلال</option>
+                  <option value="جامعة الطفيلة التقنية">جامعة الطفيلة التقنية</option>
+                  <option value="الجامعة الألمانية الأردنية">الجامعة الألمانية الأردنية</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-foreground block mb-1">التخصص المنشود:</label>
+                <select
+                  value={targetMajorSlug}
+                  onChange={(e) => {
+                    setTargetMajorSlug(e.target.value);
+                    if (typeof window !== "undefined") localStorage.setItem("student_target_major", e.target.value);
+                  }}
+                  className="w-full bg-surface border border-border rounded-xl p-2.5 text-xs text-foreground font-semibold"
+                >
+                  {majors.map((m) => (
+                    <option key={m.slug} value={m.slug}>
+                      {m.name} ({m.classification})
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* Target Calculation Gauge */}
+            {(() => {
+              const currentMajor = majors.find((m) => m.slug === targetMajorSlug) || majors[0];
+              const benchmarkScore = 85.0; // Benchmark cutoff
+              const gpaDiff = Number((student.profile.tawjihiGpa - benchmarkScore).toFixed(1));
+              const isAhead = gpaDiff >= 0;
+
+              return (
+                <div className="p-4 rounded-2xl bg-surface-2 border border-border space-y-2">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-bold text-muted-foreground">الفارق التنافسي التقديري:</span>
+                    <span
+                      className={`font-mono font-extrabold px-2.5 py-0.5 rounded-lg ${
+                        isAhead
+                          ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                          : "bg-amber-500/10 text-amber-600 dark:text-amber-400"
+                      }`}
+                    >
+                      {isAhead ? `+${gpaDiff}% أعلى من الحد الأدنى` : `${gpaDiff}% فارق للمنافسة`}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-muted-foreground leading-relaxed">
+                    {isAhead
+                      ? `معدلك الحالي (${student.profile.tawjihiGpa}%) يمنحك أفضلية تنافسية ممتازة للالتحاق بـ ${currentMajor.name} في ${targetUni}.`
+                      : `تحتاج إلى تركيز دراسي لرفع معدلك بمقدار ${Math.abs(gpaDiff)} علامة أو وضع البرنامج الموازي أو كليات الأقاليم كخيار استراتيجي.`}
+                  </p>
+                </div>
+              );
+            })()}
+          </div>
+
+          <div className="pt-4 border-t border-border/60 mt-4 flex items-center justify-between">
+            <Link
+              to="/advisor"
+              search={{
+                q: `معدلي في التوجيهي ${student.profile.tawjihiGpa}% في ${BRANCH_LABELS[student.profile.tawjihiBranch]} وأريد دراسة ${majors.find((m) => m.slug === targetMajorSlug)?.name} في ${targetUni}، ما هي استراتيجيتي التنافسية؟`,
+              }}
+              className="text-xs font-bold text-primary hover:underline inline-flex items-center gap-1.5"
+            >
+              <Bot className="size-4" />
+              <span>استشر الذكاء الاصطناعي حول هذا الهدف</span>
+            </Link>
+          </div>
+        </div>
+
+        {/* Personal Academic Notes & Strategy */}
+        <div className="rounded-3xl border border-border bg-card p-6 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-3 mb-4 border-b border-border">
+              <span className="font-display font-bold text-sm text-foreground flex items-center gap-2">
+                <FileText className="size-4 text-primary" />
+                مفكرتي واستراتيجيتي الأكاديمية
+              </span>
+              {notesSaved && (
+                <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full flex items-center gap-1 animate-in fade-in">
+                  <Check className="size-3" />
+                  تم الحفظ
+                </span>
+              )}
+            </div>
+
+            <p className="text-xs text-muted-foreground mb-3">
+              اكتب ملاحظاتك الشخصية، ترتيب الرغبات الـ 30 في القبول الموحد، أو توجيهات المستشار الذكي:
+            </p>
+
+            <textarea
+              rows={5}
+              placeholder="مثال: الخيار 1 في القبول الموحد: الذكاء الاصطناعي في العلوم والتكنولوجيا. الخيار 2: الأمن السيبراني في اليرموك. إنهاء دورة CS50 قبل بدء الفصل الأول..."
+              value={personalNotes}
+              onChange={(e) => setPersonalNotes(e.target.value)}
+              className="w-full bg-surface border border-border rounded-2xl p-3.5 text-xs text-foreground leading-relaxed focus:outline-none focus:border-primary transition-colors resize-none"
+            />
+          </div>
+
+          <div className="pt-4 border-t border-border/60 mt-4 flex items-center justify-between">
+            <span className="text-[11px] text-muted-foreground">
+              تُحفظ الملاحظات تلقائياً في جهازك
+            </span>
+            <button
+              type="button"
+              onClick={handleSaveNotes}
+              className="bg-primary text-primary-foreground font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow-xs hover:opacity-90 cursor-pointer"
+            >
+              <Save className="size-3.5" />
+              <span>حفظ الملاحظات</span>
+            </button>
+          </div>
+        </div>
+      </div>
 
       {/* Bookmarked Majors Section */}
       <div className="mb-10">

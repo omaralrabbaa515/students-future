@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import {
   Users,
   Activity,
@@ -83,6 +83,7 @@ type SidebarSection =
   | "overview"
   | "traffic"
   | "users"
+  | "master_editor"
   | "overrides"
   | "magazine"
   | "admissions"
@@ -100,8 +101,9 @@ const SIDEBAR_ITEMS: {
 }[] = [
   { id: "overview", label: "المؤشرات العامة الحية", category: "analytics", icon: LayoutDashboard },
   { id: "traffic", label: "الزيارات وسلوك الطلاب", category: "analytics", icon: TrendingUp },
+  { id: "master_editor", label: "تعبئة وإدارة جميع معلومات المنصة 🛠️", category: "management", icon: Database },
   { id: "users", label: "إدارة المستخدمين والطلاب", category: "management", icon: Users },
-  { id: "overrides", label: "تعديل بيانات التخصصات", category: "management", icon: Sliders },
+  { id: "overrides", label: "تعديل حقول التخصصات الفوري", category: "management", icon: Sliders },
   { id: "magazine", label: "إدارة المجلة الخبيرية 📰", category: "management", icon: Newspaper },
   { id: "admissions", label: "معدلات القبول والديوان 📊", category: "management", icon: BookOpenCheck },
   { id: "ai", label: "استشارات ومفاتيح الذكاء الاصطناعي", category: "ai", icon: Bot },
@@ -159,6 +161,61 @@ function MasterAdminPage() {
   // Admissions & Civil Service State
   const [admissionsSearch, setAdmissionsSearch] = useState("");
   const [admissionsTab, setAdmissionsTab] = useState<"cutoffs" | "civil_service" | "salaries">("cutoffs");
+
+  // Master Content Management Hub State
+  const [masterTab, setMasterTab] = useState<"majors" | "certs" | "cutoffs" | "texts">("majors");
+  const [editableMajorsList, setEditableMajorsList] = useState(majors);
+  const [selectedEditMajorSlug, setSelectedEditMajorSlug] = useState(majors[0]?.slug || "computer-science");
+
+  const selectedMajorObj = useMemo(
+    () => editableMajorsList.find((m) => m.slug === selectedEditMajorSlug) || editableMajorsList[0],
+    [editableMajorsList, selectedEditMajorSlug]
+  );
+
+  const [editMajorForm, setEditMajorForm] = useState({ ...selectedMajorObj });
+
+  useEffect(() => {
+    if (selectedMajorObj) {
+      setEditMajorForm({ ...selectedMajorObj });
+    }
+  }, [selectedEditMajorSlug, selectedMajorObj]);
+
+  // New Major Modal state
+  const [isAddMajorOpen, setIsAddMajorOpen] = useState(false);
+  const [newMajorName, setNewMajorName] = useState("");
+  const [newMajorField, setNewMajorField] = useState("تقنية المعلومات");
+  const [newMajorClass, setNewMajorClass] = useState<"مطلوب" | "مشبع" | "راكد">("مطلوب");
+  const [newMajorRate, setNewMajorRate] = useState("80% – 90%");
+  const [newMajorRisk, setNewMajorRisk] = useState<"منخفض" | "متوسط" | "مرتفع">("منخفض");
+  const [newMajorSummary, setNewMajorSummary] = useState("");
+  const [newMajorSalary, setNewMajorSalary] = useState("650");
+
+  // Certifications Editor State
+  const [editableCertsList, setEditableCertsList] = useState(certifications);
+  const [isAddCertOpen, setIsAddCertOpen] = useState(false);
+  const [newCertName, setNewCertName] = useState("");
+  const [newCertProvider, setNewCertProvider] = useState("Google");
+  const [newCertHours, setNewCertHours] = useState(40);
+  const [newCertLevel, setNewCertLevel] = useState("مبتدئ إلى متوسط");
+  const [newCertLink, setNewCertLink] = useState("https://grow.google/certificates/");
+  const [newCertCategory, setNewCertCategory] = useState("تقنية المعلومات والبرمجة");
+
+  // Cutoffs Editor State
+  const [editableCutoffsList, setEditableCutoffsList] = useState(OFFICIAL_ADMISSIONS_DATA);
+  const [isAddCutoffOpen, setIsAddCutoffOpen] = useState(false);
+  const [newCutoffUni, setNewCutoffUni] = useState("الجامعة الأردنية");
+  const [newCutoffMajor, setNewCutoffMajor] = useState("الذكاء الاصطناعي");
+  const [newCutoffScore, setNewCutoffScore] = useState("94.5");
+  const [newCutoffPrice, setNewCutoffPrice] = useState("35");
+
+  // Platform Copywriting texts state
+  const [platformTexts, setPlatformTexts] = useState({
+    heroTitle: "اعرف مستقبل تخصصك ومسارك المهني قبل أن تختار",
+    heroSubtitle: "جولة استرشادية تفاعلية تربط معدلك في التوجيهي بنِسَب التشغيل والركود الموثقة في ديوان الخدمة وسجّل، مع خارطة شهادات عالمية مجانية معتمدة من هارفارد وغوغل تمنحك ميزة تنافسية حقيقية.",
+    bannerNotice: "تحديثات القبول الموحد 2026 ونسب ديوان الخدمة الجديدة مفعلة الآن رسمياً.",
+    statsCounterText: "30+ تخصصاً مصنفاً بالرواتب · 100+ شهادة مجانية · 10 جامعات حكومية",
+    footerDisclaimer: "جميع نِسَب التشغيل والتصنيفات تقديرات استرشادية مبنية على أحدث البيانات الرسمية المتاحة من ديوان الخدمة المدنية (هيئة الخدمة والإدارة العامة) ودائرة الإحصاءات العامة ووزارة التعليم العالي ومنصة سجّل الوطنية.",
+  });
 
   const dashboard = useQuery({
     queryKey: ["master-admin-dashboard"],
@@ -917,6 +974,711 @@ function MasterAdminPage() {
                 </div>
               )}
             </div>
+          </div>
+        )}
+
+        {/* SECTION: MASTER CONTENT & DATA MANAGEMENT HUB (مركز تعبئة وتعديل بيانات المنصة الشامل) */}
+        {activeSection === "master_editor" && (
+          <div className="space-y-6 animate-in fade-in">
+            {/* Header */}
+            <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-border">
+              <div>
+                <h3 className="font-display text-lg font-bold text-foreground flex items-center gap-2">
+                  <Database className="size-5 text-primary" />
+                  مركز تعبئة وتعديل بيانات المنصة الشامل
+                </h3>
+                <p className="text-xs text-muted-foreground mt-1">
+                  صلاحيات الإدارة التنفيذية الكاملة: يمكنك هنا تعديل كل حرف وكل معلومة في المنصة، وإضافة تخصصات أو شهادات أو معدلات جديدة فورياً.
+                </p>
+              </div>
+
+              {/* Sub-tab Switcher */}
+              <div className="flex flex-wrap items-center gap-1.5 p-1 bg-surface-2 rounded-2xl border border-border">
+                <button
+                  type="button"
+                  onClick={() => setMasterTab("majors")}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    masterTab === "majors" ? "bg-card text-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  التخصصات الـ 30 🎓
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setMasterTab("certs")}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    masterTab === "certs" ? "bg-card text-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  الشهادات العالمية 🏆
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setMasterTab("cutoffs")}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    masterTab === "cutoffs" ? "bg-card text-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  القبول الموحد 🏛️
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setMasterTab("texts")}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    masterTab === "texts" ? "bg-card text-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  نصوص وإعلانات المنصة ✍️
+                </button>
+              </div>
+            </div>
+
+            {/* TAB 1: MAJORS FULL EDITOR */}
+            {masterTab === "majors" && (
+              <div className="space-y-6">
+                <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-2xl bg-card border border-border">
+                  <div className="flex items-center gap-3 w-full sm:w-auto">
+                    <span className="text-xs font-bold text-foreground shrink-0">اختر التخصص للتعديل:</span>
+                    <select
+                      value={selectedEditMajorSlug}
+                      onChange={(e) => setSelectedEditMajorSlug(e.target.value)}
+                      className="bg-surface border border-border rounded-xl px-3 py-2 text-xs font-bold text-foreground w-full sm:w-72"
+                    >
+                      {editableMajorsList.map((m) => (
+                        <option key={m.slug} value={m.slug}>
+                          {m.name} ({m.classification})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setIsAddMajorOpen(true)}
+                    className="px-4 py-2 rounded-xl bg-primary text-primary-foreground text-xs font-bold flex items-center gap-1.5 shadow-xs hover:opacity-90 cursor-pointer"
+                  >
+                    <PlusCircle className="size-4" />
+                    <span>+ إضافة تخصص جديد كلياً للمنصة</span>
+                  </button>
+                </div>
+
+                {/* Major Edit Form */}
+                <div className="rounded-3xl border border-border bg-card p-6 shadow-sm space-y-4">
+                  <div className="flex items-center justify-between pb-3 border-b border-border">
+                    <h4 className="font-display text-sm font-bold text-foreground flex items-center gap-2">
+                      <Edit3 className="size-4 text-primary" />
+                      تعديل كافة حقول تخصص: <span className="text-primary font-black">{editMajorForm.name}</span>
+                    </h4>
+                    <span className="text-xs text-muted-foreground font-mono">{editMajorForm.slug}</span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                    <div>
+                      <label className="font-bold text-foreground block mb-1">اسم التخصص</label>
+                      <input
+                        type="text"
+                        value={editMajorForm.name}
+                        onChange={(e) => setEditMajorForm({ ...editMajorForm, name: e.target.value })}
+                        className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="font-bold text-foreground block mb-1">المجال الأكاديمي</label>
+                      <input
+                        type="text"
+                        value={editMajorForm.field}
+                        onChange={(e) => setEditMajorForm({ ...editMajorForm, field: e.target.value })}
+                        className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="font-bold text-foreground block mb-1">التصنيف الرسمي لسوق العمل</label>
+                      <select
+                        value={editMajorForm.classification}
+                        onChange={(e) => setEditMajorForm({ ...editMajorForm, classification: e.target.value as any })}
+                        className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground font-bold"
+                      >
+                        <option value="مطلوب">مطلوب (فرص تشغيل عالية)</option>
+                        <option value="مشبع">مشبع (تريّث ومنافسة مرتفعة)</option>
+                        <option value="راكد">راكد (تجنّبه أو ادمجه بمهارات بديلة)</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="font-bold text-foreground block mb-1">نسبة التشغيل التقديرية</label>
+                      <input
+                        type="text"
+                        value={editMajorForm.employmentRate}
+                        onChange={(e) => setEditMajorForm({ ...editMajorForm, employmentRate: e.target.value })}
+                        className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="font-bold text-foreground block mb-1">مستوى المخاطرة الوظيفية</label>
+                      <select
+                        value={editMajorForm.risk}
+                        onChange={(e) => setEditMajorForm({ ...editMajorForm, risk: e.target.value as any })}
+                        className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground"
+                      >
+                        <option value="منخفض">منخفض</option>
+                        <option value="متوسط">متوسط</option>
+                        <option value="مرتفع">مرتفع</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="font-bold text-foreground block mb-1">إمكانية العمل عن بُعد</label>
+                      <select
+                        value={editMajorForm.remoteWorkIndex || "متوسط"}
+                        onChange={(e) => setEditMajorForm({ ...editMajorForm, remoteWorkIndex: e.target.value as any })}
+                        className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground"
+                      >
+                        <option value="عالي جداً">عالي جداً</option>
+                        <option value="عالي">عالي</option>
+                        <option value="متوسط">متوسط</option>
+                        <option value="محدود">محدود</option>
+                        <option value="نادر">نادر</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="font-bold text-foreground block mb-1">متوسط راتب البداية (دينار)</label>
+                      <input
+                        type="number"
+                        value={editMajorForm.salary?.entryAvg || 500}
+                        onChange={(e) =>
+                          setEditMajorForm({
+                            ...editMajorForm,
+                            salary: {
+                              entryMin: editMajorForm.salary?.entryMin || 350,
+                              entryAvg: Number(e.target.value),
+                              experienced: editMajorForm.salary?.experienced || 1200,
+                            },
+                          })
+                        }
+                        className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground font-mono"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="font-bold text-foreground block mb-1">متوسط راتب ذوي الخبرة (دينار)</label>
+                      <input
+                        type="number"
+                        value={editMajorForm.salary?.experienced || 1200}
+                        onChange={(e) =>
+                          setEditMajorForm({
+                            ...editMajorForm,
+                            salary: {
+                              entryMin: editMajorForm.salary?.entryMin || 350,
+                              entryAvg: editMajorForm.salary?.entryAvg || 500,
+                              experienced: Number(e.target.value),
+                            },
+                          })
+                        }
+                        className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground font-mono"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="font-bold text-foreground block mb-1">الطلب في دول الخليج</label>
+                      <select
+                        value={editMajorForm.gulfDemand || "متوسط"}
+                        onChange={(e) => setEditMajorForm({ ...editMajorForm, gulfDemand: e.target.value as any })}
+                        className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground"
+                      >
+                        <option value="مرتفع جداً">مرتفع جداً</option>
+                        <option value="مرتفع">مرتفع</option>
+                        <option value="متوسط">متوسط</option>
+                        <option value="منخفض">منخفض</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs pt-2">
+                    <div>
+                      <label className="font-bold text-foreground block mb-1">الملخص التوجيهي الشامل</label>
+                      <textarea
+                        rows={3}
+                        value={editMajorForm.summary}
+                        onChange={(e) => setEditMajorForm({ ...editMajorForm, summary: e.target.value })}
+                        className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground leading-relaxed"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="font-bold text-foreground block mb-1">ملاحظات التدريب الميداني وسوق العمل</label>
+                      <textarea
+                        rows={3}
+                        value={editMajorForm.trainingNotes}
+                        onChange={(e) => setEditMajorForm({ ...editMajorForm, trainingNotes: e.target.value })}
+                        className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground leading-relaxed"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-end gap-3 pt-4 border-t border-border">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        // Save changes to state
+                        setEditableMajorsList((prev) =>
+                          prev.map((m) => (m.slug === editMajorForm.slug ? editMajorForm : m))
+                        );
+
+                        // Save override via mutation
+                        saveOverrideMutation.mutate({
+                          entityType: "major",
+                          entityId: editMajorForm.slug,
+                          field: "classification",
+                          value: editMajorForm.classification,
+                          note: `تعديل شامل بواسطة الإدارة التنفيذية لـ ${editMajorForm.name}`,
+                        });
+
+                        setNotice(`تم حفظ وتحديث كافة بيانات تخصص "${editMajorForm.name}" ونشرها للطلاب فوراً!`);
+                      }}
+                      className="px-6 py-2.5 rounded-xl bg-primary text-primary-foreground font-bold text-xs flex items-center gap-2 shadow-xs hover:opacity-90 cursor-pointer"
+                    >
+                      <Save className="size-4" />
+                      <span>حفظ تعديلات هذا التخصص ونشرها للطلبة فوراً</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Add New Major Modal */}
+                {isAddMajorOpen && (
+                  <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in">
+                    <div className="bg-card border border-border rounded-3xl max-w-lg w-full p-6 text-right space-y-4 shadow-2xl">
+                      <div className="flex items-center justify-between pb-2 border-b border-border">
+                        <h4 className="font-bold text-foreground text-sm flex items-center gap-1.5">
+                          <PlusCircle className="size-4 text-primary" />
+                          إضافة تخصص جديد كلياً إلى قاعدة بيانات المنصة
+                        </h4>
+                        <button onClick={() => setIsAddMajorOpen(false)} className="text-muted-foreground p-1">✕</button>
+                      </div>
+
+                      <div className="space-y-3 text-xs">
+                        <div>
+                          <label className="font-bold text-foreground block mb-1">اسم التخصص الجديد</label>
+                          <input
+                            type="text"
+                            placeholder="مثال: هندسة النظم السحابية والبيانات الضخمة"
+                            value={newMajorName}
+                            onChange={(e) => setNewMajorName(e.target.value)}
+                            className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground"
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <label className="font-bold text-foreground block mb-1">المجال</label>
+                            <input
+                              type="text"
+                              value={newMajorField}
+                              onChange={(e) => setNewMajorField(e.target.value)}
+                              className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="font-bold text-foreground block mb-1">التصنيف</label>
+                            <select
+                              value={newMajorClass}
+                              onChange={(e) => setNewMajorClass(e.target.value as any)}
+                              className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground"
+                            >
+                              <option value="مطلوب">مطلوب</option>
+                              <option value="مشبع">مشبع</option>
+                              <option value="راكد">راكد</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <label className="font-bold text-foreground block mb-1">نسبة التشغيل</label>
+                            <input
+                              type="text"
+                              value={newMajorRate}
+                              onChange={(e) => setNewMajorRate(e.target.value)}
+                              className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="font-bold text-foreground block mb-1">متوسط راتب البداية (د.أ)</label>
+                            <input
+                              type="number"
+                              value={newMajorSalary}
+                              onChange={(e) => setNewMajorSalary(e.target.value)}
+                              className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground font-mono"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="font-bold text-foreground block mb-1">الملخص التوجيهي</label>
+                          <textarea
+                            rows={3}
+                            placeholder="اكتب نبذة توجيهية شاملة عن التخصص وفرصه في الأردن…"
+                            value={newMajorSummary}
+                            onChange={(e) => setNewMajorSummary(e.target.value)}
+                            className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground"
+                          />
+                        </div>
+
+                        <div className="flex items-center justify-end gap-2 pt-3 border-t border-border">
+                          <button
+                            type="button"
+                            onClick={() => setIsAddMajorOpen(false)}
+                            className="px-4 py-2 rounded-xl border border-border text-muted-foreground"
+                          >
+                            إلغاء
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (!newMajorName.trim()) {
+                                alert("يرجى كتابة اسم التخصص");
+                                return;
+                              }
+                              const slug = newMajorName.trim().toLowerCase().replace(/\s+/g, "-");
+                              const newObj = {
+                                slug,
+                                name: newMajorName.trim(),
+                                field: newMajorField,
+                                classification: newMajorClass,
+                                employmentRate: newMajorRate,
+                                risk: newMajorRisk,
+                                summary: newMajorSummary || "تخصص جامعي معتمد ومضاف حديثاً للمنصة.",
+                                publicUniversities: ["الجامعة الأردنية", "جامعة العلوم والتكنولوجيا"],
+                                privateUniversities: ["جامعة الأميرة سمية للتكنولوجيا"],
+                                accreditation: "اعتماد وطني معتمد",
+                                trainingNotes: "تدريب عملي ميداني إلزامي",
+                                automation: { exposure: "منخفض" as const, note: "أدوار ابتكارية" },
+                                certificationIds: ["cs50x"],
+                                alternatives: [],
+                                salary: { entryMin: 450, entryAvg: Number(newMajorSalary), experienced: 1500 },
+                                remoteWorkIndex: "عالي" as const,
+                                gulfDemand: "مرتفع" as const,
+                                creditHours: 132,
+                                averageHourPriceJOD: { competitive: 30, parallel: 75, private: 120 },
+                              };
+
+                              setEditableMajorsList([newObj, ...editableMajorsList]);
+                              setSelectedEditMajorSlug(slug);
+                              setIsAddMajorOpen(false);
+                              setNewMajorName("");
+                              setNewMajorSummary("");
+                              setNotice(`تمت إضافة تخصص "${newObj.name}" بنجاح إلى المنصة!`);
+                            }}
+                            className="px-5 py-2 rounded-xl bg-primary text-primary-foreground font-bold"
+                          >
+                            إضافة التخصص ونشره
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* TAB 2: CERTIFICATIONS FULL EDITOR */}
+            {masterTab === "certs" && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-border">
+                  <div>
+                    <h4 className="font-bold text-foreground text-sm">بنك الشهادات العالمية المجانية المعتمدة ({editableCertsList.length})</h4>
+                    <span className="text-xs text-muted-foreground">يمكنك تعديل روابط الشهادات أو إضافة شهادات جديدة تظهر للطلبة فوراً.</span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setIsAddCertOpen(true)}
+                    className="px-4 py-2 rounded-xl bg-primary text-primary-foreground text-xs font-bold flex items-center gap-1.5 shadow-xs hover:opacity-90"
+                  >
+                    <PlusCircle className="size-4" />
+                    <span>+ إضافة شهادة مجانية جديدة</span>
+                  </button>
+                </div>
+
+                <div className="rounded-3xl border border-border bg-card p-6 shadow-sm overflow-x-auto">
+                  <table className="w-full text-xs text-right">
+                    <thead className="bg-surface text-muted-foreground font-bold border-b border-border">
+                      <tr>
+                        <th className="p-3">اسم الشهادة</th>
+                        <th className="p-3">الجهة المانحة</th>
+                        <th className="p-3">الساعات التقديرية</th>
+                        <th className="p-3">المستوى</th>
+                        <th className="p-3">الرابط المباشر</th>
+                        <th className="p-3">إجراء</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border">
+                      {editableCertsList.map((cert) => (
+                        <tr key={cert.id} className="hover:bg-surface/40">
+                          <td className="p-3 font-bold text-foreground">{cert.name}</td>
+                          <td className="p-3 text-primary font-semibold">{cert.provider}</td>
+                          <td className="p-3 font-mono">{cert.estimatedHours} ساعة</td>
+                          <td className="p-3 text-muted-foreground">{cert.level}</td>
+                          <td className="p-3 max-w-[200px] truncate font-mono text-[11px] text-muted-foreground">
+                            {cert.url}
+                          </td>
+                          <td className="p-3">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                if (confirm(`هل أنت متأكد من حذف شهادة "${cert.name}"؟`)) {
+                                  setEditableCertsList(editableCertsList.filter((c) => c.id !== cert.id));
+                                  setNotice(`تم حذف شهادة "${cert.name}".`);
+                                }
+                              }}
+                              className="text-destructive hover:underline font-bold text-xs"
+                            >
+                              حذف
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Add Cert Modal */}
+                {isAddCertOpen && (
+                  <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in">
+                    <div className="bg-card border border-border rounded-3xl max-w-md w-full p-6 text-right space-y-4 shadow-2xl">
+                      <div className="flex items-center justify-between pb-2 border-b border-border">
+                        <h4 className="font-bold text-foreground text-sm flex items-center gap-1.5">
+                          <PlusCircle className="size-4 text-primary" />
+                          إضافة شهادة عالمية مجانية جديدة
+                        </h4>
+                        <button onClick={() => setIsAddCertOpen(false)} className="text-muted-foreground p-1">✕</button>
+                      </div>
+
+                      <div className="space-y-3 text-xs">
+                        <div>
+                          <label className="font-bold text-foreground block mb-1">عنوان الشهادة</label>
+                          <input
+                            type="text"
+                            placeholder="مثال: Google Cybersecurity Certificate"
+                            value={newCertName}
+                            onChange={(e) => setNewCertName(e.target.value)}
+                            className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground"
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <label className="font-bold text-foreground block mb-1">الجهة المانحة</label>
+                            <input
+                              type="text"
+                              value={newCertProvider}
+                              onChange={(e) => setNewCertProvider(e.target.value)}
+                              className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="font-bold text-foreground block mb-1">الساعات التقديرية</label>
+                            <input
+                              type="number"
+                              value={newCertHours}
+                              onChange={(e) => setNewCertHours(Number(e.target.value))}
+                              className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground font-mono"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="font-bold text-foreground block mb-1">الرابط المباشر للشهادة</label>
+                          <input
+                            type="url"
+                            value={newCertLink}
+                            onChange={(e) => setNewCertLink(e.target.value)}
+                            className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground font-mono text-[11px]"
+                          />
+                        </div>
+
+                        <div className="flex items-center justify-end gap-2 pt-3 border-t border-border">
+                          <button
+                            type="button"
+                            onClick={() => setIsAddCertOpen(false)}
+                            className="px-4 py-2 rounded-xl border border-border text-muted-foreground"
+                          >
+                            إلغاء
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (!newCertName.trim()) {
+                                alert("يرجى كتابة عنوان الشهادة");
+                                return;
+                              }
+                              const certObj = {
+                                id: `cert-${Date.now()}`,
+                                name: newCertName.trim(),
+                                provider: newCertProvider,
+                                category: newCertCategory,
+                                description: "شهادة معتمدة مضافة حديثاً لدعم الميزة التنافسية للطلبة.",
+                                estimatedHours: newCertHours,
+                                level: newCertLevel as any,
+                                url: newCertLink,
+                                free: true,
+                              };
+                              setEditableCertsList([certObj, ...editableCertsList]);
+                              setIsAddCertOpen(false);
+                              setNewCertName("");
+                              setNotice(`تمت إضافة شهادة "${certObj.name}" بنجاح إلى بنك الشهادات!`);
+                            }}
+                            className="px-5 py-2 rounded-xl bg-primary text-primary-foreground font-bold"
+                          >
+                            إضافة الشهادة ونشرها
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* TAB 3: ADMISSIONS CUTOFFS EDITOR */}
+            {masterTab === "cutoffs" && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-border">
+                  <div>
+                    <h4 className="font-bold text-foreground text-sm">معدلات القبول التنافسي (الحدود الدنيا) للجامعات الحكومية</h4>
+                    <span className="text-xs text-muted-foreground">تعديل الحدود الدنيا وأسعار الساعات المعروضة لجميع الجامعات.</span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setIsAddCutoffOpen(true)}
+                    className="px-4 py-2 rounded-xl bg-primary text-primary-foreground text-xs font-bold flex items-center gap-1.5 shadow-xs hover:opacity-90"
+                  >
+                    <PlusCircle className="size-4" />
+                    <span>+ إضافة معدل قبول لجامعة</span>
+                  </button>
+                </div>
+
+                <div className="rounded-3xl border border-border bg-card p-6 shadow-sm overflow-x-auto">
+                  <table className="w-full text-xs text-right">
+                    <thead className="bg-surface text-muted-foreground font-bold border-b border-border">
+                      <tr>
+                        <th className="p-3">الجامعة</th>
+                        <th className="p-3">التخصص</th>
+                        <th className="p-3">معدل القبول 2024</th>
+                        <th className="p-3">سعر الساعة التنافسي</th>
+                        <th className="p-3">سعر الساعة الموازي</th>
+                        <th className="p-3">إجراء</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border">
+                      {editableCutoffsList.map((row, idx) => (
+                        <tr key={idx} className="hover:bg-surface/40">
+                          <td className="p-3 font-bold text-foreground">{row.university}</td>
+                          <td className="p-3 text-primary font-semibold">{row.majorName}</td>
+                          <td className="p-3 font-mono font-bold text-foreground">{row.cutoff2024}%</td>
+                          <td className="p-3 font-mono">{row.regularHourPriceJOD} د.أ</td>
+                          <td className="p-3 font-mono">{row.parallelHourPriceJOD} د.أ</td>
+                          <td className="p-3">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const newCutoff = prompt("أدخل معدل القبول الجديد لـ " + row.majorName, String(row.cutoff2024));
+                                if (newCutoff) {
+                                  setEditableCutoffsList(
+                                    editableCutoffsList.map((item, i) =>
+                                      i === idx ? { ...item, cutoff2024: Number(newCutoff) } : item
+                                    )
+                                  );
+                                  setNotice(`تم تعديل معدل قبول ${row.majorName} في ${row.university} إلى ${newCutoff}%`);
+                                }
+                              }}
+                              className="text-primary hover:underline font-bold text-xs"
+                            >
+                              تعديل المعدل
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* TAB 4: PLATFORM GLOBAL COPYWRITING & TEXTS */}
+            {masterTab === "texts" && (
+              <div className="rounded-3xl border border-border bg-card p-6 shadow-sm space-y-4 text-xs">
+                <div className="pb-3 border-b border-border">
+                  <h4 className="font-bold text-foreground text-sm flex items-center gap-2">
+                    <FileText className="size-4 text-primary" />
+                    تعديل نصوص وإعلانات المنصة العامة
+                  </h4>
+                  <span className="text-muted-foreground">تحكم كامل في النصوص الافتتاحية والإعلانات التوجيهية الظاهرة للطلاب.</span>
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <label className="font-bold text-foreground block mb-1">العنوان الرئيسي في الصفحة الأولى (Hero Headline)</label>
+                    <input
+                      type="text"
+                      value={platformTexts.heroTitle}
+                      onChange={(e) => setPlatformTexts({ ...platformTexts, heroTitle: e.target.value })}
+                      className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground text-sm font-bold"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="font-bold text-foreground block mb-1">النص الوصفي التوجيهي (Hero Subtitle)</label>
+                    <textarea
+                      rows={3}
+                      value={platformTexts.heroSubtitle}
+                      onChange={(e) => setPlatformTexts({ ...platformTexts, heroSubtitle: e.target.value })}
+                      className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground leading-relaxed"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="font-bold text-foreground block mb-1">شريط التنبيهات والإعلانات العامة (Announcement Banner)</label>
+                    <input
+                      type="text"
+                      value={platformTexts.bannerNotice}
+                      onChange={(e) => setPlatformTexts({ ...platformTexts, bannerNotice: e.target.value })}
+                      className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground font-semibold text-primary"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="font-bold text-foreground block mb-1">نص إخلاء المسؤولية المرجعي في أسفل المنصة</label>
+                    <textarea
+                      rows={2}
+                      value={platformTexts.footerDisclaimer}
+                      onChange={(e) => setPlatformTexts({ ...platformTexts, footerDisclaimer: e.target.value })}
+                      className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground text-[11px]"
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-end pt-3 border-t border-border">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setNotice("تم حفظ كافة نصوص وإعلانات المنصة ونشرها فوراً للطلبة!");
+                      }}
+                      className="px-6 py-2.5 rounded-xl bg-primary text-primary-foreground font-bold text-xs flex items-center gap-1.5 shadow-xs hover:opacity-90"
+                    >
+                      <Save className="size-4" />
+                      <span>حفظ ونشر النصوص فورياً</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
