@@ -251,9 +251,17 @@ function MasterAdminPage() {
 
   return (
     <div className="flex min-h-[calc(100vh-4rem)] bg-background">
+      {/* Mobile Drawer Backdrop */}
+      {sidebarOpen && (
+        <div
+          onClick={() => setSidebarOpen(false)}
+          className="fixed inset-0 z-30 bg-black/60 backdrop-blur-xs md:hidden"
+        />
+      )}
+
       {/* ================= SIDEBAR (القائمة على جنب) ================= */}
       <aside
-        className={`fixed inset-y-0 end-0 z-40 w-72 bg-card border-s border-border flex flex-col justify-between transition-transform duration-300 md:static md:translate-x-0 ${
+        className={`fixed inset-y-0 start-0 z-40 w-72 bg-card border-e border-border flex flex-col justify-between transition-transform duration-300 md:static md:translate-x-0 ${
           sidebarOpen ? "translate-x-0 shadow-2xl" : "translate-x-full md:translate-x-0"
         }`}
       >
