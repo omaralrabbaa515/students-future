@@ -2,6 +2,15 @@ export type MarketClassification = "مطلوب" | "مشبع" | "راكد";
 export type RiskLevel = "منخفض" | "متوسط" | "مرتفع";
 export type AutomationExposure = "منخفض" | "متوسط" | "مرتفع";
 
+export type SalaryRange = {
+  /** الحد الأدنى لراتب الخريج الجديد (دينار أردني) */
+  entryMin: number;
+  /** متوسط راتب البداية للخريج (دينار أردني) */
+  entryAvg: number;
+  /** متوسط راتب ذوي الخبرة 5+ سنوات وأعلى 10% (دينار أردني) */
+  experienced: number;
+};
+
 export type Major = {
   slug: string;
   name: string;
@@ -18,6 +27,22 @@ export type Major = {
   automation: { exposure: AutomationExposure; note: string };
   certificationIds: string[];
   alternatives: { name: string; reason: string }[];
+  /** سلم الرواتب التقديري في الأردن */
+  salary?: SalaryRange;
+  /** مؤشر إمكانية العمل عن بُعد */
+  remoteWorkIndex?: "عالي جداً" | "عالي" | "متوسط" | "محدود" | "نادر";
+  /** مستوى الطلب في دول الخليج العربي وأوروبا */
+  gulfDemand?: "مرتفع جداً" | "مرتفع" | "متوسط" | "منخفض";
+  /** النقابة المهنية وشروط الانتساب */
+  syndicate?: { name: string; examRequired: boolean; note?: string };
+  /** المسميات الوظيفية الدقيقة في سوق العمل */
+  jobTitles?: string[];
+  /** كبرى الشركات والقطاعات المشغلة في الأردن */
+  topEmployers?: string[];
+  /** عدد الساعات المعتمدة للخطة الدراسية */
+  creditHours?: number;
+  /** متوسط سعر الساعة المعتمدة (دينار) */
+  averageHourPriceJOD?: { competitive: number; parallel: number; private: number };
 };
 
 export const majors: Major[] = [
@@ -58,6 +83,13 @@ export const majors: Major[] = [
       { name: "علم البيانات والذكاء الاصطناعي", reason: "طلب متسارع محلياً وخليجياً ورواتب أعلى" },
       { name: "الأمن السيبراني", reason: "فجوة كوادر واضحة في القطاع المصرفي والحكومي" },
     ],
+    salary: { entryMin: 450, entryAvg: 650, experienced: 2300 },
+    remoteWorkIndex: "عالي جداً",
+    gulfDemand: "مرتفع جداً",
+    jobTitles: ["مطور برمجيات Fullstack", "مهندس أنظمة برمجية", "مطور تطبيقات هواتف", "مهندس قواعد بيانات"],
+    topEmployers: ["شركات الاتصالات (زين، أورنج، أمنية)", "البنوك الأردنية", "شركات التصدير البرمجي لمحيط الخليج"],
+    creditHours: 132,
+    averageHourPriceJOD: { competitive: 35, parallel: 70, private: 95 },
   },
   {
     slug: "software-engineering",
@@ -86,6 +118,13 @@ export const majors: Major[] = [
       { name: "هندسة الحوسبة السحابية وDevOps", reason: "نقص حاد في الكوادر المؤهلة إقليمياً" },
       { name: "علم البيانات", reason: "مسار انتقال طبيعي لمن يمتلك أساس برمجي قوي" },
     ],
+    salary: { entryMin: 500, entryAvg: 700, experienced: 2500 },
+    remoteWorkIndex: "عالي جداً",
+    gulfDemand: "مرتفع جداً",
+    jobTitles: ["مهندس برمجيات أول", "مهندس معمارية سحابية Cloud Architect", "مهندس DevOps", "مطور واجهات أمامية"],
+    topEmployers: ["شركات التقنية العالمية في الأردن (Expedia, Amazon, Microsoft)", "شركات البرمجة الرائدة", "البنوك"],
+    creditHours: 132,
+    averageHourPriceJOD: { competitive: 38, parallel: 75, private: 105 },
   },
   {
     slug: "data-science-ai",
@@ -114,6 +153,13 @@ export const majors: Major[] = [
       { name: "هندسة البيانات", reason: "طلب مؤسسي مرتفع على بناء خطوط البيانات" },
       { name: "الأمن السيبراني", reason: "تكامل مباشر مع تحليلات الكشف عن التهديدات" },
     ],
+    salary: { entryMin: 550, entryAvg: 800, experienced: 2800 },
+    remoteWorkIndex: "عالي جداً",
+    gulfDemand: "مرتفع جداً",
+    jobTitles: ["عالم بيانات Data Scientist", "مهندس تعلم آلة Machine Learning Engineer", "محلل ذكاء أعمال BI Analyst"],
+    topEmployers: ["البنوك والمؤسسات المالية", "شركات الاتصالات والبيانات الضخمة", "شركات الاستشارات والتحليلات"],
+    creditHours: 132,
+    averageHourPriceJOD: { competitive: 42, parallel: 85, private: 110 },
   },
   {
     slug: "cybersecurity",
@@ -138,6 +184,13 @@ export const majors: Major[] = [
       { name: "الحوسبة السحابية", reason: "مسار مكمل بطلب مرتفع على أمن السحابة" },
       { name: "الحكامة الرقمية والامتثال", reason: "حاجة مؤسسية متزايدة للتدقيق والامتثال" },
     ],
+    salary: { entryMin: 500, entryAvg: 750, experienced: 2600 },
+    remoteWorkIndex: "عالي جداً",
+    gulfDemand: "مرتفع جداً",
+    jobTitles: ["محلل مركز العمليات الأمنية SOC Analyst", "مختبر اختراق Penetration Tester", "مهندس أمن شبكات", "مستشار أمن معلومات"],
+    topEmployers: ["المركز الوطني للأمن السيبراني NCSC", "البنوك وشركات الدفع الإلكتروني", "شركات التدقيق والأمن السيبراني العالمية"],
+    creditHours: 132,
+    averageHourPriceJOD: { competitive: 40, parallel: 80, private: 105 },
   },
   {
     slug: "mis",
@@ -586,6 +639,272 @@ export const majors: Major[] = [
       { name: "إدارة الإيرادات والتسويق السياحي الرقمي", reason: "مهارة نادرة ومطلوبة في الفنادق" },
       { name: "إدارة الفعاليات والمؤتمرات", reason: "نمو سياحة الأعمال في عمّان والبحر الميت" },
     ],
+    salary: { entryMin: 300, entryAvg: 400, experienced: 950 },
+    remoteWorkIndex: "محدود",
+    gulfDemand: "مرتفع",
+    creditHours: 132,
+    averageHourPriceJOD: { competitive: 28, parallel: 50, private: 65 },
+  },
+  {
+    slug: "medicine",
+    name: "الطب البشري",
+    field: "العلوم الطبية والصحية",
+    classification: "مشبع",
+    employmentRate: "65% – 75%",
+    risk: "متوسط",
+    summary:
+      "تخصص مرموق وتنافسي للغاية؛ يواجه الخريج الجدد تحدي سنة الامتياز وفترات انتظار برنامج الإقامة (Residency)، مع فرص ممتازة للاختصاص في ألمانيا والولايات المتحدة ودول الخليج لمن يجتاز معادلات البورد.",
+    publicUniversities: [
+      "الجامعة الأردنية",
+      "جامعة العلوم والتكنولوجيا الأردنية",
+      "الجامعة الهاشمية",
+      "جامعة اليرموك",
+      "جامعة مؤتة",
+      "جامعة البلقاء التطبيقية",
+    ],
+    privateUniversities: ["لا تمنحه الجامعات الخاصة في الأردن"],
+    accreditation: "اعتماد هيئة الاعتماد الأردنية والاتحاد العالمي للتعليم الطبي (WFME).",
+    trainingNotes:
+      "الدراسة 6 سنوات تليها سنة الامتياز الإلزامية؛ التدريب السريري يجري في مستشفيات جامعية ومستشفيات وزارة الصحة والخدمات الطبية الملكية.",
+    automation: {
+      exposure: "منخفض",
+      note: "الذكاء الاصطناعي أداة تشخيص مساندة فائقة القوة للأشعة والباثولوجي، لكن القرار السريري والجراحي والتواصل الإنساني يظل بيد الطبيب.",
+    },
+    certificationIds: ["openwho-infection-control", "openwho-epi-intro", "openwho-emergency-planning", "openwho-health-logistics"],
+    alternatives: [
+      { name: "دكتور صيدلة (PharmD)", reason: "مسار سريري أقصر وفرص في القطاع الدوائي والمستشفيات" },
+      { name: "الهندسة الطبية والحيوية", reason: "جمع بين الطب والتكنولوجيا والتقنيات الطبية الحديثة" },
+      { name: "التمريض التخصصي", reason: "طلب أسرع وتكاليف دراسة أقل وفرص هجرة فائقة" },
+    ],
+    salary: { entryMin: 450, entryAvg: 600, experienced: 2500 },
+    remoteWorkIndex: "محدود",
+    gulfDemand: "مرتفع جداً",
+    syndicate: { name: "نقابة الأطباء الأردنية", examRequired: true, note: "امتحان الفحص الإجمالي (الامتياز) شرط أساسي لممارسة المهنة" },
+    jobTitles: ["طبيب عام", "طبيب مقيم اختصاص", "طبيب طوارئ", "باحث سريري"],
+    topEmployers: ["مستشفى الجامعة الأردنية", "مستشفى الملك المؤسس", "الخدمات الطبية الملكية", "مستشفيات وزارة الصحة", "المستشفيات الخاصة"],
+    creditHours: 256,
+    averageHourPriceJOD: { competitive: 48, parallel: 175, private: 0 },
+  },
+  {
+    slug: "dentistry",
+    name: "طب وجراحة الفم والأسنان",
+    field: "العلوم الطبية والصحية",
+    classification: "مشبع",
+    employmentRate: "50% – 60%",
+    risk: "متوسط",
+    summary:
+      "تخصص طبي متميز يعتمد على المهارة اليدوية والجانب الفني، تشبّع واضح في التعيينات الحكومية وفتح العيادات الخاصة يتطلب رأس مال لتجهيز العيادة، مع فرص متقدمة في زراعة وتجميل الأسنان.",
+    publicUniversities: ["الجامعة الأردنية", "جامعة العلوم والتكنولوجيا الأردنية"],
+    privateUniversities: ["جامعة عمان الأهلية", "جامعة الزيتونة"],
+    accreditation: "اعتماد هيئة الاعتماد الأردنية والمجلس الطبي الأردني.",
+    trainingNotes: "خمس سنوات دراسية تتضمن تدريباً عملياً ومختبرات تيجان وجسور وعيادات سريرية للمرضى في السنتين الرابعة والخامسة.",
+    automation: {
+      exposure: "منخفض",
+      note: "تقنيات المسح ثلاثي الأبعاد والطباعة الحيوية وتصميم الابتسامة بالكمبيوتر (CAD/CAM) تمكّن الطبيب من دقة وسرعة قياسية.",
+    },
+    certificationIds: ["openwho-infection-control", "openwho-emergency-planning"],
+    alternatives: [
+      { name: "تكنولوجيا صناعة الأسنان", reason: "مسار تقني مهني مطلوب لمختبرات الأسنان" },
+      { name: "الطب البشري", reason: "تنوع أكبر في تخصصات الإقامة والخيارات الجراحية" },
+    ],
+    salary: { entryMin: 400, entryAvg: 550, experienced: 2200 },
+    remoteWorkIndex: "نادر",
+    gulfDemand: "مرتفع",
+    syndicate: { name: "نقابة أطباء الأسنان الأردنية", examRequired: true, note: "امتحان مزاولة المهنة والمجلس الطبي" },
+    jobTitles: ["طبيب أسنان عام", "أخصائي تقويم أسنان", "أخصائي زراعة أسنان", "طبيب أسنان أطفال"],
+    topEmployers: ["العيادات الخاصة", "مراكز طب الأسنان التخصصية", "الخدمات الطبية الملكية", "وزارة الصحة"],
+    creditHours: 200,
+    averageHourPriceJOD: { competitive: 45, parallel: 150, private: 250 },
+  },
+  {
+    slug: "mechanical-engineering",
+    name: "الهندسة الميكانيكية",
+    field: "الهندسة",
+    classification: "مشبع",
+    employmentRate: "45% – 55%",
+    risk: "متوسط",
+    summary:
+      "أم الهندسات وأكثرها شمولاً؛ في الأردن يعاني القطاع الحكومي من ركود نسبي، لكن خريج الميكانيك المتميز يجد فرصاً قوية في كبرى المصانع وقطاع التدفئة والتكييف (HVAC) وصيانة الطائرات ومشاريع الطاقة بالخليج.",
+    publicUniversities: [
+      "الجامعة الأردنية",
+      "جامعة العلوم والتكنولوجيا الأردنية",
+      "الجامعة الهاشمية",
+      "جامعة البلقاء التطبيقية",
+      "الجامعة الألمانية الأردنية",
+      "جامعة مؤتة",
+    ],
+    privateUniversities: ["جامعة العلوم التطبيقية الخاصة", "جامعة فيلادلفيا", "جامعة الزيتونة", "جامعة الإسراء"],
+    accreditation: "اعتماد هيئة الاعتماد، واعتماد ABET في الجامعات الأردنية الرائدة.",
+    trainingNotes: "تدريب ميداني إلزامي لمدة 8 أسابيع في المصانع أو شركات التكييف ومقاولات الإلكتروميكانيك.",
+    automation: {
+      exposure: "متوسط",
+      note: "برامج التصميم المحاكي والـ CAD والذكاء الاصطناعي ترفع إنتاجية المهندس نحو الأتمتة الصناعية والروبوتات.",
+    },
+    certificationIds: ["cisco-python-basics", "cisco-linux-basics"],
+    alternatives: [
+      { name: "هندسة الميكاترونكس والروبوتات", reason: "جمع بين الميكانيك والإلكترونيات والبرمجة الحديثة" },
+      { name: "هندسة الطاقة المتجددة", reason: "تركيز متخصص على استدامة الطاقة الشمسية وطاقة الرياح" },
+    ],
+    salary: { entryMin: 350, entryAvg: 480, experienced: 1800 },
+    remoteWorkIndex: "محدود",
+    gulfDemand: "مرتفع",
+    syndicate: { name: "نقابة المهندسين الأردنيين (شعبة الهندسة الميكانيكية)", examRequired: false },
+    jobTitles: ["مهندس ميكانيك موقع", "مهندس تصميم HVAC وميكانيك", "مهندس صيانة صناعية", "مهندس مبيعات فنية"],
+    topEmployers: ["مصفاة البترول الأردنية", "شركات المقاولات الكبرى", "مصانع الأدوية", "الملكية الأردنية (صيانة الطائرات JORAMCO)"],
+    creditHours: 160,
+    averageHourPriceJOD: { competitive: 35, parallel: 80, private: 110 },
+  },
+  {
+    slug: "biomedical-engineering",
+    name: "الهندسة الطبية والحيوية",
+    field: "الهندسة",
+    classification: "مطلوب",
+    employmentRate: "60% – 70%",
+    risk: "منخفض",
+    summary:
+      "تخصص يربط بين الهندسة والطب والتقنيات الحيوية؛ ازدهار قطاع الرعاية الصحية والمستشفيات المتقدمة في الأردن يجعل الطلب عليه متزايداً في صيانة الأجهزة الطبية المعقدة ومبيعات المعدات المتطورة والذكاء الاصطناعي الطبي.",
+    publicUniversities: ["الجامعة الألمانية الأردنية", "جامعة العلوم والتكنولوجيا الأردنية", "الجامعة الهاشمية"],
+    privateUniversities: ["جامعة عمان الأهلية", "جامعة العلوم التطبيقية"],
+    accreditation: "اعتماد هيئة الاعتماد الأردنية والـ ABET.",
+    trainingNotes: "تدريب سريري وميداني مكثف في أقسام الهندسة الطبية بالمستشفيات والشركات الموردة للأجهزة الطبية.",
+    automation: {
+      exposure: "منخفض",
+      note: "صيانة ومعايرة الأجهزة الطبية الحساسة تتطلب إشرافاً بشرياً هندسياً دقيقاً لا يمكن أتمتته بالكامل.",
+    },
+    certificationIds: ["openwho-infection-control", "cisco-python-basics"],
+    alternatives: [
+      { name: "الهندسة الكهربائية والإلكترونية", reason: "قاعدة أوسع في الإلكترونيات وتصميم الدوائر" },
+      { name: "علوم الحاسوب والذكاء الاصطناعي", reason: "تطوير خوارزميات تحليل الصور الطبية" },
+    ],
+    salary: { entryMin: 400, entryAvg: 550, experienced: 1700 },
+    remoteWorkIndex: "محدود",
+    gulfDemand: "مرتفع",
+    syndicate: { name: "نقابة المهندسين الأردنيين (شعبة الهندسة الكهربائية)", examRequired: false },
+    jobTitles: ["مهندس أجهزة طبية", "مهندس صيانة مستشفيات", "أخصائي مبيعات معدات طبية", "مسؤول جودة ومعايرة طبية"],
+    topEmployers: ["شركات توريد الأجهزة الطبية (مثل بترا للخدمات الطبية)", "مستشفيات القطاع الخاص", "مركز الحسين للسرطان"],
+    creditHours: 160,
+    averageHourPriceJOD: { competitive: 42, parallel: 90, private: 125 },
+  },
+  {
+    slug: "renewable-energy-engineering",
+    name: "هندسة الطاقة المتجددة والمستدامة",
+    field: "الهندسة",
+    classification: "مطلوب",
+    employmentRate: "65% – 75%",
+    risk: "منخفض",
+    summary:
+      "الأردن يعد رائداً إقليمياً في مشاريع الطاقة الشمسية وطاقة الرياح (مشروع معان والطفيلة)؛ التخصص مطلوب في تصميم وتركيب وإدارة محطات الطاقة النظيفة وتقليل استهلاك الطاقة في المنشآت الكبرى.",
+    publicUniversities: ["الجامعة الأردنية", "الجامعة الهاشمية", "جامعة مؤتة", "جامعة الطفيلة التقنية", "جامعة البلقاء التطبيقية"],
+    privateUniversities: ["جامعة الزيتونة", "جامعة العلوم التطبيقية", "جامعة الإسراء"],
+    accreditation: "اعتماد هيئة الاعتماد الأردنية.",
+    trainingNotes: "تدريب عملي في محطات الطاقة الشمسية ومزارع الرياح وشركات توزيع الكهرباء (كهرباء إربد، شركة الكهرباء الأردنية).",
+    automation: {
+      exposure: "منخفض",
+      note: "إشراف الموقع والتركيب والصيانة الميدانية للألواح والعنفات يتطلب عملاً هندسياً حياً.",
+    },
+    certificationIds: ["cisco-python-basics", "cisco-linux-basics"],
+    alternatives: [
+      { name: "الهندسة الكهربائية", reason: "مسار طاقة تقليدية وتوزيع كهربائي أوسع" },
+      { name: "الهندسة الميكانيكية", reason: "مسار محركات وتوربينات وميكانيكا حرارية" },
+    ],
+    salary: { entryMin: 400, entryAvg: 520, experienced: 1900 },
+    remoteWorkIndex: "متوسط",
+    gulfDemand: "مرتفع جداً",
+    syndicate: { name: "نقابة المهندسين الأردنيين", examRequired: false },
+    jobTitles: ["مهندس طاقة شمسية PV", "مهندس كفاءة طاقة", "مهندس تصميم محطات طاقة", "مدير مشاريع طاقة مستدامة"],
+    topEmployers: ["شركات الطاقة الشمسية الأردنية", "شركة الكهرباء الوطنية NEPCO", "مشاريع الطاقة المستقلة IPP في الخليج"],
+    creditHours: 160,
+    averageHourPriceJOD: { competitive: 38, parallel: 85, private: 115 },
+  },
+  {
+    slug: "fintech",
+    name: "التكنولوجيا المالية والمصرفية (FinTech)",
+    field: "العلوم المالية والمصرفية",
+    classification: "مطلوب",
+    employmentRate: "70% – 85%",
+    risk: "منخفض",
+    summary:
+      "أحد أسرع التخصصات نمواً في الأردن؛ يجمع بين التحليل المالي والبرمجة وحماية المعاملات وبوابات الدفع الإلكتروني (CliQ، المحافظ الرقمية، تقنية البلوكشين)، ومدعوم برؤية التحديث الاقتصادي للبنك المركزي الأردني.",
+    publicUniversities: ["الجامعة الأردنية", "الجامعة الهاشمية", "جامعة اليرموك", "جامعة البلقاء التطبيقية"],
+    privateUniversities: ["جامعة الأميرة سمية للتكنولوجيا", "جامعة الشرق الأوسط", "جامعة عمان الأهلية"],
+    accreditation: "اعتماد هيئة الاعتماد الأردنية.",
+    trainingNotes: "تدريب إلزامي في البنوك الأردنية، شركات المدفوعات الرقمية (JoPACC)، أو شركات التقنية المالية الناشئة.",
+    automation: {
+      exposure: "متوسط",
+      note: "الخوارزميات تحلل الأسواق، بينما يركز الخريج على تطوير نماذج التمويل الرقمي وحوكمة المخاطر والامتثال.",
+    },
+    certificationIds: ["cs50sql", "cs50p", "openlearn-bookkeeping"],
+    alternatives: [
+      { name: "علم البيانات والذكاء الاصطناعي", reason: "تطبيقات مالية وتنبؤ بالأسواق عبر النماذج الذكية" },
+      { name: "العلوم المالية والمصرفية", reason: "الأساس النظري المصرفي التقليدي" },
+    ],
+    salary: { entryMin: 450, entryAvg: 650, experienced: 2400 },
+    remoteWorkIndex: "عالي جداً",
+    gulfDemand: "مرتفع جداً",
+    jobTitles: ["محلل تكنولوجيا مالية", "مطور حلول دفع رقمية", "محلل مخاطر واحتيال مالي", "مدير منتجات مالية رقمية"],
+    topEmployers: ["البنك المركزي الأردني", "شركة JoPACC (نظام كليك)", "البنك العربي", "بنك الاتحاد", "شركات Zain Cash و Orange Money"],
+    creditHours: 132,
+    averageHourPriceJOD: { competitive: 35, parallel: 70, private: 95 },
+  },
+  {
+    slug: "digital-media-design",
+    name: "التصميم الرقمي والوسائط المتعددة (UI/UX)",
+    field: "الفنون والتصميم الرقمي",
+    classification: "مطلوب",
+    employmentRate: "65% – 80%",
+    risk: "منخفض",
+    summary:
+      "تخصص يدمج بين الفن والتفكير التصميمي وتجربة المستخدم للتطبيقات والمواقع (UI/UX Design) والرسوم المتحركة والموشن جرافيك؛ يتميز بأعلى فرص عمل حر (Freelance) وعمل عن بُعد مع شركات خليجية وعالمية بعوائد ممتازة.",
+    publicUniversities: ["الجامعة الأردنية", "الجامعة الهاشمية", "جامعة اليرموك", "الجامعة الألمانية الأردنية"],
+    privateUniversities: ["جامعة الأميرة سمية للتكنولوجيا", "جامعة البتراء", "جامعة العلوم التطبيقية", "جامعة عمان الأهلية"],
+    accreditation: "اعتماد هيئة الاعتماد الأردنية.",
+    trainingNotes: "الأهم هو بناء معرض أعمال (Portfolio) على Behance و Dribbble أثناء سنوات الدراسة يثبت المهارة الحقيقية.",
+    automation: {
+      exposure: "متوسط",
+      note: "أدوات توليد الصور تساعد المصمم ولا تلغي دوره في فهم سيكولوجيا المستخدم وتجربة الاستخدام التفاعلية.",
+    },
+    certificationIds: ["fcc-responsive-web-design", "hubspot-content-marketing"],
+    alternatives: [
+      { name: "تطوير الويب المتكامل", reason: "برمجة الواجهات الأمامية بجانب تصميمها" },
+      { name: "التسويق الرقمي", reason: "إدارة الحملات والمحتوى الإعلاني" },
+    ],
+    salary: { entryMin: 400, entryAvg: 600, experienced: 2100 },
+    remoteWorkIndex: "عالي جداً",
+    gulfDemand: "مرتفع جداً",
+    jobTitles: ["مصمم واجهات وتجربة مستخدم UI/UX", "مصمم موشن جرافيك", "مصمم هويات بصرية", "مخرج فني رقمي"],
+    topEmployers: ["شركات البرمجيات والتطبيقات", "وكالات الإعلان والتسويق", "منصات العمل الحر Upwork و Mostaql", "استوديوهات الإنتاج الرقمي"],
+    creditHours: 132,
+    averageHourPriceJOD: { competitive: 32, parallel: 65, private: 90 },
+  },
+  {
+    slug: "supply-chain-logistics",
+    name: "إدارة سلاسل الإمداد واللوجستيات",
+    field: "الأعمال والإدارة",
+    classification: "مطلوب",
+    employmentRate: "70% – 80%",
+    risk: "منخفض",
+    summary:
+      "الأردن يعد مركزاً لوجستياً إقليمياً بفضل موقع العقبة الجغرافي وقربه من الأسواق الخليجية؛ التخصص يدير حركة البضائع والمستودعات والشحن الدولي والتجارة الإلكترونية بكفاءة تمنع الهدر وسلاسل التوريد الذكية.",
+    publicUniversities: ["الجامعة الألمانية الأردنية", "جامعة البلقاء التطبيقية", "الجامعة الهاشمية", "جامعة اليرموك"],
+    privateUniversities: ["جامعة الشرق الأوسط", "جامعة الزيتونة", "جامعة عمان العربية"],
+    accreditation: "اعتماد هيئة الاعتماد الأردنية، وشراكات لوجستية ألمانية في الجامعة الألمانية الأردنية.",
+    trainingNotes: "تدريب عملي إلزامي في كبرى شركات الشحن الدولي والموانئ والمناطق الحرة.",
+    automation: {
+      exposure: "متوسط",
+      note: "أتمتة المستودعات ترفع أهمية المهندس والمشرف على تخطيط السلاسل والتعامل مع الأزمات والتفاوض الدولي.",
+    },
+    certificationIds: ["openwho-health-logistics", "cs50sql", "openlearn-bookkeeping"],
+    alternatives: [
+      { name: "إدارة الأعمال الدولية", reason: "إدارة الشركات عبر الحدود" },
+      { name: "نظم المعلومات الإدارية (MIS)", reason: "أنظمة تخطيط الموارد ERP وسلاسل التوريد" },
+    ],
+    salary: { entryMin: 400, entryAvg: 550, experienced: 2000 },
+    remoteWorkIndex: "متوسط",
+    gulfDemand: "مرتفع جداً",
+    jobTitles: ["أخصائي سلاسل إمداد", "مسؤول شحن وتخليص جمركي", "مدير مستودعات وعمليات", "محلل لوجستي"],
+    topEmployers: ["شركة أرامكس Aramex", "شركة DHL", "ميناء العقبة للحاويات", "سلاسل التجزئة الكبرى والمصانع التصديرية"],
+    creditHours: 132,
+    averageHourPriceJOD: { competitive: 32, parallel: 65, private: 85 },
   },
 ];
 

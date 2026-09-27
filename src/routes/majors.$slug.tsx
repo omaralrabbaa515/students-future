@@ -1,7 +1,9 @@
 import { createFileRoute, ErrorComponent, Link, notFound } from "@tanstack/react-router";
+import { Bookmark, TrendingUp, Globe, Building2, Briefcase, DollarSign, Award, CheckCircle2 } from "lucide-react";
 
 import { getCertificationsByIds } from "@/data/certifications";
 import { getMajor } from "@/data/majors";
+import { useStudent } from "@/hooks/use-student";
 import { getPlatformMeta } from "@/lib/public-data.functions";
 import {
   EMPTY_PLATFORM_META,
@@ -70,11 +72,28 @@ function MajorPage() {
   const lastUpdated = lastUpdatedFor(meta, "major", major.slug);
   const reviewedAt = majorReviewedAt(meta, major.slug);
 
+  const { bookmarkedMajors, toggleMajorBookmark } = useStudent();
+  const isBookmarked = bookmarkedMajors.includes(major.slug);
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-10">
-      <Link to="/majors" className="text-muted-foreground text-sm underline">
-        رجوع إلى دليل التخصصات
-      </Link>
+      <div className="flex items-center justify-between">
+        <Link to="/majors" className="text-muted-foreground text-sm underline">
+          رجوع إلى دليل التخصصات
+        </Link>
+        <button
+          onClick={() => toggleMajorBookmark(major.slug)}
+          className={`flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-bold transition-all ${
+            isBookmarked
+              ? "bg-primary text-primary-foreground shadow-sm"
+              : "border-border hover:bg-surface border text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          <Bookmark className="size-3.5" />
+          {isBookmarked ? "محفوظ في مفضلتك ✓" : "حفظ التخصص بالمفضلة"}
+        </button>
+      </div>
+
       <h1 className="font-display mt-3 text-3xl font-extrabold sm:text-4xl">{major.name}</h1>
       <p className="text-muted-foreground mt-1 text-sm">{major.field}</p>
       <div className="mt-3 flex flex-wrap gap-2">
@@ -121,6 +140,92 @@ function MajorPage() {
             updatedAt={overrides["classification"]?.updated_at ?? null}
           />
         </div>
+      </Section>
+
+      {/* مؤشر الرواتب وسوق العمل الأردني والإقليمي */}
+      <Section title="2) مؤشر الرواتب وسوق العمل والانتساب المهني">
+        {major.salary ? (
+          <div className="grid gap-3 sm:grid-cols-3 mb-4">
+            <div className="border-border/80 bg-surface/40 rounded-xl border p-4 text-center">
+              <span className="text-muted-foreground text-xs font-medium">الحد الأدنى لراتب البداية</span>
+              <p className="font-display text-lg font-black text-foreground mt-1">
+                {major.salary.entryMin} د.أ / شهر
+              </p>
+            </div>
+            <div className="border-border/80 bg-surface/40 rounded-xl border p-4 text-center">
+              <span className="text-muted-foreground text-xs font-medium">متوسط راتب الخريج الجديد</span>
+              <p className="font-display text-xl font-black text-primary mt-1">
+                {major.salary.entryAvg} د.أ / شهر
+              </p>
+            </div>
+            <div className="border-border/80 bg-surface/40 rounded-xl border p-4 text-center">
+              <span className="text-muted-foreground text-xs font-medium">راتب ذوي الخبرة (أعلى 10%)</span>
+              <p className="font-display text-lg font-black text-emerald-600 dark:text-emerald-400 mt-1">
+                +{major.salary.experienced.toLocaleString()} د.أ / شهر
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className="border-border/60 bg-surface/30 rounded-xl border p-3.5 mb-4 text-xs text-muted-foreground">
+            متوسط راتب البداية التقديري لهذا القطاع في الأردن: 380 – 550 دينار أردني حسب مهارات الخريج.
+          </div>
+        )}
+
+        <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 text-xs">
+          {major.remoteWorkIndex && (
+            <div className="border-border bg-card rounded-xl border p-3">
+              <span className="text-muted-foreground block font-medium">العمل عن بُعد (Remote):</span>
+              <span className="font-bold text-foreground mt-0.5 inline-block">{major.remoteWorkIndex}</span>
+            </div>
+          )}
+
+          {major.gulfDemand && (
+            <div className="border-border bg-card rounded-xl border p-3">
+              <span className="text-muted-foreground block font-medium">الطلب في دول الخليج:</span>
+              <span className="font-bold text-foreground mt-0.5 inline-block">{major.gulfDemand}</span>
+            </div>
+          )}
+
+          {major.syndicate && (
+            <div className="border-border bg-card rounded-xl border p-3">
+              <span className="text-muted-foreground block font-medium">النقابة المهنية:</span>
+              <span className="font-bold text-foreground mt-0.5 inline-block">{major.syndicate.name}</span>
+            </div>
+          )}
+
+          {major.creditHours && (
+            <div className="border-border bg-card rounded-xl border p-3">
+              <span className="text-muted-foreground block font-medium">عدد الساعات المعتمدة:</span>
+              <span className="font-bold text-foreground mt-0.5 inline-block">{major.creditHours} ساعة</span>
+            </div>
+          )}
+        </div>
+
+        {major.jobTitles && major.jobTitles.length > 0 && (
+          <div className="mt-4">
+            <span className="text-xs font-bold text-foreground block mb-2">المسميات الوظيفية الدقيقة في سوق العمل:</span>
+            <div className="flex flex-wrap gap-1.5">
+              {major.jobTitles.map((title) => (
+                <span key={title} className="bg-surface-2 text-foreground rounded-lg px-2.5 py-1 text-xs font-medium">
+                  {title}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {major.topEmployers && major.topEmployers.length > 0 && (
+          <div className="mt-4">
+            <span className="text-xs font-bold text-foreground block mb-2">أبرز القطاعات والشركات المشغلة في الأردن:</span>
+            <div className="flex flex-wrap gap-1.5">
+              {major.topEmployers.map((emp) => (
+                <span key={emp} className="bg-primary/10 text-primary border border-primary/20 rounded-lg px-2.5 py-1 text-xs font-medium">
+                  {emp}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
       </Section>
 
       <Section title="2) خريطة التخصص في الجامعات الأردنية">

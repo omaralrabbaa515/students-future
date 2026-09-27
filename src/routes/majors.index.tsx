@@ -115,15 +115,27 @@ function MajorsIndex() {
               >
                 الخطر: {major.risk}
               </span>
+              {major.remoteWorkIndex && major.remoteWorkIndex.includes("عالي") && (
+                <span className="pill tone-good">
+                  عمل عن بُعد {major.remoteWorkIndex}
+                </span>
+              )}
             </div>
             <h2 className="font-display mt-3 text-lg font-bold">{major.name}</h2>
             <p className="text-muted-foreground mt-1 text-xs">{major.field}</p>
-            <p className="text-muted-foreground mt-3 line-clamp-3 text-sm leading-7">
+            <p className="text-muted-foreground mt-3 line-clamp-2 text-sm leading-7">
               {major.summary}
             </p>
-            <p className="mt-4 text-sm font-bold">
-              تقدير التشغيل: <span className="text-brand-ink">{major.employmentRate}</span>
-            </p>
+            <div className="mt-4 flex items-center justify-between border-t border-border/60 pt-3 text-xs">
+              <span className="font-bold">
+                التشغيل: <span className="text-brand-ink">{major.employmentRate}</span>
+              </span>
+              {major.salary && (
+                <span className="text-muted-foreground font-semibold">
+                  متوسط البداية: <strong className="text-foreground">{major.salary.entryAvg} د.أ</strong>
+                </span>
+              )}
+            </div>
           </Link>
         ))}
       </div>
