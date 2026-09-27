@@ -170,7 +170,7 @@ function UpdatesPage() {
 
 
 
-  if (dashboard.isLoading) {
+  if (dashboard.isLoading || !data) {
     return <p className="mx-auto max-w-4xl px-4 py-12 text-sm">جارٍ تحميل اللوحة…</p>;
   }
 
@@ -251,10 +251,10 @@ function UpdatesPage() {
       )}
 
       <div className="mt-6 grid gap-3 sm:grid-cols-3 lg:grid-cols-7">
-        <Stat label="تغييرات بانتظار المراجعة" value={String(data?.pending.length ?? 0)} />
-        <Stat label="روابط معطّلة" value={String(data?.brokenLinks.length ?? 0)} />
-        <Stat label="قيم معتمدة ظاهرة للطلبة" value={String(data?.overrides.length ?? 0)} />
-        <Stat label="سجلات في سجل التحديثات" value={String(data?.log.length ?? 0)} />
+        <Stat label="تغييرات بانتظار المراجعة" value={String(data?.pending?.length ?? 0)} />
+        <Stat label="روابط معطّلة" value={String(data?.brokenLinks?.length ?? 0)} />
+        <Stat label="قيم معتمدة ظاهرة للطلبة" value={String(data?.overrides?.length ?? 0)} />
+        <Stat label="سجلات في سجل التحديثات" value={String(data?.log?.length ?? 0)} />
         <Stat
           label="تخصصات روجعت في آخر جولة"
           value={String(lastScan?.reviewed_majors ?? 0)}
@@ -262,7 +262,7 @@ function UpdatesPage() {
         <Stat label="حالات تغيّرت في آخر جولة" value={String(lastScan?.status_changes ?? 0)} />
         <Stat
           label="تنبيهات أمنية"
-          value={String(data?.securityAlerts.filter((a) => !a.is_resolved).length ?? 0)}
+          value={String(data?.securityAlerts?.filter((a) => !a.is_resolved)?.length ?? 0)}
         />
       </div>
 
@@ -282,10 +282,10 @@ function UpdatesPage() {
 
       {tab === "pending" && (
         <div className="mt-6 space-y-3">
-          {(data?.pending.length ?? 0) === 0 && (
+          {(data?.pending?.length ?? 0) === 0 && (
             <p className="text-muted-foreground text-sm">لا توجد تغييرات بانتظار المراجعة.</p>
           )}
-          {data?.pending.map((change) => (
+          {(data?.pending ?? []).map((change) => (
             <div key={change.id} className="card-surface p-4">
               <p className="text-muted-foreground text-xs">
                 {ENTITY_LABELS[change.entity_type] ?? change.entity_type} · {change.field_label} ·
@@ -332,13 +332,13 @@ function UpdatesPage() {
             </div>
           ))}
 
-          {(data?.overrides.length ?? 0) > 0 && (
+          {(data?.overrides?.length ?? 0) > 0 && (
             <div className="border-border mt-8 border-t pt-6">
               <h2 className="font-display text-foreground text-lg font-bold">
                 القيم المعتمدة الظاهرة للطلبة
               </h2>
               <div className="mt-3 space-y-2">
-                {data?.overrides.map((row) => (
+                {(data?.overrides ?? []).map((row) => (
                   <div
                     key={`${row.entity_id}-${row.field}`}
                     className="border-border bg-card flex flex-wrap items-center justify-between gap-2 rounded-lg border p-3 text-sm"
@@ -376,12 +376,12 @@ function UpdatesPage() {
 
       {tab === "links" && (
         <div className="mt-6 space-y-3">
-          {(data?.brokenLinks.length ?? 0) === 0 && (
+          {(data?.brokenLinks?.length ?? 0) === 0 && (
             <p className="text-muted-foreground text-sm">
               لا توجد روابط معطّلة في آخر فحص. تُفحَص جميع روابط الشهادات في كل عملية فحص.
             </p>
           )}
-          {data?.brokenLinks.map((link) => (
+          {(data?.brokenLinks ?? []).map((link) => (
             <div key={link.certification_id} className="tone-bad border-danger/30 rounded-xl border p-4">
               <h3 className="font-display font-bold">
                 {certTitles.get(link.certification_id) ?? link.certification_id}
@@ -555,7 +555,7 @@ function UpdatesPage() {
               </tr>
             </thead>
             <tbody>
-              {data?.scans.map((run) => (
+              {(data?.scans ?? []).map((run) => (
                 <tr key={run.id}>
                   <td className="border-border border p-2 whitespace-nowrap">
                     {formatDateTime(run.started_at)}
@@ -579,7 +579,7 @@ function UpdatesPage() {
               ))}
             </tbody>
           </table>
-          {(data?.scans.length ?? 0) === 0 && (
+          {(data?.scans?.length ?? 0) === 0 && (
             <p className="text-muted-foreground mt-4 text-sm">لم تُنفَّذ أي عملية فحص بعد.</p>
           )}
         </div>
@@ -654,20 +654,20 @@ function UpdatesPage() {
                 سجل التنبيهات الأمنية ومحاولات التغيير
               </h3>
               <span className="text-muted-foreground text-xs">
-                {data?.securityAlerts.length ?? 0} تنبيه مسجّل
+                {data?.securityAlerts?.length ?? 0} تنبيه مسجّل
               </span>
             </div>
             <p className="text-muted-foreground mt-1 text-xs">
               يتم هنا رصد أي محاولات من أي مستخدم للمطالبة بصلاحيات الإشراف أو تغيير الحساب التنفيذي.
             </p>
 
-            {(data?.securityAlerts.length ?? 0) === 0 ? (
+            {(data?.securityAlerts?.length ?? 0) === 0 ? (
               <div className="bg-secondary/30 mt-4 rounded-xl p-6 text-center text-sm text-muted-foreground">
                 ✅ لا توجد أي محاولات اختراق أو تغيير غير مصرح بها. النظام محمي بالكامل.
               </div>
             ) : (
               <div className="mt-4 space-y-3">
-                {data?.securityAlerts.map((alert) => (
+                {(data?.securityAlerts ?? []).map((alert) => (
                   <div
                     key={alert.id}
                     className={`rounded-xl border p-4 text-sm ${

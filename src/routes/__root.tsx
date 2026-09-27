@@ -51,6 +51,11 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
         <p className="mt-2 text-sm leading-7 text-muted-foreground">
           حدث خطأ غير متوقع من جانبنا. يمكنك إعادة المحاولة أو العودة إلى الصفحة الرئيسية.
         </p>
+        {error?.message && (
+          <p className="mt-3 rounded-lg border border-destructive/30 bg-destructive/10 p-3 font-mono text-xs text-destructive text-left dir-ltr max-h-32 overflow-auto">
+            {error.message}
+          </p>
+        )}
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
             onClick={() => {

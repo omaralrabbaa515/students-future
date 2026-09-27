@@ -32,9 +32,14 @@ function AuthPage() {
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    void supabase.auth.getSession().then(({ data }) => {
-      if (data.session) void navigate({ to: "/updates" });
-    });
+    void supabase.auth
+      .getSession()
+      .then(({ data }) => {
+        if (data?.session) void navigate({ to: "/updates" });
+      })
+      .catch(() => {
+        // Safe fallback if session retrieval fails
+      });
   }, [navigate]);
 
   async function handleSubmit(event: React.FormEvent) {
