@@ -10,7 +10,7 @@ import {
 import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import graduateLogo from "../assets/graduate-logo.png.asset.json";
+import { AppLogo } from "@/components/brand-logo";
 import { FloatingCopilot } from "@/components/floating-copilot";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -127,6 +127,7 @@ const navLinks = [
   { to: "/advisor", label: "المستشار الذكي" },
   { to: "/majors", label: "دليل التخصصات" },
   { to: "/certifications", label: "الشهادات المجانية" },
+  { to: "/magazine", label: "المجلة الخبيرية 📰" },
   { to: "/sources", label: "المصادر الرسمية" },
 ] as const;
 
@@ -152,18 +153,9 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <div className="bg-background flex min-h-screen flex-col">
         <header className="border-border/70 bg-background/85 sticky top-0 z-50 border-b backdrop-blur-xl">
-          <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
+          <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-2.5">
             <Link to="/" className="group flex items-center gap-2.5">
-              <img
-                src={graduateLogo.url}
-                alt="شعار منصة الطلاب والمستقبل"
-                width={512}
-                height={512}
-                className="size-9 object-contain"
-              />
-              <span className="font-display text-base font-extrabold tracking-tight">
-                الطلاب <span className="text-brand-ink">والمستقبل</span>
-              </span>
+              <AppLogo size={36} showText textSize="md" />
             </Link>
             <nav className="flex flex-wrap items-center gap-1 text-sm">
               {navLinks.map((link) => (
@@ -217,13 +209,11 @@ function RootComponent() {
 
         <footer className="border-border/70 bg-surface/70 mt-16 border-t">
           <div className="text-muted-foreground mx-auto max-w-6xl px-4 py-10 text-sm">
-            <p className="font-display text-foreground text-base font-bold">
-              منصة الطلاب والمستقبل
-            </p>
-            <p className="mt-3 max-w-3xl leading-8">
+            <AppLogo size={32} showText textSize="sm" />
+            <p className="mt-3 max-w-3xl leading-7 text-xs sm:text-sm">
               جميع نِسَب التشغيل والتصنيفات تقديرات استرشادية مبنية على أحدث البيانات الرسمية
-              المتاحة من ديوان الخدمة المدنية ودائرة الإحصاءات العامة ووزارة التعليم العالي ومنصة
-              سجّل، وليست أرقاماً لحظية.
+              المتاحة من ديوان الخدمة المدنية (هيئة الخدمة والإدارة العامة) ودائرة الإحصاءات العامة ووزارة التعليم العالي ومنصة
+              سجّل الوطنية، وتخضع للمراجعة والتدقيق المستمر.
             </p>
             <p className="mt-4 text-xs opacity-80">
               جميع الحقوق محفوظة — بإعداد الطالب عمر الرباع © {new Date().getFullYear()}

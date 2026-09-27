@@ -15,6 +15,7 @@ import { Route as AdvisorRouteImport } from './routes/advisor'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CertificationsRouteImport } from './routes/certifications'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as MagazineRouteImport } from './routes/magazine'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as SourcesRouteImport } from './routes/sources'
 import { Route as AuthenticatedUpdatesRouteImport } from './routes/_authenticated/updates'
@@ -50,6 +51,11 @@ const CertificationsRoute = CertificationsRouteImport.update({
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MagazineRoute = MagazineRouteImport.update({
+  id: '/magazine',
+  path: '/magazine',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfileRoute = ProfileRouteImport.update({
@@ -94,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/certifications': typeof CertificationsRoute
   '/dashboard': typeof DashboardRoute
+  '/magazine': typeof MagazineRoute
   '/profile': typeof ProfileRoute
   '/sources': typeof SourcesRoute
   '/updates': typeof AuthenticatedUpdatesRoute
@@ -108,6 +115,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/certifications': typeof CertificationsRoute
   '/dashboard': typeof DashboardRoute
+  '/magazine': typeof MagazineRoute
   '/profile': typeof ProfileRoute
   '/sources': typeof SourcesRoute
   '/updates': typeof AuthenticatedUpdatesRoute
@@ -124,6 +132,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/certifications': typeof CertificationsRoute
   '/dashboard': typeof DashboardRoute
+  '/magazine': typeof MagazineRoute
   '/profile': typeof ProfileRoute
   '/sources': typeof SourcesRoute
   '/_authenticated/updates': typeof AuthenticatedUpdatesRoute
@@ -140,6 +149,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/certifications'
     | '/dashboard'
+    | '/magazine'
     | '/profile'
     | '/sources'
     | '/updates'
@@ -154,6 +164,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/certifications'
     | '/dashboard'
+    | '/magazine'
     | '/profile'
     | '/sources'
     | '/updates'
@@ -169,6 +180,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/certifications'
     | '/dashboard'
+    | '/magazine'
     | '/profile'
     | '/sources'
     | '/_authenticated/updates'
@@ -185,6 +197,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   CertificationsRoute: typeof CertificationsRoute
   DashboardRoute: typeof DashboardRoute
+  MagazineRoute: typeof MagazineRoute
   ProfileRoute: typeof ProfileRoute
   SourcesRoute: typeof SourcesRoute
   ApiChatRoute: typeof ApiChatRoute
@@ -235,6 +248,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/magazine': {
+      id: '/magazine'
+      path: '/magazine'
+      fullPath: '/magazine'
+      preLoaderRoute: typeof MagazineRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profile': {
@@ -307,6 +327,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   CertificationsRoute: CertificationsRoute,
   DashboardRoute: DashboardRoute,
+  MagazineRoute: MagazineRoute,
   ProfileRoute: ProfileRoute,
   SourcesRoute: SourcesRoute,
   ApiChatRoute: ApiChatRoute,

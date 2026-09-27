@@ -31,10 +31,21 @@ import {
   Menu,
   X,
   Award,
+  Newspaper,
+  BookOpenCheck,
+  PlusCircle,
+  Trash2,
+  BookmarkCheck,
 } from "lucide-react";
 
 import { certifications } from "@/data/certifications";
 import { majors } from "@/data/majors";
+import { INITIAL_MAGAZINE_ARTICLES, type ExpertArticle } from "@/data/magazine";
+import {
+  OFFICIAL_ADMISSIONS_DATA,
+  CIVIL_SERVICE_BENCHMARK_2025,
+  SECTOR_SALARY_BENCHMARKS,
+} from "@/data/official-market-stats";
 import {
   claimAdminRole,
   decidePendingChange,
@@ -44,7 +55,7 @@ import {
   saveDirectOverride,
 } from "@/lib/admin.functions";
 import { formatDate, formatDateTime } from "@/lib/platform-data";
-import graduateLogo from "@/assets/graduate-logo.png.asset.json";
+import { AppLogo } from "@/components/brand-logo";
 
 export const Route = createFileRoute("/_authenticated/updates")({
   head: () => ({
@@ -73,6 +84,8 @@ type SidebarSection =
   | "traffic"
   | "users"
   | "overrides"
+  | "magazine"
+  | "admissions"
   | "ai"
   | "pending"
   | "audit"
@@ -89,6 +102,8 @@ const SIDEBAR_ITEMS: {
   { id: "traffic", label: "الزيارات وسلوك الطلاب", category: "analytics", icon: TrendingUp },
   { id: "users", label: "إدارة المستخدمين والطلاب", category: "management", icon: Users },
   { id: "overrides", label: "تعديل بيانات التخصصات", category: "management", icon: Sliders },
+  { id: "magazine", label: "إدارة المجلة الخبيرية 📰", category: "management", icon: Newspaper },
+  { id: "admissions", label: "معدلات القبول والديوان 📊", category: "management", icon: BookOpenCheck },
   { id: "ai", label: "استشارات ومفاتيح الذكاء الاصطناعي", category: "ai", icon: Bot },
   { id: "pending", label: "التغييرات المقترحة", category: "audit", icon: Clock },
   { id: "audit", label: "سجل التدقيق والنشاط", category: "audit", icon: FileText },
@@ -130,6 +145,20 @@ function MasterAdminPage() {
   const [aiTestPrompt, setAiTestPrompt] = useState("ما رواتب ونسب تشغيل الذكاء الاصطناعي في الأردن؟");
   const [aiTestResult, setAiTestResult] = useState<string | null>(null);
   const [aiTesting, setAiTesting] = useState(false);
+
+  // Magazine Management State
+  const [articlesList, setArticlesList] = useState<ExpertArticle[]>(INITIAL_MAGAZINE_ARTICLES);
+  const [newArticleTitle, setNewArticleTitle] = useState("");
+  const [newArticleSummary, setNewArticleSummary] = useState("");
+  const [newArticleAuthor, setNewArticleAuthor] = useState("د. محمود جو (المدير التنفيذي والمستشار الأكاديمي)");
+  const [newArticleCategory, setNewArticleCategory] = useState("tawjihi_advice");
+  const [newArticleContent, setNewArticleContent] = useState("");
+  const [newArticleSource, setNewArticleSource] = useState("منصة الطلاب والمستقبل — التوجيه التنفيذي 2026");
+  const [isArticleModalOpen, setIsArticleModalOpen] = useState(false);
+
+  // Admissions & Civil Service State
+  const [admissionsSearch, setAdmissionsSearch] = useState("");
+  const [admissionsTab, setAdmissionsTab] = useState<"cutoffs" | "civil_service" | "salaries">("cutoffs");
 
   const dashboard = useQuery({
     queryKey: ["master-admin-dashboard"],
@@ -269,13 +298,7 @@ function MasterAdminPage() {
           {/* Brand & Executive Admin Header */}
           <div className="flex items-center justify-between pb-4 border-b border-border mb-4">
             <div className="flex items-center gap-2.5">
-              <img
-                src={graduateLogo.url}
-                alt="شعار الإدارة"
-                width={36}
-                height={36}
-                className="size-8 object-contain"
-              />
+              <AppLogo size={32} />
               <div>
                 <span className="font-display text-sm font-extrabold text-foreground block">
                   لوحة الإدارة العليا
@@ -894,6 +917,525 @@ function MasterAdminPage() {
                 </div>
               )}
             </div>
+          </div>
+        )}
+
+        {/* SECTION: MAGAZINE MANAGEMENT (إدارة المجلة الخبيرية) */}
+        {activeSection === "magazine" && (
+          <div className="space-y-6 animate-in fade-in">
+            {/* Header & Actions */}
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <h3 className="font-display text-lg font-bold text-foreground flex items-center gap-2">
+                  <Newspaper className="size-5 text-primary" />
+                  إدارة مقالات ودراسات المجلة الخبيرية
+                </h3>
+                <p className="text-xs text-muted-foreground mt-1">
+                  إشراف كامل على المحتوى التوجيهي، نشر مقالات جديدة، وتعيين المقالات الموصى بها للطلبة.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Link
+                  to="/magazine"
+                  className="px-4 py-2 rounded-xl border border-border bg-card hover:bg-surface text-xs font-bold text-foreground flex items-center gap-1.5 transition-colors"
+                >
+                  <ExternalLink className="size-3.5" />
+                  <span>معاينة المجلة الحية</span>
+                </Link>
+
+                <button
+                  type="button"
+                  onClick={() => setIsArticleModalOpen(true)}
+                  className="px-4 py-2 rounded-xl bg-primary text-primary-foreground text-xs font-bold flex items-center gap-1.5 shadow-xs hover:opacity-90 transition-opacity cursor-pointer"
+                >
+                  <PlusCircle className="size-4" />
+                  <span>نشر مقال خبير جديد</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Articles Stats Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="rounded-3xl border border-border bg-card p-5 shadow-xs">
+                <span className="text-xs text-muted-foreground block mb-1">إجمالي المقالات المنشورة</span>
+                <span className="font-display text-2xl sm:text-3xl font-extrabold text-foreground block">
+                  {articlesList.length} مقالات
+                </span>
+                <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold mt-1 block">
+                  ✓ خاضعة لإشراف الإدارة العليا
+                </span>
+              </div>
+
+              <div className="rounded-3xl border border-border bg-card p-5 shadow-xs">
+                <span className="text-xs text-muted-foreground block mb-1">مجموع قراءات الطلاب</span>
+                <span className="font-display text-2xl sm:text-3xl font-extrabold text-foreground block">
+                  {articlesList.reduce((acc, a) => acc + a.views, 0).toLocaleString()}
+                </span>
+                <span className="text-[11px] text-muted-foreground mt-1 block">
+                  قراءة تفاعلية مكتملة
+                </span>
+              </div>
+
+              <div className="rounded-3xl border border-border bg-card p-5 shadow-xs">
+                <span className="text-xs text-muted-foreground block mb-1">المقالات المميزة الموصى بها</span>
+                <span className="font-display text-2xl sm:text-3xl font-extrabold text-amber-500 block">
+                  {articlesList.filter((a) => a.featured).length} مقالات
+                </span>
+                <span className="text-[11px] text-muted-foreground mt-1 block">
+                  تظهر في واجهة المجلة الرئيسية
+                </span>
+              </div>
+            </div>
+
+            {/* Articles Table */}
+            <div className="rounded-3xl border border-border bg-card p-6 shadow-sm overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs text-right">
+                  <thead className="bg-surface text-muted-foreground font-bold border-b border-border">
+                    <tr>
+                      <th className="p-3">عنوان المقال والتصنيف</th>
+                      <th className="p-3">الخبير / الكاتب</th>
+                      <th className="p-3">تاريخ النشر</th>
+                      <th className="p-3">القراءات</th>
+                      <th className="p-3">حالة التمييز</th>
+                      <th className="p-3">إجراءات</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-border">
+                    {articlesList.map((art) => (
+                      <tr key={art.id} className="hover:bg-surface/40 transition-colors">
+                        <td className="p-3 max-w-xs">
+                          <span className="font-bold text-foreground block line-clamp-1">
+                            {art.title}
+                          </span>
+                          <span className="text-[10px] text-primary font-semibold block mt-0.5">
+                            {art.categoryLabel}
+                          </span>
+                        </td>
+                        <td className="p-3 whitespace-nowrap">
+                          <span className="font-bold text-foreground block">{art.author.name}</span>
+                          <span className="text-[10px] text-muted-foreground block truncate max-w-[150px]">
+                            {art.author.title}
+                          </span>
+                        </td>
+                        <td className="p-3 text-muted-foreground whitespace-nowrap">
+                          {art.publishedAt}
+                        </td>
+                        <td className="p-3 font-mono font-bold text-foreground whitespace-nowrap">
+                          {art.views.toLocaleString()}
+                        </td>
+                        <td className="p-3 whitespace-nowrap">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setArticlesList((prev) =>
+                                prev.map((item) =>
+                                  item.id === art.id ? { ...item, featured: !item.featured } : item
+                                )
+                              );
+                              setNotice(
+                                !art.featured
+                                  ? `تم تعيين مقال "${art.title}" كمقال مميز في الواجهة.`
+                                  : `تم إلغاء تمييز المقال.`
+                              );
+                            }}
+                            className={`px-2.5 py-1 rounded-full text-[11px] font-bold border transition-colors cursor-pointer ${
+                              art.featured
+                                ? "bg-amber-500/20 text-amber-600 dark:text-amber-400 border-amber-500/40"
+                                : "bg-surface text-muted-foreground border-border hover:bg-surface-2"
+                            }`}
+                          >
+                            {art.featured ? "⭐ مميز في الواجهة" : "عادي"}
+                          </button>
+                        </td>
+                        <td className="p-3 whitespace-nowrap">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (confirm(`هل أنت متأكد من حذف مقال "${art.title}"؟`)) {
+                                setArticlesList((prev) => prev.filter((item) => item.id !== art.id));
+                                setNotice(`تم حذف مقال "${art.title}" بنجاح.`);
+                              }
+                            }}
+                            className="p-1.5 rounded-lg text-destructive hover:bg-destructive/10 transition-colors"
+                            title="حذف المقال"
+                          >
+                            <Trash2 className="size-4" />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Publish Article Modal */}
+            {isArticleModalOpen && (
+              <div
+                role="dialog"
+                aria-modal="true"
+                className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in"
+              >
+                <div className="bg-card border border-border rounded-3xl max-w-xl w-full p-6 sm:p-7 shadow-2xl relative text-right max-h-[90vh] overflow-y-auto">
+                  <button
+                    onClick={() => setIsArticleModalOpen(false)}
+                    className="absolute start-4 top-4 text-muted-foreground hover:text-foreground p-1 rounded-xl"
+                  >
+                    ✕
+                  </button>
+
+                  <h3 className="font-display text-base font-bold text-foreground mb-4 flex items-center gap-2">
+                    <PlusCircle className="size-5 text-primary" />
+                    نشر مقال ودراسة جديدة في المجلة الخبيرية
+                  </h3>
+
+                  <div className="space-y-4 text-xs">
+                    <div>
+                      <label className="font-bold text-foreground block mb-1">عنوان المقال الأكاديمي</label>
+                      <input
+                        type="text"
+                        placeholder="مثال: التخصصات الأكثر طلباً في سوق العمل الأردني 2026…"
+                        value={newArticleTitle}
+                        onChange={(e) => setNewArticleTitle(e.target.value)}
+                        className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="font-bold text-foreground block mb-1">الملخص التنفيذي</label>
+                      <textarea
+                        rows={2}
+                        placeholder="ملخص مكثف يظهر للطلاب في بطاقة المقال…"
+                        value={newArticleSummary}
+                        onChange={(e) => setNewArticleSummary(e.target.value)}
+                        className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="font-bold text-foreground block mb-1">اسم الكاتب / الخبير</label>
+                        <input
+                          type="text"
+                          value={newArticleAuthor}
+                          onChange={(e) => setNewArticleAuthor(e.target.value)}
+                          className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="font-bold text-foreground block mb-1">التصنيف</label>
+                        <select
+                          value={newArticleCategory}
+                          onChange={(e) => setNewArticleCategory(e.target.value)}
+                          className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground"
+                        >
+                          <option value="tawjihi_advice">نصائح التوجيهي والركود</option>
+                          <option value="ai_and_tech">الذكاء الاصطناعي والتكنولوجيا</option>
+                          <option value="admissions_and_grants">القبول الموحد والموازي</option>
+                          <option value="remote_work">العمل عن بُعد بالدولار</option>
+                          <option value="healthcare_careers">القطاع الصحي والمهن الطبية</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="font-bold text-foreground block mb-1">المحتوى الكامل للمقال</label>
+                      <textarea
+                        rows={5}
+                        placeholder="اكتب فقرات المقال والدراسة هنا بالتفصيل…"
+                        value={newArticleContent}
+                        onChange={(e) => setNewArticleContent(e.target.value)}
+                        className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground focus:outline-none focus:ring-1 focus:ring-primary leading-relaxed"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="font-bold text-foreground block mb-1">المصدر الرسمي الموثق</label>
+                      <input
+                        type="text"
+                        value={newArticleSource}
+                        onChange={(e) => setNewArticleSource(e.target.value)}
+                        className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground"
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-end gap-2 pt-3 border-t border-border">
+                      <button
+                        type="button"
+                        onClick={() => setIsArticleModalOpen(false)}
+                        className="px-4 py-2 rounded-xl border border-border bg-card text-muted-foreground hover:bg-surface font-semibold"
+                      >
+                        إلغاء
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (!newArticleTitle.trim() || !newArticleContent.trim()) {
+                            alert("يرجى ملء عنوان المقال والمحتوى.");
+                            return;
+                          }
+
+                          const created: ExpertArticle = {
+                            id: `custom-art-${Date.now()}`,
+                            slug: `article-${Date.now()}`,
+                            title: newArticleTitle,
+                            summary: newArticleSummary || newArticleTitle,
+                            category: newArticleCategory as any,
+                            categoryLabel: "دراسة وتوجيه خبير",
+                            categoryColor: "bg-primary/10 text-primary border-primary/20",
+                            author: {
+                              name: newArticleAuthor,
+                              title: "خبير معتمد ومستشار أكاديمي",
+                              avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+                              verified: true,
+                            },
+                            readTime: "5 دقائق",
+                            publishedAt: new Date().toISOString().slice(0, 10),
+                            views: 1,
+                            featured: true,
+                            tags: ["توجيه أكاديمي", "سوق العمل 2026"],
+                            keyTakeaways: [
+                              "تم نشر هذا المقال حصرياً من قبل إدارة المنصة العليا لتقديم إرشاد مباشر للطلبة.",
+                            ],
+                            content: [newArticleContent],
+                            sourceReference: newArticleSource,
+                          };
+
+                          setArticlesList([created, ...articlesList]);
+                          setIsArticleModalOpen(false);
+                          setNewArticleTitle("");
+                          setNewArticleSummary("");
+                          setNewArticleContent("");
+                          setNotice("تم نشر مقالك في المجلة الخبيرية وأصبح متاحاً للطلبة الآن!");
+                        }}
+                        className="px-5 py-2 rounded-xl bg-primary text-primary-foreground font-bold shadow-xs hover:opacity-90"
+                      >
+                        نشر المقال فوراً
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* SECTION: ADMISSIONS & CIVIL SERVICE DATA (بيانات القبول والديوان) */}
+        {activeSection === "admissions" && (
+          <div className="space-y-6 animate-in fade-in">
+            {/* Header */}
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <h3 className="font-display text-lg font-bold text-foreground flex items-center gap-2">
+                  <BookOpenCheck className="size-5 text-emerald-500" />
+                  قاعدة البيانات الموثقة: القبول الموحد وديوان الخدمة وسجّل
+                </h3>
+                <p className="text-xs text-muted-foreground mt-1">
+                  إحصاءات رسمية دقيقة لـ 10 جامعات حكومية، دراسة واقع العرض والطلب 2025، وسلم أجور القطاع الخاص.
+                </p>
+              </div>
+
+              {/* Sub-tab navigation */}
+              <div className="flex items-center gap-1.5 p-1 bg-surface-2 rounded-2xl border border-border">
+                <button
+                  type="button"
+                  onClick={() => setAdmissionsTab("cutoffs")}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    admissionsTab === "cutoffs"
+                      ? "bg-card text-foreground shadow-xs"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  الحدود الدنيا للقبول (10 جامعات)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAdmissionsTab("civil_service")}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    admissionsTab === "civil_service"
+                      ? "bg-card text-foreground shadow-xs"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  تقرير ديوان الخدمة والإدارة
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAdmissionsTab("salaries")}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    admissionsTab === "salaries"
+                      ? "bg-card text-foreground shadow-xs"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  الرواتب والعمل عن بُعد (سجّل)
+                </button>
+              </div>
+            </div>
+
+            {/* TAB 1: University Cutoffs Table */}
+            {admissionsTab === "cutoffs" && (
+              <div className="rounded-3xl border border-border bg-card p-6 shadow-sm">
+                <div className="flex items-center justify-between gap-3 mb-4">
+                  <div className="relative max-w-sm w-full">
+                    <input
+                      type="text"
+                      placeholder="فلترة بالجامعة أو التخصص (مثال: الأردنية، طب، حاسوب)…"
+                      value={admissionsSearch}
+                      onChange={(e) => setAdmissionsSearch(e.target.value)}
+                      className="w-full bg-surface border border-border rounded-xl pe-8 ps-3 py-2 text-xs text-foreground focus:outline-none"
+                    />
+                    <Search className="size-3.5 text-muted-foreground absolute end-2.5 top-1/2 -translate-y-1/2" />
+                  </div>
+                  <span className="text-xs text-muted-foreground">
+                    مصدر البيانات: وحدة تنسيق القبول الموحد — وزارة التعليم العالي
+                  </span>
+                </div>
+
+                <div className="overflow-x-auto">
+                  <table className="w-full text-xs text-right">
+                    <thead className="bg-surface text-muted-foreground font-bold border-b border-border">
+                      <tr>
+                        <th className="p-3">الجامعة</th>
+                        <th className="p-3">التخصص</th>
+                        <th className="p-3">معدل قبول 2023</th>
+                        <th className="p-3">معدل قبول 2024</th>
+                        <th className="p-3">سعر الساعة التنافسي</th>
+                        <th className="p-3">سعر الساعة الموازي</th>
+                        <th className="p-3">مجموع الساعات</th>
+                        <th className="p-3">حالة السوق</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border">
+                      {OFFICIAL_ADMISSIONS_DATA.filter(
+                        (row) =>
+                          !admissionsSearch ||
+                          row.university.includes(admissionsSearch) ||
+                          row.majorName.includes(admissionsSearch)
+                      ).map((row, idx) => (
+                        <tr key={idx} className="hover:bg-surface/40">
+                          <td className="p-3 font-bold text-foreground">{row.university}</td>
+                          <td className="p-3 font-semibold text-primary">{row.majorName}</td>
+                          <td className="p-3 font-mono">{row.cutoff2023}%</td>
+                          <td className="p-3 font-mono font-bold text-foreground">
+                            {row.cutoff2024}%
+                          </td>
+                          <td className="p-3 font-mono">{row.regularHourPriceJOD} د.أ</td>
+                          <td className="p-3 font-mono">{row.parallelHourPriceJOD} د.أ</td>
+                          <td className="p-3 font-mono">{row.totalCreditHours} ساعة</td>
+                          <td className="p-3">
+                            <span
+                              className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                                row.status === "مطلوب"
+                                  ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                                  : row.status === "مشبع"
+                                    ? "bg-amber-500/10 text-amber-600 dark:text-amber-400"
+                                    : "bg-rose-500/10 text-rose-600 dark:text-rose-400"
+                              }`}
+                            >
+                              {row.status}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* TAB 2: Civil Service Reports */}
+            {admissionsTab === "civil_service" && (
+              <div className="space-y-4">
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {CIVIL_SERVICE_BENCHMARK_2025.map((cat, idx) => (
+                    <div key={idx} className="rounded-3xl border border-border bg-card p-5 shadow-xs space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="font-display font-extrabold text-foreground text-sm">
+                          {cat.field}
+                        </span>
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-primary/10 text-primary">
+                          استيعاب سنوي {cat.absorptionRatePercent}%
+                        </span>
+                      </div>
+
+                      <div className="text-xs space-y-2 pt-2 border-t border-border">
+                        <div>
+                          <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 block">
+                            ✓ التخصصات المطلوبة:
+                          </span>
+                          <span className="text-foreground leading-relaxed">
+                            {cat.demandedMajors.join("، ")}
+                          </span>
+                        </div>
+
+                        <div>
+                          <span className="text-[10px] font-bold text-rose-600 dark:text-rose-400 block">
+                            ✕ التخصصات الراكدة (تجنبها):
+                          </span>
+                          <span className="text-muted-foreground leading-relaxed">
+                            {cat.stagnantMajors.join("، ")}
+                          </span>
+                        </div>
+
+                        <div className="pt-2 border-t border-border/60 flex items-center justify-between text-[11px] text-muted-foreground">
+                          <span>طلبات التوظيف بالمخزون:</span>
+                          <span className="font-mono font-bold text-foreground">
+                            {cat.totalStockApplications.toLocaleString()}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* TAB 3: Salaries & Remote Work Benchmarks */}
+            {admissionsTab === "salaries" && (
+              <div className="rounded-3xl border border-border bg-card p-6 shadow-sm overflow-x-auto">
+                <table className="w-full text-xs text-right">
+                  <thead className="bg-surface text-muted-foreground font-bold border-b border-border">
+                    <tr>
+                      <th className="p-3">القطاع الوظيفي</th>
+                      <th className="p-3">راتب البداية للخريج</th>
+                      <th className="p-3">متوسط راتب (5 سنوات)</th>
+                      <th className="p-3">راتب الخبراء والمتقدمين</th>
+                      <th className="p-3">إمكانية العمل عن بُعد</th>
+                      <th className="p-3">الطلب في دول الخليج</th>
+                      <th className="p-3">متوسط الانتظار للوظيفة</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-border">
+                    {SECTOR_SALARY_BENCHMARKS.map((sec, idx) => (
+                      <tr key={idx} className="hover:bg-surface/40">
+                        <td className="p-3 font-bold text-foreground">{sec.sector}</td>
+                        <td className="p-3 font-mono font-bold text-emerald-600 dark:text-emerald-400">
+                          {sec.entrySalaryJOD} د.أ
+                        </td>
+                        <td className="p-3 font-mono text-foreground">{sec.midCareerSalaryJOD} د.أ</td>
+                        <td className="p-3 font-mono text-foreground font-bold">{sec.seniorSalaryJOD} د.أ</td>
+                        <td className="p-3">
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/10 text-blue-600 dark:text-blue-400">
+                            {sec.remotePotential}
+                          </span>
+                        </td>
+                        <td className="p-3">
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400">
+                            {sec.gulfDemandRating}
+                          </span>
+                        </td>
+                        <td className="p-3 font-mono">{sec.averageWaitTimeMonths} أشهر</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         )}
 
