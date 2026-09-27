@@ -81,18 +81,75 @@ function Advisor() {
       </p>
 
       {messages.length === 0 && (
-        <div className="mt-6">
-          <p className="mb-2 text-sm font-semibold">ابدأ من تخصص شائع:</p>
-          <div className="flex flex-wrap gap-2">
-            {majors.slice(0, 8).map((major) => (
+        <div className="mt-6 space-y-5">
+          <div>
+            <p className="text-foreground text-sm font-bold mb-2.5 flex items-center gap-2">
+              <span className="bg-primary/10 text-primary rounded-lg p-1 text-xs">🚀 أوضاع استشارية متقدمة:</span>
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               <button
-                key={major.slug}
-                onClick={() => submit(`أرغب بتحليل كامل لتخصص: ${major.name}`)}
-                className="border-border bg-card hover:border-brand hover:text-brand-ink rounded-full border px-4 py-2 text-sm transition-colors"
+                onClick={() =>
+                  submit("أنا متردد بين تخصص الذكاء الاصطناعي والأمن السيبراني، ومعدلي 85%، قارن بينهما في سوق العمل الأردني ورواتب البداية ومخاطر الأتمتة لأحسم قراري.")
+                }
+                className="border-border bg-card hover:border-primary/50 hover:bg-surface/50 rounded-xl border p-3.5 text-right transition-all text-xs space-y-1 shadow-xs"
               >
-                {major.name}
+                <span className="font-bold text-foreground block">⚖️ مقارنة تخصصين وحسم التردد</span>
+                <span className="text-muted-foreground block leading-5">
+                  مقارنة ذكية ومحايدة بين الذكاء الاصطناعي والأمن السيبراني بمعدل 85%.
+                </span>
               </button>
-            ))}
+
+              <button
+                onClick={() =>
+                  submit("أنا طالب سنة أولى في تخصص هندسة البرمجيات، رتّب لي خارطة طريق تفصيلية للمهارات والشهادات المجانية المعتمدة من السنة الأولى حتى سنة التخرج.")
+                }
+                className="border-border bg-card hover:border-primary/50 hover:bg-surface/50 rounded-xl border p-3.5 text-right transition-all text-xs space-y-1 shadow-xs"
+              >
+                <span className="font-bold text-foreground block">🗺️ توليد خارطة طريق المهارات (Roadmap)</span>
+                <span className="text-muted-foreground block leading-5">
+                  خطة سنوية عملية لبناء سيرة ذاتية قوية ومشاريع تؤهلك للتوظيف المباشر.
+                </span>
+              </button>
+
+              <button
+                onClick={() =>
+                  submit("أريد محاكاة لمقابلة عمل واقعية (Mock Interview) في تخصص علم البيانات والذكاء الاصطناعي في الأردن. اطرح علي السؤال الأول وانتظر إجابتي لتقييمها.")
+                }
+                className="border-border bg-card hover:border-primary/50 hover:bg-surface/50 rounded-xl border p-3.5 text-right transition-all text-xs space-y-1 shadow-xs"
+              >
+                <span className="font-bold text-foreground block">🎙️ محاكاة مقابلة وظيفية ذكية (AI Mock Interview)</span>
+                <span className="text-muted-foreground block leading-5">
+                  تدرب على أسئلة المقابلات الواقعية الشائعة واحصل على تقييم فوري لأدائك.
+                </span>
+              </button>
+
+              <button
+                onClick={() =>
+                  submit("ما هي التخصصات الأردنية الأكثر أماناً من الركود والتي توفر أعلى فرص عمل عن بُعد للخليج والخارج ورواتب ممتازة بالدينار الأردني؟")
+                }
+                className="border-border bg-card hover:border-primary/50 hover:bg-surface/50 rounded-xl border p-3.5 text-right transition-all text-xs space-y-1 shadow-xs"
+              >
+                <span className="font-bold text-foreground block">💼 كشف التخصصات الأعلى عائداً وأماناً</span>
+                <span className="text-muted-foreground block leading-5">
+                  استعراض التخصصات التي تحمي الطالب من فترات الانتظار الطويلة في ديوان الخدمة.
+                </span>
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <p className="text-muted-foreground text-xs font-semibold mb-2">أو اختر تخصصاً للتحليل الشامل الفوري:</p>
+            <div className="flex flex-wrap gap-2">
+              {majors.slice(0, 10).map((major) => (
+                <button
+                  key={major.slug}
+                  onClick={() => submit(`أرغب بتحليل كامل لتخصص: ${major.name}`)}
+                  className="border-border bg-card hover:border-primary hover:text-primary rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors shadow-xs"
+                >
+                  {major.name}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       )}
@@ -139,6 +196,34 @@ function Advisor() {
           <p className="border-destructive/40 bg-destructive/10 text-destructive rounded-md border p-3 text-sm">
             {error}
           </p>
+        )}
+        {messages.length > 0 && !isLoading && (
+          <div className="border-border/60 bg-surface/40 mt-4 rounded-xl border p-3">
+            <span className="text-muted-foreground text-xs font-semibold block mb-2">أسئلة متابعة ذكية مقترحة:</span>
+            <div className="flex flex-wrap gap-1.5">
+              <button
+                type="button"
+                onClick={() => submit("ما هي الشهادات المهنية المجانية المعتمدة عالمياً التي تنصحني بالبدء بها فوراً لرفع فرصة توظيفي؟")}
+                className="bg-card hover:bg-surface border-border text-foreground rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors text-right shadow-2xs"
+              >
+                🎓 ما أفضل الشهادات المجانية الموصى بها؟
+              </button>
+              <button
+                type="button"
+                onClick={() => submit("كيف أجهز نفسي للعمل عن بُعد (Remote Work) لشركات في الخليج أو الخارج أثناء سنوات دراستي؟")}
+                className="bg-card hover:bg-surface border-border text-foreground rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors text-right shadow-2xs"
+              >
+                🌐 كيف أبدأ العمل عن بُعد مع شركات الخليج؟
+              </button>
+              <button
+                type="button"
+                onClick={() => submit("ما هي كبرى الشركات والبنوك المشغلة لهذا التخصص في الأردن وما هي المهارات الأكثر طلباً فيها؟")}
+                className="bg-card hover:bg-surface border-border text-foreground rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors text-right shadow-2xs"
+              >
+                🏢 ما هي أبرز الشركات المشغلة في الأردن؟
+              </button>
+            </div>
+          </div>
         )}
         <div ref={bottomRef} />
       </div>

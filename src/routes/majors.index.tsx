@@ -36,21 +36,60 @@ export function riskBadge(value: string) {
   return "tone-bad";
 }
 
+function normalizeArabic(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[أإآء]/g, "ا")
+    .replace(/ة/g, "ه")
+    .replace(/ى/g, "ي")
+    .replace(/[\u064B-\u065F]/g, "")
+    .trim();
+}
+
+const SEARCH_ALIASES: Record<string, string[]> = {
+  cs: ["computer-science", "software-engineering"],
+  ai: ["data-science-ai"],
+  se: ["software-engineering"],
+  it: ["computer-science", "cybersecurity", "mis"],
+  ux: ["digital-media-design"],
+  ui: ["digital-media-design"],
+  fintech: ["fintech"],
+  doc: ["medicine", "dentistry"],
+  doctor: ["medicine"],
+};
+
 function MajorsIndex() {
   const [classification, setClassification] = useState<string>("الكل");
   const [field, setField] = useState<string>("الكل");
   const [query, setQuery] = useState("");
 
-  const filtered = useMemo(
-    () =>
-      majors.filter(
-        (major) =>
-          (classification === "الكل" || major.classification === classification) &&
-          (field === "الكل" || major.field === field) &&
-          (!query.trim() || major.name.includes(query.trim())),
-      ),
-    [classification, field, query],
-  );
+  const filtered = useMemo(() => {
+    const rawQ = query.trim().toLowerCase();
+    const qNorm = normalizeArabic(rawQ);
+    const matchedSlugsFromAlias = SEARCH_ALIASES[rawQ] || [];
+
+    return majors.filter((major) => {
+      const matchClassification = classification === "الكل" || major.classification === classification;
+      const matchField = field === "الكل" || major.field === field;
+
+      if (!matchClassification || !matchField) return false;
+      if (!rawQ) return true;
+
+      if (matchedSlugsFromAlias.includes(major.slug)) return true;
+
+      const normName = normalizeArabic(major.name);
+      const normField = normalizeArabic(major.field);
+      const normSummary = normalizeArabic(major.summary);
+      const normTitles = (major.jobTitles || []).map(normalizeArabic).join(" ");
+
+      return (
+        normName.includes(qNorm) ||
+        normField.includes(qNorm) ||
+        normSummary.includes(qNorm) ||
+        normTitles.includes(qNorm)
+      );
+    });
+  }, [classification, field, query]);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
