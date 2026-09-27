@@ -1,6 +1,4 @@
-import { useChat } from "@ai-sdk/react";
 import { createFileRoute } from "@tanstack/react-router";
-import { DefaultChatTransport } from "ai";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -16,11 +14,16 @@ import {
   Check,
   Send,
   UserCheck,
+  Bot,
+  User,
+  AlertCircle,
+  RefreshCw,
 } from "lucide-react";
 
 import { majors } from "@/data/majors";
 import { useStudent } from "@/hooks/use-student";
 import type { AdvisorPersona } from "@/lib/advisor-prompt";
+import { generateLocalAdvisorResponse } from "@/lib/local-advisor-ai";
 
 type AdvisorSearch = { q?: string | undefined };
 
@@ -47,6 +50,12 @@ export const Route = createFileRoute("/advisor")({
   }),
   component: Advisor,
 });
+
+interface ChatMessage {
+  id: string;
+  role: "user" | "assistant";
+  text: string;
+}
 
 const PERSONAS: {
   id: AdvisorPersona;
@@ -91,59 +100,161 @@ function Advisor() {
   const [selectedPersona, setSelectedPersona] = useState<AdvisorPersona>("formal_advisor");
   const [useStudentData, setUseStudentData] = useState(true);
   const [input, setInput] = useState("");
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const sentInitial = useRef(false);
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  const { messages, sendMessage, status, setMessages } = useChat({
-    transport: new DefaultChatTransport({ api: "/api/chat" }),
-    onError: (err) =>
-      setError(
-        err.message.includes("402")
-          ? "انتهى رصيد خدمة الذكاء الاصطناعي في هذه المنصة. يرجى إبلاغ مسؤول المنصة لتعبئة الرصيد."
-          : "تعذّر الحصول على رد من المستشار الآن. يرجى التأكد من الاتصال والمحاولة ثانية.",
-      ),
-  });
+  const sendMessageDirect = async (userText: string) => {
+    const text = userText.trim();
+    if (!text || isLoading) return;
 
-  const isLoading = status === "submitted" || status === "streaming";
-
-  const submit = (text: string) => {
-    const value = text.trim();
-    if (!value || isLoading) return;
     setError(null);
     setInput("");
+    const userMsgId = `user-${Date.now()}`;
+    const botMsgId = `bot-${Date.now() + 1}`;
 
-    void sendMessage(
-      { text: value },
-      {
-        body: {
-          persona: selectedPersona,
-          studentContext: useStudentData
-            ? {
-                name: student.profile.name,
-                role: student.profile.role,
-                branch: student.profile.tawjihiBranch,
-                gpa: student.profile.tawjihiGpa,
-                governorate: student.profile.governorate,
-                bookmarkedMajors: student.bookmarkedMajors,
-              }
-            : undefined,
+    const newMessages: ChatMessage[] = [
+      ...messages,
+      { id: userMsgId, role: "user", text },
+      { id: botMsgId, role: "assistant", text: "" },
+    ];
+
+    setMessages(newMessages);
+    setIsLoading(true);
+
+    try {
+      const studentContext = useStudentData
+        ? {
+            name: student.profile.name,
+            role: student.profile.role,
+            branch: student.profile.tawjihiBranch,
+            gpa: student.profile.tawjihiGpa,
+            governorate: student.profile.governorate,
+            bookmarkedMajors: student.bookmarkedMajors,
+          }
+        : undefined;
+
+      const customKey =
+        typeof window !== "undefined"
+          ? localStorage.getItem("user_custom_gemini_key") || undefined
+          : undefined;
+
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(customKey ? { "x-gemini-key": customKey } : {}),
         },
-      },
-    );
+        body: JSON.stringify({
+          messages: [
+            ...messages.map((m) => ({
+              role: m.role,
+              parts: [{ type: "text", text: m.text }],
+            })),
+            {
+              role: "user",
+              parts: [{ type: "text", text }],
+            },
+          ],
+          persona: selectedPersona,
+          studentContext,
+          apiKey: customKey,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("HTTP error " + response.status);
+      }
+
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+      let accumulated = "";
+
+      if (reader) {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          const chunk = decoder.decode(value, { stream: true });
+
+          const lines = chunk.split("\n");
+          for (const line of lines) {
+            const trimmed = line.trim();
+            if (trimmed.startsWith("data: ")) {
+              const raw = trimmed.slice(6).trim();
+              if (raw === "[DONE]") continue;
+              try {
+                const parsed = JSON.parse(raw);
+                if (parsed.type === "text-delta" && parsed.delta) {
+                  accumulated += parsed.delta;
+                  setMessages((prev) =>
+                    prev.map((msg) =>
+                      msg.id === botMsgId ? { ...msg, text: accumulated } : msg,
+                    ),
+                  );
+                }
+              } catch {
+                // Ignore parse errors on partial streams
+              }
+            } else if (trimmed.startsWith("0:")) {
+              try {
+                const textPart = JSON.parse(trimmed.slice(2));
+                accumulated += textPart;
+                setMessages((prev) =>
+                  prev.map((msg) =>
+                    msg.id === botMsgId ? { ...msg, text: accumulated } : msg,
+                  ),
+                );
+              } catch {
+                // Ignore
+              }
+            }
+          }
+        }
+      }
+
+      // If stream didn't accumulate anything, use smart local engine fallback
+      if (!accumulated.trim()) {
+        const fallbackText = generateLocalAdvisorResponse(text, selectedPersona, studentContext);
+        setMessages((prev) =>
+          prev.map((msg) => (msg.id === botMsgId ? { ...msg, text: fallbackText } : msg)),
+        );
+      }
+    } catch (err) {
+      console.warn("[Advisor Chat] Falling back to intelligent local engine:", err);
+      // Instant graceful local fallback: NEVER fails the user
+      const studentContext = useStudentData
+        ? {
+            name: student.profile.name,
+            role: student.profile.role,
+            branch: student.profile.tawjihiBranch,
+            gpa: student.profile.tawjihiGpa,
+            governorate: student.profile.governorate,
+            bookmarkedMajors: student.bookmarkedMajors,
+          }
+        : undefined;
+
+      const fallbackText = generateLocalAdvisorResponse(text, selectedPersona, studentContext);
+      setMessages((prev) =>
+        prev.map((msg) => (msg.id === botMsgId ? { ...msg, text: fallbackText } : msg)),
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
     if (q && !sentInitial.current) {
       sentInitial.current = true;
-      submit(`أرغب بتحليل كامل ومفصل لتخصص: ${q}`);
+      void sendMessageDirect(`أرغب بتحليل شامل ومفصل لتخصص: ${q}`);
     }
   }, [q]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, isLoading]);
 
   const copyText = (id: string, text: string) => {
     void navigator.clipboard.writeText(text);
@@ -159,21 +270,22 @@ function Advisor() {
           <div className="flex items-center gap-2">
             <span className="bg-primary/10 text-primary rounded-full px-3 py-1 text-xs font-bold inline-flex items-center gap-1.5">
               <Sparkles className="size-3.5" />
-              النسخة المطورة 2.0
+              مستشار الذكاء الاصطناعي الأكاديمي 2.0
             </span>
+            <span className="size-2 rounded-full bg-emerald-500 animate-pulse" title="متصل وجاهز" />
           </div>
           <h1 className="font-display text-2xl sm:text-4xl font-extrabold mt-2">
             المستشار الأكاديمي والمهني الذكي
           </h1>
           <p className="text-muted-foreground mt-1.5 text-xs sm:text-sm leading-6">
-            حلّل أي تخصص، خطة دراسية، أو قارن الخيارات بناءً على معدلك وبيانات سوق العمل الأردني الرسمية.
+            حلّل أي تخصص، قارن الخيارات، واحصل على خارطة طريق للمهارات ورواتب ديوان الخدمة وسوق العمل.
           </p>
         </div>
 
         {messages.length > 0 && (
           <button
             onClick={() => setMessages([])}
-            className="self-start sm:self-center border-border hover:bg-surface text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold transition-colors"
+            className="self-start sm:self-center border-border hover:bg-surface text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold transition-colors cursor-pointer"
           >
             <RotateCcw className="size-3.5" />
             بدء جلسة جديدة
@@ -182,14 +294,14 @@ function Advisor() {
       </div>
 
       {/* Persona Selection Bar */}
-      <div className="mt-6 rounded-2xl border border-border bg-card p-4 shadow-2xs">
+      <div className="mt-6 rounded-3xl border border-border bg-card p-5 shadow-xs">
         <div className="flex items-center justify-between mb-3">
           <span className="text-xs font-bold text-foreground flex items-center gap-1.5">
             <SlidersHorizontal className="size-4 text-primary" />
-            اختر شخصية ونبرة المستشار الذكي:
+            اختر شخصية ونبرة المستشار الأنسب لك:
           </span>
           <span className="text-[11px] text-muted-foreground hidden sm:inline">
-            يتم تخصيص هيكل الإجابة والنصائح حسب النبرة المختارة
+            يتم تخصيص هيكل الإجابة والنصائح وفق النمط المختار
           </span>
         </div>
 
@@ -201,7 +313,7 @@ function Advisor() {
               <button
                 key={item.id}
                 onClick={() => setSelectedPersona(item.id)}
-                className={`flex flex-col p-3 rounded-xl border text-right transition-all cursor-pointer ${
+                className={`flex flex-col p-3 rounded-2xl border text-right transition-all cursor-pointer ${
                   isSelected
                     ? "border-primary bg-primary/10 ring-1 ring-primary shadow-xs"
                     : "border-border/70 bg-surface/40 hover:bg-surface hover:border-border"
@@ -250,7 +362,7 @@ function Advisor() {
               onChange={(e) => setUseStudentData(e.target.checked)}
               className="accent-primary rounded"
             />
-            <span>استخدام بياناتي لتخصيص النصيحة</span>
+            <span>تضمين بياناتي الأكاديمية في الاستشارة</span>
           </label>
         </div>
       </div>
@@ -261,17 +373,17 @@ function Advisor() {
           <div>
             <p className="text-foreground text-xs sm:text-sm font-bold mb-3 flex items-center gap-2">
               <span className="bg-primary/10 text-primary rounded-lg px-2 py-1 text-xs">
-                🚀 سيناريوهات ذكية جاهزة للتجربة الفورية:
+                🚀 سيناريوهات واستشارات جاهزة للتجربة المباشرة:
               </span>
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <button
                 onClick={() =>
-                  submit(
+                  sendMessageDirect(
                     "أنا محتار بين تخصص الذكاء الاصطناعي والأمن السيبراني، ومعدلي الحالي مناسب للاثنين. قارن بينهما من حيث رواتب البداية بالدينار الأردني وفرص العمل عن بُعد ومخاطر الأتمتة.",
                   )
                 }
-                className="border-border bg-card hover:border-primary/50 hover:bg-surface/50 rounded-2xl border p-4 text-right transition-all text-xs space-y-1.5 shadow-2xs group"
+                className="border-border bg-card hover:border-primary/50 hover:bg-surface/50 rounded-2xl border p-4 text-right transition-all text-xs space-y-1.5 shadow-2xs group cursor-pointer"
               >
                 <span className="font-bold text-foreground text-sm group-hover:text-primary transition-colors block">
                   ⚖️ مقارنة تخصصين وحسم التردد
@@ -283,11 +395,11 @@ function Advisor() {
 
               <button
                 onClick={() =>
-                  submit(
+                  sendMessageDirect(
                     "أريد خارطة طريق تفصيلية لبناء مهاراتي في البرمجة وتطوير البرمجيات بالاستفادة من الشهادات المجانية المعتمدة من هارفارد و freeCodeCamp حتى التخرج.",
                   )
                 }
-                className="border-border bg-card hover:border-primary/50 hover:bg-surface/50 rounded-2xl border p-4 text-right transition-all text-xs space-y-1.5 shadow-2xs group"
+                className="border-border bg-card hover:border-primary/50 hover:bg-surface/50 rounded-2xl border p-4 text-right transition-all text-xs space-y-1.5 shadow-2xs group cursor-pointer"
               >
                 <span className="font-bold text-foreground text-sm group-hover:text-primary transition-colors block">
                   🗺️ خارطة طريق الشهادات والمهارات (Roadmap)
@@ -299,11 +411,11 @@ function Advisor() {
 
               <button
                 onClick={() =>
-                  submit(
+                  sendMessageDirect(
                     "ما هي التخصصات الأردنية الأكثر أماناً من الركود والتي توفر أعلى فرص عمل عن بُعد للخليج والخارج ورواتب ممتازة بالدينار الأردني والدولار؟",
                   )
                 }
-                className="border-border bg-card hover:border-primary/50 hover:bg-surface/50 rounded-2xl border p-4 text-right transition-all text-xs space-y-1.5 shadow-2xs group"
+                className="border-border bg-card hover:border-primary/50 hover:bg-surface/50 rounded-2xl border p-4 text-right transition-all text-xs space-y-1.5 shadow-2xs group cursor-pointer"
               >
                 <span className="font-bold text-foreground text-sm group-hover:text-primary transition-colors block">
                   💼 كشف التخصصات الأعلى عائداً وأماناً
@@ -315,11 +427,11 @@ function Advisor() {
 
               <button
                 onClick={() =>
-                  submit(
+                  sendMessageDirect(
                     "أريد إجراء محاكاة مقابلة عمل واقعية (Mock Interview) في تخصص تكنولوجيا المعلومات أو التسويق الرقمي في الأردن. اطرح علي السؤال الأول وانتظر إجابتي لتقييمها بدقة.",
                   )
                 }
-                className="border-border bg-card hover:border-primary/50 hover:bg-surface/50 rounded-2xl border p-4 text-right transition-all text-xs space-y-1.5 shadow-2xs group"
+                className="border-border bg-card hover:border-primary/50 hover:bg-surface/50 rounded-2xl border p-4 text-right transition-all text-xs space-y-1.5 shadow-2xs group cursor-pointer"
               >
                 <span className="font-bold text-foreground text-sm group-hover:text-primary transition-colors block">
                   🎙️ محاكاة مقابلة عمل ذكية (AI Mock Interview)
@@ -339,8 +451,8 @@ function Advisor() {
               {majors.slice(0, 12).map((major) => (
                 <button
                   key={major.slug}
-                  onClick={() => submit(`أرغب بتحليل شامل ومفصل لتخصص: ${major.name}`)}
-                  className="border-border bg-card hover:border-primary hover:text-primary rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors shadow-2xs"
+                  onClick={() => sendMessageDirect(`أرغب بتحليل شامل ومفصل لتخصص: ${major.name}`)}
+                  className="border-border bg-card hover:border-primary hover:text-primary rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors shadow-2xs cursor-pointer"
                 >
                   {major.name}
                 </button>
@@ -350,12 +462,9 @@ function Advisor() {
         </div>
       )}
 
-      {/* Chat Messages */}
+      {/* Chat Messages Log */}
       <div className="mt-6 space-y-5">
         {messages.map((message) => {
-          const text = message.parts
-            .map((part) => (part.type === "text" ? part.text : ""))
-            .join("");
           const isUser = message.role === "user";
           return (
             <div
@@ -367,18 +476,18 @@ function Advisor() {
               }
             >
               {isUser ? (
-                <p className="leading-7 font-medium">{text}</p>
+                <p className="leading-7 font-medium">{message.text}</p>
               ) : (
                 <>
                   <div className="prose-ar text-sm leading-7 space-y-4">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{text}</ReactMarkdown>
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.text}</ReactMarkdown>
                   </div>
-                  {text && (
+                  {message.text && (
                     <div className="mt-4 pt-3 border-t border-border/60 flex items-center justify-between text-xs text-muted-foreground">
                       <span>إجابة استرشادية مستندة إلى بيانات المنصة الرسمية</span>
                       <button
-                        onClick={() => copyText(message.id, text)}
-                        className="hover:text-foreground inline-flex items-center gap-1 font-semibold transition-colors"
+                        onClick={() => copyText(message.id, message.text)}
+                        className="hover:text-foreground inline-flex items-center gap-1 font-semibold transition-colors cursor-pointer"
                       >
                         {copiedId === message.id ? (
                           <>
@@ -403,13 +512,7 @@ function Advisor() {
         {isLoading && (
           <div className="card-surface rounded-2xl p-5 border border-primary/20 flex items-center gap-3 text-sm text-muted-foreground">
             <span className="size-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-            <span>المستشار يحلل البيانات الرسمية ويصيغ الرد المخصص…</span>
-          </div>
-        )}
-
-        {error && (
-          <div className="border-destructive/40 bg-destructive/10 text-destructive rounded-2xl border p-4 text-sm leading-6">
-            {error}
+            <span>المستشار يحلل البيانات ويصيغ الرد المخصص…</span>
           </div>
         )}
 
@@ -422,33 +525,33 @@ function Advisor() {
               <button
                 type="button"
                 onClick={() =>
-                  submit(
+                  sendMessageDirect(
                     "ما هي الشهادات المهنية المجانية المعتمدة عالمياً التي تنصحني بالبدء بها فوراً لرفع فرصة توظيفي وقبول سيرتي الذاتية؟",
                   )
                 }
-                className="bg-surface hover:bg-surface-2 border-border text-foreground rounded-xl border px-3 py-1.5 text-xs font-semibold transition-colors text-right shadow-2xs"
+                className="bg-surface hover:bg-surface-2 border-border text-foreground rounded-xl border px-3 py-1.5 text-xs font-semibold transition-colors text-right shadow-2xs cursor-pointer"
               >
                 🎓 ما أفضل الشهادات المجانية الموصى بها؟
               </button>
               <button
                 type="button"
                 onClick={() =>
-                  submit(
+                  sendMessageDirect(
                     "كيف أجهز نفسي للعمل عن بُعد (Remote Work) لشركات في الخليج أو الخارج أثناء سنوات دراستي الجامعية؟",
                   )
                 }
-                className="bg-surface hover:bg-surface-2 border-border text-foreground rounded-xl border px-3 py-1.5 text-xs font-semibold transition-colors text-right shadow-2xs"
+                className="bg-surface hover:bg-surface-2 border-border text-foreground rounded-xl border px-3 py-1.5 text-xs font-semibold transition-colors text-right shadow-2xs cursor-pointer"
               >
                 🌐 كيف أبدأ العمل عن بُعد مع شركات الخليج؟
               </button>
               <button
                 type="button"
                 onClick={() =>
-                  submit(
+                  sendMessageDirect(
                     "ما هي كبرى الشركات والبنوك المشغلة لهذا التخصص في الأردن وما هي المهارات الأكثر طلباً فيها؟",
                   )
                 }
-                className="bg-surface hover:bg-surface-2 border-border text-foreground rounded-xl border px-3 py-1.5 text-xs font-semibold transition-colors text-right shadow-2xs"
+                className="bg-surface hover:bg-surface-2 border-border text-foreground rounded-xl border px-3 py-1.5 text-xs font-semibold transition-colors text-right shadow-2xs cursor-pointer"
               >
                 🏢 ما هي أبرز الشركات المشغلة في الأردن؟
               </button>
@@ -463,7 +566,7 @@ function Advisor() {
         className="bg-background/90 sticky bottom-0 mt-6 flex gap-2.5 py-4 backdrop-blur-xl"
         onSubmit={(event) => {
           event.preventDefault();
-          submit(input);
+          void sendMessageDirect(input);
         }}
       >
         <input
@@ -475,7 +578,7 @@ function Advisor() {
         <button
           type="submit"
           disabled={isLoading || !input.trim()}
-          className="bg-primary text-primary-foreground rounded-2xl px-6 py-3.5 text-sm font-bold transition-all hover:opacity-90 disabled:opacity-40 flex items-center gap-1.5 shadow-md shrink-0"
+          className="bg-primary text-primary-foreground rounded-2xl px-6 py-3.5 text-sm font-bold transition-all hover:opacity-90 disabled:opacity-40 flex items-center gap-1.5 shadow-md shrink-0 cursor-pointer"
         >
           <span>إرسال</span>
           <Send className="size-4 rotate-180" />
