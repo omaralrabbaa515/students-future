@@ -3,7 +3,7 @@ import { z } from "zod";
 
 import { certifications } from "@/data/certifications";
 import { majors } from "@/data/majors";
-import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
+import { getAiModel } from "@/lib/ai-gateway.server";
 import { FIELD_LABELS, MAJOR_FIELDS, type MajorField } from "@/lib/platform-data";
 
 type ScanResult = {
@@ -257,7 +257,7 @@ export async function runScan(
     }
 
     // ٣) مراجعة حالة التخصصات
-    const aiKey = process.env["LOVABLE_API_KEY"];
+    const aiModel = getAiModel();
     const { data: reviewRows } = await supabaseAdmin
       .from("major_reviews")
       .select("slug, last_reviewed_at");
@@ -280,8 +280,7 @@ export async function runScan(
       return aTime - bTime;
     });
 
-    if (targets.length > 0 && sourceTexts.length > 0 && aiKey) {
-      const gateway = createLovableAiGatewayProvider(aiKey);
+    if (targets.length > 0 && sourceTexts.length > 0 && aiModel) {
 
       // القيم الفعلية المعروضة حالياً (بعد أي تحديث سابق معتمد)
       const { data: overrides } = await supabaseAdmin
@@ -319,7 +318,7 @@ export async function runScan(
         let reviews: z.infer<typeof ReviewSchema>["reviews"];
         try {
           const { object } = await generateObject({
-            model: gateway("google/gemini-3.8-flash"),
+            model: aiModel,
             schema: ReviewSchema,
             system:
               "أنت محلل بيانات سوق عمل أردني. تقرأ نصوصاً من مصادر رسمية أردنية وتراجع حالة التخصصات. " +

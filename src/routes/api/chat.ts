@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { convertToModelMessages, streamText, type UIMessage } from "ai";
 
-import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
+import { getAiModel } from "@/lib/ai-gateway.server";
 import { ADVISOR_SYSTEM_PROMPT } from "@/lib/advisor-prompt";
 
 type ChatRequestBody = { messages?: unknown };
@@ -51,14 +51,13 @@ export const Route = createFileRoute("/api/chat")({
           return new Response("الرسائل غير صالحة", { status: 400 });
         }
 
-        const key = process.env["LOVABLE_API_KEY"];
-        if (!key) {
-          return new Response("مفتاح خدمة الذكاء الاصطناعي غير مهيأ", { status: 500 });
+        const model = getAiModel();
+        if (!model) {
+          return new Response("مفتاح خدمة الذكاء الاصطناعي غير مهيأ (يرجى ضبط GEMINI_API_KEY أو OPENAI_API_KEY)", { status: 500 });
         }
 
-        const gateway = createLovableAiGatewayProvider(key);
         const result = streamText({
-          model: gateway("google/gemini-3.8-flash"),
+          model,
           system: ADVISOR_SYSTEM_PROMPT,
           messages: await convertToModelMessages(messages),
         });

@@ -38,8 +38,8 @@ export const Route = createFileRoute("/sources")({
 const sources = [
   {
     key: "csb",
-    name: "ديوان الخدمة المدنية والإدارة العامة",
-    url: "https://csb.gov.jo",
+    name: "هيئة الخدمة والإدارة العامة (ديوان الخدمة سابقاً)",
+    url: "https://www.spac.gov.jo",
     note: "أعداد المتقدمين والمعيّنين لكل تخصص في القطاع العام، وهو المؤشر الأدق على التشبع.",
   },
   {
