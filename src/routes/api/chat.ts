@@ -2,9 +2,17 @@ import { createFileRoute } from "@tanstack/react-router";
 import { convertToModelMessages, streamText, type UIMessage } from "ai";
 
 import { getAiModel } from "@/lib/ai-gateway.server";
-import { ADVISOR_SYSTEM_PROMPT } from "@/lib/advisor-prompt";
+import {
+  buildAdvisorSystemPrompt,
+  type AdvisorPersona,
+  type AdvisorStudentContext,
+} from "@/lib/advisor-prompt";
 
-type ChatRequestBody = { messages?: unknown };
+type ChatRequestBody = {
+  messages?: unknown;
+  persona?: AdvisorPersona;
+  studentContext?: AdvisorStudentContext;
+};
 
 const MAX_MESSAGES = 20;
 const MAX_MESSAGE_CHARS = 4000;
@@ -53,12 +61,17 @@ export const Route = createFileRoute("/api/chat")({
 
         const model = getAiModel();
         if (!model) {
-          return new Response("مفتاح خدمة الذكاء الاصطناعي غير مهيأ (يرجى ضبط GEMINI_API_KEY أو OPENAI_API_KEY)", { status: 500 });
+          return new Response(
+            "مفتاح خدمة الذكاء الاصطناعي غير مهيأ (يرجى ضبط GEMINI_API_KEY أو OPENAI_API_KEY)",
+            { status: 500 },
+          );
         }
+
+        const systemPrompt = buildAdvisorSystemPrompt(body.persona, body.studentContext);
 
         const result = streamText({
           model,
-          system: ADVISOR_SYSTEM_PROMPT,
+          system: systemPrompt,
           messages: await convertToModelMessages(messages),
         });
 

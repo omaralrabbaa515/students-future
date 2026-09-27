@@ -7,10 +7,12 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import graduateLogo from "../assets/graduate-logo.png.asset.json";
+import { FloatingCopilot } from "@/components/floating-copilot";
+import { supabase } from "@/integrations/supabase/client";
 
 function NotFoundComponent() {
   return (
@@ -68,7 +70,6 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
     </div>
   );
 }
-
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
@@ -129,9 +130,23 @@ const navLinks = [
   { to: "/sources", label: "المصادر الرسمية" },
 ] as const;
 
-
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const [hasSession, setHasSession] = useState(false);
+
+  useEffect(() => {
+    void supabase.auth.getSession().then(({ data }) => {
+      setHasSession(!!data.session);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setHasSession(!!session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -164,12 +179,33 @@ function RootComponent() {
                   {link.label}
                 </Link>
               ))}
+
               <Link
-                to="/auth"
-                className="border-border hover:bg-surface text-foreground font-semibold rounded-full border px-3 py-1.5 transition-colors text-xs flex items-center gap-1 ms-1"
+                to="/profile"
+                className="text-muted-foreground hover:text-foreground hover:bg-surface rounded-full px-3 py-1.5 transition-colors"
+                activeProps={{
+                  className: "bg-primary text-primary-foreground font-bold shadow-xs",
+                }}
               >
-                دخول المشرف
+                ملفي الأكاديمي 🎖️
               </Link>
+
+              {hasSession ? (
+                <Link
+                  to="/profile"
+                  className="border-emerald-500/40 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold rounded-full border px-3 py-1.5 transition-colors text-xs flex items-center gap-1.5 ms-1"
+                >
+                  <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span>حسابي</span>
+                </Link>
+              ) : (
+                <Link
+                  to="/auth"
+                  className="bg-primary text-primary-foreground hover:opacity-90 font-bold rounded-full px-3.5 py-1.5 transition-opacity text-xs flex items-center gap-1 ms-1 shadow-2xs"
+                >
+                  دخول / حساب جديد
+                </Link>
+              )}
             </nav>
           </div>
         </header>
@@ -194,8 +230,10 @@ function RootComponent() {
             </p>
           </div>
         </footer>
+
+        {/* Floating AI Platform Copilot */}
+        <FloatingCopilot />
       </div>
     </QueryClientProvider>
   );
 }
-
