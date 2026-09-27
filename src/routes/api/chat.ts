@@ -36,17 +36,39 @@ function sanitizeMessages(input: unknown): UIMessage[] | null {
     if (typeof raw !== "object" || raw === null) return null;
     const msg = raw as Record<string, unknown>;
     if (typeof msg["role"] !== "string" || !ALLOWED_ROLES.has(msg["role"])) return null;
-    if (!Array.isArray(msg["parts"])) return null;
-    let chars = 0;
-    for (const part of msg["parts"] as unknown[]) {
-      if (typeof part !== "object" || part === null) return null;
-      const p = part as Record<string, unknown>;
-      if (p["type"] === "text" && typeof p["text"] === "string") {
-        chars += p["text"].length;
+
+    const parts: Array<{ type: "text"; text: string }> = [];
+    if (Array.isArray(msg["parts"])) {
+      for (const part of msg["parts"] as unknown[]) {
+        if (typeof part === "object" && part !== null) {
+          const p = part as Record<string, unknown>;
+          if (p["type"] === "text" && typeof p["text"] === "string" && p["text"].trim()) {
+            parts.push({ type: "text", text: p["text"] });
+          }
+        }
       }
+    } else if (typeof msg["content"] === "string" && msg["content"].trim()) {
+      parts.push({ type: "text", text: msg["content"] });
+    } else if (typeof msg["text"] === "string" && msg["text"].trim()) {
+      parts.push({ type: "text", text: msg["text"] });
+    }
+
+    if (parts.length === 0) return null;
+
+    let chars = 0;
+    for (const p of parts) {
+      chars += p.text.length;
     }
     if (chars > MAX_MESSAGE_CHARS) return null;
-    cleaned.push(raw as UIMessage);
+
+    cleaned.push({
+      id:
+        typeof msg["id"] === "string"
+          ? msg["id"]
+          : `msg-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      role: msg["role"] as "user" | "assistant",
+      parts,
+    } as UIMessage);
   }
   return cleaned;
 }
