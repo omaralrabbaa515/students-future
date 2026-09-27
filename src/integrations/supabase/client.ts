@@ -28,21 +28,26 @@ function createSupabaseFetch(supabaseKey: string): typeof fetch {
 }
 
 
-function createSupabaseClient() {
-  // Use import.meta.env for client-side (Vite build-time replacement)
-  // Fall back to process.env for SSR (server-side rendering)
-  const SUPABASE_URL = import.meta.env['VITE_SUPABASE_URL'] || process.env['SUPABASE_URL'];
-  const SUPABASE_PUBLISHABLE_KEY = import.meta.env['VITE_SUPABASE_PUBLISHABLE_KEY'] || process.env['SUPABASE_PUBLISHABLE_KEY'];
+const DEFAULT_SUPABASE_URL = "https://oacxwsrouijxypihqtof.supabase.co";
+const DEFAULT_SUPABASE_KEY = "sb_publishable_mWgqgjpXCddMB-9PLUqIsg_lE9Ey-kb";
 
-  if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
-    const missing = [
-      ...(!SUPABASE_URL ? ['SUPABASE_URL'] : []),
-      ...(!SUPABASE_PUBLISHABLE_KEY ? ['SUPABASE_PUBLISHABLE_KEY'] : []),
-    ];
-    const message = `Missing Supabase environment variable(s): ${missing.join(', ')}. Connect Supabase in Lovable Cloud.`;
-    console.error(`[Supabase] ${message}`);
-    throw new Error(message);
-  }
+function createSupabaseClient() {
+  // Use dot access on import.meta.env for static bundler replacement in Vite
+  // Fall back to bracket access, process.env for SSR, and finally project defaults
+  const processEnv = typeof process !== 'undefined' && process?.env ? process.env : {};
+  const SUPABASE_URL =
+    import.meta.env.VITE_SUPABASE_URL ||
+    import.meta.env['VITE_SUPABASE_URL'] ||
+    processEnv['VITE_SUPABASE_URL'] ||
+    processEnv['SUPABASE_URL'] ||
+    DEFAULT_SUPABASE_URL;
+
+  const SUPABASE_PUBLISHABLE_KEY =
+    import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
+    import.meta.env['VITE_SUPABASE_PUBLISHABLE_KEY'] ||
+    processEnv['VITE_SUPABASE_PUBLISHABLE_KEY'] ||
+    processEnv['SUPABASE_PUBLISHABLE_KEY'] ||
+    DEFAULT_SUPABASE_KEY;
 
   return createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
     global: {
