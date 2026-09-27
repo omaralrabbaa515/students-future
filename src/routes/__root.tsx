@@ -122,6 +122,7 @@ function RootShell({ children }: { children: ReactNode }) {
 
 const navLinks = [
   { to: "/", label: "الرئيسية" },
+  { to: "/dashboard", label: "لوحة تحكمي ⚡" },
   { to: "/advisor", label: "المستشار الذكي" },
   { to: "/majors", label: "دليل التخصصات" },
   { to: "/certifications", label: "الشهادات المجانية" },
@@ -149,20 +150,26 @@ function RootComponent() {
                 الطلاب <span className="text-brand-ink">والمستقبل</span>
               </span>
             </Link>
-            <nav className="flex flex-wrap items-center gap-0.5 text-sm">
+            <nav className="flex flex-wrap items-center gap-1 text-sm">
               {navLinks.map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
                   className="text-muted-foreground hover:text-foreground hover:bg-surface rounded-full px-3 py-1.5 transition-colors"
                   activeProps={{
-                    className: "bg-surface-2 text-foreground font-bold",
+                    className: "bg-primary text-primary-foreground font-bold shadow-xs",
                   }}
                   activeOptions={{ exact: link.to === "/" }}
                 >
                   {link.label}
                 </Link>
               ))}
+              <Link
+                to="/auth"
+                className="border-border hover:bg-surface text-foreground font-semibold rounded-full border px-3 py-1.5 transition-colors text-xs flex items-center gap-1 ms-1"
+              >
+                دخول المشرف
+              </Link>
             </nav>
           </div>
         </header>

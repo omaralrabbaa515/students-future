@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AdvisorRouteImport } from './routes/advisor'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CertificationsRouteImport } from './routes/certifications'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as SourcesRouteImport } from './routes/sources'
 import { Route as AuthenticatedUpdatesRouteImport } from './routes/_authenticated/updates'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
@@ -43,6 +44,11 @@ const AuthRoute = AuthRouteImport.update({
 const CertificationsRoute = CertificationsRouteImport.update({
   id: '/certifications',
   path: '/certifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SourcesRoute = SourcesRouteImport.update({
@@ -81,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/advisor': typeof AdvisorRoute
   '/auth': typeof AuthRoute
   '/certifications': typeof CertificationsRoute
+  '/dashboard': typeof DashboardRoute
   '/sources': typeof SourcesRoute
   '/updates': typeof AuthenticatedUpdatesRoute
   '/api/chat': typeof ApiChatRoute
@@ -93,6 +100,7 @@ export interface FileRoutesByTo {
   '/advisor': typeof AdvisorRoute
   '/auth': typeof AuthRoute
   '/certifications': typeof CertificationsRoute
+  '/dashboard': typeof DashboardRoute
   '/sources': typeof SourcesRoute
   '/updates': typeof AuthenticatedUpdatesRoute
   '/api/chat': typeof ApiChatRoute
@@ -107,6 +115,7 @@ export interface FileRoutesById {
   '/advisor': typeof AdvisorRoute
   '/auth': typeof AuthRoute
   '/certifications': typeof CertificationsRoute
+  '/dashboard': typeof DashboardRoute
   '/sources': typeof SourcesRoute
   '/_authenticated/updates': typeof AuthenticatedUpdatesRoute
   '/api/chat': typeof ApiChatRoute
@@ -121,6 +130,7 @@ export interface FileRouteTypes {
     | '/advisor'
     | '/auth'
     | '/certifications'
+    | '/dashboard'
     | '/sources'
     | '/updates'
     | '/api/chat'
@@ -133,6 +143,7 @@ export interface FileRouteTypes {
     | '/advisor'
     | '/auth'
     | '/certifications'
+    | '/dashboard'
     | '/sources'
     | '/updates'
     | '/api/chat'
@@ -146,6 +157,7 @@ export interface FileRouteTypes {
     | '/advisor'
     | '/auth'
     | '/certifications'
+    | '/dashboard'
     | '/sources'
     | '/_authenticated/updates'
     | '/api/chat'
@@ -160,6 +172,7 @@ export interface RootRouteChildren {
   AdvisorRoute: typeof AdvisorRoute
   AuthRoute: typeof AuthRoute
   CertificationsRoute: typeof CertificationsRoute
+  DashboardRoute: typeof DashboardRoute
   SourcesRoute: typeof SourcesRoute
   ApiChatRoute: typeof ApiChatRoute
   MajorsSlugRoute: typeof MajorsSlugRoute
@@ -202,6 +215,13 @@ declare module '@tanstack/react-router' {
       path: '/certifications'
       fullPath: '/certifications'
       preLoaderRoute: typeof CertificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sources': {
@@ -266,6 +286,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdvisorRoute: AdvisorRoute,
   AuthRoute: AuthRoute,
   CertificationsRoute: CertificationsRoute,
+  DashboardRoute: DashboardRoute,
   SourcesRoute: SourcesRoute,
   ApiChatRoute: ApiChatRoute,
   MajorsSlugRoute: MajorsSlugRoute,
