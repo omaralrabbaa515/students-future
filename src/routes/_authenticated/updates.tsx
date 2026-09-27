@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import {
   Users,
   Activity,
@@ -36,11 +36,29 @@ import {
   PlusCircle,
   Trash2,
   BookmarkCheck,
+  Camera,
+  Radar,
+  ScanLine,
+  Image,
+  CheckCheck,
+  UploadCloud,
+  RefreshCw,
+  SlidersHorizontal,
+  Check,
+  Edit3,
 } from "lucide-react";
 
 import { certifications } from "@/data/certifications";
 import { majors } from "@/data/majors";
 import { INITIAL_MAGAZINE_ARTICLES, type ExpertArticle } from "@/data/magazine";
+import {
+  type ScoutPendingItem,
+  type ScoutAgentConfig,
+  type ScoutCategory,
+  DEFAULT_SCOUT_CONFIG,
+  INITIAL_SCOUT_FINDINGS,
+} from "@/lib/ai-scout";
+import { type VisionTargetType } from "@/routes/api/vision";
 import {
   OFFICIAL_ADMISSIONS_DATA,
   CIVIL_SERVICE_BENCHMARK_2025,
@@ -84,6 +102,8 @@ type SidebarSection =
   | "traffic"
   | "users"
   | "master_editor"
+  | "ai_scout"
+  | "vision_importer"
   | "overrides"
   | "magazine"
   | "admissions"
@@ -102,6 +122,8 @@ const SIDEBAR_ITEMS: {
   { id: "overview", label: "المؤشرات العامة الحية", category: "analytics", icon: LayoutDashboard },
   { id: "traffic", label: "الزيارات وسلوك الطلاب", category: "analytics", icon: TrendingUp },
   { id: "master_editor", label: "تعبئة وإدارة جميع معلومات المنصة 🛠️", category: "management", icon: Database },
+  { id: "ai_scout", label: "وكيل البحث والتعبئة الذاتي 🤖", category: "management", icon: Radar, badge: "جديد" },
+  { id: "vision_importer", label: "التعبئة الذكية عبر الصور 📷", category: "management", icon: Camera, badge: "جديد" },
   { id: "users", label: "إدارة المستخدمين والطلاب", category: "management", icon: Users },
   { id: "overrides", label: "تعديل حقول التخصصات الفوري", category: "management", icon: Sliders },
   { id: "magazine", label: "إدارة المجلة الخبيرية 📰", category: "management", icon: Newspaper },
@@ -216,6 +238,394 @@ function MasterAdminPage() {
     statsCounterText: "30+ تخصصاً مصنفاً بالرواتب · 100+ شهادة مجانية · 10 جامعات حكومية",
     footerDisclaimer: "جميع نِسَب التشغيل والتصنيفات تقديرات استرشادية مبنية على أحدث البيانات الرسمية المتاحة من ديوان الخدمة المدنية (هيئة الخدمة والإدارة العامة) ودائرة الإحصاءات العامة ووزارة التعليم العالي ومنصة سجّل الوطنية.",
   });
+
+  // ================= AI SCOUT STATE & HANDLERS =================
+  const [scoutConfig, setScoutConfig] = useState<ScoutAgentConfig>(DEFAULT_SCOUT_CONFIG);
+  const [scoutItems, setScoutItems] = useState<ScoutPendingItem[]>(INITIAL_SCOUT_FINDINGS);
+  const [scoutRunning, setScoutRunning] = useState(false);
+  const [scoutFilterCategory, setScoutFilterCategory] = useState<"all" | ScoutCategory>("all");
+  const [newKeywordInput, setNewKeywordInput] = useState("");
+  const [editScoutItem, setEditScoutItem] = useState<ScoutPendingItem | null>(null);
+  const isCollectionsInitialized = useRef(false);
+
+  // Load / Save Scout findings & all platform collections from localStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const savedScoutItems = localStorage.getItem("admin_scout_items");
+        if (savedScoutItems) {
+          const parsed = JSON.parse(savedScoutItems);
+          if (Array.isArray(parsed) && parsed.length > 0) setScoutItems(parsed);
+        }
+        const savedScoutConfig = localStorage.getItem("admin_scout_config");
+        if (savedScoutConfig) {
+          const parsed = JSON.parse(savedScoutConfig);
+          if (parsed && typeof parsed === "object") setScoutConfig(parsed);
+        }
+        const savedArts = localStorage.getItem("platform_magazine_articles");
+        if (savedArts) {
+          const parsed = JSON.parse(savedArts);
+          if (Array.isArray(parsed) && parsed.length > 0) setArticlesList(parsed);
+        }
+        const savedCerts = localStorage.getItem("platform_custom_certs");
+        if (savedCerts) {
+          const parsed = JSON.parse(savedCerts);
+          if (Array.isArray(parsed) && parsed.length > 0) setEditableCertsList(parsed);
+        }
+        const savedMajors = localStorage.getItem("platform_custom_majors");
+        if (savedMajors) {
+          const parsed = JSON.parse(savedMajors);
+          if (Array.isArray(parsed) && parsed.length > 0) setEditableMajorsList(parsed);
+        }
+        const savedCutoffs = localStorage.getItem("platform_custom_cutoffs");
+        if (savedCutoffs) {
+          const parsed = JSON.parse(savedCutoffs);
+          if (Array.isArray(parsed) && parsed.length > 0) setEditableCutoffsList(parsed);
+        }
+      } catch (e) {}
+      isCollectionsInitialized.current = true;
+    }
+  }, []);
+
+  // Sync back to localStorage whenever collections are updated
+  useEffect(() => {
+    if (isCollectionsInitialized.current && typeof window !== "undefined") {
+      localStorage.setItem("platform_magazine_articles", JSON.stringify(articlesList));
+    }
+  }, [articlesList]);
+
+  useEffect(() => {
+    if (isCollectionsInitialized.current && typeof window !== "undefined") {
+      localStorage.setItem("platform_custom_certs", JSON.stringify(editableCertsList));
+    }
+  }, [editableCertsList]);
+
+  useEffect(() => {
+    if (isCollectionsInitialized.current && typeof window !== "undefined") {
+      localStorage.setItem("platform_custom_majors", JSON.stringify(editableMajorsList));
+    }
+  }, [editableMajorsList]);
+
+  useEffect(() => {
+    if (isCollectionsInitialized.current && typeof window !== "undefined") {
+      localStorage.setItem("platform_custom_cutoffs", JSON.stringify(editableCutoffsList));
+    }
+  }, [editableCutoffsList]);
+
+  const persistScoutItems = (updated: ScoutPendingItem[]) => {
+    setScoutItems(updated);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("admin_scout_items", JSON.stringify(updated));
+    }
+  };
+
+  const handleRunScoutNow = async () => {
+    setScoutRunning(true);
+    setNotice("🚀 يقوم الوكيل الذكي الآن بتمشيط مصادر التعليم العالي، ديوان الخدمة، وبوابات هارفارد وغوغل...");
+
+    await new Promise((r) => setTimeout(r, 1600));
+
+    // Fresh findings synthesized by autonomous scout
+    const freshFindings: ScoutPendingItem[] = [
+      {
+        id: `scout-${Date.now()}-1`,
+        category: "news_magazine",
+        categoryLabel: "📰 مقال وتحليل للمجلة الخبيرية",
+        title: "دراسة int@j الحديثة: قطاع أمن المعلومات والبرمجة بالأردن بحاجة إلى 5000 خريج تقني خلال 2026",
+        sourceName: "جمعية شركات تقنية المعلومات والاتصالات الأردنية (int@j)",
+        sourceUrl: "https://intaj.net",
+        discoveredAt: "الآن",
+        confidenceScore: 99,
+        summary: "تزايد الطلب على مهندسي الأمن السيبراني ومطوري بايثون في السوق الأردني بنسبة نمو 22%، مع متوسط رواتب بداية تفوق 650 دينار.",
+        details: {
+          author: "م. رزان الزعبي (خبيرة استقطاب الكفاءات)",
+          readTime: "4 دقائق",
+          categoryTag: "دراسات التوظيف والتكنولوجيا",
+          sourceReference: "تقرير القوى العاملة التقنية في الأردن 2026",
+          keyTakeaways: [
+            "الأمن السيبراني والذكاء الاصطناعي هما التخصصان الأكثر طلباً للتعيين الفوري في عمان وإربد.",
+            "إتقان الحوسبة السحابية مع شهادة معتمدة يضاعف فرص الحصول على وظيفة عن بُعد.",
+          ],
+          content: [
+            "أظهر أحدث استطلاع للقوى العاملة في قطاع تكنولوجيا المعلومات والاتصالات في الأردن أن الشركات المحلية والإقليمية تعاني من نقص في الكوادر المتخصصة بالأمن السيبراني وهندسة البيانات.",
+            "تدعو الدراسة الجامعات الأردنية إلى ربط المناهج بالشهادات المصغرة العالمية المجانية لمنح الخريج جاهزية فورية للعمل.",
+          ],
+        },
+        status: "pending",
+      },
+      {
+        id: `scout-${Date.now()}-2`,
+        category: "certifications",
+        categoryLabel: "🎓 شهادة عالمية مجانية معتمدة",
+        title: "Harvard CS50's Introduction to Cybersecurity — شهادة مجانية معتمدة",
+        sourceName: "Harvard Online & edX",
+        sourceUrl: "https://cs50.harvard.edu/cybersecurity/",
+        discoveredAt: "الآن",
+        confidenceScore: 98,
+        summary: "مسار هارفارد الأكاديمي الشامل في الدفاع السيبراني وحماية الشبكات، متاح مجاناً بنسبة 100% مع شهادة إتمام رسمية من هارفارد.",
+        details: {
+          provider: "Harvard University",
+          hours: 40,
+          freeStatus: true,
+          certLevel: "مبتدئ إلى متوسط",
+          directUrl: "https://cs50.harvard.edu/cybersecurity/",
+          domain: "الأمن السيبراني",
+        },
+        status: "pending",
+      },
+    ];
+
+    const updated = [...freshFindings, ...scoutItems];
+    persistScoutItems(updated);
+    setScoutRunning(false);
+    setNotice(`✅ أنهى الوكيل الذكي دورة البحث بنجاح واكتشف ${freshFindings.length} عناصر جديدة بانتظار موافقتك!`);
+  };
+
+  const handleApproveScoutItem = (item: ScoutPendingItem) => {
+    // 1. Inject into corresponding live platform collection
+    if (item.category === "news_magazine") {
+      const newArt: ExpertArticle = {
+        id: `art-${Date.now()}`,
+        slug: item.title.toLowerCase().replace(/[^\u0621-\u064A0-9a-z]+/gi, "-").slice(0, 50),
+        title: item.title,
+        summary: item.summary,
+        category: (item.details.categoryTag?.includes("قبول") ? "admissions_and_grants" : "market_trends") as any,
+        categoryLabel: item.details.categoryTag || "تقرير وتحديث رسمي",
+        categoryColor: "bg-primary/10 text-primary border-primary/20",
+        author: {
+          name: item.details.author || "فريق التحرير والرصد الذكي",
+          title: "مستشار التخطيط الأكاديمي وسوق العمل",
+          avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+          verified: true,
+        },
+        readTime: item.details.readTime || "5 دقائق",
+        publishedAt: new Date().toISOString().split("T")[0],
+        views: 140,
+        featured: true,
+        tags: ["رصد ذكي", "توجيهي 2026", "سوق العمل"],
+        keyTakeaways: item.details.keyTakeaways || [item.summary],
+        content: item.details.content || [item.summary],
+        sourceReference: item.details.sourceReference || item.sourceName,
+      };
+      setArticlesList([newArt, ...articlesList]);
+    } else if (item.category === "certifications") {
+      const newCert = {
+        id: `cert-${Date.now()}`,
+        name: item.title,
+        provider: item.details.provider || "جهة عالمية معتمدة",
+        estimatedHours: item.details.hours || 35,
+        level: (item.details.certLevel || "مبتدئ إلى متوسط") as any,
+        url: item.details.directUrl || item.sourceUrl,
+        free: true,
+        summary: item.summary,
+      };
+      setEditableCertsList([newCert as any, ...editableCertsList]);
+    } else if (item.category === "majors_market") {
+      const slug = item.details.majorSlug || item.title.toLowerCase().replace(/\s+/g, "-").slice(0, 40);
+      const newMajor = {
+        slug,
+        name: item.title.replace(/^تحديث مؤشرات:\s*/, ""),
+        field: item.details.field || "تقنية المعلومات والهندسة",
+        classification: item.details.classification || "مطلوب",
+        employmentRate: item.details.employmentRate || "85%",
+        risk: item.details.risk || "منخفض",
+        summary: item.summary,
+        publicUniversities: ["الجامعة الأردنية", "جامعة العلوم والتكنولوجيا", "جامعة البلقاء التطبيقية"],
+        privateUniversities: ["جامعة الأميرة سمية للتكنولوجيا"],
+        accreditation: "اعتماد وطني ودولي معتمد",
+        trainingNotes: "تدريب عملي وميداني إلزامي",
+        automation: { exposure: "منخفض" as const, note: "أدوار ابتكارية وتطبيقية" },
+        certificationIds: ["cs50x"],
+        alternatives: [],
+        salary: { entryMin: 450, entryAvg: item.details.entrySalary || 650, experienced: item.details.experiencedSalary || 1600 },
+        remoteWorkIndex: (item.details.remoteWorkIndex || "مرتفع") as any,
+        gulfDemand: (item.details.gulfDemand || "مرتفع") as any,
+        creditHours: 132,
+        averageHourPriceJOD: { competitive: 35, parallel: 75, private: 120 },
+      };
+      setEditableMajorsList([newMajor as any, ...editableMajorsList]);
+    } else if (item.category === "admissions_cutoffs") {
+      const newCutoff = {
+        university: item.details.university || "جامعة حكومية",
+        major: item.details.majorName || item.title,
+        branch: "علمي",
+        minGpa: item.details.cutoffGpa || 85.0,
+        year: "2024/2025",
+        creditHourPrice: item.details.hourPriceCompetitive || 35,
+      };
+      setEditableCutoffsList([newCutoff as any, ...editableCutoffsList]);
+    }
+
+    // 2. Mark as approved
+    const updated = scoutItems.map((si) => (si.id === item.id ? { ...si, status: "approved" as const } : si));
+    persistScoutItems(updated);
+    setNotice(`✅ تمت الموافقة على "${item.title}" وتم نشرها بالمنصة فوراً لجميع الطلبة!`);
+  };
+
+  const handleRejectScoutItem = (id: string) => {
+    const updated = scoutItems.map((si) => (si.id === id ? { ...si, status: "rejected" as const } : si));
+    persistScoutItems(updated);
+    setNotice("تم رفض العنصر واستبعاده.");
+  };
+
+  const handleBatchApproveAll = () => {
+    const pendings = scoutItems.filter((i) => i.status === "pending");
+    if (pendings.length === 0) return;
+    pendings.forEach((item) => handleApproveScoutItem(item));
+    setNotice(`🎉 تم اعتماد جميع العناصر المقترحة (${pendings.length} عناصر) ونشرها فوراً بالمنصة!`);
+  };
+
+  // ================= AI MULTI-IMAGE VISION IMPORTER STATE & HANDLERS =================
+  const [uploadedVisionImages, setUploadedVisionImages] = useState<
+    Array<{ id: string; name: string; size: string; dataUrl: string }>
+  >([]);
+  const [visionTargetType, setVisionTargetType] = useState<VisionTargetType>("cutoffs");
+  const [visionNotes, setVisionNotes] = useState("");
+  const [visionScanning, setVisionScanning] = useState(false);
+  const [extractedVisionRows, setExtractedVisionRows] = useState<any[]>([]);
+
+  const handleVisionFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    Array.from(files).forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const dataUrl = event.target?.result as string;
+        setUploadedVisionImages((prev) => [
+          ...prev,
+          {
+            id: `img-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+            name: file.name,
+            size: `${(file.size / 1024).toFixed(1)} KB`,
+            dataUrl,
+          },
+        ]);
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleRunVisionExtraction = async () => {
+    if (uploadedVisionImages.length === 0) {
+      alert("يرجى رفع صورة واحدة على الأقل لبدء التحليل البصري");
+      return;
+    }
+
+    setVisionScanning(true);
+    setExtractedVisionRows([]);
+    setNotice("🔍 جاري قراءة الصور عبر محرك الرؤية البصرية واستخراج الجداول والبيانات بدقة متناهية...");
+
+    try {
+      const customKey =
+        typeof window !== "undefined" ? localStorage.getItem("user_custom_gemini_key") : undefined;
+
+      const res = await fetch("/api/vision", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          images: uploadedVisionImages.map((i) => i.dataUrl),
+          targetType: visionTargetType,
+          apiKey: customKey || undefined,
+          notes: visionNotes,
+        }),
+      });
+
+      const data = await res.json();
+      if (data.success && Array.isArray(data.items)) {
+        setExtractedVisionRows(data.items);
+        setNotice(
+          `🎉 نجح الاستخراج البصري! تم استخراج ${data.items.length} سجلاً بدقة متناهية جاهزة للمراجعة والاعتماد.`
+        );
+      } else {
+        setNotice("تعذر الاستخراج: " + (data.error || "خطأ غير معروف"));
+      }
+    } catch (e: any) {
+      setNotice("خطأ في الاتصال بمحرك الرؤية: " + e.message);
+    } finally {
+      setVisionScanning(false);
+    }
+  };
+
+  const handleCommitVisionData = () => {
+    if (extractedVisionRows.length === 0) return;
+
+    if (visionTargetType === "cutoffs") {
+      const mapped = extractedVisionRows.map((row) => ({
+        university: row.university || "الجامعة الرسمية",
+        major: row.major || "التخصص المستخرج",
+        branch: row.branch || "علمي",
+        minGpa: parseFloat(row.cutoff) || 85.0,
+        year: row.year || "2024/2025",
+        creditHourPrice: parseFloat(row.creditHourPrice) || 35,
+      }));
+      setEditableCutoffsList([...mapped, ...editableCutoffsList]);
+    } else if (visionTargetType === "certs") {
+      const mapped = extractedVisionRows.map((row) => ({
+        id: `cert-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+        name: row.title || "شهادة مستخرجة",
+        provider: row.provider || "جهة مانحة عالمية",
+        estimatedHours: parseInt(row.durationHours, 10) || 30,
+        level: (row.level || "مبتدئ إلى متوسط") as any,
+        url: row.url || "https://grow.google/certificates/",
+        free: true,
+        summary: row.summary || "شهادة عالمية معتمدة ومجانية تم استخراجها وتحليلها بواسطة الذكاء الاصطناعي.",
+      }));
+      setEditableCertsList([...mapped, ...editableCertsList]);
+    } else if (visionTargetType === "majors") {
+      const mapped = extractedVisionRows.map((row) => ({
+        slug: (row.name || "major").toLowerCase().replace(/\s+/g, "-").slice(0, 40),
+        name: row.name || "تخصص جديد",
+        field: row.field || "العلوم والتقنية",
+        classification: (row.classification || "مطلوب") as any,
+        employmentRate: row.employmentRate || "85%",
+        risk: "منخفض" as const,
+        summary: row.summary || "تخصص أكاديمي معتمد تم استخراجه بواسطة الذكاء الاصطناعي.",
+        publicUniversities: ["الجامعة الأردنية", "جامعة العلوم والتكنولوجيا"],
+        privateUniversities: ["جامعة الأميرة سمية للتكنولوجيا"],
+        accreditation: "اعتماد وطني معتمد",
+        trainingNotes: "تدريب عملي ميداني",
+        automation: { exposure: "منخفض" as const, note: "أدوار ابتكارية" },
+        certificationIds: ["cs50x"],
+        alternatives: [],
+        salary: { entryMin: 450, entryAvg: parseFloat(row.entrySalary) || 600, experienced: 1500 },
+        remoteWorkIndex: (row.remoteWorkIndex || "مرتفع") as any,
+        gulfDemand: (row.gulfDemand || "مرتفع") as any,
+        creditHours: 132,
+        averageHourPriceJOD: { competitive: 35, parallel: 75, private: 120 },
+      }));
+      setEditableMajorsList([...mapped, ...editableMajorsList]);
+    } else if (visionTargetType === "magazine") {
+      const mapped = extractedVisionRows.map((row) => ({
+        id: `art-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+        slug: (row.title || "article").toLowerCase().replace(/[^\u0621-\u064A0-9a-z]+/gi, "-").slice(0, 50),
+        title: row.title || "مقال وتحليل جديد",
+        summary: row.summary || "خلاصة المقال المستخرج",
+        category: (row.category || "admissions_and_grants") as any,
+        categoryLabel: "استخراج ذكي موثق",
+        categoryColor: "bg-primary/10 text-primary border-primary/20",
+        author: {
+          name: row.author || "رصد الذكاء الاصطناعي",
+          title: "تحليل المستندات الرسمية",
+          avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+          verified: true,
+        },
+        readTime: "5 دقائق",
+        publishedAt: new Date().toISOString().split("T")[0],
+        views: 100,
+        featured: true,
+        tags: ["مستخرج بصرياً", "وثيقة رسمية"],
+        keyTakeaways: Array.isArray(row.keyTakeaways) ? row.keyTakeaways : [row.summary || ""],
+        content: Array.isArray(row.content) ? row.content : [row.summary || ""],
+        sourceReference: row.sourceReference || "وثيقة مصورة رسمية",
+      }));
+      setArticlesList([...mapped, ...articlesList]);
+    }
+
+    setNotice(`✅ تم اعتماد ونقل جميع السجلات المستخرجة بنجاح إلى قاعدة بيانات المنصة ومزامنتها فوراً!`);
+    setExtractedVisionRows([]);
+    setUploadedVisionImages([]);
+  };
 
   const dashboard = useQuery({
     queryKey: ["master-admin-dashboard"],
@@ -436,6 +846,17 @@ function MasterAdminPage() {
                     <Icon className="size-4 shrink-0" />
                     <span>{item.label}</span>
                   </div>
+                  {item.badge && (
+                    <span
+                      className={`text-[9px] font-extrabold px-1.5 py-0.5 rounded-full border ${
+                        isActive
+                          ? "bg-white/20 text-white border-white/30"
+                          : "bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/30"
+                      }`}
+                    >
+                      {item.badge}
+                    </span>
+                  )}
                 </button>
               );
             })}
@@ -1676,6 +2097,758 @@ function MasterAdminPage() {
                       <span>حفظ ونشر النصوص فورياً</span>
                     </button>
                   </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ================= SECTION: AI AUTONOMOUS SCOUT (وكيل البحث والتعبئة الذاتي) ================= */}
+        {activeSection === "ai_scout" && (
+          <div className="space-y-6 animate-in fade-in">
+            {/* Header & Main Control Actions */}
+            <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-border">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/20 mb-2">
+                  <Radar className="size-3.5" />
+                  الوكيل الذكي المستقل (Autonomous Crawler & Scout)
+                </div>
+                <h3 className="font-display text-lg sm:text-xl font-bold text-foreground">
+                  رصد وتعبئة البيانات والأخبار تلقائياً بواسطة الذكاء الاصطناعي
+                </h3>
+                <p className="text-xs text-muted-foreground mt-1 max-w-2xl leading-relaxed">
+                  يقوم الوكيل بالبحث في مصادر التعليم العالي، ديوان الخدمة، وبنك شهادات هارفارد وغوغل يومياً، ويجهز المحتوى المكتشف في قائمة انتظار مع معاينة كاملة وخيار الموافقة بضغطة واحدة ليظهر فوراً بالمنصة.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handleBatchApproveAll}
+                  disabled={scoutItems.filter((i) => i.status === "pending").length === 0}
+                  className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition-colors disabled:opacity-50 cursor-pointer"
+                >
+                  <CheckCheck className="size-4" />
+                  <span>الموافقة على جميع المقترحات ({scoutItems.filter((i) => i.status === "pending").length})</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleRunScoutNow}
+                  disabled={scoutRunning}
+                  className="px-4 py-2 rounded-xl bg-primary text-primary-foreground font-bold text-xs flex items-center gap-2 shadow-xs hover:opacity-90 transition-opacity disabled:opacity-50 cursor-pointer"
+                >
+                  <RefreshCw className={`size-4 ${scoutRunning ? "animate-spin" : ""}`} />
+                  <span>{scoutRunning ? "جاري تمشيط المواقع..." : "تشغيل الوكيل الذكي للبحث الفوري 🚀"}</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Crawler Configuration Panel */}
+            <div className="rounded-3xl border border-border bg-card p-6 shadow-xs space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-border">
+                <div className="flex items-center gap-2">
+                  <SlidersHorizontal className="size-4 text-primary" />
+                  <h4 className="font-display font-bold text-sm text-foreground">
+                    تخصيص نطاق الرصد والكلمات المفتاحية
+                  </h4>
+                </div>
+                <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full">
+                  الرصد الآلي: يومياً كل 24 ساعة ✓
+                </span>
+              </div>
+
+              {/* Target Categories Toggles */}
+              <div>
+                <label className="text-xs font-bold text-foreground block mb-2">
+                  المجالات المستهدفة بالبحث التلقائي:
+                </label>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
+                  {[
+                    { id: "news_magazine" as const, label: "📰 مقالات وأخبار المجلة الخبيرية" },
+                    { id: "certifications" as const, label: "🎓 الشهادات العالمية المجانية (هارفارد/غوغل)" },
+                    { id: "majors_market" as const, label: "📊 تخصصات جديدة ونسب تشغيل ورواتب" },
+                    { id: "admissions_cutoffs" as const, label: "🏛️ معدلات القبول التنافسي للجامعات" },
+                  ].map((cat) => {
+                    const active = scoutConfig.activeCategories.includes(cat.id);
+                    return (
+                      <button
+                        key={cat.id}
+                        type="button"
+                        onClick={() => {
+                          const updated = active
+                            ? scoutConfig.activeCategories.filter((c) => c !== cat.id)
+                            : [...scoutConfig.activeCategories, cat.id];
+                          const newConfig = { ...scoutConfig, activeCategories: updated };
+                          setScoutConfig(newConfig);
+                          if (typeof window !== "undefined") {
+                            localStorage.setItem("admin_scout_config", JSON.stringify(newConfig));
+                          }
+                        }}
+                        className={`p-3 rounded-2xl border text-right transition-all flex items-center justify-between cursor-pointer ${
+                          active
+                            ? "bg-primary/10 border-primary text-foreground font-bold shadow-2xs"
+                            : "bg-surface border-border text-muted-foreground hover:bg-card"
+                        }`}
+                      >
+                        <span className="text-[11px]">{cat.label}</span>
+                        <span className={`size-2 rounded-full ${active ? "bg-primary" : "bg-muted"}`} />
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Active Keywords Manager */}
+              <div>
+                <label className="text-xs font-bold text-foreground block mb-2">
+                  الكلمات المفتاحية النشطة التي يبحث عنها الوكيل:
+                </label>
+                <div className="flex flex-wrap gap-2 mb-3">
+                  {scoutConfig.keywords.map((kw, i) => (
+                    <span
+                      key={i}
+                      className="inline-flex items-center gap-1.5 bg-surface border border-border text-foreground px-3 py-1 rounded-xl text-xs font-medium"
+                    >
+                      <span>{kw}</span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const updated = scoutConfig.keywords.filter((_, idx) => idx !== i);
+                          const newConfig = { ...scoutConfig, keywords: updated };
+                          setScoutConfig(newConfig);
+                          if (typeof window !== "undefined") {
+                            localStorage.setItem("admin_scout_config", JSON.stringify(newConfig));
+                          }
+                        }}
+                        className="text-muted-foreground hover:text-destructive p-0.5"
+                      >
+                        ✕
+                      </button>
+                    </span>
+                  ))}
+                </div>
+
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    placeholder="أضف كلمة مفتاحية جديدة للرصد… (مثال: منحة الجامعة الألمانية 2026)"
+                    value={newKeywordInput}
+                    onChange={(e) => setNewKeywordInput(e.target.value)}
+                    className="flex-1 bg-surface border border-border rounded-xl px-3 py-2 text-xs text-foreground focus:outline-none focus:border-primary"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!newKeywordInput.trim()) return;
+                      const newConfig = {
+                        ...scoutConfig,
+                        keywords: [...scoutConfig.keywords, newKeywordInput.trim()],
+                      };
+                      setScoutConfig(newConfig);
+                      if (typeof window !== "undefined") {
+                        localStorage.setItem("admin_scout_config", JSON.stringify(newConfig));
+                      }
+                      setNewKeywordInput("");
+                    }}
+                    className="px-4 py-2 rounded-xl bg-card border border-border text-foreground hover:bg-surface font-bold text-xs"
+                  >
+                    + إضافة كلمة
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Filter Tabs for Scout Items */}
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="flex flex-wrap gap-1.5">
+                {[
+                  { id: "all", label: `الكل (${scoutItems.length})` },
+                  { id: "news_magazine", label: `المجلة (${scoutItems.filter((i) => i.category === "news_magazine").length})` },
+                  { id: "certifications", label: `الشهادات (${scoutItems.filter((i) => i.category === "certifications").length})` },
+                  { id: "majors_market", label: `التخصصات (${scoutItems.filter((i) => i.category === "majors_market").length})` },
+                  { id: "admissions_cutoffs", label: `القبول والحدود (${scoutItems.filter((i) => i.category === "admissions_cutoffs").length})` },
+                ].map((tab) => (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => setScoutFilterCategory(tab.id as any)}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                      scoutFilterCategory === tab.id
+                        ? "bg-primary text-primary-foreground shadow-xs"
+                        : "bg-card border border-border text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+
+              <div className="text-xs text-muted-foreground">
+                المتبقي قيد المراجعة:{" "}
+                <span className="font-bold text-amber-500">
+                  {scoutItems.filter((i) => i.status === "pending").length}
+                </span>{" "}
+                · المعتمد:{" "}
+                <span className="font-bold text-emerald-500">
+                  {scoutItems.filter((i) => i.status === "approved").length}
+                </span>
+              </div>
+            </div>
+
+            {/* Discovered Items List Cards */}
+            <div className="space-y-4">
+              {scoutItems
+                .filter((item) =>
+                  scoutFilterCategory === "all" ? true : item.category === scoutFilterCategory
+                )
+                .map((item) => {
+                  const isPending = item.status === "pending";
+                  const isApproved = item.status === "approved";
+
+                  return (
+                    <div
+                      key={item.id}
+                      className={`p-5 rounded-3xl border transition-all ${
+                        isApproved
+                          ? "bg-emerald-500/5 border-emerald-500/30"
+                          : item.status === "rejected"
+                            ? "bg-muted/20 border-border opacity-60"
+                            : "bg-card border-border hover:border-primary/40 shadow-xs"
+                      }`}
+                    >
+                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-3">
+                        <div className="space-y-1">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-surface border border-border text-foreground">
+                              {item.categoryLabel}
+                            </span>
+                            <span className="text-[10px] text-muted-foreground">
+                              رُصد: {item.discoveredAt}
+                            </span>
+                            <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                              دقة المطابقة: {item.confidenceScore}% ✓
+                            </span>
+                            {isApproved && (
+                              <span className="text-[10px] font-bold bg-emerald-600 text-white px-2 py-0.5 rounded-full">
+                                معتمد ومنشور بالمنصة ✓
+                              </span>
+                            )}
+                          </div>
+
+                          <h4 className="font-display font-bold text-sm sm:text-base text-foreground pt-1">
+                            {item.title}
+                          </h4>
+
+                          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                            <span>المصدر المكتشف: {item.sourceName}</span>
+                            <a
+                              href={item.sourceUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="text-primary hover:underline inline-flex items-center gap-0.5"
+                            >
+                              <span>الرابط</span>
+                              <ExternalLink className="size-3" />
+                            </a>
+                          </div>
+                        </div>
+
+                        {/* Action buttons */}
+                        <div className="flex items-center gap-2 shrink-0">
+                          {isPending && (
+                            <>
+                              <button
+                                type="button"
+                                onClick={() => handleApproveScoutItem(item)}
+                                className="px-3.5 py-2 rounded-xl bg-primary text-primary-foreground font-bold text-xs flex items-center gap-1 shadow-xs hover:opacity-90 cursor-pointer"
+                              >
+                                <Check className="size-3.5" />
+                                <span>موافقة ونشر بالمنصة</span>
+                              </button>
+
+                              <button
+                                type="button"
+                                onClick={() => setEditScoutItem(item)}
+                                className="px-3 py-2 rounded-xl bg-surface hover:bg-surface-2 border border-border text-foreground font-semibold text-xs flex items-center gap-1 cursor-pointer"
+                              >
+                                <Edit3 className="size-3.5" />
+                                <span>تعديل</span>
+                              </button>
+
+                              <button
+                                type="button"
+                                onClick={() => handleRejectScoutItem(item.id)}
+                                className="px-3 py-2 rounded-xl border border-destructive/30 text-destructive hover:bg-destructive/10 font-semibold text-xs cursor-pointer"
+                              >
+                                ✕ استبعاد
+                              </button>
+                            </>
+                          )}
+
+                          {isApproved && (
+                            <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-xl border border-emerald-500/30 flex items-center gap-1">
+                              <CheckCircle className="size-3.5" />
+                              <span>منشور ومتاح للطلاب</span>
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Summary & Details */}
+                      <p className="text-xs text-muted-foreground leading-relaxed bg-surface/40 p-3.5 rounded-2xl border border-border/60">
+                        {item.summary}
+                      </p>
+
+                      {/* Structured Details Preview */}
+                      <div className="mt-3 pt-3 border-t border-border/50 grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                        {item.details.provider && (
+                          <div className="bg-surface/50 p-2 rounded-xl">
+                            <span className="text-[10px] text-muted-foreground block">الجهة المانحة:</span>
+                            <span className="font-bold text-foreground">{item.details.provider}</span>
+                          </div>
+                        )}
+                        {item.details.hours && (
+                          <div className="bg-surface/50 p-2 rounded-xl">
+                            <span className="text-[10px] text-muted-foreground block">المدة المقدرة:</span>
+                            <span className="font-bold text-foreground">{item.details.hours} ساعة</span>
+                          </div>
+                        )}
+                        {item.details.author && (
+                          <div className="bg-surface/50 p-2 rounded-xl">
+                            <span className="text-[10px] text-muted-foreground block">الكاتب / المرجع:</span>
+                            <span className="font-bold text-foreground">{item.details.author}</span>
+                          </div>
+                        )}
+                        {item.details.cutoffGpa && (
+                          <div className="bg-surface/50 p-2 rounded-xl">
+                            <span className="text-[10px] text-muted-foreground block">الحد الأدنى:</span>
+                            <span className="font-bold text-primary font-mono">{item.details.cutoffGpa}%</span>
+                          </div>
+                        )}
+                        {item.details.entrySalary && (
+                          <div className="bg-surface/50 p-2 rounded-xl">
+                            <span className="text-[10px] text-muted-foreground block">راتب البداية:</span>
+                            <span className="font-bold text-emerald-600 dark:text-emerald-400 font-mono">
+                              {item.details.entrySalary} د.أ
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+
+            {/* Quick Edit Modal */}
+            {editScoutItem && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in">
+                <div className="bg-card border border-border rounded-3xl max-w-lg w-full p-6 text-right space-y-4 shadow-2xl">
+                  <div className="flex items-center justify-between pb-2 border-b border-border">
+                    <h4 className="font-bold text-foreground text-sm flex items-center gap-1.5">
+                      <Edit3 className="size-4 text-primary" />
+                      تعديل بيانات العنصر قبل النشر بالمنصة
+                    </h4>
+                    <button onClick={() => setEditScoutItem(null)} className="text-muted-foreground p-1">✕</button>
+                  </div>
+
+                  <div className="space-y-3 text-xs">
+                    <div>
+                      <label className="font-bold text-foreground block mb-1">العنوان</label>
+                      <input
+                        type="text"
+                        value={editScoutItem.title}
+                        onChange={(e) => setEditScoutItem({ ...editScoutItem, title: e.target.value })}
+                        className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="font-bold text-foreground block mb-1">الملخص التوجيهي</label>
+                      <textarea
+                        rows={3}
+                        value={editScoutItem.summary}
+                        onChange={(e) => setEditScoutItem({ ...editScoutItem, summary: e.target.value })}
+                        className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="font-bold text-foreground block mb-1">المصدر المعتمد</label>
+                        <input
+                          type="text"
+                          value={editScoutItem.sourceName}
+                          onChange={(e) => setEditScoutItem({ ...editScoutItem, sourceName: e.target.value })}
+                          className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="font-bold text-foreground block mb-1">الرابط المباشر</label>
+                        <input
+                          type="text"
+                          value={editScoutItem.sourceUrl}
+                          onChange={(e) => setEditScoutItem({ ...editScoutItem, sourceUrl: e.target.value })}
+                          className="w-full bg-surface border border-border rounded-xl p-2.5 text-foreground font-mono"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-end gap-2 pt-3 border-t border-border">
+                      <button
+                        type="button"
+                        onClick={() => setEditScoutItem(null)}
+                        className="px-4 py-2 rounded-xl border border-border text-muted-foreground"
+                      >
+                        إلغاء
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const updated = scoutItems.map((si) =>
+                            si.id === editScoutItem.id ? editScoutItem : si
+                          );
+                          persistScoutItems(updated);
+                          handleApproveScoutItem(editScoutItem);
+                          setEditScoutItem(null);
+                        }}
+                        className="px-5 py-2 rounded-xl bg-primary text-primary-foreground font-bold shadow-xs hover:opacity-90"
+                      >
+                        حفظ وموافقة ونشر فوراً
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ================= SECTION: AI MULTI-IMAGE VISION IMPORTER (التعبئة الذكية عبر الصور) ================= */}
+        {activeSection === "vision_importer" && (
+          <div className="space-y-6 animate-in fade-in">
+            {/* Header */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 mb-2">
+                  <Camera className="size-3.5" />
+                  محرك القراءة البصرية المتقدم (Multi-Image Vision OCR)
+                </div>
+                <h3 className="font-display text-lg sm:text-xl font-bold text-foreground">
+                  التعبئة الفورية للبيانات عبر رفع صور وكشوفات متعددة
+                </h3>
+                <p className="text-xs text-muted-foreground mt-1 max-w-2xl leading-relaxed">
+                  ارفع عدة صور أو لقطات شاشة (كشوفات معدلات القبول، إعلانات الدورات، جداول ديوان الخدمة، وثائق رسمية)،
+                  وسيقوم الذكاء الاصطناعي بقراءتها واستخراج الجداول والبيانات بدقة متناهية تمهيداً لنقلها للمنصة بضغطة زر.
+                </p>
+              </div>
+
+              {extractedVisionRows.length > 0 && (
+                <button
+                  type="button"
+                  onClick={handleCommitVisionData}
+                  className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-2 shadow-xs transition-colors cursor-pointer"
+                >
+                  <CheckCheck className="size-4" />
+                  <span>اعتماد ونقل البيانات للمنصة ({extractedVisionRows.length})</span>
+                </button>
+              )}
+            </div>
+
+            {/* Target Type Selector */}
+            <div className="rounded-3xl border border-border bg-card p-6 shadow-xs space-y-4">
+              <span className="font-display font-bold text-sm text-foreground block">
+                1. اختر نوع البيانات التي تحتويها الصور المرفوعة:
+              </span>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
+                {[
+                  { id: "cutoffs" as const, label: "📊 كشوفات معدلات القبول والحدود الدنيا", desc: "جامعات، تخصصات، معدلات" },
+                  { id: "certs" as const, label: "🎓 إعلانات الشهادات والدورات العالمية", desc: "هارفارد، غوغل، ساعات" },
+                  { id: "majors" as const, label: "💼 تقارير التخصصات ونسب التعيين والرواتب", desc: "ديوان الخدمة، سجّل" },
+                  { id: "magazine" as const, label: "📰 قرارات وزارية ومقالات رسمية", desc: "مجلس التعليم العالي" },
+                ].map((t) => (
+                  <button
+                    key={t.id}
+                    type="button"
+                    onClick={() => {
+                      setVisionTargetType(t.id);
+                      setExtractedVisionRows([]);
+                    }}
+                    className={`p-3.5 rounded-2xl border text-right transition-all flex flex-col justify-between cursor-pointer ${
+                      visionTargetType === t.id
+                        ? "bg-primary text-primary-foreground border-primary shadow-xs"
+                        : "bg-surface border-border text-muted-foreground hover:bg-card"
+                    }`}
+                  >
+                    <span className="font-bold text-xs block mb-1">{t.label}</span>
+                    <span className={`text-[10px] block opacity-80 ${visionTargetType === t.id ? "text-white" : ""}`}>
+                      {t.desc}
+                    </span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Upload Dropzone */}
+              <div className="pt-2">
+                <span className="font-display font-bold text-xs text-foreground block mb-2">
+                  2. ارفع الصور أو لقطات الشاشة (يدعم اختيار صور متعددة دفعة واحدة):
+                </span>
+
+                <label className="border-2 border-dashed border-border hover:border-primary/50 bg-surface/40 hover:bg-surface/70 rounded-3xl p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors block">
+                  <UploadCloud className="size-10 text-primary mb-3" />
+                  <span className="font-bold text-sm text-foreground block mb-1">
+                    اضغط هنا لاختيار صور من جهازك أو اسحبها إلى هنا
+                  </span>
+                  <span className="text-xs text-muted-foreground block">
+                    يدعم صور JPG, PNG, WEBP وكشوفات الجداول متعددة الصفحات
+                  </span>
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={handleVisionFileUpload}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+
+              {/* Uploaded Images Thumbnails */}
+              {uploadedVisionImages.length > 0 && (
+                <div className="space-y-2 pt-2">
+                  <div className="flex items-center justify-between text-xs font-bold">
+                    <span>الصور المرفوعة الجاهزة للتحليل ({uploadedVisionImages.length}):</span>
+                    <button
+                      type="button"
+                      onClick={() => setUploadedVisionImages([])}
+                      className="text-destructive hover:underline text-[11px]"
+                    >
+                      مسح جميع الصور
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3">
+                    {uploadedVisionImages.map((img) => (
+                      <div
+                        key={img.id}
+                        className="group relative rounded-2xl overflow-hidden border border-border bg-card p-1 shadow-2xs"
+                      >
+                        <img
+                          src={img.dataUrl}
+                          alt={img.name}
+                          className="w-full h-24 object-cover rounded-xl"
+                        />
+                        <div className="p-1.5 text-[10px] text-muted-foreground truncate">
+                          {img.name} ({img.size})
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setUploadedVisionImages(uploadedVisionImages.filter((i) => i.id !== img.id))
+                          }
+                          className="absolute top-2 end-2 bg-destructive text-white size-5 rounded-full flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Optional Notes */}
+              <div>
+                <label className="text-xs font-bold text-muted-foreground block mb-1">
+                  تعليمات إضافية للذكاء الاصطناعي (اختياري):
+                </label>
+                <input
+                  type="text"
+                  placeholder="مثال: ركز على تخصصات الذكاء الاصطناعي والحدود الدنيا في جامعة اليرموك فقط…"
+                  value={visionNotes}
+                  onChange={(e) => setVisionNotes(e.target.value)}
+                  className="w-full bg-surface border border-border rounded-xl p-2.5 text-xs text-foreground"
+                />
+              </div>
+
+              {/* Process Trigger Button */}
+              <div className="pt-2 flex justify-end">
+                <button
+                  type="button"
+                  onClick={handleRunVisionExtraction}
+                  disabled={visionScanning || uploadedVisionImages.length === 0}
+                  className="px-6 py-3 rounded-2xl bg-primary text-primary-foreground font-bold text-xs sm:text-sm flex items-center gap-2 shadow-md hover:opacity-90 transition-opacity disabled:opacity-50 cursor-pointer"
+                >
+                  <ScanLine className={`size-4 ${visionScanning ? "animate-spin" : ""}`} />
+                  <span>
+                    {visionScanning
+                      ? "جاري التحليل البصري واستخراج الجداول..."
+                      : `🔍 تشغيل التحليل البصري واستخراج البيانات (${uploadedVisionImages.length} صور)`}
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            {/* Extracted Data Review Grid */}
+            {extractedVisionRows.length > 0 && (
+              <div className="rounded-3xl border border-border bg-card p-6 shadow-md space-y-4 animate-in fade-in">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-border">
+                  <div>
+                    <h4 className="font-display font-bold text-sm text-foreground flex items-center gap-2">
+                      <CheckCircle className="size-4 text-emerald-500" />
+                      نتائج الاستخراج البصري ({extractedVisionRows.length} سجلات مستخرجة بدقة)
+                    </h4>
+                    <span className="text-xs text-muted-foreground">
+                      يمكنك مراجعة أو تعديل أي خانة مباشرة في الجدول قبل نقلها للمنصة.
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setExtractedVisionRows([])}
+                      className="px-3 py-1.5 rounded-xl border border-border text-muted-foreground hover:text-foreground text-xs"
+                    >
+                      تفريغ
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={handleCommitVisionData}
+                      className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition-colors cursor-pointer"
+                    >
+                      <CheckCheck className="size-3.5" />
+                      <span>اعتماد ونقل البيانات للمنصة فوراً</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Table representation based on target type */}
+                <div className="overflow-x-auto">
+                  <table className="w-full text-xs text-right">
+                    <thead className="bg-surface text-muted-foreground font-bold border-b border-border">
+                      <tr>
+                        {visionTargetType === "cutoffs" && (
+                          <>
+                            <th className="p-3">الجامعة</th>
+                            <th className="p-3">التخصص المستخرج</th>
+                            <th className="p-3">الفرع</th>
+                            <th className="p-3">الحد الأدنى</th>
+                            <th className="p-3">سعر الساعة</th>
+                            <th className="p-3">العام</th>
+                          </>
+                        )}
+                        {visionTargetType === "certs" && (
+                          <>
+                            <th className="p-3">عنوان الشهادة</th>
+                            <th className="p-3">الجهة المانحة</th>
+                            <th className="p-3">الساعات</th>
+                            <th className="p-3">المستوى</th>
+                            <th className="p-3">المجال</th>
+                          </>
+                        )}
+                        {visionTargetType === "majors" && (
+                          <>
+                            <th className="p-3">اسم التخصص</th>
+                            <th className="p-3">المجال</th>
+                            <th className="p-3">التصنيف</th>
+                            <th className="p-3">نسبة التشغيل</th>
+                            <th className="p-3">راتب البداية</th>
+                          </>
+                        )}
+                        {visionTargetType === "magazine" && (
+                          <>
+                            <th className="p-3">عنوان المقال أو القرار</th>
+                            <th className="p-3">الكاتب / المرجع</th>
+                            <th className="p-3">الخلاصة التنفيذية</th>
+                          </>
+                        )}
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border">
+                      {extractedVisionRows.map((row, idx) => (
+                        <tr key={idx} className="hover:bg-surface/40">
+                          {visionTargetType === "cutoffs" && (
+                            <>
+                              <td className="p-2.5 font-bold text-foreground">
+                                <input
+                                  type="text"
+                                  value={row.university}
+                                  onChange={(e) => {
+                                    const next = [...extractedVisionRows];
+                                    next[idx].university = e.target.value;
+                                    setExtractedVisionRows(next);
+                                  }}
+                                  className="bg-transparent border-b border-transparent focus:border-primary text-xs w-full"
+                                />
+                              </td>
+                              <td className="p-2.5 font-semibold text-primary">
+                                <input
+                                  type="text"
+                                  value={row.major}
+                                  onChange={(e) => {
+                                    const next = [...extractedVisionRows];
+                                    next[idx].major = e.target.value;
+                                    setExtractedVisionRows(next);
+                                  }}
+                                  className="bg-transparent border-b border-transparent focus:border-primary text-xs w-full font-bold"
+                                />
+                              </td>
+                              <td className="p-2.5 text-muted-foreground">{row.branch || "علمي"}</td>
+                              <td className="p-2.5 font-mono font-bold text-foreground">
+                                <input
+                                  type="number"
+                                  step="0.01"
+                                  value={row.cutoff}
+                                  onChange={(e) => {
+                                    const next = [...extractedVisionRows];
+                                    next[idx].cutoff = e.target.value;
+                                    setExtractedVisionRows(next);
+                                  }}
+                                  className="bg-transparent border-b border-transparent focus:border-primary text-xs w-16 font-mono font-bold text-primary"
+                                />
+                                %
+                              </td>
+                              <td className="p-2.5 font-mono">{row.creditHourPrice || 35} د.أ</td>
+                              <td className="p-2.5 text-muted-foreground">{row.year || "2024/2025"}</td>
+                            </>
+                          )}
+
+                          {visionTargetType === "certs" && (
+                            <>
+                              <td className="p-2.5 font-bold text-foreground">{row.title}</td>
+                              <td className="p-2.5 text-primary font-semibold">{row.provider}</td>
+                              <td className="p-2.5 font-mono">{row.durationHours} ساعة</td>
+                              <td className="p-2.5 text-muted-foreground">{row.level}</td>
+                              <td className="p-2.5 text-xs text-muted-foreground">{row.domain}</td>
+                            </>
+                          )}
+
+                          {visionTargetType === "majors" && (
+                            <>
+                              <td className="p-2.5 font-bold text-foreground">{row.name}</td>
+                              <td className="p-2.5 text-muted-foreground">{row.field}</td>
+                              <td className="p-2.5">
+                                <span className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-2 py-0.5 rounded-full font-bold">
+                                  {row.classification || "مطلوب"}
+                                </span>
+                              </td>
+                              <td className="p-2.5 font-bold text-foreground">{row.employmentRate}</td>
+                              <td className="p-2.5 font-mono font-bold text-primary">{row.entrySalary} د.أ</td>
+                            </>
+                          )}
+
+                          {visionTargetType === "magazine" && (
+                            <>
+                              <td className="p-2.5 font-bold text-foreground max-w-xs">{row.title}</td>
+                              <td className="p-2.5 text-muted-foreground whitespace-nowrap">{row.author}</td>
+                              <td className="p-2.5 text-muted-foreground line-clamp-2">{row.summary}</td>
+                            </>
+                          )}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             )}

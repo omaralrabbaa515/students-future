@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 
 import { majorFields, majors, type MarketClassification } from "@/data/majors";
 
@@ -62,13 +62,30 @@ function MajorsIndex() {
   const [classification, setClassification] = useState<string>("الكل");
   const [field, setField] = useState<string>("الكل");
   const [query, setQuery] = useState("");
+  const [majorsList, setMajorsList] = useState(majors);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("platform_custom_majors");
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            const existingSlugs = new Set(majors.map((m) => m.slug));
+            const newOnly = parsed.filter((m: any) => !existingSlugs.has(m.slug));
+            setMajorsList([...newOnly, ...majors]);
+          }
+        } catch (e) {}
+      }
+    }
+  }, []);
 
   const filtered = useMemo(() => {
     const rawQ = query.trim().toLowerCase();
     const qNorm = normalizeArabic(rawQ);
     const matchedSlugsFromAlias = SEARCH_ALIASES[rawQ] || [];
 
-    return majors.filter((major) => {
+    return majorsList.filter((major) => {
       const matchClassification = classification === "الكل" || major.classification === classification;
       const matchField = field === "الكل" || major.field === field;
 
@@ -89,13 +106,13 @@ function MajorsIndex() {
         normTitles.includes(qNorm)
       );
     });
-  }, [classification, field, query]);
+  }, [majorsList, classification, field, query]);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
       <h1 className="font-display text-3xl font-extrabold sm:text-4xl">دليل التخصصات</h1>
       <p className="text-muted-foreground mt-2 text-sm leading-7">
-        {majors.length} تخصصاً مع تقدير نسبة التشغيل خلال أول سنتين بعد التخرج، ومستوى الخطر،
+        {majorsList.length} تخصصاً مع تقدير نسبة التشغيل خلال أول سنتين بعد التخرج، ومستوى الخطر،
         والتصنيف الرسمي في سوق العمل الأردني.
       </p>
 

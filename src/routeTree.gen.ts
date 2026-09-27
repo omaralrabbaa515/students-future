@@ -20,6 +20,7 @@ import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as SourcesRouteImport } from './routes/sources'
 import { Route as AuthenticatedUpdatesRouteImport } from './routes/_authenticated/updates'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as ApiVisionRouteImport } from './routes/api/vision'
 import { Route as MajorsIndexRouteImport } from './routes/majors.index'
 import { Route as MajorsSlugRouteImport } from './routes/majors.$slug'
 import { Route as ApiPublicScanRouteImport } from './routes/api/public/scan'
@@ -78,6 +79,11 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiVisionRoute = ApiVisionRouteImport.update({
+  id: '/api/vision',
+  path: '/api/vision',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MajorsIndexRoute = MajorsIndexRouteImport.update({
   id: '/majors/',
   path: '/majors/',
@@ -105,6 +111,7 @@ export interface FileRoutesByFullPath {
   '/sources': typeof SourcesRoute
   '/updates': typeof AuthenticatedUpdatesRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/vision': typeof ApiVisionRoute
   '/majors/$slug': typeof MajorsSlugRoute
   '/majors/': typeof MajorsIndexRoute
   '/api/public/scan': typeof ApiPublicScanRoute
@@ -120,6 +127,7 @@ export interface FileRoutesByTo {
   '/sources': typeof SourcesRoute
   '/updates': typeof AuthenticatedUpdatesRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/vision': typeof ApiVisionRoute
   '/majors/$slug': typeof MajorsSlugRoute
   '/majors': typeof MajorsIndexRoute
   '/api/public/scan': typeof ApiPublicScanRoute
@@ -137,6 +145,7 @@ export interface FileRoutesById {
   '/sources': typeof SourcesRoute
   '/_authenticated/updates': typeof AuthenticatedUpdatesRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/vision': typeof ApiVisionRoute
   '/majors/$slug': typeof MajorsSlugRoute
   '/majors/': typeof MajorsIndexRoute
   '/api/public/scan': typeof ApiPublicScanRoute
@@ -154,6 +163,7 @@ export interface FileRouteTypes {
     | '/sources'
     | '/updates'
     | '/api/chat'
+    | '/api/vision'
     | '/majors/$slug'
     | '/majors/'
     | '/api/public/scan'
@@ -169,6 +179,7 @@ export interface FileRouteTypes {
     | '/sources'
     | '/updates'
     | '/api/chat'
+    | '/api/vision'
     | '/majors/$slug'
     | '/majors'
     | '/api/public/scan'
@@ -185,6 +196,7 @@ export interface FileRouteTypes {
     | '/sources'
     | '/_authenticated/updates'
     | '/api/chat'
+    | '/api/vision'
     | '/majors/$slug'
     | '/majors/'
     | '/api/public/scan'
@@ -201,6 +213,7 @@ export interface RootRouteChildren {
   ProfileRoute: typeof ProfileRoute
   SourcesRoute: typeof SourcesRoute
   ApiChatRoute: typeof ApiChatRoute
+  ApiVisionRoute: typeof ApiVisionRoute
   MajorsSlugRoute: typeof MajorsSlugRoute
   MajorsIndexRoute: typeof MajorsIndexRoute
   ApiPublicScanRoute: typeof ApiPublicScanRoute
@@ -285,6 +298,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/vision': {
+      id: '/api/vision'
+      path: '/api/vision'
+      fullPath: '/api/vision'
+      preLoaderRoute: typeof ApiVisionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/majors/': {
       id: '/majors/'
       path: '/majors'
@@ -331,6 +351,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProfileRoute: ProfileRoute,
   SourcesRoute: SourcesRoute,
   ApiChatRoute: ApiChatRoute,
+  ApiVisionRoute: ApiVisionRoute,
   MajorsSlugRoute: MajorsSlugRoute,
   MajorsIndexRoute: MajorsIndexRoute,
   ApiPublicScanRoute: ApiPublicScanRoute,

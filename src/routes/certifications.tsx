@@ -1,5 +1,5 @@
 import { createFileRoute, ErrorComponent } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 
 import {
   certificationCategories,
@@ -57,10 +57,39 @@ function Certifications() {
   const [category, setCategory] = useState("الكل");
   const [provider, setProvider] = useState("الكل");
   const [query, setQuery] = useState("");
+  const [certsList, setCertsList] = useState(certifications);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("platform_custom_certs");
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            const customFormatted = parsed.map((c: any) => ({
+              id: c.id || `custom-${Math.random().toString(36).slice(2, 7)}`,
+              title: c.name || c.title || "شهادة معتمدة",
+              provider: c.provider || "جهة عالمية",
+              category: c.domain || c.category || "تقنية المعلومات والبرمجة",
+              fields: c.fields || ["علوم الحاسوب", "تكنولوجيا المعلومات", "هندسة البرمجيات"],
+              hours: c.estimatedHours || c.hours || 35,
+              free: true,
+              level: c.level || "مبتدئ إلى متوسط",
+              url: c.url || "https://grow.google/certificates/",
+              summary: c.summary || "شهادة احترافية معتمدة تعزز فرص العمل.",
+            }));
+            const existingIds = new Set(certifications.map((c) => c.id));
+            const newOnly = customFormatted.filter((c: any) => !existingIds.has(c.id));
+            setCertsList([...newOnly, ...certifications]);
+          }
+        } catch (e) {}
+      }
+    }
+  }, []);
 
   const filtered = useMemo(
     () =>
-      certifications.filter(
+      certsList.filter(
         (cert) =>
           (category === "الكل" || cert.category === category) &&
           (provider === "الكل" || cert.provider === provider) &&
@@ -69,7 +98,7 @@ function Certifications() {
             cert.summary.includes(query.trim()) ||
             cert.fields.some((field) => field.includes(query.trim()))),
       ),
-    [category, provider, query],
+    [certsList, category, provider, query],
   );
 
   return (
@@ -79,7 +108,7 @@ function Certifications() {
         آخر فحص للروابط: {formatDate(lastLinkCheck)}
       </p>
       <p className="text-muted-foreground mt-2 text-sm leading-7">
-        {certifications.length} شهادة مجانية من جهات عالمية موثوقة، مصنّفة حسب المجال، مع نبذة عن كل
+        {certsList.length} شهادة مجانية من جهات عالمية موثوقة، مصنّفة حسب المجال، مع نبذة عن كل
         دورة والتخصصات التي تستفيد منها ورابط التسجيل المباشر.
       </p>
 

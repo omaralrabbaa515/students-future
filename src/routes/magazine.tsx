@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
   BookOpen,
   Search,
@@ -62,15 +62,30 @@ const CATEGORIES: { id: ArticleCategory | "all"; label: string; icon: string }[]
 ];
 
 function MagazinePage() {
+  const [articles, setArticles] = useState<ExpertArticle[]>(INITIAL_MAGAZINE_ARTICLES);
   const [selectedCategory, setSelectedCategory] = useState<ArticleCategory | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [activeArticle, setActiveArticle] = useState<ExpertArticle | null>(null);
   const [bookmarkedIds, setBookmarkedIds] = useState<string[]>([]);
   const [copiedLink, setCopiedLink] = useState(false);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("platform_magazine_articles");
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setArticles(parsed);
+          }
+        } catch (e) {}
+      }
+    }
+  }, []);
+
   // Filtered articles
   const filteredArticles = useMemo(() => {
-    return INITIAL_MAGAZINE_ARTICLES.filter((article) => {
+    return articles.filter((article) => {
       const matchesCategory =
         selectedCategory === "all" || article.category === selectedCategory;
       const q = searchQuery.toLowerCase().trim();
@@ -83,9 +98,9 @@ function MagazinePage() {
 
       return matchesCategory && matchesSearch;
     });
-  }, [selectedCategory, searchQuery]);
+  }, [articles, selectedCategory, searchQuery]);
 
-  const featuredArticle = INITIAL_MAGAZINE_ARTICLES.find((a) => a.featured) || INITIAL_MAGAZINE_ARTICLES[0];
+  const featuredArticle = articles.find((a) => a.featured) || articles[0];
 
   const toggleBookmark = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
