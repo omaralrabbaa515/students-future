@@ -241,10 +241,24 @@ function AuthPage() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: `${window.location.origin}/profile`,
+          redirectTo: `${window.location.origin}/profile?onboarding=true`,
         },
       });
-      if (error) throw error;
+      if (error) {
+        if (
+          error.message?.includes("provider is not enabled") ||
+          error.message?.includes("Unsupported provider") ||
+          error.message?.includes("validation_failed")
+        ) {
+          setMessage({
+            type: "error",
+            text: "تنبيه: مزود تسجيل Google غير مفعّل بعد في لوحة Supabase. لتفعيله: ادخل على Supabase Dashboard -> Authentication -> Providers -> Google وقم بتشغيله وإدخال Client ID و Secret. حالياً، يمكنك إنشاء حسابك وتسجيل الدخول فوراً عبر البريد وكلمة المرور أدناه!",
+          });
+          setBusy(false);
+          return;
+        }
+        throw error;
+      }
     } catch (error) {
       setMessage({
         type: "error",

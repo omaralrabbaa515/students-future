@@ -62,11 +62,16 @@ export function FloatingCopilot() {
     setInputValue("");
     setIsTyping(true);
 
-    // Call the server chat API
     try {
+      const customKey =
+        typeof window !== "undefined" ? localStorage.getItem("user_custom_gemini_key") || "" : "";
+
       const response = await fetch("/api/chat", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(customKey ? { "x-gemini-key": customKey } : {}),
+        },
         body: JSON.stringify({
           messages: [
             {
@@ -93,19 +98,29 @@ export function FloatingCopilot() {
           const { done, value } = await reader.read();
           if (done) break;
           const chunk = decoder.decode(value, { stream: true });
-          
-          // Parse lines from TanStack/AI stream format or plain text
+
+          // Parse lines from TanStack/AI stream format or SSE data: format
           const lines = chunk.split("\n");
           for (const line of lines) {
-            if (line.startsWith("0:")) {
+            const trimmed = line.trim();
+            if (trimmed.startsWith("data: ")) {
+              const rawData = trimmed.slice(6).trim();
+              if (rawData === "[DONE]") continue;
               try {
-                const textPart = JSON.parse(line.slice(2));
-                botResponse += textPart;
+                const parsed = JSON.parse(rawData);
+                if (parsed.type === "text-delta" && parsed.delta) {
+                  botResponse += parsed.delta;
+                }
               } catch {
                 // Ignore parse errors on raw stream fragments
               }
-            } else if (!line.startsWith("d:") && !line.startsWith("e:")) {
-              botResponse += line;
+            } else if (trimmed.startsWith("0:")) {
+              try {
+                const textPart = JSON.parse(trimmed.slice(2));
+                botResponse += textPart;
+              } catch {
+                // Ignore parse errors
+              }
             }
           }
         }

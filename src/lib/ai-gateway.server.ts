@@ -2,13 +2,17 @@ import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 
 /**
  * مزود ذكاء اصطناعي متعدد ومرن لا يعتمد حصراً على مزود واحد:
- * - يدعم Google Gemini عبر GEMINI_API_KEY
+ * - يدعم Google Gemini عبر GEMINI_API_KEY أو المفتاح المخصص
  * - يدعم OpenAI عبر OPENAI_API_KEY
  * - يدعم Groq عبر GROQ_API_KEY
  * - يدعم Lovable AI Gateway عبر LOVABLE_API_KEY كخيار بديل
  */
-export function getAiModel() {
-  const geminiKey = process.env["GEMINI_API_KEY"] || process.env["GOOGLE_GENERATIVE_AI_API_KEY"];
+export function getAiModel(customKey?: string) {
+  const geminiKey =
+    customKey ||
+    process.env["GEMINI_API_KEY"] ||
+    process.env["GOOGLE_GENERATIVE_AI_API_KEY"];
+
   if (geminiKey) {
     const provider = createOpenAICompatible({
       name: "google",
@@ -54,7 +58,7 @@ export function getAiModel() {
         "X-Lovable-AIG-SDK": "vercel-ai-sdk",
       },
     });
-    return provider("google/gemini-3.8-flash");
+    return provider("google/gemini-2.5-flash");
   }
 
   return null;

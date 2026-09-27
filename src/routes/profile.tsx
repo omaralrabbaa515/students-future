@@ -28,6 +28,7 @@ import { useStudent } from "@/hooks/use-student";
 import { majors } from "@/data/majors";
 import { certifications } from "@/data/certifications";
 import type { TawjihiBranch, UserRole } from "@/lib/student-store";
+import { StudentOnboarding } from "@/components/student-onboarding";
 
 export const Route = createFileRoute("/profile")({
   head: () => ({
@@ -95,6 +96,7 @@ function ProfilePage() {
   const student = useStudent();
   const [authUser, setAuthUser] = useState<SupabaseUser | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
 
@@ -107,6 +109,13 @@ function ProfilePage() {
   const [formInterests, setFormInterests] = useState<string[]>(student.profile.interests || []);
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("onboarding") === "true" || params.get("setup") === "true") {
+        setShowOnboarding(true);
+      }
+    }
+
     void supabase.auth.getSession().then(({ data }) => {
       if (data.session) {
         setAuthUser(data.session.user);
@@ -198,7 +207,15 @@ function ProfilePage() {
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            onClick={() => setShowOnboarding(true)}
+            className="border-primary/30 bg-primary/10 hover:bg-primary/20 text-primary text-xs font-bold py-2 px-3.5 rounded-xl border transition-colors inline-flex items-center gap-1.5 shadow-2xs cursor-pointer"
+          >
+            <Sparkles className="size-3.5 text-primary" />
+            <span>معالج الإعداد الأكاديمي 🪄</span>
+          </button>
+
           {isAdmin && (
             <Link
               to="/updates"
@@ -745,6 +762,12 @@ function ProfilePage() {
           </div>
         )}
       </div>
+
+      {/* Interactive Onboarding Wizard Modal */}
+      <StudentOnboarding
+        isOpen={showOnboarding}
+        onClose={() => setShowOnboarding(false)}
+      />
     </div>
   );
 }
