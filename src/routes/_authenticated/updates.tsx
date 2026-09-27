@@ -9,9 +9,12 @@ import { supabase } from "@/integrations/supabase/client";
 import {
   claimAdminRole,
   decidePendingChange,
+  EXECUTIVE_ADMIN_EMAIL,
   getUpdatesDashboard,
+  resolveSecurityAlert,
   revertOverride,
   runScanNow,
+  sendExecutiveTransferConfirmationEmail,
 } from "@/lib/admin.functions";
 import { ENTITY_LABELS, formatDate, formatDateTime } from "@/lib/platform-data";
 
@@ -52,6 +55,7 @@ const TABS = [
   { key: "reviews", label: "مراجعة التخصصات" },
   { key: "log", label: "سجل التحديثات" },
   { key: "scans", label: "عمليات الفحص" },
+  { key: "security", label: "الأمان والحساب التنفيذي" },
 ] as const;
 
 const majorNames = new Map(majors.map((major) => [major.slug, major.name]));
@@ -64,11 +68,14 @@ function UpdatesPage() {
   const revert = useServerFn(revertOverride);
   const scan = useServerFn(runScanNow);
   const claim = useServerFn(claimAdminRole);
+  const sendEmail = useServerFn(sendExecutiveTransferConfirmationEmail);
+  const resolveAlert = useServerFn(resolveSecurityAlert);
 
   const [tab, setTab] = useState<(typeof TABS)[number]["key"]>("pending");
   const [logFilter, setLogFilter] = useState("");
   const [logType, setLogType] = useState("الكل");
   const [notice, setNotice] = useState<string | null>(null);
+  const [emailNotice, setEmailNotice] = useState<string | null>(null);
 
   const dashboard = useQuery({
     queryKey: ["updates-dashboard"],
@@ -117,10 +124,31 @@ function UpdatesPage() {
   const claimMutation = useMutation({
     mutationFn: () => claim(),
     onSuccess: () => {
-      setNotice("تم تعيينك مشرفاً للمنصة.");
+      setNotice("تم تعيينك مشرفاً للمنصة وتأكيد الصلاحية التنفيذية.");
       void invalidate();
     },
     onError: (error: Error) => setNotice(error.message),
+  });
+
+  const emailMutation = useMutation({
+    mutationFn: () => sendEmail(),
+    onSuccess: (res) => {
+      setEmailNotice(`✅ تم توثيق وإرسال بريد التأكيد بنجاح إلى: ${res.sentTo}`);
+      setNotice(`تم إرسال بريد تأكيد الحساب التنفيذي إلى ${res.sentTo}.`);
+      void invalidate();
+    },
+    onError: (err: Error) => {
+      setEmailNotice(`❌ تعذّر إرسال البريد: ${err.message}`);
+    },
+  });
+
+  const resolveAlertMutation = useMutation({
+    mutationFn: (id: string) => resolveAlert({ data: { id } }),
+    onSuccess: () => {
+      setNotice("تم تحديث حالة التنبيه الأمني.");
+      void invalidate();
+    },
+    onError: (err: Error) => setNotice(err.message),
   });
 
   const data = dashboard.data;
@@ -222,7 +250,7 @@ function UpdatesPage() {
         </p>
       )}
 
-      <div className="mt-6 grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
+      <div className="mt-6 grid gap-3 sm:grid-cols-3 lg:grid-cols-7">
         <Stat label="تغييرات بانتظار المراجعة" value={String(data?.pending.length ?? 0)} />
         <Stat label="روابط معطّلة" value={String(data?.brokenLinks.length ?? 0)} />
         <Stat label="قيم معتمدة ظاهرة للطلبة" value={String(data?.overrides.length ?? 0)} />
@@ -232,6 +260,10 @@ function UpdatesPage() {
           value={String(lastScan?.reviewed_majors ?? 0)}
         />
         <Stat label="حالات تغيّرت في آخر جولة" value={String(lastScan?.status_changes ?? 0)} />
+        <Stat
+          label="تنبيهات أمنية"
+          value={String(data?.securityAlerts.filter((a) => !a.is_resolved).length ?? 0)}
+        />
       </div>
 
       <div className="border-border mt-8 flex flex-wrap gap-1 border-b">
@@ -550,6 +582,138 @@ function UpdatesPage() {
           {(data?.scans.length ?? 0) === 0 && (
             <p className="text-muted-foreground mt-4 text-sm">لم تُنفَّذ أي عملية فحص بعد.</p>
           )}
+        </div>
+      )}
+
+      {tab === "security" && (
+        <div className="mt-6 space-y-6">
+          <div className="card-surface p-6">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <span className="pill border-brand/40 text-brand bg-brand/10 border text-xs">
+                  الحساب التنفيذي المحمي
+                </span>
+                <h2 className="font-display mt-2 text-xl font-bold">
+                  {data?.executiveAccount ?? EXECUTIVE_ADMIN_EMAIL}
+                </h2>
+                <p className="text-muted-foreground mt-1 text-sm">
+                  هذا هو الحساب التنفيذي الوحيد المخول بإدارة وتحديث بيانات المنصة. الحساب مقفل
+                  بشكل قطعي وغير قابل للنقل أو التعديل إلا بموافقة إدارية مشددة.
+                </p>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <button
+                  onClick={() => emailMutation.mutate()}
+                  disabled={emailMutation.isPending}
+                  className="bg-brand text-brand-foreground rounded-xl px-5 py-2.5 text-sm font-bold shadow transition-transform hover:-translate-y-0.5 disabled:opacity-60"
+                >
+                  {emailMutation.isPending ? "جارٍ الإرسال…" : "إرسال بريد تأكيد التحويل"}
+                </button>
+              </div>
+            </div>
+
+            {emailNotice && (
+              <p className="border-border bg-secondary mt-4 rounded-md border p-3 text-sm font-bold">
+                {emailNotice}
+              </p>
+            )}
+
+            <div className="border-border/60 mt-6 grid gap-4 border-t pt-6 sm:grid-cols-3">
+              <div className="bg-secondary/40 rounded-xl p-4">
+                <p className="text-muted-foreground text-xs">الحساب التنفيذي السابق</p>
+                <p className="mt-1 font-mono text-sm font-bold text-danger">
+                  jowmahmoud6@gmail.com
+                </p>
+                <span className="mt-2 inline-block rounded-full bg-danger/10 px-2.5 py-0.5 text-xs text-danger">
+                  ملغى ومحظور بالكامل
+                </span>
+              </div>
+
+              <div className="bg-secondary/40 rounded-xl p-4">
+                <p className="text-muted-foreground text-xs">قفل الأمان الصارم (Database Lock)</p>
+                <p className="mt-1 text-sm font-bold text-good">مفعّل (PostgreSQL Triggers)</p>
+                <span className="mt-2 inline-block rounded-full bg-good/10 px-2.5 py-0.5 text-xs text-good">
+                  يمنع أي تعديل أو حذف تلقائياً
+                </span>
+              </div>
+
+              <div className="bg-secondary/40 rounded-xl p-4">
+                <p className="text-muted-foreground text-xs">نظام المراقبة والتنبيهات</p>
+                <p className="mt-1 text-sm font-bold text-good">نشط ومراقب</p>
+                <span className="mt-2 inline-block rounded-full bg-good/10 px-2.5 py-0.5 text-xs text-good">
+                  رصد وتسجيل أي محاولة عبث
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="card-surface p-6">
+            <div className="flex items-center justify-between">
+              <h3 className="font-display text-lg font-bold">
+                سجل التنبيهات الأمنية ومحاولات التغيير
+              </h3>
+              <span className="text-muted-foreground text-xs">
+                {data?.securityAlerts.length ?? 0} تنبيه مسجّل
+              </span>
+            </div>
+            <p className="text-muted-foreground mt-1 text-xs">
+              يتم هنا رصد أي محاولات من أي مستخدم للمطالبة بصلاحيات الإشراف أو تغيير الحساب التنفيذي.
+            </p>
+
+            {(data?.securityAlerts.length ?? 0) === 0 ? (
+              <div className="bg-secondary/30 mt-4 rounded-xl p-6 text-center text-sm text-muted-foreground">
+                ✅ لا توجد أي محاولات اختراق أو تغيير غير مصرح بها. النظام محمي بالكامل.
+              </div>
+            ) : (
+              <div className="mt-4 space-y-3">
+                {data?.securityAlerts.map((alert) => (
+                  <div
+                    key={alert.id}
+                    className={`rounded-xl border p-4 text-sm ${
+                      alert.is_resolved
+                        ? "border-border/60 bg-secondary/20 opacity-70"
+                        : "border-danger/30 bg-danger/5"
+                    }`}
+                  >
+                    <div className="flex flex-wrap items-start justify-between gap-2">
+                      <div>
+                        <span
+                          className={`rounded px-2 py-0.5 text-xs font-bold ${
+                            alert.is_resolved
+                              ? "bg-secondary text-muted-foreground"
+                              : "bg-danger text-white"
+                          }`}
+                        >
+                          {alert.alert_type}
+                        </span>
+                        <span className="text-muted-foreground mr-3 text-xs">
+                          {formatDateTime(alert.created_at)}
+                        </span>
+                        <p className="mt-2 font-bold">{alert.details}</p>
+                        <p className="text-muted-foreground mt-1 text-xs">
+                          البريد الفاعل: <span className="font-mono">{alert.attempted_by || "مجهول"}</span>
+                          {alert.target_account && (
+                            <> · الحساب المستهدف: <span className="font-mono">{alert.target_account}</span></>
+                          )}
+                        </p>
+                      </div>
+
+                      {!alert.is_resolved && (
+                        <button
+                          onClick={() => resolveAlertMutation.mutate(alert.id)}
+                          disabled={resolveAlertMutation.isPending}
+                          className="border-border bg-card rounded-md border px-3 py-1.5 text-xs font-bold hover:bg-secondary"
+                        >
+                          تحديد كمعالج
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       )}
 

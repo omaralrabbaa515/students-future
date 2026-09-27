@@ -300,6 +300,39 @@ export type Database = {
         }
         Relationships: []
       }
+      security_alerts: {
+        Row: {
+          alert_type: string
+          attempted_by: string | null
+          created_at: string
+          details: string
+          id: string
+          ip_address: string | null
+          is_resolved: boolean
+          target_account: string | null
+        }
+        Insert: {
+          alert_type: string
+          attempted_by?: string | null
+          created_at?: string
+          details: string
+          id?: string
+          ip_address?: string | null
+          is_resolved?: boolean
+          target_account?: string | null
+        }
+        Update: {
+          alert_type?: string
+          attempted_by?: string | null
+          created_at?: string
+          details?: string
+          id?: string
+          ip_address?: string | null
+          is_resolved?: boolean
+          target_account?: string | null
+        }
+        Relationships: []
+      }
       sources: {
         Row: {
           key: string
