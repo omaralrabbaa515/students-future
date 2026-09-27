@@ -66,6 +66,8 @@ const DEFAULT_STATE: StudentState = {
 const STORAGE_KEY = "students_future_student_state_v1";
 
 let listeners: Array<() => void> = [];
+let cachedState: StudentState | null = null;
+let lastRawStorage: string | null = null;
 
 function emitChange() {
   for (const listener of listeners) {
@@ -79,9 +81,19 @@ export function getStudentState(): StudentState {
   }
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return DEFAULT_STATE;
-    return { ...DEFAULT_STATE, ...JSON.parse(raw) };
+    if (!raw) {
+      cachedState = DEFAULT_STATE;
+      lastRawStorage = null;
+      return DEFAULT_STATE;
+    }
+    if (raw === lastRawStorage && cachedState !== null) {
+      return cachedState;
+    }
+    lastRawStorage = raw;
+    cachedState = { ...DEFAULT_STATE, ...JSON.parse(raw) };
+    return cachedState;
   } catch {
+    cachedState = DEFAULT_STATE;
     return DEFAULT_STATE;
   }
 }
@@ -97,9 +109,12 @@ export function saveStudentState(next: Partial<StudentState>): StudentState {
     },
   };
 
+  cachedState = updated;
   if (typeof window !== "undefined") {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      const raw = JSON.stringify(updated);
+      lastRawStorage = raw;
+      localStorage.setItem(STORAGE_KEY, raw);
     } catch (e) {
       console.error("Failed to save student state to localStorage", e);
     }

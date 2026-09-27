@@ -10,6 +10,7 @@ import {
 import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import { LogOut, ShieldCheck } from "lucide-react";
 import { AppLogo } from "@/components/brand-logo";
 import { FloatingCopilot } from "@/components/floating-copilot";
 import { supabase } from "@/integrations/supabase/client";
@@ -134,20 +135,46 @@ const navLinks = [
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const [hasSession, setHasSession] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
+    const evaluateSession = (session: any) => {
+      const email = session?.user?.email?.toLowerCase() || null;
+      setHasSession(!!session);
+      setUserEmail(email);
+
+      const isAdm =
+        email === "jowmahmoud6@gmail.com" ||
+        session?.user?.user_metadata?.role === "admin" ||
+        session?.user?.app_metadata?.role === "admin";
+      setIsAdmin(isAdm);
+    };
+
     void supabase.auth.getSession().then(({ data }) => {
-      setHasSession(!!data.session);
+      evaluateSession(data.session);
     });
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      setHasSession(!!session);
+      evaluateSession(session);
     });
 
     return () => subscription.unsubscribe();
   }, []);
+
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+    } catch (e) {
+      console.error("Sign out error", e);
+    }
+    setHasSession(false);
+    setUserEmail(null);
+    setIsAdmin(false);
+    window.location.href = "/auth";
+  };
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -182,14 +209,42 @@ function RootComponent() {
                 ملفي الأكاديمي 🎖️
               </Link>
 
-              {hasSession ? (
+              {/* Admin Dashboard Quick Link - Visible when Admin user is authenticated */}
+              {isAdmin && (
                 <Link
-                  to="/profile"
-                  className="border-emerald-500/40 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold rounded-full border px-3 py-1.5 transition-colors text-xs flex items-center gap-1.5 ms-1"
+                  to="/updates"
+                  className="bg-amber-500/15 text-amber-600 dark:text-amber-400 hover:bg-amber-500/25 border border-amber-500/30 font-bold rounded-full px-3 py-1.5 transition-all text-xs flex items-center gap-1.5 ms-1 shadow-2xs cursor-pointer"
+                  activeProps={{
+                    className: "bg-amber-500 text-white font-extrabold shadow-sm",
+                  }}
+                  title="لوحة تحكم الإدارة العليا للمنصة"
                 >
-                  <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span>حسابي</span>
+                  <ShieldCheck className="size-3.5 text-amber-500" />
+                  <span>لوحة الإدارة 👑</span>
                 </Link>
+              )}
+
+              {hasSession ? (
+                <div className="flex items-center gap-1.5 ms-1">
+                  <Link
+                    to="/profile"
+                    className="border-emerald-500/40 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/20 font-bold rounded-full border px-3 py-1.5 transition-colors text-xs flex items-center gap-1.5"
+                    title={userEmail || "حسابي الأكاديمي"}
+                  >
+                    <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span>حسابي</span>
+                  </Link>
+
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="text-red-500 hover:text-red-600 hover:bg-red-500/10 border border-red-500/20 font-bold rounded-full px-2.5 py-1.5 transition-colors text-xs flex items-center gap-1 cursor-pointer"
+                    title="تسجيل الخروج من الحساب"
+                  >
+                    <LogOut className="size-3.5" />
+                    <span className="hidden sm:inline">تسجيل خروج</span>
+                  </button>
+                </div>
               ) : (
                 <Link
                   to="/auth"

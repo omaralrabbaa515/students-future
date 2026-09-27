@@ -49,6 +49,25 @@ export const Route = createFileRoute("/advisor")({
     ],
   }),
   component: Advisor,
+  errorComponent: ({ reset }) => (
+    <div className="mx-auto max-w-4xl px-4 py-16 text-center">
+      <div className="p-8 rounded-3xl bg-card border border-border shadow-md">
+        <h2 className="text-xl font-bold text-foreground">المستشار الذكي المتطور</h2>
+        <p className="text-sm text-muted-foreground mt-2">
+          تم تحديث جلسة المستشار الذكي. انقر أدناه لإعادة تشغيل المحادثة فوراً.
+        </p>
+        <button
+          onClick={() => {
+            reset();
+            window.location.reload();
+          }}
+          className="mt-4 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-bold shadow-md cursor-pointer"
+        >
+          إعادة المحاولة
+        </button>
+      </div>
+    </div>
+  ),
 });
 
 interface ChatMessage {

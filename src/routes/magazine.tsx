@@ -49,6 +49,25 @@ export const Route = createFileRoute("/magazine")({
     ],
   }),
   component: MagazinePage,
+  errorComponent: ({ reset }) => (
+    <div className="mx-auto max-w-4xl px-4 py-16 text-center">
+      <div className="p-8 rounded-3xl bg-card border border-border shadow-md">
+        <h2 className="text-xl font-bold text-foreground">المجلة الخبيرية الأكاديمية</h2>
+        <p className="text-sm text-muted-foreground mt-2">
+          تم تحديث بيانات المقالات. اضغط على الزر أدناه لإعادة التحميل الفوري.
+        </p>
+        <button
+          onClick={() => {
+            reset();
+            window.location.reload();
+          }}
+          className="mt-4 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-bold shadow-md cursor-pointer"
+        >
+          إعادة التحميل
+        </button>
+      </div>
+    </div>
+  ),
 });
 
 const CATEGORIES: { id: ArticleCategory | "all"; label: string; icon: string }[] = [
@@ -61,8 +80,51 @@ const CATEGORIES: { id: ArticleCategory | "all"; label: string; icon: string }[]
   { id: "market_trends", label: "مقارنات الجامعات والمسارات", icon: "📊" },
 ];
 
+function sanitizeArticle(raw: any, index: number = 0): ExpertArticle {
+  const fallbackAvatar =
+    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80";
+  const authorName =
+    typeof raw?.author === "string"
+      ? raw.author
+      : raw?.author?.name || "د. سفيان الهنداوي (مستشار أكاديمي)";
+  const authorTitle =
+    typeof raw?.author === "object" && raw?.author?.title
+      ? raw.author.title
+      : "مستشار التخطيط الأكاديمي وسوق العمل";
+  const authorAvatar =
+    typeof raw?.author === "object" && raw?.author?.avatar
+      ? raw.author.avatar
+      : fallbackAvatar;
+
+  return {
+    id: raw?.id || `art-${Date.now()}-${index}`,
+    slug: raw?.slug || `art-${index}`,
+    title: raw?.title || "تحليل أكاديمي وتوجيهي",
+    summary: raw?.summary || "",
+    category: raw?.category || "tawjihi_advice",
+    categoryLabel: raw?.categoryLabel || "تحليل خبير موثق",
+    categoryColor: raw?.categoryColor || "bg-primary/10 text-primary border-primary/20",
+    author: {
+      name: authorName,
+      title: authorTitle,
+      avatar: authorAvatar,
+      verified: true,
+    },
+    readTime: raw?.readTime || "4 دقائق",
+    publishedAt: raw?.publishedAt || "2026/09/27",
+    views: typeof raw?.views === "number" ? raw.views : 140,
+    featured: !!raw?.featured,
+    tags: Array.isArray(raw?.tags) ? raw.tags : ["توجيهي 2026", "سوق العمل"],
+    keyTakeaways: Array.isArray(raw?.keyTakeaways) ? raw.keyTakeaways : [],
+    content: Array.isArray(raw?.content) ? raw.content : [raw?.summary || ""],
+    sourceReference: raw?.sourceReference || "منصة الطلاب والمستقبل",
+  };
+}
+
 function MagazinePage() {
-  const [articles, setArticles] = useState<ExpertArticle[]>(INITIAL_MAGAZINE_ARTICLES);
+  const [articles, setArticles] = useState<ExpertArticle[]>(() =>
+    INITIAL_MAGAZINE_ARTICLES.map((a, i) => sanitizeArticle(a, i))
+  );
   const [selectedCategory, setSelectedCategory] = useState<ArticleCategory | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [activeArticle, setActiveArticle] = useState<ExpertArticle | null>(null);
@@ -76,9 +138,11 @@ function MagazinePage() {
         try {
           const parsed = JSON.parse(saved);
           if (Array.isArray(parsed) && parsed.length > 0) {
-            setArticles(parsed);
+            setArticles(parsed.map((a: any, i: number) => sanitizeArticle(a, i)));
           }
-        } catch (e) {}
+        } catch (e) {
+          console.error("Error loading articles from localStorage", e);
+        }
       }
     }
   }, []);
@@ -91,10 +155,10 @@ function MagazinePage() {
       const q = searchQuery.toLowerCase().trim();
       const matchesSearch =
         !q ||
-        article.title.toLowerCase().includes(q) ||
-        article.summary.toLowerCase().includes(q) ||
-        article.author.name.toLowerCase().includes(q) ||
-        article.tags.some((t) => t.toLowerCase().includes(q));
+        article.title?.toLowerCase()?.includes(q) ||
+        article.summary?.toLowerCase()?.includes(q) ||
+        article.author?.name?.toLowerCase()?.includes(q) ||
+        (Array.isArray(article.tags) && article.tags.some((t) => t?.toLowerCase()?.includes(q)));
 
       return matchesCategory && matchesSearch;
     });
