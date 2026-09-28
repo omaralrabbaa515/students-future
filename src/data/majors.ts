@@ -26,7 +26,7 @@ export const majors: Major[] = [
   {
     slug: "computer-science",
     name: "علوم الحاسوب",
-    field: "تقنية المعلومات",
+    field: "كليات تكنولوجيا المعلومات والذكاء الاصطناعي",
     classification: "مطلوب",
     employmentRate: "70% – 80%",
     risk: "منخفض",
@@ -63,7 +63,7 @@ export const majors: Major[] = [
   {
     slug: "software-engineering",
     name: "هندسة البرمجيات",
-    field: "تقنية المعلومات",
+    field: "كليات تكنولوجيا المعلومات والذكاء الاصطناعي",
     classification: "مطلوب",
     employmentRate: "72% – 82%",
     risk: "منخفض",
@@ -91,7 +91,7 @@ export const majors: Major[] = [
   {
     slug: "data-science-ai",
     name: "علم البيانات والذكاء الاصطناعي",
-    field: "تقنية المعلومات",
+    field: "كليات تكنولوجيا المعلومات والذكاء الاصطناعي",
     classification: "مطلوب",
     employmentRate: "70% – 85%",
     risk: "منخفض",
@@ -119,7 +119,7 @@ export const majors: Major[] = [
   {
     slug: "cybersecurity",
     name: "الأمن السيبراني",
-    field: "تقنية المعلومات",
+    field: "كليات تكنولوجيا المعلومات والذكاء الاصطناعي",
     classification: "مطلوب",
     employmentRate: "65% – 78%",
     risk: "منخفض",
@@ -143,7 +143,7 @@ export const majors: Major[] = [
   {
     slug: "mis",
     name: "نظم المعلومات الإدارية",
-    field: "تقنية المعلومات وإدارة الأعمال",
+    field: "الكليات الإدارية والاقتصادية والمالية",
     classification: "مشبع",
     employmentRate: "40% – 50%",
     risk: "متوسط",
@@ -168,7 +168,7 @@ export const majors: Major[] = [
   {
     slug: "civil-engineering",
     name: "الهندسة المدنية",
-    field: "الهندسة",
+    field: "الكليات الهندسية",
     classification: "مشبع",
     employmentRate: "30% – 40%",
     risk: "مرتفع",
@@ -199,7 +199,7 @@ export const majors: Major[] = [
   {
     slug: "electrical-engineering",
     name: "الهندسة الكهربائية",
-    field: "الهندسة",
+    field: "الكليات الهندسية",
     classification: "مشبع",
     employmentRate: "35% – 45%",
     risk: "متوسط",
@@ -228,7 +228,7 @@ export const majors: Major[] = [
   {
     slug: "nursing",
     name: "التمريض",
-    field: "الصحة",
+    field: "الكليات الطبية والصحية",
     classification: "مطلوب",
     employmentRate: "75% – 88%",
     risk: "منخفض",
@@ -258,7 +258,7 @@ export const majors: Major[] = [
   {
     slug: "pharmacy",
     name: "الصيدلة",
-    field: "الصحة",
+    field: "الكليات الطبية والصحية",
     classification: "مشبع",
     employmentRate: "45% – 55%",
     risk: "متوسط",
@@ -282,7 +282,7 @@ export const majors: Major[] = [
   {
     slug: "medical-lab",
     name: "المختبرات الطبية",
-    field: "الصحة",
+    field: "الكليات الطبية والصحية",
     classification: "مشبع",
     employmentRate: "45% – 55%",
     risk: "متوسط",
@@ -304,7 +304,7 @@ export const majors: Major[] = [
   {
     slug: "accounting",
     name: "المحاسبة",
-    field: "إدارة الأعمال",
+    field: "الكليات الإدارية والاقتصادية والمالية",
     classification: "مشبع",
     employmentRate: "35% – 48%",
     risk: "مرتفع",
@@ -329,7 +329,7 @@ export const majors: Major[] = [
   {
     slug: "business-administration",
     name: "إدارة الأعمال",
-    field: "إدارة الأعمال",
+    field: "الكليات الإدارية والاقتصادية والمالية",
     classification: "مشبع",
     employmentRate: "30% – 45%",
     risk: "مرتفع",
@@ -354,7 +354,7 @@ export const majors: Major[] = [
   {
     slug: "law",
     name: "الحقوق (القانون)",
-    field: "الإنسانيات والقانون",
+    field: "كليات حقوق وقانون",
     classification: "مشبع",
     employmentRate: "30% – 40%",
     risk: "مرتفع",
@@ -378,7 +378,7 @@ export const majors: Major[] = [
   {
     slug: "english-language",
     name: "اللغة الإنجليزية وآدابها",
-    field: "الإنسانيات واللغات",
+    field: "كليات الأدب واللغات والعلوم الإنسانية",
     classification: "مشبع",
     employmentRate: "35% – 45%",
     risk: "متوسط",
@@ -402,7 +402,7 @@ export const majors: Major[] = [
   {
     slug: "arabic-language",
     name: "اللغة العربية وآدابها",
-    field: "الإنسانيات واللغات",
+    field: "كليات الأدب واللغات والعلوم الإنسانية",
     classification: "راكد",
     employmentRate: "20% – 30%",
     risk: "مرتفع",
@@ -426,7 +426,7 @@ export const majors: Major[] = [
   {
     slug: "education-classroom-teacher",
     name: "التربية (معلم صف)",
-    field: "التربية",
+    field: "كليات التربية والعلوم التربوية",
     classification: "راكد",
     employmentRate: "25% – 35%",
     risk: "مرتفع",
@@ -450,7 +450,7 @@ export const majors: Major[] = [
   {
     slug: "psychology",
     name: "علم النفس",
-    field: "الإنسانيات والعلوم الاجتماعية",
+    field: "كليات الأدب واللغات والعلوم الإنسانية",
     classification: "مشبع",
     employmentRate: "28% – 38%",
     risk: "مرتفع",
@@ -474,7 +474,7 @@ export const majors: Major[] = [
   {
     slug: "political-science",
     name: "العلوم السياسية",
-    field: "الإنسانيات والعلوم الاجتماعية",
+    field: "كليات الأدب واللغات والعلوم الإنسانية",
     classification: "راكد",
     employmentRate: "20% – 30%",
     risk: "مرتفع",
@@ -497,7 +497,7 @@ export const majors: Major[] = [
   {
     slug: "media-journalism",
     name: "الإعلام والصحافة",
-    field: "الإعلام",
+    field: "كليات الإعلام والاتصال",
     classification: "مشبع",
     employmentRate: "30% – 42%",
     risk: "متوسط",
@@ -521,7 +521,7 @@ export const majors: Major[] = [
   {
     slug: "agricultural-engineering",
     name: "الهندسة الزراعية",
-    field: "الزراعة والبيئة",
+    field: "كليات الزراعة والبيئة",
     classification: "راكد",
     employmentRate: "22% – 32%",
     risk: "مرتفع",
@@ -544,7 +544,7 @@ export const majors: Major[] = [
   {
     slug: "mathematics",
     name: "الرياضيات",
-    field: "العلوم الأساسية",
+    field: "كليات العلوم الأساسية والتطبيقية",
     classification: "مشبع",
     employmentRate: "28% – 38%",
     risk: "متوسط",
@@ -568,7 +568,7 @@ export const majors: Major[] = [
   {
     slug: "tourism-hospitality",
     name: "السياحة والفندقة",
-    field: "الخدمات",
+    field: "كليات الرياضة والسياحة",
     classification: "مطلوب",
     employmentRate: "55% – 65%",
     risk: "متوسط",
