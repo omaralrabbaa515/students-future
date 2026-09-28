@@ -1,3 +1,5 @@
+import { additionalMajors } from "./additional-majors";
+
 export type MarketClassification = "مطلوب" | "مشبع" | "راكد";
 export type RiskLevel = "منخفض" | "متوسط" | "مرتفع";
 export type AutomationExposure = "منخفض" | "متوسط" | "مرتفع";
@@ -586,6 +588,7 @@ export const majors: Major[] = [
       { name: "إدارة الفعاليات والمؤتمرات", reason: "نمو سياحة الأعمال في عمّان والبحر الميت" },
     ],
   },
+  ...additionalMajors,
 ];
 
 export function getMajor(slug: string): Major | undefined {
