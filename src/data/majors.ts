@@ -45,7 +45,7 @@ export type Major = {
   averageHourPriceJOD?: { competitive: number; parallel: number; private: number };
 };
 
-export const majors: Major[] = [
+const baseMajors: Major[] = [
   {
     slug: "computer-science",
     name: "علوم الحاسوب",
@@ -906,6 +906,13 @@ export const majors: Major[] = [
     creditHours: 132,
     averageHourPriceJOD: { competitive: 32, parallel: 65, private: 85 },
   },
+];
+
+import { additionalMajors } from "./additional-majors";
+
+export const majors: Major[] = [
+  ...baseMajors,
+  ...additionalMajors.filter((am) => !baseMajors.some((bm) => bm.slug === am.slug)),
 ];
 
 export function getMajor(slug: string): Major | undefined {
