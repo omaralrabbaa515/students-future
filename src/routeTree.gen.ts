@@ -11,9 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AccountRouteImport } from './routes/account'
 import { Route as AdvisorRouteImport } from './routes/advisor'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CertificationsRouteImport } from './routes/certifications'
+import { Route as CompareRouteImport } from './routes/compare'
 import { Route as SourcesRouteImport } from './routes/sources'
 import { Route as AuthenticatedUpdatesRouteImport } from './routes/_authenticated/updates'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
@@ -30,6 +32,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccountRoute = AccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdvisorRoute = AdvisorRouteImport.update({
   id: '/advisor',
   path: '/advisor',
@@ -43,6 +50,11 @@ const AuthRoute = AuthRouteImport.update({
 const CertificationsRoute = CertificationsRouteImport.update({
   id: '/certifications',
   path: '/certifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompareRoute = CompareRouteImport.update({
+  id: '/compare',
+  path: '/compare',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SourcesRoute = SourcesRouteImport.update({
@@ -78,9 +90,11 @@ const ApiPublicScanRoute = ApiPublicScanRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
   '/advisor': typeof AdvisorRoute
   '/auth': typeof AuthRoute
   '/certifications': typeof CertificationsRoute
+  '/compare': typeof CompareRoute
   '/sources': typeof SourcesRoute
   '/updates': typeof AuthenticatedUpdatesRoute
   '/api/chat': typeof ApiChatRoute
@@ -90,9 +104,11 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
   '/advisor': typeof AdvisorRoute
   '/auth': typeof AuthRoute
   '/certifications': typeof CertificationsRoute
+  '/compare': typeof CompareRoute
   '/sources': typeof SourcesRoute
   '/updates': typeof AuthenticatedUpdatesRoute
   '/api/chat': typeof ApiChatRoute
@@ -104,9 +120,11 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/account': typeof AccountRoute
   '/advisor': typeof AdvisorRoute
   '/auth': typeof AuthRoute
   '/certifications': typeof CertificationsRoute
+  '/compare': typeof CompareRoute
   '/sources': typeof SourcesRoute
   '/_authenticated/updates': typeof AuthenticatedUpdatesRoute
   '/api/chat': typeof ApiChatRoute
@@ -118,9 +136,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/account'
     | '/advisor'
     | '/auth'
     | '/certifications'
+    | '/compare'
     | '/sources'
     | '/updates'
     | '/api/chat'
@@ -130,9 +150,11 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/account'
     | '/advisor'
     | '/auth'
     | '/certifications'
+    | '/compare'
     | '/sources'
     | '/updates'
     | '/api/chat'
@@ -143,9 +165,11 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/account'
     | '/advisor'
     | '/auth'
     | '/certifications'
+    | '/compare'
     | '/sources'
     | '/_authenticated/updates'
     | '/api/chat'
@@ -157,9 +181,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AccountRoute: typeof AccountRoute
   AdvisorRoute: typeof AdvisorRoute
   AuthRoute: typeof AuthRoute
   CertificationsRoute: typeof CertificationsRoute
+  CompareRoute: typeof CompareRoute
   SourcesRoute: typeof SourcesRoute
   ApiChatRoute: typeof ApiChatRoute
   MajorsSlugRoute: typeof MajorsSlugRoute
@@ -183,6 +209,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/account': {
+      id: '/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AccountRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/advisor': {
       id: '/advisor'
       path: '/advisor'
@@ -202,6 +235,13 @@ declare module '@tanstack/react-router' {
       path: '/certifications'
       fullPath: '/certifications'
       preLoaderRoute: typeof CertificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compare': {
+      id: '/compare'
+      path: '/compare'
+      fullPath: '/compare'
+      preLoaderRoute: typeof CompareRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sources': {
@@ -263,9 +303,11 @@ const AuthenticatedRouteRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AccountRoute: AccountRoute,
   AdvisorRoute: AdvisorRoute,
   AuthRoute: AuthRoute,
   CertificationsRoute: CertificationsRoute,
+  CompareRoute: CompareRoute,
   SourcesRoute: SourcesRoute,
   ApiChatRoute: ApiChatRoute,
   MajorsSlugRoute: MajorsSlugRoute,

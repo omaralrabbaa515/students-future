@@ -98,12 +98,16 @@ function Home() {
           <Stat label="تخصصات راكدة" value={stagnant.length} tone="tone-bad" />
         </div>
 
-        <div className="mt-6 grid gap-4 md:grid-cols-3">
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <CardLink
             to="/majors"
             title="دليل التخصصات"
             body={`${majors.length} تخصصاً مع تقدير نسبة التشغيل ومستوى الخطر وخريطة الجامعات والاعتمادات.`}
-            className="md:col-span-3 lg:col-span-1"
+          />
+          <CardLink
+            to="/compare"
+            title="مختبر المقارنة اللحظية"
+            body="قارن جنباً إلى جنب بين أي تخصصين لمعرفة فوارق الطلب والأتمتة والاعتمادات الرسمية."
             featured
           />
           <CardLink

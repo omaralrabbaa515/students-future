@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { UserNav } from "@/components/UserNav";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -138,6 +139,7 @@ const navLinks = [
   { to: "/", label: "الرئيسية" },
   { to: "/advisor", label: "المستشار الذكي" },
   { to: "/majors", label: "دليل التخصصات" },
+  { to: "/compare", label: "مختبر المقارنة" },
   { to: "/certifications", label: "الشهادات المجانية" },
   { to: "/sources", label: "المصادر الرسمية" },
 ] as const;
@@ -179,7 +181,10 @@ function RootComponent() {
                   </Link>
                 ))}
               </nav>
-              <ThemeToggle />
+              <div className="flex items-center gap-2 border-r border-border pr-2 mr-1">
+                <ThemeToggle />
+                <UserNav />
+              </div>
             </div>
           </div>
         </header>
