@@ -34,44 +34,60 @@ function Home() {
   return (
     <div>
       <section className="hero-surface text-primary-foreground border-border/50 border-b">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
-          <p className="border-brand/50 text-brand pill border bg-white/5">
-            مستشار المسار الأكاديمي والمهني · الأردن · 2026
-          </p>
-          <h1 className="font-display mt-5 max-w-3xl text-3xl leading-snug font-extrabold sm:text-5xl">
-            اعرف مستقبل تخصصك قبل أن تختاره
-          </h1>
-          <p className="mt-5 max-w-2xl leading-8 text-white/80">
-            تحليل مبني على البيانات الرسمية لنِسَب التشغيل والتصنيف السوقي لكل تخصص في الجامعات
-            الأردنية الحكومية والخاصة، مع مسار شهادات عالمية مجانية معتمدة يمنح طلبة التخصصات
-            المشبعة والراكدة ميزة تنافسية حقيقية.
-          </p>
+        <div className="mx-auto max-w-6xl px-4 py-14 sm:py-18">
+          <div className="flex flex-col-reverse items-start justify-between gap-8 md:flex-row md:items-center">
+            <div className="flex-1">
+              <div className="inline-flex items-center gap-2 rounded-full border border-brand/40 bg-white/10 px-3.5 py-1 text-xs font-semibold text-brand backdrop-blur-md">
+                <span className="size-2 rounded-full bg-accent animate-pulse" />
+                مستشار المسار الأكاديمي والمهني · الأردن · 2026
+              </div>
+              <h1 className="font-display mt-5 max-w-3xl text-3xl leading-snug font-extrabold sm:text-5xl">
+                اعرف مستقبل تخصصك قبل أن تختاره
+              </h1>
+              <p className="mt-5 max-w-2xl leading-8 text-white/85">
+                تحليل مبني على البيانات الرسمية لنِسَب التشغيل والتصنيف السوقي لكل تخصص في الجامعات
+                الأردنية الحكومية والخاصة، مع مسار شهادات عالمية مجانية معتمدة يمنح طلبة التخصصات
+                المشبعة والراكدة ميزة تنافسية حقيقية.
+              </p>
 
-          <form
-            className="mt-9 flex max-w-xl flex-wrap gap-2 rounded-2xl border border-white/15 bg-white/10 p-2 backdrop-blur-md"
-            onSubmit={(event) => {
-              event.preventDefault();
-              const text = query.trim();
-              navigate({
-                to: "/advisor",
-                search: text ? { q: text } : {},
-              });
-            }}
-          >
-            <input
-              aria-label="اكتب اسم تخصصك للسؤال عن مساره"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="اكتب اسم تخصصك… مثال: الصيدلة"
-              className="min-w-0 flex-1 rounded-xl bg-transparent px-4 py-3 text-sm text-white placeholder:text-white/55 focus:outline-none"
-            />
-            <button
-              type="submit"
-              className="bg-brand text-brand-foreground rounded-xl px-6 py-3 text-sm font-bold shadow-[0_8px_24px_-8px_var(--brand)] transition-transform hover:-translate-y-0.5"
-            >
-              اسأل المستشار
-            </button>
-          </form>
+              <form
+                className="mt-8 flex max-w-xl flex-wrap gap-2 rounded-2xl border border-white/20 bg-white/10 p-2 backdrop-blur-md shadow-lg"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  const text = query.trim();
+                  navigate({
+                    to: "/advisor",
+                    search: text ? { q: text } : {},
+                  });
+                }}
+              >
+                <input
+                  aria-label="اكتب اسم تخصصك للسؤال عن مساره"
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="اكتب اسم تخصصك… مثال: الصيدلة"
+                  className="min-w-0 flex-1 rounded-xl bg-transparent px-4 py-3 text-sm text-white placeholder:text-white/60 focus:outline-none"
+                />
+                <button
+                  type="submit"
+                  className="bg-brand text-brand-foreground rounded-xl px-6 py-3 text-sm font-bold shadow-[0_8px_24px_-6px_var(--brand)] transition-transform hover:-translate-y-0.5 cursor-pointer"
+                >
+                  اسأل المستشار
+                </button>
+              </form>
+            </div>
+
+            <div className="relative flex shrink-0 items-center justify-center self-center md:self-auto">
+              <div className="absolute -inset-3 rounded-3xl bg-gradient-to-tr from-brand to-secondary opacity-35 blur-2xl animate-pulse" />
+              <img
+                src="/logo.png"
+                alt="شعار منصة الطلاب والمستقبل"
+                width={512}
+                height={512}
+                className="relative size-36 sm:size-48 object-contain rounded-2xl drop-shadow-[0_12px_32px_rgba(56,189,248,0.35)] transition-transform duration-500 hover:scale-105"
+              />
+            </div>
+          </div>
         </div>
       </section>
 

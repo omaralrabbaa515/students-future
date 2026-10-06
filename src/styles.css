@@ -2,20 +2,11 @@
 @source "../src";
 @import "tw-animate-css";
 
-
+@custom-variant dark (&:where(.dark, .dark *));
 
 /*
- * Design system definition.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ * Design system definition for «الطلاب والمستقبل»
+ * Light Mode (الوضع النهاري) & Dark Mode (الوضع الليلي)
  */
 
 @theme inline {
@@ -26,6 +17,7 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -40,63 +32,151 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-accent-teal: var(--accent-teal);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-ring-offset-background: var(--background);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-ink: var(--brand-ink);
+  --color-growth: var(--growth);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+
+  --font-sans: "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --font-display: "Noto Kufi Arabic", "IBM Plex Sans Arabic", system-ui, sans-serif;
+
+  --shadow-card: var(--shadow-card);
+  --shadow-elevated: var(--shadow-elevated);
+  --shadow-neon: var(--shadow-neon);
 }
 
+/* ==========================================================================
+   الوضع النهاري (Light Mode) - ألوان الواجهة المعتمدة
+   ========================================================================== */
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
+  --radius: 0.875rem;
+
+  /* 1. الخلفية المساحية: أرضية باردة وناعمة #F8FAFC */
+  --background: #F8FAFC;
+  --surface: #FFFFFF;
+  --surface-2: #F1F5F9;
+
+  /* 6. النصوص والعناوين: تباين عالٍ ومريح #0F172A */
+  --foreground: #0F172A;
+  --muted: #F1F5F9;
+  --muted-foreground: #475569;
+
+  /* 5. البطاقات والكروت (Glassmorphism Cards): خلفية أبيض شبه شفاف مع إطار سيان رفيع بنسبة 18% */
+  --card: rgba(255, 255, 255, 0.75);
+  --card-foreground: #0F172A;
+  --popover: rgba(255, 255, 255, 0.95);
+  --popover-foreground: #0F172A;
+  --border: rgba(14, 165, 233, 0.18);
+  --input: rgba(14, 165, 233, 0.22);
+  --ring: #2563EB;
+
+  /* 2. اللون الأساسي: الأزرق الملكي #2563EB للأزرار الرئيسية والروابط والهيدر */
+  --primary: #2563EB;
+  --primary-foreground: #FFFFFF;
+  --brand: #2563EB;
+  --brand-foreground: #FFFFFF;
+  --brand-ink: #1D4ED8;
+
+  /* 3. اللون الثانوي: البنفسجي الكهربائي #7C3AED لميزات الإبداع والذكاء الاصطناعي والتدرجات */
+  --secondary: #7C3AED;
+  --secondary-foreground: #FFFFFF;
+
+  /* 4. ألوان التمييز والنيون: سيان #0EA5E9 / تيال #0D9488 */
+  --accent: #0EA5E9;
+  --accent-foreground: #FFFFFF;
+  --accent-teal: #0D9488;
+  --growth: #0D9488;
+
+  /* مؤشرات الحالة والتقييم */
+  --success: #059669;
+  --success-soft: rgba(5, 150, 105, 0.12);
+  --warning: #D97706;
+  --warning-soft: rgba(217, 119, 6, 0.12);
+  --danger: #DC2626;
+  --danger-soft: rgba(220, 38, 38, 0.12);
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+
+  /* تدرجات وظلال الوضع النهاري */
+  --gradient-hero: linear-gradient(135deg, #1E3A8A 0%, #2563EB 50%, #7C3AED 100%);
+  --gradient-cta: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+  --shadow-card: 0 4px 20px -2px rgba(14, 165, 233, 0.12), 0 2px 6px -1px rgba(15, 23, 42, 0.05);
+  --shadow-elevated: 0 12px 30px -4px rgba(37, 99, 235, 0.22), 0 4px 12px -2px rgba(124, 58, 237, 0.16);
+  --shadow-neon: 0 0 20px -2px rgba(14, 165, 233, 0.4);
 }
 
+/* ==========================================================================
+   الوضع الليلي (Dark Mode) - ألوان الواجهة المعتمدة
+   ========================================================================== */
+.dark {
+  /* 1. الخلفية الرئيسية: أزرق ليلي داكن #030712 / أسود كربوني #0F172A لتقليل إجهاد العين وعمق فاخر */
+  --background: #030712;
+  --surface: #0F172A;
+  --surface-2: #1E293B;
+
+  /* 5. لون النصوص: أبيض عاجي #F1F5F9 لتباين عالٍ وقراءة سلسة بدون توهج حاد */
+  --foreground: #F1F5F9;
+  --muted: #1E293B;
+  --muted-foreground: #94A3B8;
+
+  /* البطاقات والكروت: أسود كربوني شبه شفاف مع إطار نيون خفيف */
+  --card: rgba(15, 23, 42, 0.85);
+  --card-foreground: #F1F5F9;
+  --popover: #0F172A;
+  --popover-foreground: #F1F5F9;
+  --border: rgba(56, 189, 248, 0.22);
+  --input: rgba(56, 189, 248, 0.25);
+  --ring: #38BDF8;
+
+  /* 2. اللون الأساسي: أزرق نيون مشع #38BDF8 للثقة والتكنولوجيا وCTA */
+  --primary: #38BDF8;
+  --primary-foreground: #030712;
+  --brand: #38BDF8;
+  --brand-foreground: #030712;
+  --brand-ink: #38BDF8;
+
+  /* 3. اللون الثانوي: أرجواني/فيوليت نيون #A855F7 للإبداع والتحفيز والتدرجات */
+  --secondary: #A855F7;
+  --secondary-foreground: #FFFFFF;
+
+  /* 4. لون التمييز والنمو: أخضر نيون فسفوري #34D399 لنمو المعرفة وشراشيب قبعة التخرج وخطوط التقدم */
+  --accent: #34D399;
+  --accent-foreground: #030712;
+  --accent-teal: #2DD4BF;
+  --growth: #34D399;
+
+  /* مؤشرات النجاح والتنبيهات بالنيون */
+  --success: #34D399;
+  --success-soft: rgba(52, 211, 153, 0.18);
+  --warning: #FBBF24;
+  --warning-soft: rgba(251, 191, 36, 0.18);
+  --danger: #F87171;
+  --danger-soft: rgba(248, 113, 113, 0.18);
+  --destructive: #F87171;
+  --destructive-foreground: #030712;
+
+  /* تدرجات وظلال نيون للوضع الليلي */
+  --gradient-hero: linear-gradient(135deg, #030712 0%, #0F172A 50%, #1E1B4B 100%);
+  --gradient-cta: linear-gradient(135deg, #38BDF8 0%, #A855F7 100%);
+  --shadow-card: 0 4px 24px -4px rgba(0, 0, 0, 0.7), 0 0 16px -3px rgba(56, 189, 248, 0.15);
+  --shadow-elevated: 0 12px 36px -4px rgba(0, 0, 0, 0.85), 0 0 28px -2px rgba(168, 85, 247, 0.35);
+  --shadow-neon: 0 0 25px -2px rgba(56, 189, 248, 0.5);
+}
 
 @layer base {
   * {
@@ -106,75 +186,8 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
-}
-
-/* هوية «الطلاب والمستقبل» 2026: كحلي أكاديمي عميق + سماوي تقني #00C7FF */
-:root {
-  --radius: 0.875rem;
-  --background: oklch(0.985 0.005 250);
-  --foreground: oklch(0.21 0.04 258);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.21 0.04 258);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.21 0.04 258);
-  --primary: oklch(0.28 0.09 262);
-  --primary-foreground: oklch(0.985 0.006 250);
-  --secondary: oklch(0.955 0.012 252);
-  --secondary-foreground: oklch(0.28 0.09 262);
-  --muted: oklch(0.962 0.01 252);
-  --muted-foreground: oklch(0.52 0.03 258);
-  --accent: oklch(0.79 0.13 84);
-  --accent-foreground: oklch(0.24 0.06 262);
-  --border: oklch(0.905 0.014 252);
-  --input: oklch(0.905 0.014 252);
-  --ring: oklch(0.78 0.14 218);
-
-  --surface: oklch(0.972 0.009 252);
-  --surface-2: oklch(0.945 0.02 230);
-  --brand: oklch(0.78 0.14 218);
-  --brand-foreground: oklch(0.2 0.05 262);
-  --brand-ink: oklch(0.56 0.14 228);
-  --success: oklch(0.5 0.12 158);
-  --success-soft: oklch(0.94 0.05 158);
-  --warning: oklch(0.52 0.12 72);
-  --warning-soft: oklch(0.95 0.06 82);
-  --danger: oklch(0.51 0.17 20);
-  --danger-soft: oklch(0.95 0.04 20);
-
-  --gradient-hero: radial-gradient(
-      95% 110% at 85% -10%,
-      color-mix(in oklab, var(--brand) 42%, transparent) 0%,
-      transparent 58%
-    ),
-    radial-gradient(
-      55% 75% at 8% 110%,
-      oklch(0.42 0.11 252 / 55%) 0%,
-      transparent 60%
-    ),
-    linear-gradient(200deg, oklch(0.3 0.09 260) 0%, oklch(0.16 0.05 262) 100%);
-  --gradient-accent: linear-gradient(120deg, var(--brand), oklch(0.6 0.16 236));
-  --shadow-card: 0 1px 2px oklch(0.28 0.09 262 / 6%), 0 8px 24px -16px oklch(0.28 0.09 262 / 22%);
-  --shadow-elevated: 0 2px 6px oklch(0.6 0.14 230 / 12%), 0 24px 48px -24px oklch(0.6 0.14 230 / 35%);
-}
-
-
-@theme inline {
-  --color-surface: var(--surface);
-  --color-surface-2: var(--surface-2);
-  --color-brand: var(--brand);
-  --color-brand-foreground: var(--brand-foreground);
-  --color-brand-ink: var(--brand-ink);
-  --color-success: var(--success);
-  --color-success-soft: var(--success-soft);
-  --color-warning: var(--warning);
-  --color-warning-soft: var(--warning-soft);
-  --color-danger: var(--danger);
-  --color-danger-soft: var(--danger-soft);
-  --font-sans: "IBM Plex Sans Arabic", system-ui, sans-serif;
-  --font-display: "Noto Kufi Arabic", "IBM Plex Sans Arabic", system-ui, sans-serif;
-  --shadow-card: var(--shadow-card);
-  --shadow-elevated: var(--shadow-elevated);
 }
 
 html[dir="rtl"] body {
@@ -196,30 +209,33 @@ html[dir="rtl"] body {
     position: absolute;
     inset: 0;
     z-index: -1;
-    opacity: 0.14;
+    opacity: 0.16;
     background-image:
-      linear-gradient(to left, oklch(1 0 0 / 45%) 1px, transparent 1px),
-      linear-gradient(to bottom, oklch(1 0 0 / 45%) 1px, transparent 1px);
-    background-size: 56px 56px;
+      linear-gradient(to left, rgba(255, 255, 255, 0.22) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.22) 1px, transparent 1px);
+    background-size: 52px 52px;
     mask-image: radial-gradient(120% 100% at 80% 0%, black 0%, transparent 70%);
   }
 }
 
 @utility card-surface {
   background-color: var(--card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow-card);
   transition:
     box-shadow 0.25s ease,
     transform 0.25s ease,
-    border-color 0.25s ease;
+    border-color 0.25s ease,
+    background-color 0.25s ease;
 }
 
 @utility card-hover {
   &:hover {
     box-shadow: var(--shadow-elevated);
-    border-color: color-mix(in oklab, var(--brand) 45%, var(--border));
+    border-color: color-mix(in srgb, var(--brand) 55%, var(--border));
     transform: translateY(-3px);
   }
 }
@@ -229,7 +245,7 @@ html[dir="rtl"] body {
   align-items: center;
   gap: 0.35rem;
   border-radius: 999px;
-  padding: 0.2rem 0.7rem;
+  padding: 0.2rem 0.75rem;
   font-size: 0.75rem;
   font-weight: 700;
   line-height: 1.6;
@@ -238,21 +254,32 @@ html[dir="rtl"] body {
 @utility tone-good {
   background-color: var(--success-soft);
   color: var(--success);
+  border: 1px solid color-mix(in srgb, var(--success) 35%, transparent);
 }
 
 @utility tone-warn {
   background-color: var(--warning-soft);
   color: var(--warning);
+  border: 1px solid color-mix(in srgb, var(--warning) 35%, transparent);
 }
 
 @utility tone-bad {
   background-color: var(--danger-soft);
   color: var(--danger);
+  border: 1px solid color-mix(in srgb, var(--danger) 35%, transparent);
 }
 
 @utility tone-neutral {
   background-color: var(--surface-2);
   color: var(--foreground);
+}
+
+@utility neon-glow {
+  box-shadow: var(--shadow-neon);
+}
+
+@utility gradient-cta {
+  background-image: var(--gradient-cta);
 }
 
 .prose-ar table {
@@ -268,7 +295,7 @@ html[dir="rtl"] body {
   text-align: right;
 }
 .prose-ar th {
-  background: var(--secondary);
+  background: var(--surface-2);
   font-weight: 600;
 }
 .prose-ar h2 {

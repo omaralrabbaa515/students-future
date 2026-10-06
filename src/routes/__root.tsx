@@ -10,7 +10,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import graduateLogo from "../assets/graduate-logo.png.asset.json";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -117,11 +117,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="ar" dir="rtl">
+    <html lang="ar" dir="rtl" suppressHydrationWarning>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(t==='dark'||(!t&&d)){document.documentElement.classList.add('dark')}else{document.documentElement.classList.remove('dark')}}catch(e){}})();`,
+          }}
+        />
         <HeadContent />
       </head>
-      <body>
+      <body className="min-h-screen bg-background text-foreground antialiased selection:bg-brand/20 selection:text-brand">
         {children}
         <Scripts />
       </body>
@@ -148,31 +153,34 @@ function RootComponent() {
           <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
             <Link to="/" className="group flex items-center gap-2.5">
               <img
-                src={graduateLogo.url}
+                src="/logo.png"
                 alt="شعار منصة الطلاب والمستقبل"
                 width={512}
                 height={512}
-                className="size-9 object-contain"
+                className="size-9.5 object-contain rounded-xl drop-shadow-[0_2px_8px_rgba(56,189,248,0.25)] transition-transform duration-300 group-hover:scale-105"
               />
               <span className="font-display text-base font-extrabold tracking-tight">
                 الطلاب <span className="text-brand-ink">والمستقبل</span>
               </span>
             </Link>
-            <nav className="flex flex-wrap items-center gap-0.5 text-sm">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  className="text-muted-foreground hover:text-foreground hover:bg-surface rounded-full px-3 py-1.5 transition-colors"
-                  activeProps={{
-                    className: "bg-surface-2 text-foreground font-bold",
-                  }}
-                  activeOptions={{ exact: link.to === "/" }}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <nav className="flex flex-wrap items-center gap-0.5 text-sm">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    className="text-muted-foreground hover:text-foreground hover:bg-surface rounded-full px-3 py-1.5 transition-colors"
+                    activeProps={{
+                      className: "bg-surface-2 text-foreground font-bold shadow-xs",
+                    }}
+                    activeOptions={{ exact: link.to === "/" }}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+              <ThemeToggle />
+            </div>
           </div>
         </header>
 
@@ -183,9 +191,18 @@ function RootComponent() {
 
         <footer className="border-border/70 bg-surface/70 mt-16 border-t">
           <div className="text-muted-foreground mx-auto max-w-6xl px-4 py-10 text-sm">
-            <p className="font-display text-foreground text-base font-bold">
-              منصة الطلاب والمستقبل
-            </p>
+            <div className="flex items-center gap-3">
+              <img
+                src="/logo.png"
+                alt="شعار منصة الطلاب والمستقبل"
+                width={512}
+                height={512}
+                className="size-8 object-contain rounded-lg drop-shadow-sm"
+              />
+              <p className="font-display text-foreground text-base font-bold">
+                منصة الطلاب والمستقبل
+              </p>
+            </div>
             <p className="mt-3 max-w-3xl leading-8">
               جميع نِسَب التشغيل والتصنيفات تقديرات استرشادية مبنية على أحدث البيانات الرسمية
               المتاحة من ديوان الخدمة المدنية ودائرة الإحصاءات العامة ووزارة التعليم العالي ومنصة
