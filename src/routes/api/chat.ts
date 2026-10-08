@@ -1,10 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { convertToModelMessages, streamText, type UIMessage } from "ai";
+import {
+  convertToModelMessages,
+  streamText,
+  createUIMessageStream,
+  createUIMessageStreamResponse,
+  type UIMessage,
+} from "ai";
 
-import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
+import { getAvailableAiModel } from "@/lib/ai-gateway.server";
 import { ADVISOR_SYSTEM_PROMPT } from "@/lib/advisor-prompt";
+import { generateLocalAdvisorResponse } from "@/lib/local-advisor-ai";
 
-type ChatRequestBody = { messages?: unknown };
+type ChatRequestBody = { messages?: unknown; apiKey?: string };
 
 const MAX_MESSAGES = 20;
 const MAX_MESSAGE_CHARS = 4000;
@@ -35,6 +42,37 @@ function sanitizeMessages(input: unknown): UIMessage[] | null {
   return cleaned;
 }
 
+/** توليد دفق استجابة محلي ذكي مستند إلى بيانات المنصة عند عدم توفر مفتاح خارجي أو حدوث خطأ */
+function createLocalSmartStreamResponse(
+  userQuery: string,
+  originalMessages?: UIMessage[],
+) {
+  const fullText = generateLocalAdvisorResponse(userQuery);
+
+  const stream = createUIMessageStream({
+    originalMessages,
+    execute({ writer }) {
+      const partId = `part-${Date.now()}`;
+      writer.write({ type: "text-start", id: partId });
+
+      // تقسيم النص لمحاكاة تدفق الذكاء الاصطناعي
+      const words = fullText.split(" ");
+      for (let i = 0; i < words.length; i += 3) {
+        const chunk = words.slice(i, i + 3).join(" ") + (i + 3 < words.length ? " " : "");
+        writer.write({
+          type: "text-delta",
+          id: partId,
+          delta: chunk,
+        });
+      }
+
+      writer.write({ type: "text-end", id: partId });
+    },
+  });
+
+  return createUIMessageStreamResponse({ stream });
+}
+
 export const Route = createFileRoute("/api/chat")({
   server: {
     handlers: {
@@ -47,25 +85,42 @@ export const Route = createFileRoute("/api/chat")({
         }
 
         const messages = sanitizeMessages(body.messages);
-        if (!messages) {
+        if (!messages || messages.length === 0) {
           return new Response("الرسائل غير صالحة", { status: 400 });
         }
 
-        const key = process.env["LOVABLE_API_KEY"];
-        if (!key) {
-          return new Response("مفتاح خدمة الذكاء الاصطناعي غير مهيأ", { status: 500 });
+        // استخراج نص آخر رسالة للمستخدم
+        const lastMsg = messages[messages.length - 1];
+        const lastUserText =
+          lastMsg.parts
+            ?.map((p) => (p.type === "text" ? p.text : ""))
+            .join(" ")
+            .trim() || "";
+
+        const headerKey = request.headers.get("x-api-key") || undefined;
+        const customKey = body.apiKey || headerKey;
+        const model = getAvailableAiModel(customKey);
+
+        // إذا لم يكن هناك مفتاح خارجي مهيأ، استخدم المحرك المحلي الذكي للمنصة
+        if (!model) {
+          return createLocalSmartStreamResponse(lastUserText, messages);
         }
 
-        const gateway = createLovableAiGatewayProvider(key);
-        const result = streamText({
-          model: gateway("google/gemini-3.8-flash"),
-          system: ADVISOR_SYSTEM_PROMPT,
-          messages: await convertToModelMessages(messages),
-        });
+        try {
+          const result = streamText({
+            model,
+            system: ADVISOR_SYSTEM_PROMPT,
+            messages: await convertToModelMessages(messages),
+          });
 
-        return result.toUIMessageStreamResponse({
-          originalMessages: messages,
-        });
+          return result.toUIMessageStreamResponse({
+            originalMessages: messages,
+          });
+        } catch (error) {
+          console.error("[Advisor AI] Remote model failed, falling back to local engine:", error);
+          // في حال حدوث أي خطأ في النموذج البعيد، التراجع التلقائي للمحرك المحلي
+          return createLocalSmartStreamResponse(lastUserText, messages);
+        }
       },
     },
   },

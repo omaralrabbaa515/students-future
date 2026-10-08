@@ -142,9 +142,10 @@ function Advisor() {
       {/* Chat Messages */}
       <div className="mt-6 space-y-5">
         {messages.map((message) => {
-          const text = message.parts
-            .map((part) => (part.type === "text" ? part.text : ""))
-            .join("");
+          const text =
+            message.parts && message.parts.length > 0
+              ? message.parts.map((part) => (part.type === "text" ? part.text : "")).join("")
+              : ((message as Record<string, unknown>)["content"] as string) || "";
           const isUser = message.role === "user";
 
           return (
