@@ -356,10 +356,10 @@ function ComparePage() {
               معزز التنافسية لجميع التخصصات
             </span>
             <h2 className="font-display text-xl font-extrabold text-foreground mt-2">
-              شهادات عالمية مجانية معتمدة تمنحك تفوقاً مهما كان تخصصك
+              دورات مجانية معتمدة تمنحك تفوقاً مهما كان تخصصك
             </h2>
             <p className="text-xs text-muted-foreground mt-1 leading-6">
-              طلبة التخصصات المشبعة أو الراكدة يستطيعون جسر فجوة التوظيف عبر إضافة شهادات دولية مجانية معتمدة إلى سيرتهم الذاتية.
+              طلبة التخصصات المشبعة أو الراكدة يستطيعون جسر فجوة التوظيف عبر إضافة دورات تدريبية معتمدة مجاناً إلى سيرتهم الذاتية.
             </p>
           </div>
 
@@ -367,7 +367,7 @@ function ComparePage() {
             to="/certifications"
             className="inline-flex items-center gap-1.5 rounded-xl border border-brand bg-brand/10 text-brand px-4 py-2.5 text-xs font-bold hover:bg-brand/20 transition-colors shrink-0"
           >
-            <span>استعراض الـ 20 شهادة مجانية</span>
+            <span>استعراض كافة الدورات المجانية</span>
             <ExternalLink className="size-3.5" />
           </Link>
         </div>

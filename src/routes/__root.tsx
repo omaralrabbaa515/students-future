@@ -140,7 +140,7 @@ const navLinks = [
   { to: "/advisor", label: "المستشار الذكي" },
   { to: "/majors", label: "دليل التخصصات" },
   { to: "/compare", label: "مختبر المقارنة" },
-  { to: "/certifications", label: "الشهادات المجانية" },
+  { to: "/certifications", label: "دورات مجانية" },
   { to: "/sources", label: "المصادر الرسمية" },
 ] as const;
 

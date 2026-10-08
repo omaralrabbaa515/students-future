@@ -112,8 +112,8 @@ function Home() {
           />
           <CardLink
             to="/certifications"
-            title="الشهادات المجانية المعتمدة"
-            body={`${certifications.length} شهادة عالمية مجانية بروابط مباشرة، مصنّفة حسب المجال والجهة المانحة.`}
+            title="دورات مجانية معتمدة"
+            body={`${certifications.length} دورة تدريبية مجانية مقسمة في 13 قطاعاً أكاديمياً بروابط مباشرة وطريقة الحصول عليها.`}
           />
           <CardLink
             to="/sources"

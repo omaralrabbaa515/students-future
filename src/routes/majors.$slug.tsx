@@ -1,6 +1,6 @@
 import { createFileRoute, ErrorComponent, Link, notFound } from "@tanstack/react-router";
 
-import { getCertificationsByIds } from "@/data/certifications";
+import { getCertificationsByIds, courses } from "@/data/certifications";
 import { getMajor } from "@/data/majors";
 import { getPlatformMeta } from "@/lib/public-data.functions";
 import {
@@ -61,7 +61,21 @@ function badge(value: string) {
 
 function MajorPage() {
   const { major, meta } = Route.useLoaderData();
-  const certs = getCertificationsByIds(major.certificationIds);
+  const matchedCerts = getCertificationsByIds(major.certificationIds);
+  const certs =
+    matchedCerts.length > 0
+      ? matchedCerts
+      : courses
+          .filter((c) =>
+            c.fields.some((f) => f.includes(major.name) || major.field.includes(f) || major.name.includes(f)),
+          )
+          .slice(0, 3).length > 0
+      ? courses
+          .filter((c) =>
+            c.fields.some((f) => f.includes(major.name) || major.field.includes(f) || major.name.includes(f)),
+          )
+          .slice(0, 3)
+      : courses.slice(0, 3);
   const rows = Math.max(major.publicUniversities.length, major.privateUniversities.length);
   const overrides = overridesFor(meta, "major", major.slug);
   const employmentRate = overrides["employmentRate"]?.value ?? major.employmentRate;
@@ -166,26 +180,26 @@ function MajorPage() {
         <p className="leading-8">{major.automation.note}</p>
       </Section>
 
-      <Section title="4) مسار المهارات والشهادات التنافسية" id="certs">
+      <Section title="4) مسار الدورات المجانية المعززة للتنافسية" id="certs">
         <div className="space-y-3">
           {certs.map((cert) => (
-            <div key={cert.id} className="card-surface p-5">
-              <h3 className="font-display font-bold">{cert.title}</h3>
+            <div key={cert.id} className="card-surface p-5 rounded-2xl">
+              <h3 className="font-display font-bold text-foreground">{cert.title}</h3>
               <p className="text-muted-foreground mt-1 text-xs">
                 الجهة المانحة: {cert.provider} · {cert.category}
               </p>
               <p className="mt-2 text-sm leading-7">{cert.summary}</p>
               <p className="bg-surface text-foreground mt-2 rounded-xl px-3 py-2 text-xs leading-6">
-                <span className="font-bold">طريقة الحصول على الشهادة: </span>
+                <span className="font-bold text-brand">طريقة التسجيل والحصول على الدورة: </span>
                 {cert.howToGet}
               </p>
               <a
                 href={cert.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-brand-ink mt-2 inline-block text-sm break-all underline"
+                className="text-brand-ink hover:underline mt-2 inline-block text-sm break-all font-bold"
               >
-                {cert.url}
+                رابط الدورة المباشر: {cert.url}
               </a>
             </div>
           ))}

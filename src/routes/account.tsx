@@ -302,7 +302,7 @@ function AccountPage() {
               : "border-transparent text-muted-foreground hover:text-foreground"
           }`}
         >
-          المسارات والشهادات الموصى بها
+          الدورات المجانية الموصى بها
         </button>
       </div>
 
@@ -543,10 +543,10 @@ function AccountPage() {
         <div className="mt-6 space-y-6">
           <div className="card-surface p-6">
             <h2 className="font-display text-lg font-bold text-foreground">
-              مسارات الشهادات العالمية المجانية المقترحة لتخصصك
+              الدورات التدريبية المجانية المقترحة لتخصصك
             </h2>
             <p className="text-xs text-muted-foreground mt-1">
-              هذه الدورات معتمدة مجاناً من أفضل 6 جهات عالمية معترف بها وتبني لك ميزة تنافسية حقيقية.
+              دورات تدريبية معتمدة مجاناً من منصات وجامعات رائدة لبناء ميزة تنافسية حقيقية.
             </p>
 
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -577,7 +577,7 @@ function AccountPage() {
                       rel="noreferrer"
                       className="inline-flex items-center gap-1 text-xs font-bold text-brand hover:underline"
                     >
-                      <span>بدء الشهادة مجاناً</span>
+                      <span>بدء الدورة مجاناً</span>
                       <ExternalLink className="size-3" />
                     </a>
 

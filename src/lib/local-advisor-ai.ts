@@ -64,26 +64,38 @@ function findBestMatchingMajor(query: string): Major | undefined {
   });
 }
 
-/** استخراج الشهادات المعتمدة للتخصص */
+/** استخراج الدورات المعتمدة للتخصص */
 function getCertificationsForMajor(major: Major): Certification[] {
   const linked = certifications.filter((c) => major.certificationIds.includes(c.id));
   if (linked.length > 0) return linked.slice(0, 3);
 
-  // اختيار شهادات حسب مجال التخصص
+  // اختيار دورات حسب مجال التخصص
   const fieldNorm = normalizeArabic(major.field);
   if (fieldNorm.includes("تكنولوجيا") || fieldNorm.includes("حاسوب") || fieldNorm.includes("ذكاء")) {
     return certifications
-      .filter((c) => c.category.includes("حاسوب") || c.category.includes("برمجة") || c.category.includes("السيبراني"))
+      .filter((c) => c.category === "دورات التكنولوجيا والذكاء الاصطناعي")
       .slice(0, 3);
   }
-  if (fieldNorm.includes("طب") || fieldNorm.includes("صحي") || fieldNorm.includes("تمريض")) {
-    return certifications.filter((c) => c.category.includes("الصحة")).slice(0, 2);
+  if (fieldNorm.includes("طب") || fieldNorm.includes("صحي") || fieldNorm.includes("تمريض") || fieldNorm.includes("صيدل")) {
+    return certifications.filter((c) => c.category === "الدورات الطبية والصحية").slice(0, 3);
   }
-  if (fieldNorm.includes("اعمال") || fieldNorm.includes("اقتصاد") || fieldNorm.includes("اداره")) {
-    return certifications.filter((c) => c.category.includes("الأعمال") || c.category.includes("التسويق")).slice(0, 2);
+  if (fieldNorm.includes("هندس")) {
+    return certifications.filter((c) => c.category === "الدورات الهندسية").slice(0, 3);
+  }
+  if (fieldNorm.includes("اعمال") || fieldNorm.includes("اقتصاد") || fieldNorm.includes("اداره") || fieldNorm.includes("مالي")) {
+    return certifications.filter((c) => c.category === "الدورات الادارية والاقتصادية والمالية").slice(0, 3);
+  }
+  if (fieldNorm.includes("قانون") || fieldNorm.includes("حقوق")) {
+    return certifications.filter((c) => c.category === "دورات الحقوق والقانون").slice(0, 3);
+  }
+  if (fieldNorm.includes("اعلام") || fieldNorm.includes("صحاف")) {
+    return certifications.filter((c) => c.category === "دورات الاعلام والاتصال").slice(0, 3);
+  }
+  if (fieldNorm.includes("فنون") || fieldNorm.includes("تصميم")) {
+    return certifications.filter((c) => c.category === "دورات الفنون والتصميم").slice(0, 3);
   }
 
-  return certifications.slice(0, 2);
+  return certifications.slice(0, 3);
 }
 
 /** توليد استجابة المستشار الذكي المعتمدة المرتكزة حصراً على بيانات المنصة */
@@ -203,8 +215,8 @@ ${topPicks
 
 ---
 
-## 4) مسار الشهادات العالمية المجانية المعتمدة لبناء ميزة تنافسية
-لرفع جاهزيتك للتوظيف بنسبة تفوق 75%، نوصيك بالبدء فوراً بالشهادات العالمية المجانية المعتمدة من الجهات الست الشريكة في منصتنا:
+## 4) مسار الدورات المجانية المعتمدة لبناء ميزة تنافسية
+لرفع جاهزيتك للتوظيف وبناء مهارات عملية حقيقية، نوصيك بالبدء فوراً بهذه الدورات المجانية المعتمدة والمتوافقة مع هذا التخصص:
 
 ${certsText}
 
