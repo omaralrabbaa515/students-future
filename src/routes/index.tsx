@@ -315,55 +315,8 @@ function Home() {
         </div>
       </section>
 
-      {/* ================= 2. QUICK VITAL STATS & HUB CARDS ================= */}
-      <section className="mx-auto max-w-6xl px-4 py-12">
-        <div className="grid gap-4 sm:grid-cols-3">
-          <Stat label="تخصصات مطلوبة" value={demanded.length} tone="tone-good" />
-          <Stat label="تخصصات مشبعة" value={saturated.length} tone="tone-warn" />
-          <Stat label="تخصصات راكدة" value={stagnant.length} tone="tone-bad" />
-        </div>
-
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <CardLink
-            to="/majors"
-            title="دليل التخصصات"
-            body={`${majors.length} تخصصاً مع تقدير نسبة التشغيل ومستوى الخطر وخريطة الجامعات والاعتمادات.`}
-          />
-          <CardLink
-            to="/compare"
-            title="مختبر المقارنة اللحظية"
-            body="قارن جنباً إلى جنب بين أي تخصصين لمعرفة فوارق الطلب والأتمتة والاعتمادات الرسمية."
-            featured
-          />
-          <CardLink
-            to="/certifications"
-            title="دورات مجانية معتمدة"
-            body={`${certifications.length} دورة تدريبية مجانية مقسمة في 13 قطاعاً أكاديمياً بروابط مباشرة وطريقة الحصول عليها.`}
-          />
-          <CardLink
-            to="/sources"
-            title="المصادر الرسمية"
-            body="34 مصدراً رسمياً موثقاً من بينها ديوان الخدمة، التعليم العالي، الإحصاءات العامة، وسجّل."
-          />
-        </div>
-
-        <h2 className="font-display mt-14 text-xl font-bold">تخصصات يسأل عنها الطلبة كثيراً</h2>
-        <div className="mt-4 flex flex-wrap gap-2">
-          {majors.slice(0, 10).map((major) => (
-            <Link
-              key={major.slug}
-              to="/majors/$slug"
-              params={{ slug: major.slug }}
-              className="border-border bg-card hover:border-brand hover:text-brand-ink rounded-full border px-4 py-2 text-sm transition-colors"
-            >
-              {major.name}
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* ================= 3. THE 7-STAGE GUIDED TOUR (المراحل السبع التفاعلية) ================= */}
-      <section className="py-20 bg-surface/40 border-y border-border">
+      {/* ================= 2. THE 7-STAGE GUIDED TOUR (المراحل السبع التفاعلية) ================= */}
+      <section className="py-20 bg-surface/40 border-b border-border">
         <div className="mx-auto max-w-6xl px-4">
           <div className="text-center max-w-3xl mx-auto mb-14">
             <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/20 mb-3">
@@ -1124,6 +1077,54 @@ function Home() {
           </div>
         </div>
       </section>
+
+      {/* ================= 3. QUICK VITAL STATS & HUB CARDS ================= */}
+      <section className="mx-auto max-w-6xl px-4 py-16">
+        <div className="grid gap-4 sm:grid-cols-3">
+          <Stat label="تخصصات مطلوبة" value={demanded.length} tone="tone-good" />
+          <Stat label="تخصصات مشبعة" value={saturated.length} tone="tone-warn" />
+          <Stat label="تخصصات راكدة" value={stagnant.length} tone="tone-bad" />
+        </div>
+
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <CardLink
+            to="/majors"
+            title="دليل التخصصات"
+            body={`${majors.length} تخصصاً مع تقدير نسبة التشغيل ومستوى الخطر وخريطة الجامعات والاعتمادات.`}
+          />
+          <CardLink
+            to="/compare"
+            title="مختبر المقارنة اللحظية"
+            body="قارن جنباً إلى جنب بين أي تخصصين لمعرفة فوارق الطلب والأتمتة والاعتمادات الرسمية."
+            featured
+          />
+          <CardLink
+            to="/certifications"
+            title="دورات مجانية معتمدة"
+            body={`${certifications.length} دورة تدريبية مجانية مقسمة في 13 قطاعاً أكاديمياً بروابط مباشرة وطريقة الحصول عليها.`}
+          />
+          <CardLink
+            to="/sources"
+            title="المصادر الرسمية"
+            body="34 مصدراً رسمياً موثقاً من بينها ديوان الخدمة، التعليم العالي، الإحصاءات العامة، وسجّل."
+          />
+        </div>
+
+        <h2 className="font-display mt-14 text-xl font-bold">تخصصات يسأل عنها الطلبة كثيراً</h2>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {majors.slice(0, 10).map((major) => (
+            <Link
+              key={major.slug}
+              to="/majors/$slug"
+              params={{ slug: major.slug }}
+              className="border-border bg-card hover:border-brand hover:text-brand-ink rounded-full border px-4 py-2 text-sm transition-colors"
+            >
+              {major.name}
+            </Link>
+          ))}
+        </div>
+      </section>
+
     </div>
   );
 }
