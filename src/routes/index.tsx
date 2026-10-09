@@ -37,9 +37,9 @@ function Home() {
         <div className="mx-auto max-w-6xl px-4 py-14 sm:py-18">
           <div className="flex flex-col-reverse items-start justify-between gap-8 md:flex-row md:items-center">
             <div className="flex-1">
-              <div className="inline-flex items-center gap-2 rounded-full border border-brand/40 bg-white/10 px-3.5 py-1 text-xs font-semibold text-brand backdrop-blur-md">
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/15 px-3.5 py-1 text-xs font-bold text-white shadow-xs backdrop-blur-md">
                 <span className="size-2 rounded-full bg-accent animate-pulse" />
-                مستشار المسار الأكاديمي والمهني · الأردن · 2026
+                <span className="text-white">مستشار المسار الأكاديمي والمهني · الأردن · 2026</span>
               </div>
               <h1 className="font-display mt-5 max-w-3xl text-3xl leading-snug font-extrabold sm:text-5xl">
                 اعرف مستقبل تخصصك قبل أن تختاره
