@@ -140,16 +140,16 @@ function ComparePage() {
       </div>
 
       {/* Selectors Bar */}
-      <div className="card-surface mt-8 p-5 sm:p-6">
-        <div className="grid gap-4 sm:grid-cols-12 items-center">
+      <div className="card-surface mt-8 p-6 sm:p-8 rounded-3xl border border-border/80 shadow-sm">
+        <div className="grid gap-5 sm:grid-cols-12 items-center">
           <div className="sm:col-span-5">
-            <label className="block text-xs font-bold text-foreground mb-1.5">
+            <label className="block text-sm font-bold text-foreground mb-2">
               التخصص الأول
             </label>
             <select
               value={slug1}
               onChange={(e) => setSlug1(e.target.value)}
-              className="w-full rounded-xl border border-border bg-card px-3.5 py-2.5 text-sm text-foreground focus:border-brand focus:outline-none"
+              className="w-full rounded-2xl border border-border bg-card px-4 py-3.5 text-base font-bold text-foreground focus:border-brand focus:outline-none shadow-xs transition-colors"
             >
               {majors.map((m) => (
                 <option key={m.slug} value={m.slug} disabled={m.slug === slug2 || m.slug === slug3}>
@@ -165,20 +165,20 @@ function ComparePage() {
               onClick={handleSwap}
               title="تبديل التخصصين"
               aria-label="تبديل التخصصين"
-              className="inline-flex size-10 items-center justify-center rounded-full border border-border bg-secondary/50 text-foreground hover:bg-secondary hover:text-brand transition-colors cursor-pointer"
+              className="inline-flex size-12 items-center justify-center rounded-full border border-border bg-secondary/50 text-foreground hover:bg-secondary hover:text-brand transition-colors cursor-pointer shadow-xs"
             >
-              <ArrowRightLeft className="size-4" />
+              <ArrowRightLeft className="size-5" />
             </button>
           </div>
 
           <div className="sm:col-span-5">
-            <label className="block text-xs font-bold text-foreground mb-1.5">
+            <label className="block text-sm font-bold text-foreground mb-2">
               التخصص الثاني
             </label>
             <select
               value={slug2}
               onChange={(e) => setSlug2(e.target.value)}
-              className="w-full rounded-xl border border-border bg-card px-3.5 py-2.5 text-sm text-foreground focus:border-brand focus:outline-none"
+              className="w-full rounded-2xl border border-border bg-card px-4 py-3.5 text-base font-bold text-foreground focus:border-brand focus:outline-none shadow-xs transition-colors"
             >
               {majors.map((m) => (
                 <option key={m.slug} value={m.slug} disabled={m.slug === slug1 || m.slug === slug3}>
@@ -190,7 +190,7 @@ function ComparePage() {
         </div>
 
         {/* Optional 3rd Major Button */}
-        <div className="mt-4 pt-3 border-t border-border/60 flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div className="mt-5 pt-4 border-t border-border/60 flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm">
           {!slug3 ? (
             <button
               type="button"
@@ -198,7 +198,7 @@ function ComparePage() {
                 const third = majors.find((m) => m.slug !== slug1 && m.slug !== slug2);
                 if (third) setSlug3(third.slug);
               }}
-              className="text-brand-ink hover:underline font-bold inline-flex items-center gap-1 cursor-pointer"
+              className="text-brand-ink hover:underline font-bold inline-flex items-center gap-1.5 cursor-pointer py-1"
             >
               <span>+ إضافة تخصص ثالث للمقارنة الثلاثية</span>
             </button>
@@ -208,7 +208,7 @@ function ComparePage() {
               <select
                 value={slug3}
                 onChange={(e) => setSlug3(e.target.value)}
-                className="rounded-lg border border-border bg-card px-2.5 py-1 text-xs text-foreground focus:border-brand"
+                className="rounded-xl border border-border bg-card px-3 py-1.5 text-xs sm:text-sm font-semibold text-foreground focus:border-brand"
               >
                 {majors.map((m) => (
                   <option key={m.slug} value={m.slug} disabled={m.slug === slug1 || m.slug === slug2}>
@@ -219,7 +219,7 @@ function ComparePage() {
               <button
                 type="button"
                 onClick={() => setSlug3("")}
-                className="text-danger hover:underline ml-2"
+                className="text-danger hover:underline ml-2 font-semibold"
               >
                 إلغاء التخصص الثالث
               </button>
@@ -229,16 +229,22 @@ function ComparePage() {
           <button
             type="button"
             onClick={handleConsultAdvisor}
-            className="inline-flex items-center gap-1.5 rounded-xl bg-brand text-brand-foreground px-4 py-2 font-bold shadow-sm hover:opacity-95 transition-transform hover:-translate-y-0.5 cursor-pointer ml-auto"
+            className="inline-flex items-center gap-2 rounded-xl bg-brand text-brand-foreground px-5 py-2.5 text-xs sm:text-sm font-bold shadow-sm hover:opacity-95 transition-transform hover:-translate-y-0.5 cursor-pointer ml-auto"
           >
-            <Bot className="size-3.5" />
+            <Bot className="size-4" />
             <span>اسأل المستشار الذكي عن هذه المقارنة</span>
           </button>
         </div>
       </div>
 
       {/* Comparison Cards Matrix */}
-      <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div
+        className={`mt-10 grid gap-6 sm:gap-8 ${
+          selectedMajors.length === 3
+            ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+            : "grid-cols-1 md:grid-cols-2"
+        }`}
+      >
         {selectedMajors.map((major, idx) => {
           const tone =
             major.classification === "مطلوب"
@@ -250,55 +256,55 @@ function ComparePage() {
           return (
             <div
               key={major.slug}
-              className="card-surface flex flex-col justify-between p-6 relative overflow-hidden"
+              className="card-surface flex flex-col justify-between p-6 sm:p-8 rounded-3xl border border-border/80 shadow-sm relative overflow-hidden transition-all hover:border-brand/40"
             >
               <div>
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-xs font-bold text-muted-foreground">
+                <div className="flex items-center justify-between gap-2 border-b border-border/60 pb-3">
+                  <span className="text-sm font-bold text-brand">
                     الخيار {idx + 1} · {major.field}
                   </span>
-                  <span className={`pill ${tone}`}>{major.classification}</span>
+                  <span className={`pill ${tone} text-xs font-semibold`}>{major.classification}</span>
                 </div>
 
-                <h2 className="font-display text-2xl font-extrabold text-foreground mt-2">
+                <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-foreground mt-3">
                   {major.name}
                 </h2>
 
                 {/* Key Metrics Row */}
-                <div className="mt-5 grid grid-cols-2 gap-3 text-center">
-                  <div className="bg-surface-2 p-3 rounded-xl border border-border">
-                    <p className="text-[11px] text-muted-foreground">نسبة التشغيل التقديرية</p>
-                    <p className="font-display text-xl font-extrabold text-foreground mt-1">
+                <div className="mt-5 grid grid-cols-2 gap-3.5 text-center">
+                  <div className="bg-surface-2 p-3.5 sm:p-4 rounded-2xl border border-border">
+                    <p className="text-xs text-muted-foreground font-semibold">نسبة التشغيل التقديرية</p>
+                    <p className="font-display text-xl sm:text-2xl font-black text-foreground mt-1">
                       {major.employmentRate}
                     </p>
                   </div>
-                  <div className="bg-surface-2 p-3 rounded-xl border border-border">
-                    <p className="text-[11px] text-muted-foreground">مستوى الخطر بسوق العمل</p>
-                    <p className="font-display text-xl font-extrabold text-foreground mt-1">
+                  <div className="bg-surface-2 p-3.5 sm:p-4 rounded-2xl border border-border">
+                    <p className="text-xs text-muted-foreground font-semibold">مستوى الخطر بسوق العمل</p>
+                    <p className="font-display text-xl sm:text-2xl font-black text-foreground mt-1">
                       {major.risk}
                     </p>
                   </div>
                 </div>
 
                 {/* Automation Exposure */}
-                <div className="mt-4 rounded-xl border border-border bg-card/60 p-3.5 text-xs space-y-1.5">
+                <div className="mt-4 rounded-2xl border border-border bg-card/60 p-4 text-xs sm:text-sm space-y-1.5">
                   <div className="flex items-center justify-between">
                     <span className="font-bold flex items-center gap-1.5 text-foreground">
-                      <Cpu className="size-3.5 text-brand" />
+                      <Cpu className="size-4 text-brand" />
                       <span>أثر الأتمتة والذكاء الاصطناعي:</span>
                     </span>
                     <span className="font-extrabold text-brand">{major.automation.exposure}</span>
                   </div>
-                  <p className="text-muted-foreground leading-5">{major.automation.note}</p>
+                  <p className="text-muted-foreground leading-6">{major.automation.note}</p>
                 </div>
 
                 {/* Accreditation & Universities Summary */}
-                <div className="mt-4 rounded-xl border border-border bg-card/60 p-3.5 text-xs space-y-1.5">
+                <div className="mt-4 rounded-2xl border border-border bg-card/60 p-4 text-xs sm:text-sm space-y-1.5">
                   <span className="font-bold flex items-center gap-1.5 text-foreground">
-                    <Building2 className="size-3.5 text-secondary" />
+                    <Building2 className="size-4 text-secondary" />
                     <span>خريطة الجامعات والاعتمادات:</span>
                   </span>
-                  <p className="text-muted-foreground leading-5">
+                  <p className="text-muted-foreground leading-6">
                     يُطرح في الجامعات الحكومية والخاصة مع متطلبات اعتماد هيئة التعليم العالي
                     {major.field.includes("الهندسة") || major.field.includes("تكنولوجيا")
                       ? "، واعتمادات ABET في كليات الهندسة وتكنولوجيا المعلومات."
