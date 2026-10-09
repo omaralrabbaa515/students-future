@@ -19,7 +19,6 @@ import {
   Users,
   Briefcase,
   ExternalLink,
-  Zap,
   Flame,
   Globe,
   Newspaper,
@@ -251,18 +250,9 @@ function Home() {
   const [calcHours, setCalcHours] = useState(15);
   const [calcProgram, setCalcProgram] = useState<"competitive" | "parallel">("competitive");
 
-  // Quick Comparison State
-  const [compMajor1Slug, setCompMajor1Slug] = useState(majors[0]?.slug || "computer-science");
-  const [compMajor2Slug, setCompMajor2Slug] = useState(
-    majors.find((m) => m.slug !== compMajor1Slug)?.slug || "civil-engineering"
-  );
-
   const demanded = majors.filter((m) => m.classification === "مطلوب");
   const saturated = majors.filter((m) => m.classification === "مشبع");
   const stagnant = majors.filter((m) => m.classification === "راكد");
-
-  const major1 = majors.find((m) => m.slug === compMajor1Slug) || majors[0];
-  const major2 = majors.find((m) => m.slug === compMajor2Slug) || majors[1];
 
   return (
     <div>
@@ -1131,112 +1121,6 @@ function Home() {
                 </div>
               </div>
             )}
-          </div>
-        </div>
-      </section>
-
-      {/* ================= 4. QUICK MAJOR COMPARISON PLAYGROUND ================= */}
-      <section className="py-20 border-b border-border bg-background">
-        <div className="mx-auto max-w-6xl px-4">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 mb-3">
-              <Zap className="size-3.5" />
-              مختبر المقارنة اللحظية
-            </span>
-            <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-foreground">
-              قارن بين أي تخصصين وجهاً لوجه
-            </h2>
-            <p className="mt-2 text-xs sm:text-sm text-muted-foreground">
-              اختر تخصصين واطلع على الفارق الفوري في نسب التشغيل، الأتمتة، والاعتمادات الرسمية.
-            </p>
-          </div>
-
-          <div className="bg-card border border-border rounded-3xl p-6 sm:p-8 shadow-xl max-w-4xl mx-auto">
-            {/* Pickers */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-6 border-b border-border">
-              <div>
-                <label className="text-xs font-bold text-foreground block mb-1.5">التخصص الأول:</label>
-                <select
-                  value={compMajor1Slug}
-                  onChange={(e) => setCompMajor1Slug(e.target.value)}
-                  className="w-full bg-surface border border-border rounded-xl p-3 text-xs text-foreground font-bold"
-                >
-                  {majors.map((m) => (
-                    <option key={m.slug} value={m.slug}>
-                      {m.name} ({m.classification})
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="text-xs font-bold text-foreground block mb-1.5">التخصص الثاني:</label>
-                <select
-                  value={compMajor2Slug}
-                  onChange={(e) => setCompMajor2Slug(e.target.value)}
-                  className="w-full bg-surface border border-border rounded-xl p-3 text-xs text-foreground font-bold"
-                >
-                  {majors.map((m) => (
-                    <option key={m.slug} value={m.slug}>
-                      {m.name} ({m.classification})
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            {/* Comparison Matrix Table */}
-            <div className="pt-6 space-y-4 text-xs">
-              <div className="grid grid-cols-3 p-3 rounded-xl bg-surface border border-border font-bold">
-                <span className="text-muted-foreground">وجه المقارنة</span>
-                <span className="text-primary text-center">{major1.name}</span>
-                <span className="text-purple-600 dark:text-purple-400 text-center">{major2.name}</span>
-              </div>
-
-              <div className="grid grid-cols-3 p-3 rounded-xl hover:bg-surface/50 transition-colors">
-                <span className="font-bold text-muted-foreground">التصنيف الرسمي:</span>
-                <span className="text-center font-bold">{major1.classification}</span>
-                <span className="text-center font-bold">{major2.classification}</span>
-              </div>
-
-              <div className="grid grid-cols-3 p-3 rounded-xl bg-surface/30">
-                <span className="font-bold text-muted-foreground">نسبة التشغيل التقديرية:</span>
-                <span className="text-center font-bold text-emerald-600 dark:text-emerald-400">
-                  {major1.employmentRate}
-                </span>
-                <span className="text-center font-bold text-emerald-600 dark:text-emerald-400">
-                  {major2.employmentRate}
-                </span>
-              </div>
-
-              <div className="grid grid-cols-3 p-3 rounded-xl hover:bg-surface/50 transition-colors">
-                <span className="font-bold text-muted-foreground">مستوى الخطر الوظيفي:</span>
-                <span className="text-center font-bold">{major1.risk}</span>
-                <span className="text-center font-bold">{major2.risk}</span>
-              </div>
-
-              <div className="grid grid-cols-3 p-3 rounded-xl bg-surface/30">
-                <span className="font-bold text-muted-foreground">أثر الذكاء الاصطناعي والأتمتة:</span>
-                <span className="text-center font-bold">{major1.automation.exposure}</span>
-                <span className="text-center font-bold">{major2.automation.exposure}</span>
-              </div>
-
-              <div className="grid grid-cols-3 p-3 rounded-xl hover:bg-surface/50 transition-colors">
-                <span className="font-bold text-muted-foreground">الجامعات الحكومية المطروحة:</span>
-                <span className="text-center font-bold">{major1.publicUniversities.length} جامعات</span>
-                <span className="text-center font-bold">{major2.publicUniversities.length} جامعات</span>
-              </div>
-            </div>
-
-            <div className="pt-6 text-center">
-              <Link
-                to="/compare"
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-primary text-primary-foreground font-bold text-xs shadow-xs hover:opacity-90"
-              >
-                <span>فتح المقارنة الموسعة بجميع التفاصيل</span>
-                <ArrowLeft className="size-3.5" />
-              </Link>
-            </div>
           </div>
         </div>
       </section>
