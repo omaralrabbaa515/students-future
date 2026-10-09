@@ -13,6 +13,7 @@ import {
 } from "@/lib/platform-data";
 
 export const Route = createFileRoute("/majors/$slug")({
+  staleTime: 1000 * 60 * 5, // كاش فوري 5 دقائق لتسريع التنقل الفوري بين التخصصات
   loader: async ({ params }) => {
     const major = getMajor(params.slug);
     if (!major) throw notFound();

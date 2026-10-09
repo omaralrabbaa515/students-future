@@ -153,7 +153,7 @@ function RootComponent() {
       <div className="bg-background flex min-h-screen flex-col">
         <header className="border-border/70 bg-background/85 sticky top-0 z-50 border-b backdrop-blur-xl">
           <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
-            <Link to="/" className="group flex items-center gap-2.5">
+            <Link to="/" preload="intent" preloadDelay={20} className="group flex items-center gap-2.5">
               <img
                 src="/logo.png"
                 alt="شعار منصة الطلاب والمستقبل"
@@ -171,7 +171,9 @@ function RootComponent() {
                   <Link
                     key={link.to}
                     to={link.to}
-                    className="text-muted-foreground hover:text-foreground hover:bg-surface rounded-full px-3 py-1.5 transition-colors"
+                    preload="intent"
+                    preloadDelay={20}
+                    className="text-muted-foreground hover:text-foreground hover:bg-surface rounded-full px-3 py-1.5 transition-colors duration-150"
                     activeProps={{
                       className: "bg-surface-2 text-foreground font-bold shadow-xs",
                     }}

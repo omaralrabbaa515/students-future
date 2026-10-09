@@ -12,6 +12,7 @@ import { getPlatformMeta } from "@/lib/public-data.functions";
 import { EMPTY_PLATFORM_META, formatDate, type PlatformMeta } from "@/lib/platform-data";
 
 export const Route = createFileRoute("/certifications")({
+  staleTime: 1000 * 60 * 5, // كاش فوري 5 دقائق لتسريع التنقل
   loader: async () => {
     let meta: PlatformMeta = EMPTY_PLATFORM_META;
     try {

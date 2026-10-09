@@ -4,6 +4,7 @@ import { EMPTY_PLATFORM_META, formatDate, formatDateTime, type PlatformMeta } fr
 import { getPlatformMeta } from "@/lib/public-data.functions";
 
 export const Route = createFileRoute("/sources")({
+  staleTime: 1000 * 60 * 5, // كاش فوري 5 دقائق لتسريع التنقل
   loader: async () => {
     let meta: PlatformMeta = EMPTY_PLATFORM_META;
     try {
