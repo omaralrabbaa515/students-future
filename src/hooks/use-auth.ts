@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import type { User, Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 
-export const EXECUTIVE_ADMIN_EMAIL = "mralrba0@gmail.com";
+export const SUPERVISOR_EMAILS = [
+  "mralrba0@gmail.com",
+  "jowmahmoud6@gmail.com",
+] as const;
+
+export const EXECUTIVE_ADMIN_EMAIL = SUPERVISOR_EMAILS[0];
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
@@ -55,8 +60,10 @@ export function useAuth() {
     (user?.email ? user.email.split("@")[0] : "طالب");
 
   const isAdmin =
-    user?.email?.toLowerCase() === EXECUTIVE_ADMIN_EMAIL.toLowerCase() ||
-    Boolean(user?.app_metadata?.role === "admin");
+    Boolean(
+      user?.email &&
+        SUPERVISOR_EMAILS.some((e) => e.toLowerCase() === user.email?.toLowerCase()),
+    ) || Boolean(user?.app_metadata?.role === "admin");
 
   const signOut = async () => {
     await supabase.auth.signOut();

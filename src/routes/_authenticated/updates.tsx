@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
+import { ShieldCheck } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { certifications } from "@/data/certifications";
@@ -9,12 +10,11 @@ import { supabase } from "@/integrations/supabase/client";
 import {
   claimAdminRole,
   decidePendingChange,
-  EXECUTIVE_ADMIN_EMAIL,
   getUpdatesDashboard,
   resolveSecurityAlert,
   revertOverride,
   runScanNow,
-  sendExecutiveTransferConfirmationEmail,
+  SUPERVISOR_EMAILS,
 } from "@/lib/admin.functions";
 import { ENTITY_LABELS, formatDate, formatDateTime } from "@/lib/platform-data";
 
@@ -55,7 +55,7 @@ const TABS = [
   { key: "reviews", label: "مراجعة التخصصات" },
   { key: "log", label: "سجل التحديثات" },
   { key: "scans", label: "عمليات الفحص" },
-  { key: "security", label: "الأمان والحساب التنفيذي" },
+  { key: "security", label: "المشرفون والأمان" },
 ] as const;
 
 const majorNames = new Map(majors.map((major) => [major.slug, major.name]));
@@ -68,14 +68,12 @@ function UpdatesPage() {
   const revert = useServerFn(revertOverride);
   const scan = useServerFn(runScanNow);
   const claim = useServerFn(claimAdminRole);
-  const sendEmail = useServerFn(sendExecutiveTransferConfirmationEmail);
   const resolveAlert = useServerFn(resolveSecurityAlert);
 
   const [tab, setTab] = useState<(typeof TABS)[number]["key"]>("pending");
   const [logFilter, setLogFilter] = useState("");
   const [logType, setLogType] = useState("الكل");
   const [notice, setNotice] = useState<string | null>(null);
-  const [emailNotice, setEmailNotice] = useState<string | null>(null);
 
   const dashboard = useQuery({
     queryKey: ["updates-dashboard"],
@@ -124,22 +122,10 @@ function UpdatesPage() {
   const claimMutation = useMutation({
     mutationFn: () => claim(),
     onSuccess: () => {
-      setNotice("تم تعيينك مشرفاً للمنصة وتأكيد الصلاحية التنفيذية.");
+      setNotice("تم تأكيد وتنشيط صلاحية الإشراف للمنصة بنجاح.");
       void invalidate();
     },
     onError: (error: Error) => setNotice(error.message),
-  });
-
-  const emailMutation = useMutation({
-    mutationFn: () => sendEmail(),
-    onSuccess: (res) => {
-      setEmailNotice(`✅ تم توثيق وإرسال بريد التأكيد بنجاح إلى: ${res.sentTo}`);
-      setNotice(`تم إرسال بريد تأكيد الحساب التنفيذي إلى ${res.sentTo}.`);
-      void invalidate();
-    },
-    onError: (err: Error) => {
-      setEmailNotice(`❌ تعذّر إرسال البريد: ${err.message}`);
-    },
   });
 
   const resolveAlertMutation = useMutation({
@@ -187,7 +173,7 @@ function UpdatesPage() {
       <div className="mx-auto max-w-2xl px-4 py-14 text-sm leading-8">
         <h1 className="font-display text-2xl font-extrabold">لوحة التحديثات</h1>
         <p className="text-muted-foreground mt-3">
-          هذه اللوحة مخصّصة لحساب المشرف الوحيد للمنصة. إن كنت المشرف فاضغط الزر أدناه لتنشيط
+          هذه اللوحة مخصّصة لمشرفي المنصة المعتمدين. إن كنت أحد المشرفين فاضغط الزر أدناه لتنشيط
           صلاحيتك، وإلا فلا صلاحية لهذا الحساب.
         </p>
         <button
@@ -588,53 +574,54 @@ function UpdatesPage() {
       {tab === "security" && (
         <div className="mt-6 space-y-6">
           <div className="card-surface p-6">
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              <div>
-                <span className="pill border-brand/40 text-brand bg-brand/10 border text-xs">
-                  الحساب التنفيذي المحمي
-                </span>
-                <h2 className="font-display mt-2 text-xl font-bold">
-                  {data?.executiveAccount ?? EXECUTIVE_ADMIN_EMAIL}
-                </h2>
-                <p className="text-muted-foreground mt-1 text-sm">
-                  هذا هو الحساب التنفيذي الوحيد المخول بإدارة وتحديث بيانات المنصة. الحساب مقفل
-                  بشكل قطعي وغير قابل للنقل أو التعديل إلا بموافقة إدارية مشددة.
-                </p>
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <button
-                  onClick={() => emailMutation.mutate()}
-                  disabled={emailMutation.isPending}
-                  className="bg-brand text-brand-foreground rounded-xl px-5 py-2.5 text-sm font-bold shadow transition-transform hover:-translate-y-0.5 disabled:opacity-60"
-                >
-                  {emailMutation.isPending ? "جارٍ الإرسال…" : "إرسال بريد تأكيد التحويل"}
-                </button>
-              </div>
+            <div>
+              <span className="pill border-brand/40 text-brand bg-brand/10 border text-xs">
+                مشرفو المنصة المعتمدون
+              </span>
+              <h2 className="font-display mt-2 text-xl font-bold">
+                مشرفو المنصة وحماية الصلاحيات
+              </h2>
+              <p className="text-muted-foreground mt-1 text-sm">
+                المشرفون المعتمدون يمتلكون كامل الصلاحيات الإشرافية لإدارة وتحديث بيانات المنصة. الحسابات محمية بنظام قفل أمني وقواعد قاعدة بيانات صارمة تمنع أي وصول أو عبث غير مصرح به.
+              </p>
             </div>
 
-            {emailNotice && (
-              <p className="border-border bg-secondary mt-4 rounded-md border p-3 text-sm font-bold">
-                {emailNotice}
-              </p>
-            )}
+            {/* بطاقات المشرفين المعتمدين بالتساوي */}
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {(data?.supervisors ?? SUPERVISOR_EMAILS).map((email) => (
+                <div
+                  key={email}
+                  className="bg-secondary/40 border-border/80 relative rounded-2xl border p-5 transition-shadow hover:shadow-sm"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <div className="bg-brand/10 text-brand flex h-10 w-10 shrink-0 items-center justify-center rounded-xl font-bold">
+                        <ShieldCheck className="h-5 w-5" />
+                      </div>
+                      <div className="min-w-0">
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-good/10 px-2.5 py-0.5 text-xs font-bold text-good">
+                          مشرف معتمد · صلاحيات كاملة
+                        </span>
+                        <p className="mt-1.5 font-mono text-base font-bold text-foreground truncate">
+                          {email}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="border-border/50 mt-4 flex items-center justify-between border-t pt-3 text-xs text-muted-foreground">
+                    <span>حالة الحساب: نشط ومعتمد</span>
+                    <span className="text-good font-semibold">✓ صلاحية إشراف كاملة</span>
+                  </div>
+                </div>
+              ))}
+            </div>
 
-            <div className="border-border/60 mt-6 grid gap-4 border-t pt-6 sm:grid-cols-3">
-              <div className="bg-secondary/40 rounded-xl p-4">
-                <p className="text-muted-foreground text-xs">الحساب التنفيذي السابق</p>
-                <p className="mt-1 font-mono text-sm font-bold text-danger">
-                  jowmahmoud6@gmail.com
-                </p>
-                <span className="mt-2 inline-block rounded-full bg-danger/10 px-2.5 py-0.5 text-xs text-danger">
-                  ملغى ومحظور بالكامل
-                </span>
-              </div>
-
+            <div className="border-border/60 mt-6 grid gap-4 border-t pt-6 sm:grid-cols-2">
               <div className="bg-secondary/40 rounded-xl p-4">
                 <p className="text-muted-foreground text-xs">قفل الأمان الصارم (Database Lock)</p>
                 <p className="mt-1 text-sm font-bold text-good">مفعّل (PostgreSQL Triggers)</p>
                 <span className="mt-2 inline-block rounded-full bg-good/10 px-2.5 py-0.5 text-xs text-good">
-                  يمنع أي تعديل أو حذف تلقائياً
+                  حماية حسابات المشرفين من التعديل أو الحذف تلقائياً
                 </span>
               </div>
 
@@ -642,7 +629,7 @@ function UpdatesPage() {
                 <p className="text-muted-foreground text-xs">نظام المراقبة والتنبيهات</p>
                 <p className="mt-1 text-sm font-bold text-good">نشط ومراقب</p>
                 <span className="mt-2 inline-block rounded-full bg-good/10 px-2.5 py-0.5 text-xs text-good">
-                  رصد وتسجيل أي محاولة عبث
+                  رصد وتسجيل أي محاولة عبث أو وصول غير مصرح
                 </span>
               </div>
             </div>
@@ -658,12 +645,12 @@ function UpdatesPage() {
               </span>
             </div>
             <p className="text-muted-foreground mt-1 text-xs">
-              يتم هنا رصد أي محاولات من أي مستخدم للمطالبة بصلاحيات الإشراف أو تغيير الحساب التنفيذي.
+              يتم هنا رصد أي محاولات من أي مستخدم غير مصرح له للمطالبة بصلاحيات الإشراف على المنصة.
             </p>
 
             {(data?.securityAlerts?.length ?? 0) === 0 ? (
               <div className="bg-secondary/30 mt-4 rounded-xl p-6 text-center text-sm text-muted-foreground">
-                ✅ لا توجد أي محاولات اختراق أو تغيير غير مصرح بها. النظام محمي بالكامل.
+                ✅ لا توجد أي محاولات وصول غير مصرح بها. حسابات المشرفين والمنصة محمية بالكامل.
               </div>
             ) : (
               <div className="mt-4 space-y-3">

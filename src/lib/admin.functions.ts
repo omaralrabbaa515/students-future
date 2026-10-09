@@ -86,10 +86,15 @@ export type SecurityAlert = {
   is_resolved: boolean;
 };
 
+export const SUPERVISOR_EMAILS = [
+  "mralrba0@gmail.com",
+  "jowmahmoud6@gmail.com",
+] as const;
+
 export type UpdatesDashboard = {
   isAdmin: boolean;
   adminExists: boolean;
-  executiveAccount: string;
+  supervisors: string[];
   pending: PendingChange[];
   log: ChangeLogEntry[];
   brokenLinks: BrokenLink[];
@@ -137,7 +142,7 @@ export const getUpdatesDashboard = createServerFn({ method: "GET" })
       return {
         isAdmin: false,
         adminExists,
-        executiveAccount: "mralrba0@gmail.com",
+        supervisors: [...SUPERVISOR_EMAILS],
         pending: [],
         log: [],
         brokenLinks: [],
@@ -195,7 +200,7 @@ export const getUpdatesDashboard = createServerFn({ method: "GET" })
     return {
       isAdmin: true,
       adminExists,
-      executiveAccount: "mralrba0@gmail.com",
+      supervisors: [...SUPERVISOR_EMAILS],
       pending: (pending.data ?? []) as PendingChange[],
       log: (log.data ?? []) as ChangeLogEntry[],
       brokenLinks: (links.data ?? []) as BrokenLink[],
@@ -327,10 +332,10 @@ export const runScanNow = createServerFn({ method: "POST" })
     return await runScan("manual", { fullReview: data.fullReview });
   });
 
-/** بريد الحساب التنفيذي الحصري المعتمد لإدارة المنصة - مقفل بشكل قطعي */
-export const EXECUTIVE_ADMIN_EMAIL = "mralrba0@gmail.com" as const;
+/** قائمة بريد مشرفي المنصة المعتمدين - صلاحيات إشرافية كاملة متساوية */
+export const EXECUTIVE_ADMIN_EMAIL = SUPERVISOR_EMAILS[0];
 
-/** تنشيط صلاحية الإشراف للحساب التنفيذي المعتمد فقط مع تسجيل تنبيهات الأمان التلقائية */
+/** تنشيط وتأكيد صلاحية الإشراف لمشرفي المنصة المعتمدين */
 export const claimAdminRole = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
@@ -338,43 +343,38 @@ export const claimAdminRole = createServerFn({ method: "POST" })
       .trim()
       .toLowerCase();
 
+    const isSupervisor = SUPERVISOR_EMAILS.some((s) => s.toLowerCase() === email);
+
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
-    // التحقق الصارم: إذا كان البريد ليس الحساب التنفيذي المعتمد
-    if (email !== EXECUTIVE_ADMIN_EMAIL) {
+    // التحقق الصارم: إذا كان البريد ليس من المشرفين المعتمدين
+    if (!isSupervisor) {
       // 1. تسجيل تنبيه أمني فوري في جدول security_alerts
       await supabaseAdmin.from("security_alerts").insert({
         alert_type: "UNAUTHORIZED_ADMIN_CLAIM_ATTEMPT",
         attempted_by: email || "unknown",
-        target_account: EXECUTIVE_ADMIN_EMAIL,
-        details: `محاولة غير مصرح بها للمطالبة بصلاحيات الإشراف التنفيذي من الحساب (${email || "غير معروف"})`,
+        target_account: SUPERVISOR_EMAILS.join(", "),
+        details: `محاولة غير مصرح بها للمطالبة بصلاحيات الإشراف من الحساب (${email || "غير معروف"})`,
       });
 
       // 2. تسجيل الحدث في سجل التغييرات الدائم
       await supabaseAdmin.from("change_log").insert({
         entity_type: "security",
-        entity_id: "executive_lock",
-        entity_label: "الحساب التنفيذي",
+        entity_id: "supervisors_lock",
+        entity_label: "مشرفو المنصة",
         field: "admin_role",
-        field_label: "قفل الحساب التنفيذي",
-        old_value: EXECUTIVE_ADMIN_EMAIL,
+        field_label: "حماية حسابات الإشراف",
+        old_value: SUPERVISOR_EMAILS.join(", "),
         new_value: email || "unknown",
         action: "محاولة اختراق/تعديل مرفوضة",
         actor: email || "unknown",
-        note: "تم إحباط محاولة غير مصرح بها للوصول للحساب التنفيذي وتسجيل التنبيه الأمني.",
+        note: "تم إحباط محاولة غير مصرح بها للحصول على صلاحيات الإشراف وتسجيل التنبيه الأمني.",
       });
 
       throw new Error(
-        "محظور أمنياً: هذا الحساب غير مصرّح له بصلاحيات الإشراف. الحساب التنفيذي مقفل حصرياً للمشرف المعتمد.",
+        "محظور أمنياً: هذا الحساب غير مصرّح له بصلاحيات الإشراف. صلاحيات الإشراف مخصصة حصرياً لمشرفي المنصة المعتمدين.",
       );
     }
-
-    // إزالة أي صلاحيات سابقة لأي حساب آخر (مثل jowmahmoud6@gmail.com) لضمان حصرية التحكم
-    await supabaseAdmin
-      .from("user_roles")
-      .delete()
-      .eq("role", "admin")
-      .neq("user_id", context.userId);
 
     const { data: existing } = await supabaseAdmin
       .from("user_roles")
@@ -384,7 +384,7 @@ export const claimAdminRole = createServerFn({ method: "POST" })
       .maybeSingle();
 
     if (existing) {
-      return { ok: true, email: EXECUTIVE_ADMIN_EMAIL };
+      return { ok: true, email };
     }
 
     const { error } = await supabaseAdmin
@@ -396,18 +396,18 @@ export const claimAdminRole = createServerFn({ method: "POST" })
     // تسجيل نجاح تأكيد الصلاحية في سجل التغييرات
     await supabaseAdmin.from("change_log").insert({
       entity_type: "security",
-      entity_id: "executive_lock",
-      entity_label: "الحساب التنفيذي",
+      entity_id: "supervisors_lock",
+      entity_label: "مشرفو المنصة",
       field: "admin_role",
-      field_label: "تأكيد المشرف التنفيذي",
+      field_label: "تأكيد المشرف المعتمد",
       old_value: "",
-      new_value: EXECUTIVE_ADMIN_EMAIL,
-      action: "تأكيد الصلاحية التنفيذية",
-      actor: EXECUTIVE_ADMIN_EMAIL,
-      note: "تم تأكيد الحساب التنفيذي الحصري بنجاح وتفعيل نظام الحماية والمراقبة.",
+      new_value: email,
+      action: "تأكيد صلاحية الإشراف",
+      actor: email,
+      note: `تم تأكيد اعتماد المشرف (${email}) بنجاح وتفعيل صلاحيات الإشراف الكاملة.`,
     });
 
-    return { ok: true, email: EXECUTIVE_ADMIN_EMAIL };
+    return { ok: true, email };
   });
 
 /** معالجة أو أرشفة تنبيه أمني */
@@ -430,7 +430,7 @@ export const resolveSecurityAlert = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
-/** إرسال رسالة تأكيد إلكترونية رسمية للحساب التنفيذي */
+/** تأكيد حسابات الإشراف للمنصة */
 export const sendExecutiveTransferConfirmationEmail = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
@@ -438,54 +438,21 @@ export const sendExecutiveTransferConfirmationEmail = createServerFn({ method: "
       .trim()
       .toLowerCase();
 
-    if (email !== EXECUTIVE_ADMIN_EMAIL) {
-      throw new Error("غير مصرح: هذا الإجراء متاح حصرياً للحساب التنفيذي المعتمد.");
+    const isSupervisor = SUPERVISOR_EMAILS.some((s) => s.toLowerCase() === email);
+
+    if (!isSupervisor) {
+      throw new Error("غير مصرح: هذا الإجراء متاح حصرياً لمشرفي المنصة المعتمدين.");
     }
-
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-
-    // التحقق من حالة تفعيل الدور
-    const { data: roleRow } = await supabaseAdmin
-      .from("user_roles")
-      .select("id")
-      .eq("user_id", context.userId)
-      .eq("role", "admin")
-      .maybeSingle();
-
-    const isConfirmed = Boolean(roleRow);
-    const dateStr = new Date().toISOString();
-
-    const subject = isConfirmed
-      ? "✅ تأكيد نقل الحساب التنفيذي لمنصة «الطلاب والمستقبل» إلى mralrba0@gmail.com"
-      : "⚠️ تنبيه: حالة نقل الحساب التنفيذي لمنصة «الطلاب والمستقبل» قيد التنشيط";
-
-    // تسجيل العملية في سجل التغييرات والتدقيق الأمني
-    await supabaseAdmin.from("change_log").insert({
-      entity_type: "notification",
-      entity_id: "executive_email_confirmation",
-      entity_label: "إشعار تأكيد الحساب التنفيذي",
-      field: "email_status",
-      field_label: "حالة رسالة التأكيد",
-      old_value: "jowmahmoud6@gmail.com",
-      new_value: EXECUTIVE_ADMIN_EMAIL,
-      action: "إرسال تأكيد البريد الإلكتروني",
-      actor: EXECUTIVE_ADMIN_EMAIL,
-      note: `تم توثيق وإرسال إشعار التأكيد التنفيذي بنجاح إلى ${EXECUTIVE_ADMIN_EMAIL}. حالة الصلاحيات: ${
-        isConfirmed ? "مفعلة بالكامل ومحمية بنظام القفل الأمني" : "بحاجة لتنشيط الصلاحية"
-      }`,
-    });
 
     return {
       ok: true,
-      sentTo: EXECUTIVE_ADMIN_EMAIL,
-      transferred: isConfirmed,
-      subject,
-      timestamp: dateStr,
+      sentTo: email,
+      transferred: true,
+      subject: "✅ تأكيد حسابات الإشراف لمنصة «الطلاب والمستقبل»",
+      timestamp: new Date().toISOString(),
       details: {
-        previousAccount: "jowmahmoud6@gmail.com (ملغى ومحظور بالكامل)",
-        newExecutive: EXECUTIVE_ADMIN_EMAIL,
-        securityLock: "مفعل ومراقب (Trigger + RLS + Server Enforcement)",
-        status: isConfirmed ? "تم نقل وتأكيد الحساب التنفيذي بنجاح" : "بانتظار تسجيل الدخول وتنشيط الصلاحية",
+        supervisors: [...SUPERVISOR_EMAILS],
+        status: "مشرف معتمد بصلاحيات كاملة",
       },
     };
   });
