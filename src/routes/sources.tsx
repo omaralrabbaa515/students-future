@@ -1,7 +1,20 @@
 import { createFileRoute, ErrorComponent } from "@tanstack/react-router";
+import { useState, useMemo } from "react";
+import {
+  Building2,
+  GraduationCap,
+  Globe,
+  Award,
+  Search,
+  ExternalLink,
+  ShieldCheck,
+  FileCheck,
+  CheckCircle2,
+} from "lucide-react";
 
 import { EMPTY_PLATFORM_META, formatDate, formatDateTime, type PlatformMeta } from "@/lib/platform-data";
 import { getPlatformMeta } from "@/lib/public-data.functions";
+import { officialSources, type SourceCategory } from "@/data/sources";
 
 export const Route = createFileRoute("/sources")({
   staleTime: 1000 * 60 * 5, // كاش فوري 5 دقائق لتسريع التنقل
@@ -16,199 +29,31 @@ export const Route = createFileRoute("/sources")({
   },
   errorComponent: ErrorComponent,
   notFoundComponent: () => (
-    <p className="mx-auto max-w-3xl px-4 py-12 text-sm">الصفحة غير موجودة.</p>
+    <p className="mx-auto max-w-3xl px-4 py-12 text-sm text-foreground">الصفحة غير موجودة.</p>
   ),
   head: () => ({
     meta: [
-      { title: "المصادر الرسمية | الطلاب والمستقبل" },
+      { title: "المصادر الرسمية المعتمدة | الطلاب والمستقبل" },
       {
         name: "description",
         content:
-          "المصادر الرسمية التي تُبنى عليها تقديرات نسب التشغيل وتصنيف التخصصات في منصة الطلاب والمستقبل، مع تاريخ آخر مراجعة لكل مصدر.",
+          "المصادر الرسمية الحكومية والدولية والأكاديمية التي تُبنى عليها بيانات الجامعات ونسب التشغيل وتصنيف التخصصات في منصة الطلاب والمستقبل، مع تعليل ما تم استخراجه من كل مصدر.",
       },
-      { property: "og:title", content: "المصادر الرسمية | الطلاب والمستقبل" },
+      { property: "og:title", content: "المصادر الرسمية المعتمدة | الطلاب والمستقبل" },
       {
         property: "og:description",
-        content: "ديوان الخدمة المدنية، دائرة الإحصاءات العامة، وزارة التعليم العالي، ومنصة سجّل.",
+        content: "وزارة التعليم العالي، القبول الموحد، هيئة الاعتماد، ديوان الخدمة، تصنيفات QS و THE، واعتمادات ABET و ACPE و WFME، ودليل الجامعات الأردنية الـ 19.",
       },
     ],
   }),
   component: Sources,
 });
 
-type OfficialSource = {
-  key: string;
-  name: string;
-  url: string;
-  category: "جهات حكومية وتنظيمية" | "مراجع أكاديمية وجامعية قطاعية";
-  sectors: string[];
-  note: string;
-};
-
-const sources: OfficialSource[] = [
-  // ١) جهات حكومية وتنظيمية ونقابية
-  {
-    key: "admhec",
-    name: "وحدة تنسيق القبول الموحد",
-    url: "http://www.admhec.gov.jo/",
-    category: "جهات حكومية وتنظيمية",
-    sectors: ["الكليات الطبية والصحية", "كافة القطاعات الأكاديمية"],
-    note: "المصدر الرسمي المعتمد للتحقق من التخصصات الأكاديمية المطروحة سنوياً، وبوابات القبول والحدود الدنيا لمعدلات القبول التنافسي والمقاعد المقررة.",
-  },
-  {
-    key: "heac",
-    name: "هيئة اعتماد مؤسسات التعليم العالي وضمان جودتها",
-    url: "https://www.heac.org.jo/",
-    category: "جهات حكومية وتنظيمية",
-    sectors: ["كافة الكليات والجامعات الأردنية"],
-    note: "المرجع الوطني الأول للتحقق من الاعتماد العام والخاص للتخصصات، والطاقات الاستيعابية وضمان معايير الجودة في الجامعات الحكومية والخاصة.",
-  },
-  {
-    key: "csb",
-    name: "ديوان الخدمة المدنية والإدارة العامة (هيئة الخدمة)",
-    url: "https://csb.gov.jo",
-    category: "جهات حكومية وتنظيمية",
-    sectors: ["كافة التخصصات في سوق العمل الأردني"],
-    note: "تقرير دراسة العرض والطلب السنوي للتخصصات العلمية والإنسانية، وأعداد المتقدمين والمعيّنين في الأجهزة الحكومية والمخزون التراكمي.",
-  },
-  {
-    key: "dos",
-    name: "دائرة الإحصاءات العامة",
-    url: "https://dosweb.dos.gov.jo",
-    category: "جهات حكومية وتنظيمية",
-    sectors: ["كافة التخصصات ومسوح البطالة"],
-    note: "المسوح الوطنية الدورية لمعدلات البطالة والتشغيل وتوزعها الجغرافي حسب المستوى التعليمي والتخصص الأكاديمي والمحافظة.",
-  },
-  {
-    key: "mohe",
-    name: "وزارة التعليم العالي والبحث العلمي",
-    url: "https://mohe.gov.jo",
-    category: "جهات حكومية وتنظيمية",
-    sectors: ["كافة مؤسسات التعليم العالي الأردنية"],
-    note: "البيانات الإحصائية الرسمية لأعداد الطلبة الملتحقين والخريجين، والقرارات التنظيمية لاستحداث التخصصات وتجميد التخصصات الراكدة.",
-  },
-  {
-    key: "sajjil",
-    name: "منصة سجّل الوطنية للتشغيل",
-    url: "https://sajjil.gov.jo",
-    category: "جهات حكومية وتنظيمية",
-    sectors: ["القطاع الخاص وسوق العمل الفعلي"],
-    note: "مؤشرات فرص العمل الحقيقية المطلوبة من قِبل منشآت القطاع الخاص الأردني، والمهن الأكثر طلباً حسب القطاعات الإنتاجية والخدمية.",
-  },
-  {
-    key: "jea",
-    name: "نقابة المهندسين الأردنيين",
-    url: "https://www.jea.org.jo/",
-    category: "جهات حكومية وتنظيمية",
-    sectors: ["الكليات الهندسية (19 تخصصاً)"],
-    note: "المرجع المهني المعتمد للتحقق من تصنيف التخصصات الهندسية، ونسب الإشباع والبطالة المسجلة لدى الشعب الهندسية المختلفة، وتوصيات مسار التدريب والتأهيل.",
-  },
-
-  // ٢) مراجع أكاديمية وجامعية معتمدة حسب القطاعات
-  {
-    key: "ju",
-    name: "الجامعة الأردنية (المرجع الأكاديمي الشامل)",
-    url: "https://ju.edu.jo/",
-    category: "مراجع أكاديمية وجامعية قطاعية",
-    sectors: [
-      "الكليات الطبية والصحية",
-      "الكليات الهندسية",
-      "كليات العلوم الأساسية",
-      "الكليات الإدارية والمالية",
-      "كليات الحقوق",
-      "كليات الآداب واللغات",
-      "كليات الشريعة",
-      "كليات العلوم التربوية",
-      "كليات الفنون والتصميم",
-      "كليات الزراعة",
-      "كليات الرياضة",
-    ],
-    note: "المرجع الأكاديمي الرئيسي لتوثيق ومطابقة الخطط الدراسية، والتدريب السريري والميداني لمختلف الكليات الطبية والهندسية والإنسانية في الأردن.",
-  },
-  {
-    key: "just",
-    name: "جامعة العلوم والتكنولوجيا الأردنية",
-    url: "https://www.just.edu.jo/",
-    category: "مراجع أكاديمية وجامعية قطاعية",
-    sectors: [
-      "الكليات الهندسية (19 تخصصاً)",
-      "الكليات الطبية والصحية (17 تخصصاً)",
-      "كليات الزراعة والبيئة (6 تخصصات)",
-    ],
-    note: "المصدر الأكاديمي المعتمد لمطابقة تخصصات الهندسة والتكنولوجيا، والعلوم الطبية والتمريضية، والإنتاج النباتي والحيواني وعلوم الأغذية.",
-  },
-  {
-    key: "psut",
-    name: "جامعة الأميرة سمية للتكنولوجيا",
-    url: "https://www.psut.edu.jo/",
-    category: "مراجع أكاديمية وجامعية قطاعية",
-    sectors: ["كليات تكنولوجيا المعلومات والذكاء الاصطناعي (11 تخصصاً)"],
-    note: "المرجع الأكاديمي التخصصي المعتمد للتحقق من مسارات علوم الحاسوب، وهندسة البرمجيات، والذكاء الاصطناعي، والأمن السيبراني، والحوسبة السحابية.",
-  },
-  {
-    key: "hu",
-    name: "الجامعة الهاشمية",
-    url: "https://hu.edu.jo/",
-    category: "مراجع أكاديمية وجامعية قطاعية",
-    sectors: [
-      "كليات IT والذكاء الاصطناعي",
-      "كليات التربية والعلوم التربوية",
-      "كليات الرياضة والسياحة والآثار",
-    ],
-    note: "المرجع المعتمد للتحقق من تخصصات كلية تكنولوجيا المعلومات والأنظمة الذكية، والتربية والطفولة المبكرة، والإرشاد السياحي والموارد التراثية.",
-  },
-  {
-    key: "yu",
-    name: "جامعة اليرموك",
-    url: "https://www.yu.edu.jo/",
-    category: "مراجع أكاديمية وجامعية قطاعية",
-    sectors: [
-      "كليات العلوم الأساسية والتطبيقية (9 تخصصات)",
-      "كليات الأدب واللغات والعلوم الإنسانية (17 تخصصاً)",
-      "كليات الإعلام والاتصال (4 تخصصات)",
-    ],
-    note: "المرجع الوطني الرائد لمطابقة خطط العلوم الأساسية (الفيزياء، الكيمياء، الرياضيات)، واللغات العالمية الحديثة، وكلية الإعلام العريقة بمساراتها الرقمية.",
-  },
-  {
-    key: "amman",
-    name: "جامعة عمان الأهلية",
-    url: "https://www.amman.edu.jo/",
-    category: "مراجع أكاديمية وجامعية قطاعية",
-    sectors: ["الكليات الإدارية والاقتصادية والمالية (14 تخصصاً)"],
-    note: "المرجع الأكاديمي المعتمد في قطاع الجامعات الخاصة للتحقق من مسارات إدارة الأعمال، والتسويق الرقمي، واللوجستيات، والتجارة الإلكترونية والعلوم المالية.",
-  },
-  {
-    key: "mutah",
-    name: "جامعة مؤتة",
-    url: "https://www.mutah.edu.jo/",
-    category: "مراجع أكاديمية وجامعية قطاعية",
-    sectors: ["كليات حقوق وقانون (3 تخصصات)", "العلوم الاجتماعية والإنسانية"],
-    note: "المرجع المعتمد للتحقق من برامج القانون العام والخاص، والدراسات القضائية والتشريعية في الجامعات الأردنية.",
-  },
-  {
-    key: "aabu",
-    name: "جامعة آل البيت",
-    url: "https://www.aabu.edu.jo/",
-    category: "مراجع أكاديمية وجامعية قطاعية",
-    sectors: ["كليات الشريعة والدراسات الإسلامية (6 تخصصات)"],
-    note: "المرجع المتخصص للتحقق من تخصصات الفقه وأصوله، وأصول الدين، والمصارف الإسلامية، والقضاء الشرعي والدراسات القرآنية.",
-  },
-  {
-    key: "meu",
-    name: "جامعة الشرق الأوسط",
-    url: "https://www.meu.edu.jo/",
-    category: "مراجع أكاديمية وجامعية قطاعية",
-    sectors: ["كليات الإعلام والاتصال (4 تخصصات)"],
-    note: "المرجع التخصصي المعتمد لمطابقة برامج الإعلام الرقمي، والوسائط المتعددة، والعلاقات العامة، وتقنيات الإنتاج الإذاعي والتلفزيوني الحديث.",
-  },
-  {
-    key: "asu",
-    name: "جامعة العلوم التطبيقية الخاصة",
-    url: "https://www.asu.edu.jo/",
-    category: "مراجع أكاديمية وجامعية قطاعية",
-    sectors: ["كليات الفنون والتصميم (7 تخصصات)"],
-    note: "المرجع الأكاديمي المعتمد لمطابقة تخصصات التصميم الداخلي، والتصميم الجرافيكي، وتصميم الأزياء، والتحريك والوسائط المتعددة (Animation).",
-  },
+const CATEGORIES: { id: "all" | SourceCategory; label: string; icon: typeof Building2 }[] = [
+  { id: "all", label: "كافة المصادر (34)", icon: FileCheck },
+  { id: "جهات حكومية وتنظيمية ونقابية", label: "جهات حكومية وتنظيمية (8)", icon: Building2 },
+  { id: "هيئات الاعتماد والتصنيف الدولية", label: "هيئات الاعتماد والتصنيف الدولية (7)", icon: Award },
+  { id: "مراجع أكاديمية وبوابات الجامعات الأردنية المعتمدة", label: "بوابات الجامعات الأردنية (19)", icon: GraduationCap },
 ];
 
 function Sources() {
@@ -216,131 +61,205 @@ function Sources() {
   const statuses = new Map(meta.sources.map((row) => [row.key, row]));
   const lastScan = meta.lastScan;
 
+  const [selectedCategory, setSelectedCategory] = useState<"all" | SourceCategory>("all");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredSources = useMemo(() => {
+    return officialSources.filter((source) => {
+      const matchesCategory =
+        selectedCategory === "all" || source.category === selectedCategory;
+      if (!matchesCategory) return false;
+
+      if (!searchQuery.trim()) return true;
+
+      const q = searchQuery.toLowerCase().trim();
+      return (
+        source.name.toLowerCase().includes(q) ||
+        (source.englishName && source.englishName.toLowerCase().includes(q)) ||
+        source.note.toLowerCase().includes(q) ||
+        source.extractedData.toLowerCase().includes(q) ||
+        source.sectors.some((sec) => sec.toLowerCase().includes(q))
+      );
+    });
+  }, [selectedCategory, searchQuery]);
+
   return (
-    <div className="mx-auto max-w-5xl px-4 py-10">
-      <h1 className="font-display text-3xl font-extrabold sm:text-4xl">المصادر الرسمية المعتمدة</h1>
-      <p className="pill tone-neutral mt-3">
-        آخر فحص شامل للمصادر: {formatDateTime(lastScan?.finished_at ?? lastScan?.started_at)}
-      </p>
-      <p className="text-muted-foreground mt-3 text-sm leading-8">
-        تعتمد منصة «الطلاب والمستقبل» على قائمة موثقة من المصادر الحكومية والجهات التنظيمية الرسمية
-        بالإضافة إلى المرجعيات الأكاديمية للجامعات الأردنية المعتمدة للتحقق من تصنيفات الـ 121
-        تخصصاً أكاديمياً وخططها التدريبية وسوق عملها. تُفحص الروابط دورياً وتُراجع البيانات وفق
-        أحدث المستجدات الرسمية.
-      </p>
+    <div className="mx-auto max-w-6xl px-4 py-10 sm:py-14">
+      {/* رأس الصفحة */}
+      <div className="border-b border-border pb-8">
+        <div className="inline-flex items-center gap-2 rounded-full border border-brand/40 bg-brand/10 px-3.5 py-1 text-xs font-bold text-brand mb-3">
+          <ShieldCheck className="size-3.5" />
+          <span>المصادر المرجعية الرسمية 2026</span>
+        </div>
+        <h1 className="font-display text-3xl font-extrabold sm:text-4xl text-foreground">
+          المصادر الرسمية المعتمدة
+        </h1>
+        <p className="pill tone-neutral mt-3 inline-flex items-center gap-2">
+          <CheckCircle2 className="size-3.5 text-accent" />
+          <span>آخر فحص ومراجعة دورية للمصادر: {formatDateTime(lastScan?.finished_at ?? lastScan?.started_at)}</span>
+        </p>
+        <p className="text-muted-foreground mt-4 text-sm sm:text-base leading-8 max-w-4xl">
+          تعتمد منصة «الطلاب والمستقبل» على شبكة موثقة من **34 مصدراً رسمياً** تضم الوزارات والجهات التنظيمية الوطنية، وهيئات الاعتماد والتصنيف الدولية المعيارية (QS, THE, ABET, ACPE, WFME)، إلى جانب البوابات الأكاديمية الرسمية لكافة الجامعات الأردنية الـ 19 المرخصة.
+          لكل مصدر أدناه **تعليل صريح وتفصيلي** يوضح البيانات والمؤشرات الدقيقة التي تم استخراجها وتوظيفها في بناء ملفات الجامعات وتصنيف التخصصات.
+        </p>
 
-      <div className="mt-10 space-y-8">
-        <section>
-          <div className="border-border/70 border-b pb-3">
-            <h2 className="font-display text-xl font-bold text-foreground">
-              ١. الجهات الحكومية والتنظيمية والنقابية
-            </h2>
-            <p className="text-muted-foreground text-xs leading-6">
-              المصادر الرسمية لتصنيفات سوق العمل، والقبول الموحد، والاعتماد الأكاديمي، ومسوح البطالة
-              والتشغيل.
-            </p>
+        {/* كروت الإحصاءات السريعة */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8">
+          <div className="card-surface p-4 border border-border/80">
+            <span className="text-xs text-muted-foreground font-semibold">إجمالي المصادر المعتمدة</span>
+            <p className="font-display text-2xl font-black text-brand mt-1">34 مصدراً</p>
+            <span className="text-[11px] text-muted-foreground">تغطية شاملة وموثقة 100%</span>
           </div>
-          <div className="mt-4 grid gap-4 md:grid-cols-2">
-            {sources
-              .filter((s) => s.category === "جهات حكومية وتنظيمية")
-              .map((source) => {
-                const status = statuses.get(source.key);
-                return (
-                  <div key={source.key} className="card-surface flex flex-col justify-between p-5">
-                    <div>
-                      <div className="flex flex-wrap items-center justify-between gap-2">
-                        <h3 className="font-display text-base font-bold text-foreground">
-                          {source.name}
-                        </h3>
-                        <span className="pill text-xs">رسمي</span>
-                      </div>
-                      <div className="mt-2 flex flex-wrap gap-1">
-                        {source.sectors.map((sec) => (
-                          <span
-                            key={sec}
-                            className="bg-secondary text-secondary-foreground rounded-md px-2 py-0.5 text-xs"
-                          >
-                            {sec}
-                          </span>
-                        ))}
-                      </div>
-                      <p className="text-muted-foreground mt-3 text-xs leading-6">{source.note}</p>
-                    </div>
+          <div className="card-surface p-4 border border-border/80">
+            <span className="text-xs text-muted-foreground font-semibold">جهات حكومية وتنظيمية</span>
+            <p className="font-display text-2xl font-black text-foreground mt-1">8 جهات</p>
+            <span className="text-[11px] text-muted-foreground">قرارات القبول وسوق العمل</span>
+          </div>
+          <div className="card-surface p-4 border border-border/80">
+            <span className="text-xs text-muted-foreground font-semibold">اعتمادات وتصنيفات دولية</span>
+            <p className="font-display text-2xl font-black text-secondary mt-1">7 هيئات</p>
+            <span className="text-[11px] text-muted-foreground">QS, ABET, ACPE, WFME</span>
+          </div>
+          <div className="card-surface p-4 border border-border/80">
+            <span className="text-xs text-muted-foreground font-semibold">بوابات الجامعات الأردنية</span>
+            <p className="font-display text-2xl font-black text-foreground mt-1">19 جامعة</p>
+            <span className="text-[11px] text-muted-foreground">حكومية، خاصة، ونموذج دولي</span>
+          </div>
+        </div>
+      </div>
 
-                    <div className="border-border/50 mt-4 border-t pt-3 flex items-center justify-between">
-                      <a
-                        href={source.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-brand-ink text-xs font-semibold underline break-all"
+      {/* شريط الفلترة والبحث */}
+      <div className="mt-8 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
+        {/* أزرار الفئات */}
+        <div className="flex flex-wrap gap-1.5 p-1 bg-muted/60 rounded-xl border border-border shrink-0">
+          {CATEGORIES.map((cat) => {
+            const Icon = cat.icon;
+            const active = selectedCategory === cat.id;
+            return (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => setSelectedCategory(cat.id)}
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  active
+                    ? "bg-brand text-brand-foreground shadow-xs"
+                    : "text-muted-foreground hover:text-foreground hover:bg-card"
+                }`}
+              >
+                <Icon className="size-3.5" />
+                <span>{cat.label}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* مربع البحث */}
+        <div className="relative min-w-[260px]">
+          <Search className="size-4 text-muted-foreground absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="ابحث في المصادر أو الاعتمادات (مثال: ABET، التكنو، WFME)…"
+            className="w-full pl-3 pr-9 py-2 text-xs rounded-xl border border-border bg-card text-foreground focus:outline-none focus:border-brand shadow-xs"
+          />
+        </div>
+      </div>
+
+      {/* استعراض المصادر */}
+      <div className="mt-8 space-y-10">
+        {filteredSources.length === 0 ? (
+          <div className="card-surface p-10 text-center text-muted-foreground text-sm">
+            لا توجد مصادر مطابقة لبحثك الحالي. جرب كلمة بحث أخرى.
+          </div>
+        ) : (
+          <div className="grid gap-5 md:grid-cols-2">
+            {filteredSources.map((source) => {
+              const status = statuses.get(source.key);
+              return (
+                <div
+                  key={source.key}
+                  className="card-surface flex flex-col justify-between p-6 border border-border/80 hover:border-brand/40 transition-all shadow-xs"
+                >
+                  <div>
+                    {/* رأس الكرت */}
+                    <div className="flex flex-wrap items-start justify-between gap-2 border-b border-border/60 pb-3">
+                      <div>
+                        <h2 className="font-display text-base font-bold text-foreground">
+                          {source.name}
+                        </h2>
+                        {source.englishName && (
+                          <p className="text-[11px] text-muted-foreground font-mono mt-0.5">
+                            {source.englishName}
+                          </p>
+                        )}
+                      </div>
+                      <span
+                        className={`pill text-[11px] font-semibold shrink-0 ${
+                          source.category === "جهات حكومية وتنظيمية ونقابية"
+                            ? "tone-neutral"
+                            : source.category === "هيئات الاعتماد والتصنيف الدولية"
+                            ? "bg-secondary/15 text-secondary border border-secondary/30"
+                            : "bg-brand/10 text-brand border border-brand/25"
+                        }`}
                       >
-                        زيارة المصدر ↗
-                      </a>
-                      <span className="text-muted-foreground text-[11px]">
-                        آخر مراجعة: {formatDate(status?.last_reviewed_at ?? null)}
+                        {source.category === "جهات حكومية وتنظيمية ونقابية"
+                          ? "جهة حكومية/نقابية"
+                          : source.category === "هيئات الاعتماد والتصنيف الدولية"
+                          ? "اعتماد/تصنيف دولي"
+                          : "مرجع وبوابة جامعية"}
                       </span>
                     </div>
-                  </div>
-                );
-              })}
-          </div>
-        </section>
 
-        <section>
-          <div className="border-border/70 border-b pb-3">
-            <h2 className="font-display text-xl font-bold text-foreground">
-              ٢. المرجعيات الأكاديمية والجامعية القطاعية
-            </h2>
-            <p className="text-muted-foreground text-xs leading-6">
-              الجامعات الأردنية المعتمدة رسمياً لمطابقة الخطط الدراسية والمناهج والكليات التخصصية الـ
-              13.
-            </p>
-          </div>
-          <div className="mt-4 grid gap-4 md:grid-cols-2">
-            {sources
-              .filter((s) => s.category === "مراجع أكاديمية وجامعية قطاعية")
-              .map((source) => {
-                const status = statuses.get(source.key);
-                return (
-                  <div key={source.key} className="card-surface flex flex-col justify-between p-5">
-                    <div>
-                      <div className="flex flex-wrap items-center justify-between gap-2">
-                        <h3 className="font-display text-base font-bold text-foreground">
-                          {source.name}
-                        </h3>
-                        <span className="pill tone-neutral text-xs">مرجع قطاعي</span>
-                      </div>
-                      <div className="mt-2 flex flex-wrap gap-1">
-                        {source.sectors.map((sec) => (
-                          <span
-                            key={sec}
-                            className="bg-brand/10 text-brand rounded-md px-2 py-0.5 text-xs font-medium"
-                          >
-                            {sec}
-                          </span>
-                        ))}
-                      </div>
-                      <p className="text-muted-foreground mt-3 text-xs leading-6">{source.note}</p>
+                    {/* وسوم القطاعات */}
+                    <div className="mt-3 flex flex-wrap gap-1.5">
+                      {source.sectors.map((sec) => (
+                        <span
+                          key={sec}
+                          className="bg-muted text-muted-foreground rounded-md px-2 py-0.5 text-[11px] font-medium"
+                        >
+                          {sec}
+                        </span>
+                      ))}
                     </div>
 
-                    <div className="border-border/50 mt-4 border-t pt-3 flex items-center justify-between">
-                      <a
-                        href={source.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-brand-ink text-xs font-semibold underline break-all"
-                      >
-                        بوابة الجامعة الرسمية ↗
-                      </a>
-                      <span className="text-muted-foreground text-[11px]">
-                        آخر مراجعة: {formatDate(status?.last_reviewed_at ?? null)}
-                      </span>
+                    {/* النبذة التعريفية العامة */}
+                    <p className="text-muted-foreground mt-3 text-xs leading-6">
+                      {source.note}
+                    </p>
+
+                    {/* الصندوق البارز: التعليل الصريح لما تم استخراجه لملف الجامعات والتخصصات */}
+                    <div className="mt-4 rounded-xl border border-brand/20 bg-brand/5 p-3.5 text-xs">
+                      <div className="flex items-center gap-1.5 font-bold text-brand mb-1.5">
+                        <FileCheck className="size-3.5 shrink-0" />
+                        <span>ما تم استخراجه واعتماده لملف الجامعات والتخصصات:</span>
+                      </div>
+                      <p className="text-foreground leading-6 text-[12px]">
+                        {source.extractedData}
+                      </p>
                     </div>
                   </div>
-                );
-              })}
+
+                  {/* تذييل الكرت ورابط المصدر */}
+                  <div className="border-border/60 mt-5 border-t pt-3 flex items-center justify-between">
+                    <a
+                      href={source.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-brand hover:text-brand-ink text-xs font-bold inline-flex items-center gap-1 hover:underline break-all"
+                    >
+                      <span>زيارة المصدر الرسمي</span>
+                      <ExternalLink className="size-3" />
+                    </a>
+                    <span className="text-muted-foreground text-[11px]">
+                      المراجعة: {formatDate(status?.last_reviewed_at ?? null)}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        </section>
+        )}
       </div>
     </div>
   );
