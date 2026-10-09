@@ -131,7 +131,7 @@ function FreeCoursesPage() {
               className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${
                 selectedCategory === ALL_CATEGORY
                   ? "bg-black/20 text-white"
-                  : "bg-secondary/40 text-foreground"
+                  : "bg-surface-2 text-muted-foreground"
               }`}
             >
               {categoryCounts[ALL_CATEGORY]}
@@ -159,7 +159,7 @@ function FreeCoursesPage() {
                   className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${
                     isSelected
                       ? "bg-black/20 text-white"
-                      : "bg-secondary/40 text-foreground"
+                      : "bg-surface-2 text-muted-foreground"
                   }`}
                 >
                   {count}
