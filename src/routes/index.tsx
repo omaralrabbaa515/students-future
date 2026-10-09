@@ -40,7 +40,6 @@ import {
   OFFICIAL_ADMISSIONS_DATA,
   SECTOR_SALARY_BENCHMARKS,
 } from "@/data/official-market-stats";
-import { AppLogo } from "@/components/brand-logo";
 import { universities } from "@/data/universities";
 
 export const Route = createFileRoute("/")({
@@ -1311,37 +1310,6 @@ function Home() {
                 </div>
               );
             })}
-          </div>
-        </div>
-      </section>
-
-      {/* ================= 6. FINAL CALL TO ACTION ================= */}
-      <section className="relative py-20 overflow-hidden bg-gradient-to-b from-card via-surface to-background text-center">
-        <div className="relative mx-auto max-w-3xl px-4 space-y-6">
-          <AppLogo size={48} className="mx-auto" />
-
-          <h2 className="font-display text-2xl sm:text-4xl font-black text-foreground">
-            مستقبلك يبدأ بقرار مدروس مبني على البيانات
-          </h2>
-
-          <p className="text-xs sm:text-sm text-muted-foreground max-w-xl mx-auto leading-relaxed">
-            انضم إلى آلاف الطلبة الأردنيين الذين اكتشفوا مسارهم الموثق، وابدأ رحلتك الأكاديمية مع المستشار الذكي وبنك الشهادات المجانية.
-          </p>
-
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-            <Link
-              to="/auth"
-              className="px-6 py-3 rounded-2xl bg-primary text-primary-foreground font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:opacity-90 transition-all cursor-pointer"
-            >
-              ابدأ الآن وأنشئ حسابك مجاناً
-            </Link>
-
-            <Link
-              to="/advisor"
-              className="px-6 py-3 rounded-2xl border border-border bg-card hover:bg-surface text-foreground font-bold text-xs sm:text-sm transition-colors cursor-pointer"
-            >
-              تحدث مع المستشار الذكي 🤖
-            </Link>
           </div>
         </div>
       </section>
