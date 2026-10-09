@@ -51,19 +51,21 @@ function createLocalSmartStreamResponse(
 
   const stream = createUIMessageStream({
     originalMessages,
-    execute({ writer }) {
+    async execute({ writer }) {
       const partId = `part-${Date.now()}`;
       writer.write({ type: "text-start", id: partId });
 
-      // تقسيم النص لمحاكاة تدفق الذكاء الاصطناعي
+      // تقسيم النص لمحاكاة تدفق الذكاء الاصطناعي بسلاسة تدريجية
       const words = fullText.split(" ");
-      for (let i = 0; i < words.length; i += 3) {
-        const chunk = words.slice(i, i + 3).join(" ") + (i + 3 < words.length ? " " : "");
+      for (let i = 0; i < words.length; i += 2) {
+        const chunk = words.slice(i, i + 2).join(" ") + (i + 2 < words.length ? " " : "");
         writer.write({
           type: "text-delta",
           id: partId,
           delta: chunk,
         });
+        // فاصل زمني قصير لمحاكاة التفاعل الحي والسلس للمستشار
+        await new Promise((resolve) => setTimeout(resolve, 16));
       }
 
       writer.write({ type: "text-end", id: partId });

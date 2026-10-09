@@ -32,9 +32,19 @@ export const Route = createFileRoute("/advisor")({
 
 const QUICK_FOLLOWUPS = [
   "ما هي أفضل جامعة أردنية تطرح هذا التخصص؟",
-  "ما هي الشهادات العالمية المجانية التي تبني لي ميزة تنافسية؟",
+  "اعرض لي الشهادات العالمية المجانية المعتمدة لدعم هذا المسار",
+  "ما هي البدائل الأكاديمية الذكية ذات الأمان الأعلى؟",
   "معدلي في التوجيهي 85.. هل أحصل على فرصة تشغيل قوية؟",
-  "ما هي البدائل الأكاديمية الذكية ذات الطلب الأعلى؟",
+  "شو بيميز كل جامعة أردنية عشان أعرف أختار؟",
+];
+
+const STARTER_QUESTIONS = [
+  { icon: "🏛️", text: "شو بيميز كل جامعة أردنية عشان أعرف أختار؟" },
+  { icon: "🎯", text: "معدلي 85 علمي بالتوجيهي.. ما التخصصات الأكثر طلباً؟" },
+  { icon: "🤖", text: "ما هي التخصصات الأكثر أماناً ومناعة أمام الذكاء الاصطناعي؟" },
+  { icon: "🔬", text: "شو بيميز جامعة العلوم والتكنولوجيا (التكنو)؟" },
+  { icon: "🇩🇪", text: "احكيلي عن الجامعة الألمانية الأردنية وسنة التدريب في ألمانيا" },
+  { icon: "💻", text: "شو بيميز جامعة الأميرة سمية في تكنولوجيا المعلومات؟" },
 ];
 
 function Advisor() {
@@ -117,24 +127,46 @@ function Advisor() {
         </div>
       </div>
 
-      {/* Suggested Starter Majors */}
+      {/* Suggested Starter Questions and Majors */}
       {messages.length === 0 && (
-        <div className="mt-8 card-surface p-6">
-          <p className="text-xs font-bold text-muted-foreground mb-3 flex items-center gap-1.5">
-            <Sparkles className="size-3.5 text-brand" />
-            <span>اختر تخصصاً للبدء الفوري بالاستشارة التفاعلية:</span>
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {majors.slice(0, 10).map((major) => (
-              <button
-                key={major.slug}
-                type="button"
-                onClick={() => submit(`أرغب بتحليل كامل لتخصص: ${major.name}`)}
-                className="border-border bg-card hover:border-brand hover:text-brand rounded-full border px-3.5 py-1.5 text-xs font-medium transition-all cursor-pointer shadow-xs"
-              >
-                {major.name}
-              </button>
-            ))}
+        <div className="mt-8 space-y-4">
+          <div className="card-surface p-6">
+            <p className="text-xs font-bold text-muted-foreground mb-3 flex items-center gap-1.5">
+              <Sparkles className="size-3.5 text-brand" />
+              <span>أسئلة شائعة لبدء استشارتك التفاعلية خطوة بخطوة:</span>
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              {STARTER_QUESTIONS.map((qItem) => (
+                <button
+                  key={qItem.text}
+                  type="button"
+                  onClick={() => submit(qItem.text)}
+                  className="flex items-center gap-2.5 text-right p-3 rounded-xl border border-border bg-card hover:border-brand/60 hover:bg-brand/5 text-foreground text-xs font-semibold transition-all cursor-pointer shadow-xs"
+                >
+                  <span className="text-base shrink-0">{qItem.icon}</span>
+                  <span className="line-clamp-2 leading-5">{qItem.text}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="card-surface p-5">
+            <p className="text-xs font-bold text-muted-foreground mb-3 flex items-center gap-1.5">
+              <Bot className="size-3.5 text-brand" />
+              <span>أو اختر تخصصاً للبدء الفوري بالتحليل المرحلي:</span>
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {majors.slice(0, 10).map((major) => (
+                <button
+                  key={major.slug}
+                  type="button"
+                  onClick={() => submit(`أرغب باستشارة تفاعلية لتخصص: ${major.name}`)}
+                  className="border-border bg-card hover:border-brand hover:text-brand rounded-full border px-3.5 py-1.5 text-xs font-medium transition-all cursor-pointer shadow-xs"
+                >
+                  {major.name}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       )}
