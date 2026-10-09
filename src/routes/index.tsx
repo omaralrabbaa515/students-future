@@ -11,7 +11,6 @@ import {
   Search,
   CheckCircle2,
   ArrowLeft,
-  ChevronDown,
   Layers,
   ShieldCheck,
   Building2,
@@ -19,7 +18,6 @@ import {
   Laptop,
   Users,
   Briefcase,
-  HelpCircle,
   ExternalLink,
   Zap,
   Flame,
@@ -210,29 +208,6 @@ const JORDAN_PUBLIC_UNIVERSITIES = [
   },
 ];
 
-const FAQS = [
-  {
-    q: "هل خدمات واستشارات منصة الطلاب والمستقبل مجانية بالكامل؟",
-    a: "نعم، المنصة غير ربحية ومتاحة مجاناً بنسبة 100% لكافة طلبة المدارس والتوجيهي والجامعيين والخريجين في المملكة الأردنية الهاشمية، بما يشمل استشارات الذكاء الاصطناعي وروابط الشهادات والدورات المجانية المعتمدة.",
-  },
-  {
-    q: "ما الفرق بين هذه المنصة وموقع وحدة تنسيق القبول الموحد؟",
-    a: "وحدة تنسيق القبول الموحد مسؤولة عن تقديم طلبات الالتحاق بالجامعات الرسمية وفق الحدود الدنيا. منصتنا تمثل المستشار التوجيهي الذكي قبل وأثناء وبعد التقديم، حيث توضح لك نسب التشغيل، فترات الانتظار في ديوان الخدمة، سلم الرواتب في القطاع الخاص، إمكانية العمل عن بُعد، والبدائل المتاحة.",
-  },
-  {
-    q: "هل الشهادات والدورات الـ 215 المعروضة مجانية حقاً؟",
-    a: "نعم! جميع الدورات والشهادات المدرجة في قسم الدورات المجانية تم التحقق من روابطها الرسمية وتوفر مساراً تعليمياً كاملاً مع شهادة إتمام بدون أي رسوم مالية على الطالب الأردني.",
-  },
-  {
-    q: "إذا كان تخصصي مصنفاً كـ 'راكد' أو 'مشبع'، هل يعني ذلك أنني لن أجد عملاً؟",
-    a: "التصنيف يشير إلى واقع التعيين في الجهاز الحكومي والقطاع التقليدي. توفر منصتنا لكل تخصص راكد أو مشبع 'مسار تعويض الميزة التنافسية' من خلال دورات ومهارات متقدمة تفتح لك أبواب العمل في القطاع الخاص والعمل الحر الدولي بالدولار.",
-  },
-  {
-    q: "كيف تضمن المنصة صحة ودقة البيانات المعروضة؟",
-    a: "تُبنى التقديرات على 34 مصدراً رسمياً موثقاً من بينها: هيئة الخدمة والإدارة العامة (ديوان الخدمة المدنية سابقاً)، دائرة الإحصاءات العامة، وزارة التعليم العالي والبحث العلمي، والمؤسسة العامة للضمان الاجتماعي، وتخضع لتدقيق الإدارة العليا للمنصة.",
-  },
-];
-
 function Home() {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
@@ -281,9 +256,6 @@ function Home() {
   const [compMajor2Slug, setCompMajor2Slug] = useState(
     majors.find((m) => m.slug !== compMajor1Slug)?.slug || "civil-engineering"
   );
-
-  // Accordion FAQ state
-  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
   const demanded = majors.filter((m) => m.classification === "مطلوب");
   const saturated = majors.filter((m) => m.classification === "مشبع");
@@ -1265,51 +1237,6 @@ function Home() {
                 <ArrowLeft className="size-3.5" />
               </Link>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ================= 5. FAQS ACCORDION ================= */}
-      <section className="py-20 bg-surface/30 border-b border-border">
-        <div className="mx-auto max-w-4xl px-4">
-          <div className="text-center mb-12">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/20 mb-3">
-              <HelpCircle className="size-3.5" />
-              الأسئلة الأكثر تكراراً
-            </span>
-            <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-foreground">
-              كل ما تحتاج معرفته عن منصة الطلاب والمستقبل
-            </h2>
-          </div>
-
-          <div className="space-y-3">
-            {FAQS.map((faq, idx) => {
-              const isOpen = openFaqIndex === idx;
-              return (
-                <div
-                  key={idx}
-                  className="rounded-2xl border border-border bg-card overflow-hidden shadow-xs transition-all"
-                >
-                  <button
-                    onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
-                    className="w-full p-5 text-right flex items-center justify-between gap-4 font-bold text-xs sm:text-sm text-foreground hover:bg-surface transition-colors cursor-pointer"
-                  >
-                    <span>{faq.q}</span>
-                    <ChevronDown
-                      className={`size-4 text-muted-foreground shrink-0 transition-transform duration-200 ${
-                        isOpen ? "rotate-180 text-primary" : ""
-                      }`}
-                    />
-                  </button>
-
-                  {isOpen && (
-                    <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-muted-foreground leading-relaxed border-t border-border/50 animate-in fade-in">
-                      {faq.a}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
           </div>
         </div>
       </section>
