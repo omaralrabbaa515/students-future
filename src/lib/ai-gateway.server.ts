@@ -41,3 +41,6 @@ export function getAvailableAiModel(customKey?: string) {
 
   return null;
 }
+
+/** الاسم المعتمد في محرك الرؤية والـ OCR */
+export const getAiModel = getAvailableAiModel;
