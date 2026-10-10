@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>المستخلص التنفيذي والأكاديمي | منصة الطلاب والمستقبل</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --primary-light: #e0f2fe;
+      --accent: #10b981;
+      --accent-light: #d1fae5;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --text: #0f172a;
+      --text-muted: #475569;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --border: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 3rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
+      border: 1px solid var(--border);
+    }
+
+    .header {
+      text-align: center;
+      padding-bottom: 2rem;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 2.5rem;
+    }
+
+    .badge-national {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 0.35rem 1.25rem;
+      border-radius: 9999px;
+      margin-bottom: 1rem;
+      border: 1px solid #bae6fd;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #0b2545;
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+
+    .subtitle-en {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      direction: ltr;
+      margin-top: 0.25rem;
+    }
+
+    .meta-bar {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-top: 1.25rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .section {
+      margin-bottom: 2.5rem;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #0b2545;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-right: 4px solid var(--primary);
+      padding-right: 0.75rem;
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin: 1.25rem 0 0.5rem 0;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      color: #334155;
+      text-align: justify;
+      font-size: 1.02rem;
+    }
+
+    .abstract-box {
+      background: #f0f9ff;
+      border-right: 4px solid var(--primary);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .abstract-box-en {
+      background: #f8fafc;
+      border-left: 4px solid #64748b;
+      border-right: none;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      direction: ltr;
+      font-family: 'Inter', sans-serif;
+      line-height: 1.7;
+    }
+
+    .abstract-box-en h2 {
+      font-family: 'Inter', sans-serif;
+      border-right: none;
+      border-left: 4px solid #64748b;
+      padding-right: 0;
+      padding-left: 0.75rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--border);
+      text-align: right;
+    }
+
+    th {
+      background: #f1f5f9;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    tr:nth-child(even) {
+      background-color: #fafbfc;
+    }
+
+    .stat-badge {
+      display: inline-block;
+      font-weight: 800;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+
+    .stat-blue { background: #e0f2fe; color: #0369a1; }
+    .stat-green { background: #d1fae5; color: #065f46; }
+    .stat-amber { background: #fef3c7; color: #92400e; }
+    .stat-red { background: #fee2e2; color: #991b1b; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.5rem 0;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem;
+      background: #ffffff;
+      transition: all 0.2s;
+    }
+
+    .card h4 {
+      font-size: 1.05rem;
+      color: #0b2545;
+      margin-bottom: 0.5rem;
+      font-weight: 800;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      margin-bottom: 0;
+      line-height: 1.6;
+    }
+
+    ul, ol {
+      margin-right: 1.5rem;
+      margin-bottom: 1.25rem;
+      color: #334155;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    .btn-print {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.65rem 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      font-family: inherit;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 1rem;
+      box-shadow: 0 2px 6px rgba(2, 132, 199, 0.25);
+    }
+
+    .btn-print:hover {
+      background: var(--primary-dark);
+    }
+
+    @media print {
+      body {
+        padding: 0;
+        background: white;
+      }
+      .container {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        max-width: 100%;
+      }
+      .btn-print {
+        display: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem;
+      }
+      h1 {
+        font-size: 1.7rem;
+      }
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <div class="badge-national">المملكة الأردنية الهاشمية | مبادرة التوجيه الأكاديمي والمهني الوطني</div>
+      <h1>منصة «الطلاب والمستقبل»</h1>
+      <div class="subtitle-en">Students & Future: An Integrated AI-Driven Academic Guidance & Labor Market Intelligence Platform</div>
+      
+      <div class="meta-bar">
+        <div class="meta-item"><span>📅 التاريخ:</span> 2026</div>
+        <div class="meta-item"><span>⚙️ الإصدار:</span> الإنتاج الرسمي (v2.0)</div>
+        <div class="meta-item"><span>🎯 الفئة المستهدفة:</span> طلبة التوجيهي، الجامعات، والخريجون</div>
+      </div>
+
+      <button class="btn-print" onclick="window.print()">🖨️ طباعة المستخلص / حفظ كملف PDF</button>
+    </div>
+
+    <!-- 1. Arabic Abstract -->
+    <div class="section">
+      <h2>1. المستخلص باللغة العربية (Arabic Abstract)</h2>
+      <div class="abstract-box">
+        <p>
+          تعد <strong>منصة «الطلاب والمستقبل»</strong> منظومة وطنية رقمية تفاعلية متكاملة، صُممت لتكون المرجع الاسترشادي الأول لطلبة الثانوية العامة (التوجيهي)، والطلبة الجامعيين، والخريجين، والباحثين عن عمل في المملكة الأردنية الهاشمية. تهدف المنصة إلى ردم الفجوة التاريخية المتنامية بين مخرجات منظومة التعليم العالي ومتطلبات سوق العمل المحلي والإقليمي، وذلك عبر تحويل البيانات الإحصائية الرسمية الصادرة عن الجهات الحكومية والرقابية إلى أدوات توجيه حية، ومسارات مهنية واضحة، وحلول ذكاء اصطناعي تفاعلية تُمكّن الطالب من اتخاذ قرارات مصيرية مبنية على حقائق دقيقة وموثوقة.
+        </p>
+        <p>
+          ترتكز المنصة على بنية بيانات ضخمة تضم تحليلاً شاملاً لأكثر من <strong>220 تخصصاً جامعياً</strong> (منها 121 تخصصاً مصنفاً تفصيلياً حسب دراسات العرض والطلب إلى: <strong>مطلوب، مشبع، وراكد</strong> مع تقييمات نسب التوظيف ومخاطر الأتمتة بالذكاء الاصطناعي والبدائل الموصى بها)، ودليلاً موثقاً يضم <strong>19 جامعة وكلية أردنية معتمدة</strong>، وخريطة متكاملة لـ <strong>215+ شهادة احترافية ودورة عالمية مجانية معتمدة</strong> من كبرى الشركات والمؤسسات الدولية لرفع تنافسية الخريجين. وتتكامل هذه البيانات عبر <strong>10 ركائز وظيفية متطورة</strong> تشمل: محرك بحث ومقارنة أكاديمية متعدد الأبعاد، ومستشاراً أكاديمياً ذكياً مدعوماً بنماذج الذكاء الاصطناعي التوليدي ومقيداً بالبيانات الرسمية الأردنية الصادرة عن هيئة الخدمة والإدارة العامة ووزارة التعليم العالي، وجولة استرشادية تفاعلية بـ 7 محطات، وبنكاً توثيقياً لـ 34 مصدراً وهيئة اعتماد دولية ووطنية، ولوحة تحكم عليا متقدمة للمشرفين مزودة بمحرك رصد ذاتي (<em>AI Scout</em>).
+        </p>
+        <p style="margin-bottom: 0;">
+          بُنيت المنصة وفق أحدث المعايير البرمجية العالمية بالاعتماد على معمارية العرض الهجين من جانب الخادم (<em>TanStack Start / React 19 / Nitro Engine</em>)، وقواعد بيانات <em>Supabase PostgreSQL</em> الآمنة، مع تكامل سلس لواجهات <em>Google Gemini AI</em> وتصميم متجاوب وسريع بالكامل يضمن تجربة مستخدم تفاعلية فائقة السلاسة.
+        </p>
+      </div>
+    </div>
+
+    <!-- 2. English Abstract -->
+    <div class="section">
+      <div class="abstract-box-en">
+        <h2>2. English Abstract</h2>
+        <p>
+          <strong>Students & Future</strong> is a state-of-the-art, AI-powered national academic advising and labor market intelligence platform developed for high school (Tawjihi) students, university undergraduates, and job seekers across the Hashemite Kingdom of Jordan. The platform directly tackles the persistent disconnect between higher education outcomes and real-world domestic and regional employment demands. By ingesting, structuring, and contextualizing raw data from official governing bodies, it transforms complex statistical reports into accessible, interactive career navigation roadmaps.
+        </p>
+        <p>
+          The platform features an extensive relational repository encompassing over <strong>220 university majors</strong> (including 121 in-depth profiles classified into <strong>In-Demand, Saturated, and Stagnant</strong> with employment likelihoods, AI automation vulnerability, and vetted alternatives), <strong>19 accredited Jordanian universities</strong>, and a curated catalog of <strong>215+ free, globally accredited industry certifications</strong> (Google, IBM, Harvard, AWS, Cisco, etc.). These assets are delivered through <strong>ten integrated modules</strong>, notably: a multi-criteria academic comparison engine, a grounded <strong>AI Academic Advisor</strong> leveraging the Google Gemini API with strict adherence to official ministerial databases, a 7-stage interactive onboarding tour, a verification directory of 34 national and international accreditation councils, and an executive administration portal with real-time analytics and an autonomous <em>AI Scout</em> monitoring pipeline.
+        </p>
+        <p style="margin-bottom: 0;">
+          Built on a high-performance modern tech stack comprising <strong>TanStack Start (Full-stack SSR), React 19, Nitro Engine, Supabase PostgreSQL, and Tailwind CSS</strong>, <em>Students & Future</em> delivers a lightning-fast, accessible, and data-driven ecosystem designed to empower youth, reduce unemployment, and align national human capital with Jordan's Economic Modernization Vision.
+        </p>
+      </div>
+    </div>
+
+    <!-- 3. Platform Metrics -->
+    <div class="section">
+      <h2>3. بطاقة المؤشرات الكمية للمنصة (Platform Metrics)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>المؤشر</th>
+            <th>القيمة المحققة</th>
+            <th>التفاصيل والمصادر</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>إجمالي التخصصات المرصودة</strong></td>
+            <td><span class="stat-badge stat-blue">220+ تخصصاً</span></td>
+            <td>تغطي كافة الكليات الطبية، الهندسية، التقنية، الإنسانية، والإدارية</td>
+          </tr>
+          <tr>
+            <td><strong>التخصصات المصنفة تفصيلياً</strong></td>
+            <td><span class="stat-badge stat-blue">121 تخصصاً</span></td>
+            <td>مصنفة رسمياً: <span class="stat-badge stat-green">39 مطلوباً</span>، <span class="stat-badge stat-amber">58 مشبعاً</span>، <span class="stat-badge stat-red">24 راكداً</span></td>
+          </tr>
+          <tr>
+            <td><strong>الشهادات المهنية والدورات المجانية</strong></td>
+            <td><span class="stat-badge stat-green">215+ شهادة</span></td>
+            <td>مسارات مجانية بالكامل من كبرى الجهات (Google, IBM, Harvard, AWS)</td>
+          </tr>
+          <tr>
+            <td><strong>الجامعات والكليات الموثقة</strong></td>
+            <td><span class="stat-badge stat-blue">19 صرحاً أكاديمياً</span></td>
+            <td>جامعات حكومية، خاصة، وإقليمية مع تصنيفات QS و THE والاعتمادات</td>
+          </tr>
+          <tr>
+            <td><strong>المصادر الرسمية المعتمدة</strong></td>
+            <td><span class="stat-badge stat-blue">34 جهة ومصدراً</span></td>
+            <td>هيئة الخدمة والإدارة العامة، وزارة التعليم العالي، القبول الموحد، دائرة الإحصاءات العامة</td>
+          </tr>
+          <tr>
+            <td><strong>المحطات الاسترشادية التفاعلية</strong></td>
+            <td><span class="stat-badge stat-amber">7 محطات حية</span></td>
+            <td>محاكي المعدل، المستشار، مصفوفة الطلب، الشهادات، الرسوم، المقالات، الجامعات</td>
+          </tr>
+          <tr>
+            <td><strong>مقالات الخبراء الإرشادية</strong></td>
+            <td><span class="stat-badge stat-blue">6 مقالات استراتيجية</span></td>
+            <td>استشارات متعمقة لتفادي البطالة واختيار مسارات المستقبل والذكاء الاصطناعي</td>
+          </tr>
+          <tr>
+            <td><strong>محرك الذكاء الاصطناعي</strong></td>
+            <td><span class="stat-badge stat-green">Google Gemini API</span></td>
+            <td>نظام مقيد ببرومبت هجين صارم لمنع الخروج عن بيانات المنصة المعتمدة</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 4. Core Pillars -->
+    <div class="section">
+      <h2>4. الركائز والأنظمة الوظيفية العشرة بالمنصة</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h4>1. دليل ومصفوفة التخصصات الجامعية</h4>
+          <p>استعراض شامل لـ 220 تخصصاً، منها 121 تخصصاً تفصيلياً مع معدلات التوظيف، فترات الانتظار، وخطر الأتمتة بالذكاء الاصطناعي.</p>
+        </div>
+        <div class="card">
+          <h4>2. رصد سوق العمل الأردني الرسمي</h4>
+          <p>لوحة تفاعلية تصنف التخصصات رسمياً إلى مطلوبة ومشبعة وراكدة وفق دراسات هيئة الخدمة والإدارة العامة ودائرة الإحصاءات.</p>
+        </div>
+        <div class="card">
+          <h4>3. المستشار الأكاديمي الذكي (AI Advisor)</h4>
+          <p>مساعد ذكي مدعوم بنماذج Gemini يحاور الطالب ويحلل معدله واهتماماته مع التزام مطلق ببيانات المنصة الموثقة.</p>
+        </div>
+        <div class="card">
+          <h4>4. محرك المقارنة الأكاديمية التفاعلي</h4>
+          <p>أداة تقارن بين تخصصين وجامعتين وجهاً لوجه من حيث الرسوم، متطلبات القبول، ونسب التشغيل، والشهادات المطلوبة.</p>
+        </div>
+        <div class="card">
+          <h4>5. بنك الشهادات الاحترافية والدورات المجانية</h4>
+          <p>دليل لـ 215 شهادة ودورة مجانية معتمدة من Harvard و Google و IBM لرفع الجاهزية التنافسية للطلبة قبل التخرج.</p>
+        </div>
+        <div class="card">
+          <h4>6. دليل الجامعات والاعتمادات الأردنية</h4>
+          <p>ملفات متكاملة لـ 19 جامعة حكومية وخاصة توضح التصنيفات العالمية (QS, THE) والاعتمادات الدولية (ABET, AACSB, WFME).</p>
+        </div>
+        <div class="card">
+          <h4>7. الجولة الاسترشادية الشاملة بـ 7 محطات</h4>
+          <p>رحلة تفاعلية متسلسلة تبدأ بفحص المعدل والقبول التنافسي وتمر بالبدائل وصولاً لخطة التخرج المهنية المتكاملة.</p>
+        </div>
+        <div class="card">
+          <h4>8. حاسبة الرسوم ومحاكي معدلات القبول</h4>
+          <p>أدوات حية لحساب التكاليف الإجمالية لساعات التخصص ومقارنة معدل التوجيهي بالحدود الدنيا التنافسية للأعوام السابقة.</p>
+        </div>
+        <div class="card">
+          <h4>9. مجلة ومقالات الخبراء التوجيهية</h4>
+          <p>مكتبة إرشادية تضم 6 محاور إستراتيجية لمعالجة القرارات الخاطئة، وتوضيح أثر الذكاء الاصطناعي على المهن.</p>
+        </div>
+        <div class="card">
+          <h4>10. لوحة الإدارة العليا ومحرك الرصد (AI Scout)</h4>
+          <p>بيئة إشراف وتحكم متقدمة للإدارة العليا مع محرك رصد آلي يتابع التحديثات والقرارات الأكاديمية لحظياً.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Technology Stack -->
+    <div class="section">
+      <h2>5. البنية التقنية ومعمارية النظام (Technology Stack)</h2>
+      <ul>
+        <li><strong>إطار العمل:</strong> TanStack Start (Fullstack SSR) + React 19 لأعلى أداء وتجاوب وسرعة مع محركات البحث.</li>
+        <li><strong>الخادم ومحرك البناء:</strong> Vite + Nitro Server Engine المخصص للتشغيل السحابي فائق السرعة.</li>
+        <li><strong>إدارة المسارات والبيانات:</strong> TanStack Router + TanStack Query لضمان حماية الأنواع الشاملة (Type-Safety).</li>
+        <li><strong>الواجهة والتصميم:</strong> Tailwind CSS + Radix UI Primitives مع دعم كامل للغة العربية (RTL) ومعايير الوصول.</li>
+        <li><strong>قواعد البيانات والأمان:</strong> Supabase PostgreSQL مع تطبيق سياسات الحماية على مستوى السجلات (RLS).</li>
+        <li><strong>محرك الذكاء الاصطناعي:</strong> Google Gemini API عبر @ai-sdk بموجهات هندسية تمنع الهلوسة وتلزم النموذج ببيانات المنصة.</li>
+      </ul>
+    </div>
+
+    <!-- 6. National Impact -->
+    <div class="section">
+      <h2>6. الأثر الوطني والتنموي (National Impact)</h2>
+      <p>
+        تسهم المنصة بصورة مباشرة في دعم <strong>رؤية التحديث الاقتصادي للمملكة (2033)</strong> عبر توجيه الكفاءات الشابة نحو المهن التقنية والمستقبلية، والحد من الهدر المالي الأسري والحكومي الناتج عن الاستثمار في تخصصات راكدة، مع إرساء مبدأ تكافؤ الفرص بإتاحة كافة الأدوات والاستشارات لكافة طلبة محافظات المملكة مجاناً.
+      </p>
+    </div>
+
+    <!-- 7. Keywords -->
+    <div class="section">
+      <h2>7. الكلمات المفتاحية (Keywords)</h2>
+      <p><strong>عربي:</strong> التوجيه الأكاديمي، سوق العمل الأردني، تخصصات التوجيهي، معدلات القبول الموحد، ديوان الخدمة المدنية، هيئة الخدمة والإدارة العامة، المستشار الذكي، الشهادات الاحترافية المجانية، الجامعات الأردنية، التخصصات الراكدة والمشبعة، منصة الطلاب والمستقبل.</p>
+      <p class="subtitle-en" style="text-align: right; margin-top: 0.5rem;"><strong>English:</strong> Academic Advising, Jordanian Labor Market, Tawjihi Admissions, Higher Education Jordan, CSB / Civil Service Bureau, AI Academic Advisor, Free Professional Certifications, Higher Education Accreditation (ABET/AACSB), Career Guidance, Students and Future Platform.</p>
+    </div>
+  </div>
+
+</body>
+</html>
