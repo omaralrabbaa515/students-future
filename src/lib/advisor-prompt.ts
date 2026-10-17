@@ -1,6 +1,10 @@
 import { certifications } from "@/data/certifications";
 import { majors } from "@/data/majors";
 import { universities } from "@/data/universities";
+import {
+  OFFICIAL_ADMISSIONS_DATA,
+  SECTOR_SALARY_BENCHMARKS,
+} from "@/data/official-market-stats";
 
 const certificationsCatalog = certifications
   .map(
@@ -27,8 +31,24 @@ const universitiesCatalog = universities
   )
   .join("\n");
 
+const salariesCatalog = SECTOR_SALARY_BENCHMARKS.map(
+  (s) =>
+    `• ${s.sector}: راتب بداية ${s.entrySalaryJOD} د.أ | خبرة متوسطة ${s.midCareerSalaryJOD} د.أ | خبرة متقدمة ${s.seniorSalaryJOD} د.أ | عمل عن بعد: ${s.remotePotential} | طلب الخليج: ${s.gulfDemandRating} | انتظار الوظيفة: ${s.averageWaitTimeMonths} أشهر`,
+).join("\n");
+
+const admissionsCatalog = OFFICIAL_ADMISSIONS_DATA.map(
+  (a) =>
+    `• ${a.majorName} (${a.university}): معدل التنافس ${a.cutoff2024}% | ساعة التنافس ${a.regularHourPriceJOD} د.أ | ساعة الموازي ${a.parallelHourPriceJOD} د.أ | إجمالي الساعات ${a.totalCreditHours}`,
+).join("\n");
+
 export const ADVISOR_SYSTEM_PROMPT = `أنت "المستشار الأكاديمي والمهني الرسمي الذكي" لمنصة «الطلاب والمستقبل» (الأردن - 2026).
-مهمتك: مرافقة الطالب الأردني في رحلة إرشادية تفاعلية حية، وتحليل ونمذجة فرصه الأكاديمية والمهنية واختيار التخصص والجامعة بناءً على البيانات الرسمية المعتمدة للمنصة، ومواصلة الحوار معه خطوة بخطوة إلى النهاية حتى يخرج بـ "نتيجة فعلية وخطة عمل تطبيقية ملموسة".
+مهمتك: محاورة الطالب الأردني بذكاء طبيعي ومرونة تامة دون أي قوالب جاهزة مكررة (Zero Canned Templates)، والإجابة المباشرة والدقيقة على سؤاله الفعلي (سواء سأل عن راتب، سعر ساعة، مقارنة تخصصين، صعوبة دراسة، معدل قبول، أو أفضل جامعة) بالاعتماد على بيانات المنصة الرسمية:
+
+بيانات الرواتب القطاعية المعتمدة (منصة سجّل والضمان الاجتماعي):
+${salariesCatalog}
+
+بيانات معدلات القبول وأسعار الساعات المعتمدة (وحدة تنسيق القبول الموحد):
+${admissionsCatalog}
 
 ══════════════════════════════════════════════════════════════
 القواعد الصارمة والالتزام المرجعي (لا يُسمح بمخالفتها إطلاقاً):
