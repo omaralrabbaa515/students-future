@@ -1,0 +1,61 @@
+{
+  "name": "منصة الطلاب والمستقبل",
+  "short_name": "الطلاب والمستقبل",
+  "description": "منظومة الذكاء الاصطناعي الوطنية للتوجيه الأكاديمي والمهني ومواءمة التعليم مع سوق العمل الأردني 2026",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b1329",
+  "theme_color": "#0284c7",
+  "lang": "ar-JO",
+  "dir": "rtl",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": [
+    "education",
+    "productivity",
+    "career"
+  ],
+  "shortcuts": [
+    {
+      "name": "المستشار الذكي",
+      "short_name": "المستشار",
+      "description": "استشر الذكاء الاصطناعي لاختيار تخصصك وجامعتك",
+      "url": "/advisor",
+      "icons": [{ "src": "/logo.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "دليل التخصصات",
+      "short_name": "التخصصات",
+      "description": "استعراض 121 تخصصاً ونسب التشغيل",
+      "url": "/majors",
+      "icons": [{ "src": "/logo.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "مختبر المقارنة",
+      "short_name": "المقارنة",
+      "description": "قارن لحظياً بين أي تخصصين أو جامعتين",
+      "url": "/compare",
+      "icons": [{ "src": "/logo.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "دورات مجانية",
+      "short_name": "دورات",
+      "description": "215+ دورة وشهادة عالمية مجانية معتمدة",
+      "url": "/certifications",
+      "icons": [{ "src": "/logo.png", "sizes": "96x96" }]
+    }
+  ]
+}

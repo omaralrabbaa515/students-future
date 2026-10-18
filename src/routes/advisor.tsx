@@ -7,6 +7,12 @@ import remarkGfm from "remark-gfm";
 import { Scale, Sparkles, User, Bot, Copy, Check, ArrowRight } from "lucide-react";
 
 import { majors } from "@/data/majors";
+import {
+  buildMetaTags,
+  buildWebApplicationSchema,
+  buildBreadcrumbSchema,
+  SITE_URL,
+} from "@/lib/seo";
 
 type AdvisorSearch = { q?: string | undefined };
 
@@ -17,15 +23,15 @@ export const Route = createFileRoute("/advisor")({
   },
 
   head: () => ({
-    meta: [
-      { title: "المستشار الذكي التفاعلي | الطلاب والمستقبل" },
-      {
-        name: "description",
-        content:
-          "المستشار الأكاديمي والمهني الذكي التفاعلي: تحليل نِسَب التشغيل والاعتمادات الرسمية للتخصصات الأردنية مع مسار شهادات عالمية مجانية معتمدة وخطة قرار نهائية.",
-      },
-      { property: "og:title", content: "المستشار الأكاديمي الذكي" },
-    ],
+    meta: buildMetaTags({
+      title: "المستشار الأكاديمي والمهني الذكي التفاعلي 2026",
+      description:
+        "استشر مرشدك الأكاديمي الذكي في منصة «الطلاب والمستقبل»: تحليل نسب التشغيل، فحص فرص القبول التنافسي والموازي بمعدلك، استعراض الرواتب وأسعار الساعات في الجامعات الأردنية.",
+      keywords:
+        "المستشار الذكي، مستشار الطلاب والمستقبل، توجيه أكاديمي بالذكاء الاصطناعي، تخصصات التوجيهي، معدلات القبول الأردن، رواتب التخصصات الأردنية",
+      path: "/advisor",
+    }),
+    links: [{ rel: "canonical", href: `${SITE_URL}/advisor` }],
   }),
   component: Advisor,
 });
@@ -96,8 +102,26 @@ function Advisor() {
     setTimeout(() => setCopiedId(null), 2500);
   };
 
+  const advisorAppSchema = buildWebApplicationSchema(
+    "المستشار الأكاديمي والمهني الذكي",
+    "نظام ذكاء اصطناعي تفاعلي لمرافقة طلبة التوجيهي والجامعات في اختيار التخصص والجامعة بناءً على بيانات سوق العمل الأردني.",
+    "/advisor",
+  );
+  const breadcrumbsSchema = buildBreadcrumbSchema([
+    { name: "الرئيسية", path: "/" },
+    { name: "المستشار الذكي", path: "/advisor" },
+  ]);
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(advisorAppSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsSchema) }}
+      />
       {/* Header Banner */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-6">
         <div>

@@ -11,6 +11,12 @@ import {
   overridesFor,
   type PlatformMeta,
 } from "@/lib/platform-data";
+import {
+  buildMetaTags,
+  buildMajorSchema,
+  buildBreadcrumbSchema,
+  SITE_URL,
+} from "@/lib/seo";
 
 export const Route = createFileRoute("/majors/$slug")({
   staleTime: 1000 * 60 * 5, // كاش فوري 5 دقائق لتسريع التنقل الفوري بين التخصصات
@@ -41,13 +47,19 @@ export const Route = createFileRoute("/majors/$slug")({
       };
     }
     const { major } = loaderData;
-    const description = `تصنيف تخصص ${major.name} في سوق العمل الأردني: ${major.classification}، تقدير التشغيل ${major.employmentRate}، مستوى الخطر ${major.risk}، مع مسار شهادات مجانية معتمدة.`;
+    const description = `دليل تخصص ${major.name} (${major.field}) في الجامعات الأردنية وسوق العمل: تصنيف ديوان الخدمة [${major.classification}]، نسبة التشغيل ${major.employmentRate}، مستوى الخطر ${major.risk}، اعتمادات ${major.accreditation}، مع مسار شهادات عالمية مجانية معتمدة ومؤشرات الرواتب.`;
+    const keywords = `تخصص ${major.name}، دراسة ${major.name} في الأردن، رواتب ${major.name}، سعر ساعة ${major.name}، معدل قبول ${major.name}، ${major.publicUniversities.slice(0, 3).join("، ")}، الطلاب والمستقبل`;
+
     return {
-      meta: [
-        { title: `${major.name} | نسبة التشغيل والشهادات — الطلاب والمستقبل` },
-        { name: "description", content: description },
-        { property: "og:title", content: `${major.name} | الطلاب والمستقبل` },
-        { property: "og:description", content: description },
+      meta: buildMetaTags({
+        title: `تخصص ${major.name} في الجامعات الأردنية 2026 | نسبة التشغيل والرسوم والشهادات`,
+        description,
+        keywords,
+        path: `/majors/${major.slug}`,
+        ogType: "article",
+      }),
+      links: [
+        { rel: "canonical", href: `${SITE_URL}/majors/${major.slug}` },
       ],
     };
   },
@@ -85,8 +97,23 @@ function MajorPage() {
   const lastUpdated = lastUpdatedFor(meta, "major", major.slug);
   const reviewedAt = majorReviewedAt(meta, major.slug);
 
+  const majorSchema = buildMajorSchema(major);
+  const breadcrumbsSchema = buildBreadcrumbSchema([
+    { name: "الرئيسية", path: "/" },
+    { name: "دليل التخصصات", path: "/majors" },
+    { name: major.name, path: `/majors/${major.slug}` },
+  ]);
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(majorSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsSchema) }}
+      />
       <Link to="/majors" className="text-muted-foreground text-sm underline">
         رجوع إلى دليل التخصصات
       </Link>

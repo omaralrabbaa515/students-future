@@ -15,6 +15,7 @@ import {
 import { EMPTY_PLATFORM_META, formatDate, formatDateTime, type PlatformMeta } from "@/lib/platform-data";
 import { getPlatformMeta } from "@/lib/public-data.functions";
 import { officialSources, type SourceCategory } from "@/data/sources";
+import { buildMetaTags, buildBreadcrumbSchema, SITE_URL } from "@/lib/seo";
 
 export const Route = createFileRoute("/sources")({
   staleTime: 1000 * 60 * 5, // كاش فوري 5 دقائق لتسريع التنقل
@@ -32,19 +33,15 @@ export const Route = createFileRoute("/sources")({
     <p className="mx-auto max-w-3xl px-4 py-12 text-sm text-foreground">الصفحة غير موجودة.</p>
   ),
   head: () => ({
-    meta: [
-      { title: "المصادر الرسمية المعتمدة | الطلاب والمستقبل" },
-      {
-        name: "description",
-        content:
-          "المصادر الرسمية الحكومية والدولية والأكاديمية التي تُبنى عليها بيانات الجامعات ونسب التشغيل وتصنيف التخصصات في منصة الطلاب والمستقبل، مع تعليل ما تم استخراجه من كل مصدر.",
-      },
-      { property: "og:title", content: "المصادر الرسمية المعتمدة | الطلاب والمستقبل" },
-      {
-        property: "og:description",
-        content: "وزارة التعليم العالي، القبول الموحد، هيئة الاعتماد، ديوان الخدمة، تصنيفات QS و THE، واعتمادات ABET و ACPE و WFME، ودليل الجامعات الأردنية الـ 19.",
-      },
-    ],
+    meta: buildMetaTags({
+      title: "المصادر والوثائق الرسمية المعتمدة (34 جهة ومصدراً)",
+      description:
+        "شبكة المصادر الرسمية المعتمدة لمنصة «الطلاب والمستقبل»: وزارة التعليم العالي، وحدة القبول الموحد، ديوان الخدمة المدنية، تصنيفات QS و THE، واعتمادات ABET و ACPE و WFME، ودليل الـ 19 جامعة أردنية.",
+      keywords:
+        "المصادر الرسمية، وزارة التعليم العالي، القبول الموحد الأردن، هيئة الاعتماد HEAC، ديوان الخدمة المدنية، تصنيف QS للجامعات، اعتمادات ABET، الطلاب والمستقبل",
+      path: "/sources",
+    }),
+    links: [{ rel: "canonical", href: `${SITE_URL}/sources` }],
   }),
   component: Sources,
 });
@@ -83,8 +80,17 @@ function Sources() {
     });
   }, [selectedCategory, searchQuery]);
 
+  const breadcrumbsSchema = buildBreadcrumbSchema([
+    { name: "الرئيسية", path: "/" },
+    { name: "المصادر الرسمية", path: "/sources" },
+  ]);
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:py-14">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsSchema) }}
+      />
       {/* رأس الصفحة */}
       <div className="border-b border-border pb-8">
         <div className="inline-flex items-center gap-2 rounded-full border border-brand/40 bg-brand/10 px-3.5 py-1 text-xs font-bold text-brand mb-3">
