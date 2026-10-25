@@ -1,8 +1,39 @@
+# ==============================================================================
+# ملف تهيئة روبوتات محركات البحث - منصة «الطلاب والمستقبل» (الأردن 2026)
+# المنظومة الوطنية للتوجيه الأكاديمي والمهني ومواءمة التعليم مع سوق العمل الأردني
+# ==============================================================================
+
 User-agent: Googlebot
 Allow: /
+Allow: /majors/
+Allow: /advisor
+Allow: /compare
+Allow: /certifications
+Allow: /sources
+Allow: /logo.png
+Allow: /favicon.png
+Allow: /abstract.*
+Disallow: /_authenticated/
+Disallow: /updates
+Disallow: /api/
+
+User-agent: Googlebot-Image
+Allow: /logo.png
+Allow: /favicon.png
+Allow: /assets/
+Allow: /abstract.*
 
 User-agent: Bingbot
 Allow: /
+Disallow: /_authenticated/
+Disallow: /updates
+Disallow: /api/
+
+User-agent: Applebot
+Allow: /
+Disallow: /_authenticated/
+Disallow: /updates
+Disallow: /api/
 
 User-agent: Twitterbot
 Allow: /
@@ -10,5 +41,21 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
 User-agent: *
 Allow: /
+Disallow: /_authenticated/
+Disallow: /updates
+Disallow: /api/
+
+# روابط خرائط الموقع المعتمدة لمحركات البحث
+Sitemap: https://students-future.com/sitemap.xml
+Host: https://students-future.com

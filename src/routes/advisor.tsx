@@ -7,6 +7,12 @@ import remarkGfm from "remark-gfm";
 import { Scale, Sparkles, User, Bot, Copy, Check, ArrowRight } from "lucide-react";
 
 import { majors } from "@/data/majors";
+import {
+  buildMetaTags,
+  buildWebApplicationSchema,
+  buildBreadcrumbSchema,
+  SITE_URL,
+} from "@/lib/seo";
 
 type AdvisorSearch = { q?: string | undefined };
 
@@ -17,37 +23,38 @@ export const Route = createFileRoute("/advisor")({
   },
 
   head: () => ({
-    meta: [
-      { title: "المستشار الذكي التفاعلي | الطلاب والمستقبل" },
-      {
-        name: "description",
-        content:
-          "المستشار الأكاديمي والمهني الذكي التفاعلي: تحليل نِسَب التشغيل والاعتمادات الرسمية للتخصصات الأردنية مع مسار شهادات عالمية مجانية معتمدة وخطة قرار نهائية.",
-      },
-      { property: "og:title", content: "المستشار الأكاديمي الذكي" },
-    ],
+    meta: buildMetaTags({
+      title: "المستشار الأكاديمي والمهني الذكي التفاعلي 2026",
+      description:
+        "استشر مرشدك الأكاديمي الذكي في منصة «الطلاب والمستقبل»: تحليل نسب التشغيل، فحص فرص القبول التنافسي والموازي بمعدلك، استعراض الرواتب وأسعار الساعات في الجامعات الأردنية.",
+      keywords:
+        "المستشار الذكي، مستشار الطلاب والمستقبل، توجيه أكاديمي بالذكاء الاصطناعي، تخصصات التوجيهي، معدلات القبول الأردن، رواتب التخصصات الأردنية",
+      path: "/advisor",
+    }),
+    links: [{ rel: "canonical", href: `${SITE_URL}/advisor` }],
   }),
   component: Advisor,
 });
 
 const QUICK_FOLLOWUPS = [
+  "كم راتب هذا التخصص في الأردن والخليج والعمل عن بُعد؟",
+  "كم سعر الساعة وتكلفة الدراسة ومعدل القبول (تنافس وموازي)؟",
   "ما هي أفضل جامعة أردنية تطرح هذا التخصص؟",
+  "هل دراسة التخصص صعبة وما هي أبرز مواده؟",
   "اعرض لي الشهادات العالمية المجانية المعتمدة لدعم هذا المسار",
   "ما هي البدائل الأكاديمية الذكية ذات الأمان الأعلى؟",
-  "معدلي في التوجيهي 85.. هل أحصل على فرصة تشغيل قوية؟",
-  "شو بيميز كل جامعة أردنية عشان أعرف أختار؟",
 ];
 
 const STARTER_QUESTIONS = [
   { icon: "💡", text: "شو التخصصات الأكثر طلباً واللي بتنصح فيها لسوق العمل؟" },
-  { icon: "🏛️", text: "شو بيميز كل جامعة أردنية عشان أعرف أختار؟" },
-  { icon: "🩺", text: "احكيلي عن التخصصات الطبية والصحية وأيها أكثر طلباً؟" },
-  { icon: "⚙️", text: "شو التخصصات الهندسية الأكثر طلباً والبدائل المحصنة؟" },
-  { icon: "🎯", text: "معدلي 85 علمي بالتوجيهي.. ما التخصصات الأكثر طلباً؟" },
-  { icon: "🤖", text: "ما هي التخصصات الأكثر أماناً ومناعة أمام الذكاء الاصطناعي؟" },
-  { icon: "🔬", text: "شو بيميز جامعة العلوم والتكنولوجيا (التكنو)؟" },
+  { icon: "⚖️", text: "قارن بين الأمن السيبراني والذكاء الاصطناعي من حيث الرواتب والطلب" },
+  { icon: "💰", text: "كم رواتب تخصصات تكنولوجيا المعلومات والتمريض في الأردن والخليج؟" },
+  { icon: "🎯", text: "معدلي 85 علمي بالتوجيهي.. شو أفضل التخصصات والجامعات إلي؟" },
+  { icon: "💳", text: "كم سعر ساعة الطب البشري وهندسة البرمجيات في التنافس والموازي؟" },
+  { icon: "🏛️", text: "قارن بين الجامعة الأردنية وجامعة العلوم والتكنولوجيا (التكنو)" },
+  { icon: "🩺", text: "احكيلي عن التخصصات الطبية والصحية وأيها أسرع توظيفاً؟" },
+  { icon: "✈️", text: "ما هي أقوى التخصصات للعمل عن بُعد بالدولار أو السفر للخليج وألمانيا؟" },
   { icon: "🇩🇪", text: "احكيلي عن الجامعة الألمانية الأردنية وسنة التدريب في ألمانيا" },
-  { icon: "💻", text: "شو بيميز جامعة الأميرة سمية في تكنولوجيا المعلومات؟" },
 ];
 
 function Advisor() {
@@ -95,8 +102,26 @@ function Advisor() {
     setTimeout(() => setCopiedId(null), 2500);
   };
 
+  const advisorAppSchema = buildWebApplicationSchema(
+    "المستشار الأكاديمي والمهني الذكي",
+    "نظام ذكاء اصطناعي تفاعلي لمرافقة طلبة التوجيهي والجامعات في اختيار التخصص والجامعة بناءً على بيانات سوق العمل الأردني.",
+    "/advisor",
+  );
+  const breadcrumbsSchema = buildBreadcrumbSchema([
+    { name: "الرئيسية", path: "/" },
+    { name: "المستشار الذكي", path: "/advisor" },
+  ]);
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(advisorAppSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsSchema) }}
+      />
       {/* Header Banner */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-6">
         <div>

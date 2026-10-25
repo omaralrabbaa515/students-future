@@ -47,7 +47,7 @@ function createLocalSmartStreamResponse(
   userQuery: string,
   originalMessages?: UIMessage[],
 ) {
-  const fullText = generateLocalAdvisorResponse(userQuery);
+  const fullText = generateLocalAdvisorResponse(userQuery, originalMessages);
 
   const stream = createUIMessageStream({
     originalMessages,

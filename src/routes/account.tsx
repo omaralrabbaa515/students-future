@@ -19,17 +19,17 @@ import {
 import { useAuth } from "@/hooks/use-auth";
 import { majors } from "@/data/majors";
 import { certifications } from "@/data/certifications";
+import { buildMetaTags } from "@/lib/seo";
 
 export const Route = createFileRoute("/account")({
   head: () => ({
-    meta: [
-      { title: "حسابي والملف الأكاديمي | الطلاب والمستقبل" },
-      {
-        name: "description",
-        content:
-          "لوحة حسابك الأكاديمي الموحدة: ملفك الأكاديمي، بنك الشارات التفاعلي، والتخصصات والشهادات المحفوظة.",
-      },
-    ],
+    meta: buildMetaTags({
+      title: "حسابي والملف الأكاديمي الشامل",
+      description:
+        "لوحة حسابك الأكاديمي الموحدة: خطتك الدراسية، بنك الشارات الأكاديمية، والتخصصات والشهادات المحفوظة.",
+      path: "/account",
+      noIndex: true,
+    }),
   }),
   component: AccountPage,
 });

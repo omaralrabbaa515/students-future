@@ -18,18 +18,24 @@ import {
 
 import { majors, type Major } from "@/data/majors";
 import { certifications } from "@/data/certifications";
+import {
+  buildMetaTags,
+  buildWebApplicationSchema,
+  buildBreadcrumbSchema,
+  SITE_URL,
+} from "@/lib/seo";
 
 export const Route = createFileRoute("/compare")({
   head: () => ({
-    meta: [
-      { title: "مختبر المقارنة اللحظية | الطلاب والمستقبل" },
-      {
-        name: "description",
-        content:
-          "قارن لحظياً وجنباً إلى جنب بين التخصصات الأردنية: نِسَب التشغيل، تصنيف سوق العمل، مستوى الخطر، أثر الذكاء الاصطناعي، واعتمادات الجامعات.",
-      },
-      { property: "og:title", content: "مختبر المقارنة اللحظية بين التخصصات" },
-    ],
+    meta: buildMetaTags({
+      title: "مختبر المقارنة اللحظية بين التخصصات والجامعات الأردنية",
+      description:
+        "قارن لحظياً وجنباً إلى جنب بين أي تخصصين أو جامعتين في الأردن: نسب التشغيل، تصنيف ديوان الخدمة المدنية، أثر الذكاء الاصطناعي، تكاليف الساعات، والشهادات العالمية المجانية.",
+      keywords:
+        "مقارنة التخصصات، مقارنة الجامعات الأردنية، الفرق بين هندسة البرمجيات وعلوم الحاسوب، الأمن السيبراني ولا الذكاء الاصطناعي، الطب ولا الصيدلة، الطلاب والمستقبل",
+      path: "/compare",
+    }),
+    links: [{ rel: "canonical", href: `${SITE_URL}/compare` }],
   }),
   component: ComparePage,
 });
@@ -108,8 +114,26 @@ function ComparePage() {
     });
   };
 
+  const compareAppSchema = buildWebApplicationSchema(
+    "مختبر المقارنة اللحظية بين التخصصات والجامعات الأردنية",
+    "أداة مقارنة تفاعلية حية تتيح لطلبة الجامعات والتوجيهي مقارنة نسب التشغيل وتصنيف سوق العمل وأسعار الساعات جنباً إلى جنب.",
+    "/compare",
+  );
+  const breadcrumbsSchema = buildBreadcrumbSchema([
+    { name: "الرئيسية", path: "/" },
+    { name: "مختبر المقارنة", path: "/compare" },
+  ]);
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:py-14">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(compareAppSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsSchema) }}
+      />
       {/* Page Header */}
       <div className="text-center max-w-3xl mx-auto space-y-3">
         <div className="inline-flex items-center gap-2 rounded-full border border-brand/40 bg-brand/10 px-4 py-1 text-xs font-bold text-brand backdrop-blur-md">

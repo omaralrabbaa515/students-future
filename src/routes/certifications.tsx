@@ -10,6 +10,7 @@ import {
 } from "@/data/certifications";
 import { getPlatformMeta } from "@/lib/public-data.functions";
 import { EMPTY_PLATFORM_META, formatDate, type PlatformMeta } from "@/lib/platform-data";
+import { buildMetaTags, buildBreadcrumbSchema, SITE_URL } from "@/lib/seo";
 
 export const Route = createFileRoute("/certifications")({
   staleTime: 1000 * 60 * 5, // كاش فوري 5 دقائق لتسريع التنقل
@@ -27,19 +28,15 @@ export const Route = createFileRoute("/certifications")({
     <p className="mx-auto max-w-3xl px-4 py-12 text-sm">الصفحة غير موجودة.</p>
   ),
   head: () => ({
-    meta: [
-      { title: "دليل الدورات المجانية المعتمدة | الطلاب والمستقبل" },
-      {
-        name: "description",
-        content:
-          "قاعدة دورات تدريبية مجانية معتمدة مقسمة حسب القطاعات الأكاديمية: الطبية، الهندسية، التكنولوجيا والذكاء الاصطناعي، الإدارية، والحقوقية مع روابط الالتحاق المباشرة.",
-      },
-      { property: "og:title", content: "دليل الدورات المجانية المعتمدة" },
-      {
-        property: "og:description",
-        content: "دورات مجانية متخصصة ومعتمدة لبناء ميزة تنافسية لطلبة الجامعات في سوق العمل الأردني والدولي.",
-      },
-    ],
+    meta: buildMetaTags({
+      title: "بنك الدورات والشهادات العالمية المجانية المعتمدة (215+ دورة)",
+      description:
+        "دليل الدورات التدريبية والشهادات المهنية المجانية المعتمدة في 13 قطاعاً أكاديمياً: الطبية، الهندسية، البرمجيات، الذكاء الاصطناعي، والإدارة، من جامعات Harvard و Google و Cisco مع روابط الالتحاق المباشرة.",
+      keywords:
+        "دورات مجانية معتمدة، شهادات مجانية، كورسات برمجة مجانية، دورات طبية مجانية، هارفارد مجانا، شهادات سيسكو مجانية، مهارات سوق العمل، الطلاب والمستقبل",
+      path: "/certifications",
+    }),
+    links: [{ rel: "canonical", href: `${SITE_URL}/certifications` }],
   }),
   component: FreeCoursesPage,
 });
@@ -88,8 +85,17 @@ function FreeCoursesPage() {
     [selectedCategory, provider, query],
   );
 
+  const breadcrumbsSchema = buildBreadcrumbSchema([
+    { name: "الرئيسية", path: "/" },
+    { name: "دورات مجانية", path: "/certifications" },
+  ]);
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsSchema) }}
+      />
       {/* Header */}
       <div className="flex flex-col gap-3 border-b border-border pb-6">
         <div className="inline-flex items-center gap-2 rounded-full border border-brand/40 bg-brand/10 px-3.5 py-1 text-xs font-bold text-brand w-fit">

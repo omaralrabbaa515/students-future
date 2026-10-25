@@ -2,22 +2,19 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 
 import { majorFields, majors, type MarketClassification } from "@/data/majors";
+import { buildMetaTags, buildBreadcrumbSchema, SITE_URL } from "@/lib/seo";
 
 export const Route = createFileRoute("/majors/")({
   head: () => ({
-    meta: [
-      { title: "دليل التخصصات الأردنية | الطلاب والمستقبل" },
-      {
-        name: "description",
-        content:
-          "تصنيف التخصصات في سوق العمل الأردني بين مطلوب ومشبع وراكد، مع تقدير نسبة التشغيل ومستوى الخطر لكل تخصص.",
-      },
-      { property: "og:title", content: "دليل التخصصات الأردنية" },
-      {
-        property: "og:description",
-        content: "نسب التشغيل ومستوى الخطر لكل تخصص في الجامعات الأردنية.",
-      },
-    ],
+    meta: buildMetaTags({
+      title: "دليل التخصصات الأردنية وسوق العمل 2026 (121 تخصصاً جامعياً)",
+      description:
+        "دليل التخصصات الجامعية المعتمدة في الأردن: استكشف 121 تخصصاً مصنفة بين مطلوب ومشبع وراكد وفق ديوان الخدمة المدنية، مع نسب التشغيل ومستوى الخطر وأسعار الساعات والبدائل الآمنة.",
+      keywords:
+        "دليل التخصصات الأردنية، التخصصات الراكدة في ديوان الخدمة المدنية، التخصصات الأكثر طلباً، تخصصات التوجيهي، نسب التشغيل للتخصصات، دراسة التخصصات في الأردن، عمر معن الرباع",
+      path: "/majors",
+    }),
+    links: [{ rel: "canonical", href: `${SITE_URL}/majors` }],
   }),
   component: MajorsIndex,
 });
@@ -52,8 +49,17 @@ function MajorsIndex() {
     [classification, field, query],
   );
 
+  const breadcrumbsSchema = buildBreadcrumbSchema([
+    { name: "الرئيسية", path: "/" },
+    { name: "دليل التخصصات", path: "/majors" },
+  ]);
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsSchema) }}
+      />
       <h1 className="font-display text-3xl font-extrabold sm:text-4xl">دليل التخصصات</h1>
       <p className="text-muted-foreground mt-2 text-sm leading-7">
         {majors.length} تخصصاً مع تقدير نسبة التشغيل خلال أول سنتين بعد التخرج، ومستوى الخطر،

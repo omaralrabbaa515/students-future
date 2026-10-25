@@ -1,0 +1,1388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://students-future.com/</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>منصة الطلاب والمستقبل</image:title>
+      <image:caption>منظومة الذكاء الاصطناعي الوطنية للتوجيه الأكاديمي والمهني ومواءمة التعليم مع سوق العمل الأردني</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/advisor</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>المستشار الأكاديمي والمهني الذكي - منصة الطلاب والمستقبل</image:title>
+      <image:caption>مرشد تفاعلي ذكي مدعوم بالذكاء الاصطناعي لإرشاد طلبة التوجيهي والجامعات في الأردن</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://students-future.com/compare</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://students-future.com/certifications</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://students-future.com/sources</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://students-future.com/auth</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/computer-science</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص علوم الحاسوب - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص علوم الحاسوب في الجامعات الأردنية: نسبة التشغيل 70% – 80%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/software-engineering</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص هندسة البرمجيات - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص هندسة البرمجيات في الجامعات الأردنية: نسبة التشغيل 72% – 82%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/data-science-ai</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص علم البيانات والذكاء الاصطناعي - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص علم البيانات والذكاء الاصطناعي في الجامعات الأردنية: نسبة التشغيل 70% – 85%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/cybersecurity</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الأمن السيبراني - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الأمن السيبراني في الجامعات الأردنية: نسبة التشغيل 65% – 78%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/mis</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص نظم المعلومات الإدارية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص نظم المعلومات الإدارية في الجامعات الأردنية: نسبة التشغيل 40% – 50%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/civil-engineering</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الهندسة المدنية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الهندسة المدنية في الجامعات الأردنية: نسبة التشغيل 30% – 40%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/electrical-engineering</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الهندسة الكهربائية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الهندسة الكهربائية في الجامعات الأردنية: نسبة التشغيل 35% – 45%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/nursing</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص التمريض - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص التمريض في الجامعات الأردنية: نسبة التشغيل 75% – 88%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/pharmacy</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الصيدلة - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الصيدلة في الجامعات الأردنية: نسبة التشغيل 45% – 55%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/medical-lab</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص المختبرات الطبية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص المختبرات الطبية في الجامعات الأردنية: نسبة التشغيل 45% – 55%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/accounting</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص المحاسبة - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص المحاسبة في الجامعات الأردنية: نسبة التشغيل 35% – 48%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/business-administration</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص إدارة الأعمال - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص إدارة الأعمال في الجامعات الأردنية: نسبة التشغيل 30% – 45%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/law</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الحقوق (القانون) - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الحقوق (القانون) في الجامعات الأردنية: نسبة التشغيل 30% – 40%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/english-language</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص اللغة الإنجليزية وآدابها - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص اللغة الإنجليزية وآدابها في الجامعات الأردنية: نسبة التشغيل 35% – 45%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/arabic-language</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص اللغة العربية وآدابها - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص اللغة العربية وآدابها في الجامعات الأردنية: نسبة التشغيل 20% – 30%، التصنيف راكد، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/education-classroom-teacher</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص التربية (معلم صف) - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص التربية (معلم صف) في الجامعات الأردنية: نسبة التشغيل 25% – 35%، التصنيف راكد، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/psychology</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص علم النفس - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص علم النفس في الجامعات الأردنية: نسبة التشغيل 28% – 38%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/political-science</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص العلوم السياسية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص العلوم السياسية في الجامعات الأردنية: نسبة التشغيل 20% – 30%، التصنيف راكد، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/media-journalism</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الإعلام والصحافة - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الإعلام والصحافة في الجامعات الأردنية: نسبة التشغيل 30% – 42%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/agricultural-engineering</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الهندسة الزراعية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الهندسة الزراعية في الجامعات الأردنية: نسبة التشغيل 22% – 32%، التصنيف راكد، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/mathematics</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الرياضيات - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الرياضيات في الجامعات الأردنية: نسبة التشغيل 28% – 38%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/tourism-hospitality</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص السياحة والفندقة - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص السياحة والفندقة في الجامعات الأردنية: نسبة التشغيل 55% – 65%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/human-medicine</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الطب البشري - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الطب البشري في الجامعات الأردنية: نسبة التشغيل 82% – 94%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/dentistry</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص طب وجراحة الأسنان - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص طب وجراحة الأسنان في الجامعات الأردنية: نسبة التشغيل 45% – 58%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/pharm-d</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص دكتور صيدلة (PharmD) - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص دكتور صيدلة (PharmD) في الجامعات الأردنية: نسبة التشغيل 50% – 62%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/midwifery</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص القبالة - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص القبالة في الجامعات الأردنية: نسبة التشغيل 70% – 82%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/physical-therapy</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص العلاج الطبيعي - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص العلاج الطبيعي في الجامعات الأردنية: نسبة التشغيل 42% – 54%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/occupational-therapy</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص العلاج الوظيفي - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص العلاج الوظيفي في الجامعات الأردنية: نسبة التشغيل 65% – 78%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/clinical-nutrition-dietetics</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص التغذية والتكنولوجيا الغذائية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص التغذية والتكنولوجيا الغذائية في الجامعات الأردنية: نسبة التشغيل 40% – 52%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/radiology-medical-imaging</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الأشعة والتصوير الطبي - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الأشعة والتصوير الطبي في الجامعات الأردنية: نسبة التشغيل 48% – 60%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/audiology-speech-pathology</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص السمع والنطق - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص السمع والنطق في الجامعات الأردنية: نسبة التشغيل 68% – 80%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/medical-equipment-technology</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص صيانة الأجهزة الطبية / تكنولوجيا الأجهزة - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص صيانة الأجهزة الطبية / تكنولوجيا الأجهزة في الجامعات الأردنية: نسبة التشغيل 62% – 74%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/health-administration-hospitals</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الإدارة الصحية والمستشفيات - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الإدارة الصحية والمستشفيات في الجامعات الأردنية: نسبة التشغيل 38% – 48%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/optometry</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص البصريات - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص البصريات في الجامعات الأردنية: نسبة التشغيل 45% – 56%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/public-health-environment</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الصحة العامة والبيئة - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الصحة العامة والبيئة في الجامعات الأردنية: نسبة التشغيل 35% – 48%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/anatomy-basic-medical-sciences</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص التشريح والعلوم الطبية الأساسية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص التشريح والعلوم الطبية الأساسية في الجامعات الأردنية: نسبة التشغيل 25% – 36%، التصنيف راكد، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/architectural-engineering</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الهندسة المعمارية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الهندسة المعمارية في الجامعات الأردنية: نسبة التشغيل 35% – 48%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/mechanical-engineering</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الهندسة الميكانيكية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الهندسة الميكانيكية في الجامعات الأردنية: نسبة التشغيل 38% – 50%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/chemical-engineering</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الهندسة الكيميائية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الهندسة الكيميائية في الجامعات الأردنية: نسبة التشغيل 28% – 38%، التصنيف راكد، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/industrial-engineering</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الهندسة الصناعية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الهندسة الصناعية في الجامعات الأردنية: نسبة التشغيل 45% – 58%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/electronic-engineering</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الهندسة الإلكترونية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الهندسة الإلكترونية في الجامعات الأردنية: نسبة التشغيل 40% – 52%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/telecommunications-engineering</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص هندسة الاتصالات - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص هندسة الاتصالات في الجامعات الأردنية: نسبة التشغيل 38% – 50%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/mechatronics-engineering</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص هندسة الميكاترونكس - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص هندسة الميكاترونكس في الجامعات الأردنية: نسبة التشغيل 60% – 72%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/biomedical-engineering</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الهندسة الطبية الحيوية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الهندسة الطبية الحيوية في الجامعات الأردنية: نسبة التشغيل 42% – 52%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/renewable-energy-engineering</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص هندسة الطاقة والطاقة المتجددة - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص هندسة الطاقة والطاقة المتجددة في الجامعات الأردنية: نسبة التشغيل 62% – 75%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/computer-engineering</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص هندسة الحاسوب - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص هندسة الحاسوب في الجامعات الأردنية: نسبة التشغيل 68% – 80%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/materials-manufacturing-engineering</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص هندسة المواد والتصنيع - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص هندسة المواد والتصنيع في الجامعات الأردنية: نسبة التشغيل 35% – 46%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/surveying-geomatics</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص هندسة المساحة والجيوماتكس - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص هندسة المساحة والجيوماتكس في الجامعات الأردنية: نسبة التشغيل 42% – 54%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/nuclear-engineering</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الهندسة النووية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الهندسة النووية في الجامعات الأردنية: نسبة التشغيل 20% – 30%، التصنيف راكد، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/interior-architecture</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص هندسة العمارة والتصميم الداخلي - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص هندسة العمارة والتصميم الداخلي في الجامعات الأردنية: نسبة التشغيل 38% – 49%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/mining-geological-engineering</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الهندسة الجيولوجية / هندسة التعدين - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الهندسة الجيولوجية / هندسة التعدين في الجامعات الأردنية: نسبة التشغيل 25% – 35%، التصنيف راكد، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/urban-planning-engineering</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص هندسة التخطيط الحضري والإقليمي - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص هندسة التخطيط الحضري والإقليمي في الجامعات الأردنية: نسبة التشغيل 24% – 34%، التصنيف راكد، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/computer-information-systems</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص نظم المعلومات الحاسوبية (CIS) - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص نظم المعلومات الحاسوبية (CIS) في الجامعات الأردنية: نسبة التشغيل 48% – 60%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/virtual-augmented-reality</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الواقع الافتراضي والمعزز (VR/AR) - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الواقع الافتراضي والمعزز (VR/AR) في الجامعات الأردنية: نسبة التشغيل 65% – 78%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/business-information-technology</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص تكنولوجيا معلومات الأعمال (BIT) - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص تكنولوجيا معلومات الأعمال (BIT) في الجامعات الأردنية: نسبة التشغيل 58% – 70%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/cloud-computing</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الحوسبة السحابية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الحوسبة السحابية في الجامعات الأردنية: نسبة التشغيل 76% – 88%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/game-development</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الألعاب الإلكترونية والتطوير الرقمي - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الألعاب الإلكترونية والتطوير الرقمي في الجامعات الأردنية: نسبة التشغيل 60% – 74%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/web-design-interactive-media</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص صيانة وتصميم الويب والوسائط المترابطة - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص صيانة وتصميم الويب والوسائط المترابطة في الجامعات الأردنية: نسبة التشغيل 64% – 76%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/physics</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الفيزياء - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الفيزياء في الجامعات الأردنية: نسبة التشغيل 22% – 32%، التصنيف راكد، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/chemistry</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الكيمياء - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الكيمياء في الجامعات الأردنية: نسبة التشغيل 32% – 44%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/biology-microbiology</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص العلوم الحيوية (الأحياء / الأحياء الدقيقة) - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص العلوم الحيوية (الأحياء / الأحياء الدقيقة) في الجامعات الأردنية: نسبة التشغيل 25% – 36%، التصنيف راكد، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/geology-earth-sciences</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الجيولوجيا والبيئة (علوم الأرض) - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الجيولوجيا والبيئة (علوم الأرض) في الجامعات الأردنية: نسبة التشغيل 20% – 30%، التصنيف راكد، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/biotechnology</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص التقانات الحيوية (Biotechnology) - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص التقانات الحيوية (Biotechnology) في الجامعات الأردنية: نسبة التشغيل 38% – 50%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/medical-physics</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الفيزياء الطبية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الفيزياء الطبية في الجامعات الأردنية: نسبة التشغيل 62% – 74%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/applied-chemistry</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الكيمياء التطبيقية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الكيمياء التطبيقية في الجامعات الأردنية: نسبة التشغيل 38% – 50%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/statistics</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الإحصاء - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الإحصاء في الجامعات الأردنية: نسبة التشغيل 62% – 75%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/banking-financial-sciences</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص العلوم المالية والمصرفية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص العلوم المالية والمصرفية في الجامعات الأردنية: نسبة التشغيل 42% – 54%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/marketing</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص التسويق - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص التسويق في الجامعات الأردنية: نسبة التشغيل 42% – 52%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/digital-marketing</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص التسويق الرقمي - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص التسويق الرقمي في الجامعات الأردنية: نسبة التشغيل 72% – 84%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/international-business</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص إدارة الأعمال الدولية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص إدارة الأعمال الدولية في الجامعات الأردنية: نسبة التشغيل 36% – 48%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/economics</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الاقتصاد - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الاقتصاد في الجامعات الأردنية: نسبة التشغيل 32% – 44%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/human-resources</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص إدارة الموارد البشرية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص إدارة الموارد البشرية في الجامعات الأردنية: نسبة التشغيل 42% – 54%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/supply-chain-logistics</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص إدارة سلاسل الإمداد واللوجستيات - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص إدارة سلاسل الإمداد واللوجستيات في الجامعات الأردنية: نسبة التشغيل 68% – 82%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/e-business-ecommerce</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص إدارة الأعمال والتجارة الإلكترونية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص إدارة الأعمال والتجارة الإلكترونية في الجامعات الأردنية: نسبة التشغيل 66% – 78%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/actuarial-science</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص خبير اكتواري (العلوم الاكتوارية) - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص خبير اكتواري (العلوم الاكتوارية) في الجامعات الأردنية: نسبة التشغيل 74% – 88%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/event-management</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص إدارة الفعاليات والمؤتمرات - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص إدارة الفعاليات والمؤتمرات في الجامعات الأردنية: نسبة التشغيل 56% – 68%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/international-law</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص القانون الدولي - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص القانون الدولي في الجامعات الأردنية: نسبة التشغيل 32% – 44%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/commercial-law</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص القانون التجاري - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص القانون التجاري في الجامعات الأردنية: نسبة التشغيل 55% – 68%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/translation</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الترجمة - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الترجمة في الجامعات الأردنية: نسبة التشغيل 42% – 54%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/french-language</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص اللغة الفرنسية وآدابها - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص اللغة الفرنسية وآدابها في الجامعات الأردنية: نسبة التشغيل 30% – 42%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/german-english</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص اللغة الألمانية والإنجليزية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص اللغة الألمانية والإنجليزية في الجامعات الأردنية: نسبة التشغيل 62% – 75%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/italian-english</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص اللغة الإيطالية والإنجليزية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص اللغة الإيطالية والإنجليزية في الجامعات الأردنية: نسبة التشغيل 55% – 68%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/spanish-english</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص اللغة الإسبانية والإنجليزية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص اللغة الإسبانية والإنجليزية في الجامعات الأردنية: نسبة التشغيل 58% – 70%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/chinese-english</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص اللغة الصينية والإنجليزية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص اللغة الصينية والإنجليزية في الجامعات الأردنية: نسبة التشغيل 66% – 80%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/russian-english</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص اللغة الروسية والإنجليزية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص اللغة الروسية والإنجليزية في الجامعات الأردنية: نسبة التشغيل 38% – 50%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/turkish-english</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص اللغة التركية والإنجليزية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص اللغة التركية والإنجليزية في الجامعات الأردنية: نسبة التشغيل 58% – 70%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/history</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص التاريخ - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص التاريخ في الجامعات الأردنية: نسبة التشغيل 18% – 28%، التصنيف راكد، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/geography</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الجغرافيا - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الجغرافيا في الجامعات الأردنية: نسبة التشغيل 20% – 32%، التصنيف راكد، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/philosophy</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الفلسفة - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الفلسفة في الجامعات الأردنية: نسبة التشغيل 15% – 25%، التصنيف راكد، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/sociology-social-work</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص علم الاجتماع والخدمة الاجتماعية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص علم الاجتماع والخدمة الاجتماعية في الجامعات الأردنية: نسبة التشغيل 30% – 42%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/archaeology-museums</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الآثار والمتاحف - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الآثار والمتاحف في الجامعات الأردنية: نسبة التشغيل 32% – 44%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/anthropology</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الانثروبولوجيا / علم الإنسان - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الانثروبولوجيا / علم الإنسان في الجامعات الأردنية: نسبة التشغيل 18% – 28%، التصنيف راكد، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/fiqh-usul</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الفقه وأصوله - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الفقه وأصوله في الجامعات الأردنية: نسبة التشغيل 30% – 42%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/usul-al-din</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص أصول الدين - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص أصول الدين في الجامعات الأردنية: نسبة التشغيل 22% – 32%، التصنيف راكد، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/islamic-banking</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص المصارف الإسلامية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص المصارف الإسلامية في الجامعات الأردنية: نسبة التشغيل 45% – 56%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/sharia-judiciary</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص القضاء الشرعي - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص القضاء الشرعي في الجامعات الأردنية: نسبة التشغيل 35% – 48%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/islamic-studies</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الدراسات الإسلامية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الدراسات الإسلامية في الجامعات الأردنية: نسبة التشغيل 22% – 32%، التصنيف راكد، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/quranic-recitation</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص التلاوة والتجويد (القراءات القرآنية) - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص التلاوة والتجويد (القراءات القرآنية) في الجامعات الأردنية: نسبة التشغيل 25% – 35%، التصنيف راكد، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/radio-television</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الإذاعة والتلفزيون - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الإذاعة والتلفزيون في الجامعات الأردنية: نسبة التشغيل 35% – 48%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/public-relations-advertising</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص العلاقات العامة والإعلان - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص العلاقات العامة والإعلان في الجامعات الأردنية: نسبة التشغيل 42% – 54%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/digital-new-media</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الإعلام الرقمي والجديد - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الإعلام الرقمي والجديد في الجامعات الأردنية: نسبة التشغيل 66% – 78%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/early-childhood-education</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص تربية الطفل / التربية المبكرة - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص تربية الطفل / التربية المبكرة في الجامعات الأردنية: نسبة التشغيل 32% – 45%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/special-education</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص التربية الخاصة - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص التربية الخاصة في الجامعات الأردنية: نسبة التشغيل 58% – 70%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/counseling-mental-health</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الارشاد النفسي والتربوي - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الارشاد النفسي والتربوي في الجامعات الأردنية: نسبة التشغيل 35% – 48%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/curriculum-instruction</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص المناهج وطرق التدريس - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص المناهج وطرق التدريس في الجامعات الأردنية: نسبة التشغيل 25% – 36%، التصنيف راكد، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/educational-administration</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الإدارة التربوية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الإدارة التربوية في الجامعات الأردنية: نسبة التشغيل 24% – 35%، التصنيف راكد، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/interior-design</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص التصميم الداخلي (الديكور) - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص التصميم الداخلي (الديكور) في الجامعات الأردنية: نسبة التشغيل 45% – 58%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/graphic-design</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص التصميم الجرافيكي - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص التصميم الجرافيكي في الجامعات الأردنية: نسبة التشغيل 50% – 64%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/theatrical-film-design</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص التصميم السينمائي والتلفزيوني والمسرحي - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص التصميم السينمائي والتلفزيوني والمسرحي في الجامعات الأردنية: نسبة التشغيل 35% – 48%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/music-arts</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الفنون الموسيقية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الفنون الموسيقية في الجامعات الأردنية: نسبة التشغيل 32% – 45%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/visual-fine-arts</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الفنون البصرية / التشكيلية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الفنون البصرية / التشكيلية في الجامعات الأردنية: نسبة التشغيل 22% – 34%، التصنيف راكد، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/fashion-design</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص تصميم الموضة والأزياء - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص تصميم الموضة والأزياء في الجامعات الأردنية: نسبة التشغيل 56% – 70%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/animation-multimedia</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص التحريك والوسائط المتعددة (Animation) - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص التحريك والوسائط المتعددة (Animation) في الجامعات الأردنية: نسبة التشغيل 66% – 80%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/plant-production</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الإنتاج النباتي والوقاية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الإنتاج النباتي والوقاية في الجامعات الأردنية: نسبة التشغيل 32% – 44%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/animal-production</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الإنتاج الحيواني والدواجن - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الإنتاج الحيواني والدواجن في الجامعات الأردنية: نسبة التشغيل 36% – 48%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/water-environment-management</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص إدارة المياه والبيئة - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص إدارة المياه والبيئة في الجامعات الأردنية: نسبة التشغيل 58% – 72%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/land-water-environment</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الأراضي والمياه والبيئة - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الأراضي والمياه والبيئة في الجامعات الأردنية: نسبة التشغيل 32% – 44%، التصنيف مشبع، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/agricultural-economics</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الاقتصاد الزراعي والإدارة الريفية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الاقتصاد الزراعي والإدارة الريفية في الجامعات الأردنية: نسبة التشغيل 25% – 36%، التصنيف راكد، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/food-technology-agriculture</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص التغذية وتكنولوجيا الغذاء (كلية الزراعة) - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص التغذية وتكنولوجيا الغذاء (كلية الزراعة) في الجامعات الأردنية: نسبة التشغيل 55% – 68%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/physical-education</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص التربية الرياضية - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص التربية الرياضية في الجامعات الأردنية: نسبة التشغيل 22% – 34%، التصنيف راكد، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://students-future.com/majors/tour-guiding-heritage</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://students-future.com/logo.png</image:loc>
+      <image:title>تخصص الإرشاد السياحي والتراث - منصة الطلاب والمستقبل</image:title>
+      <image:caption>دليل تخصص الإرشاد السياحي والتراث في الجامعات الأردنية: نسبة التشغيل 62% – 76%، التصنيف مطلوب، وأسعار الساعات</image:caption>
+    </image:image>
+  </url>
+</urlset>
