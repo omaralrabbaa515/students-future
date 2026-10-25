@@ -17,6 +17,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CertificationsRouteImport } from './routes/certifications'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as SourcesRouteImport } from './routes/sources'
+import { Route as UniversitiesRouteImport } from './routes/universities'
 import { Route as AuthenticatedUpdatesRouteImport } from './routes/_authenticated/updates'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as ApiVisionRouteImport } from './routes/api/vision'
@@ -63,6 +64,11 @@ const SourcesRoute = SourcesRouteImport.update({
   path: '/sources',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UniversitiesRoute = UniversitiesRouteImport.update({
+  id: '/universities',
+  path: '/universities',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedUpdatesRoute = AuthenticatedUpdatesRouteImport.update({
   id: '/updates',
   path: '/updates',
@@ -102,6 +108,7 @@ export interface FileRoutesByFullPath {
   '/certifications': typeof CertificationsRoute
   '/compare': typeof CompareRoute
   '/sources': typeof SourcesRoute
+  '/universities': typeof UniversitiesRoute
   '/updates': typeof AuthenticatedUpdatesRoute
   '/api/chat': typeof ApiChatRoute
   '/api/vision': typeof ApiVisionRoute
@@ -117,6 +124,7 @@ export interface FileRoutesByTo {
   '/certifications': typeof CertificationsRoute
   '/compare': typeof CompareRoute
   '/sources': typeof SourcesRoute
+  '/universities': typeof UniversitiesRoute
   '/updates': typeof AuthenticatedUpdatesRoute
   '/api/chat': typeof ApiChatRoute
   '/api/vision': typeof ApiVisionRoute
@@ -134,6 +142,7 @@ export interface FileRoutesById {
   '/certifications': typeof CertificationsRoute
   '/compare': typeof CompareRoute
   '/sources': typeof SourcesRoute
+  '/universities': typeof UniversitiesRoute
   '/_authenticated/updates': typeof AuthenticatedUpdatesRoute
   '/api/chat': typeof ApiChatRoute
   '/api/vision': typeof ApiVisionRoute
@@ -151,6 +160,7 @@ export interface FileRouteTypes {
     | '/certifications'
     | '/compare'
     | '/sources'
+    | '/universities'
     | '/updates'
     | '/api/chat'
     | '/api/vision'
@@ -166,6 +176,7 @@ export interface FileRouteTypes {
     | '/certifications'
     | '/compare'
     | '/sources'
+    | '/universities'
     | '/updates'
     | '/api/chat'
     | '/api/vision'
@@ -182,6 +193,7 @@ export interface FileRouteTypes {
     | '/certifications'
     | '/compare'
     | '/sources'
+    | '/universities'
     | '/_authenticated/updates'
     | '/api/chat'
     | '/api/vision'
@@ -199,6 +211,7 @@ export interface RootRouteChildren {
   CertificationsRoute: typeof CertificationsRoute
   CompareRoute: typeof CompareRoute
   SourcesRoute: typeof SourcesRoute
+  UniversitiesRoute: typeof UniversitiesRoute
   ApiChatRoute: typeof ApiChatRoute
   ApiVisionRoute: typeof ApiVisionRoute
   MajorsSlugRoute: typeof MajorsSlugRoute
@@ -262,6 +275,13 @@ declare module '@tanstack/react-router' {
       path: '/sources'
       fullPath: '/sources'
       preLoaderRoute: typeof SourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/universities': {
+      id: '/universities'
+      path: '/universities'
+      fullPath: '/universities'
+      preLoaderRoute: typeof UniversitiesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/updates': {
@@ -329,6 +349,7 @@ const rootRouteChildren: RootRouteChildren = {
   CertificationsRoute: CertificationsRoute,
   CompareRoute: CompareRoute,
   SourcesRoute: SourcesRoute,
+  UniversitiesRoute: UniversitiesRoute,
   ApiChatRoute: ApiChatRoute,
   ApiVisionRoute: ApiVisionRoute,
   MajorsSlugRoute: MajorsSlugRoute,
