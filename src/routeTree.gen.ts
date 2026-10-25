@@ -16,6 +16,7 @@ import { Route as AdvisorRouteImport } from './routes/advisor'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CertificationsRouteImport } from './routes/certifications'
 import { Route as CompareRouteImport } from './routes/compare'
+import { Route as InternationalGuideRouteImport } from './routes/international-guide'
 import { Route as SourcesRouteImport } from './routes/sources'
 import { Route as UniversitiesRouteImport } from './routes/universities'
 import { Route as AuthenticatedUpdatesRouteImport } from './routes/_authenticated/updates'
@@ -57,6 +58,11 @@ const CertificationsRoute = CertificationsRouteImport.update({
 const CompareRoute = CompareRouteImport.update({
   id: '/compare',
   path: '/compare',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InternationalGuideRoute = InternationalGuideRouteImport.update({
+  id: '/international-guide',
+  path: '/international-guide',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SourcesRoute = SourcesRouteImport.update({
@@ -107,6 +113,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/certifications': typeof CertificationsRoute
   '/compare': typeof CompareRoute
+  '/international-guide': typeof InternationalGuideRoute
   '/sources': typeof SourcesRoute
   '/universities': typeof UniversitiesRoute
   '/updates': typeof AuthenticatedUpdatesRoute
@@ -123,6 +130,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/certifications': typeof CertificationsRoute
   '/compare': typeof CompareRoute
+  '/international-guide': typeof InternationalGuideRoute
   '/sources': typeof SourcesRoute
   '/universities': typeof UniversitiesRoute
   '/updates': typeof AuthenticatedUpdatesRoute
@@ -141,6 +149,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/certifications': typeof CertificationsRoute
   '/compare': typeof CompareRoute
+  '/international-guide': typeof InternationalGuideRoute
   '/sources': typeof SourcesRoute
   '/universities': typeof UniversitiesRoute
   '/_authenticated/updates': typeof AuthenticatedUpdatesRoute
@@ -159,6 +168,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/certifications'
     | '/compare'
+    | '/international-guide'
     | '/sources'
     | '/universities'
     | '/updates'
@@ -175,6 +185,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/certifications'
     | '/compare'
+    | '/international-guide'
     | '/sources'
     | '/universities'
     | '/updates'
@@ -192,6 +203,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/certifications'
     | '/compare'
+    | '/international-guide'
     | '/sources'
     | '/universities'
     | '/_authenticated/updates'
@@ -210,6 +222,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   CertificationsRoute: typeof CertificationsRoute
   CompareRoute: typeof CompareRoute
+  InternationalGuideRoute: typeof InternationalGuideRoute
   SourcesRoute: typeof SourcesRoute
   UniversitiesRoute: typeof UniversitiesRoute
   ApiChatRoute: typeof ApiChatRoute
@@ -268,6 +281,13 @@ declare module '@tanstack/react-router' {
       path: '/compare'
       fullPath: '/compare'
       preLoaderRoute: typeof CompareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/international-guide': {
+      id: '/international-guide'
+      path: '/international-guide'
+      fullPath: '/international-guide'
+      preLoaderRoute: typeof InternationalGuideRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sources': {
@@ -348,6 +368,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   CertificationsRoute: CertificationsRoute,
   CompareRoute: CompareRoute,
+  InternationalGuideRoute: InternationalGuideRoute,
   SourcesRoute: SourcesRoute,
   UniversitiesRoute: UniversitiesRoute,
   ApiChatRoute: ApiChatRoute,

@@ -274,7 +274,7 @@ function Home() {
           <Stat label="تخصصات راكدة" value={stagnant.length} tone="tone-bad" />
         </div>
 
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <CardLink
             to="/majors"
             title="دليل التخصصات"
@@ -286,10 +286,15 @@ function Home() {
             body={`${universities.length} جامعة حكومية وخاصة مع ما يميز كل جامعة ومناطقها الجغرافية وكلياتها الرائدة.`}
           />
           <CardLink
+            to="/international-guide"
+            title="مرشد الطلبة الوافدين"
+            body="دليل شامل من 9 أجزاء مستقلة لمعادلة شهادات 22 دولة عربية وتسكين الحقول الأربعة والحدود الدنيا والتصديقات."
+            featured
+          />
+          <CardLink
             to="/compare"
             title="مختبر المقارنة اللحظية"
             body="قارن جنباً إلى جنب بين أي تخصصين لمعرفة فوارق الطلب والأتمتة والاعتمادات الرسمية."
-            featured
           />
           <CardLink
             to="/certifications"

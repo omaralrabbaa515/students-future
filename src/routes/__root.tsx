@@ -153,6 +153,7 @@ const navLinks = [
   { to: "/advisor", label: "المستشار الذكي" },
   { to: "/majors", label: "دليل التخصصات" },
   { to: "/universities", label: "استكشاف الجامعات" },
+  { to: "/international-guide", label: "مرشد الطلبة الوافدين" },
   { to: "/compare", label: "مختبر المقارنة" },
   { to: "/certifications", label: "دورات مجانية" },
   { to: "/sources", label: "المصادر الرسمية" },
