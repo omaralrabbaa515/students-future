@@ -7135,3 +7135,122 @@ export const getCertificationsByIds = getCoursesByIds;
 
 export const courseProviders = Array.from(new Set(courses.map((c) => c.provider)));
 export const certificationProviders = courseProviders;
+
+/** ربط حقول التخصصات الـ 13 بالتصنيفات الرسمية للدورات المجانية الـ 481 */
+export const MAJOR_FIELD_TO_COURSE_CATEGORY: Record<string, CourseCategory> = {
+  "الكليات الطبية والصحية": "الدورات الطبية والصحية",
+  "الكليات الهندسية": "الدورات الهندسية",
+  "كليات تكنولوجيا المعلومات والذكاء الاصطناعي": "دورات التكنولوجيا والذكاء الاصطناعي",
+  "الكليات الإدارية والاقتصادية والمالية": "الدورات الادارية والاقتصادية والمالية",
+  "كليات حقوق وقانون": "دورات الحقوق والقانون",
+  "كليات الإعلام والاتصال": "دورات الاعلام والاتصال",
+  "كليات الفنون والتصميم": "دورات الفنون والتصميم",
+  "كليات الأدب واللغات والعلوم الإنسانية": "دورات الادب واللغات والعلوم الانسانية",
+  "كليات الشريعة والدراسات الإسلامية": "دورات الشريعة والدراسات الاسلامية",
+  "كليات العلوم الأساسية والتطبيقية": "دورات العلوم الاساسية والتطبيقية",
+  "كليات التربية والعلوم التربوية": "دورات التربية مع العلوم التربوية",
+  "كليات الرياضة والسياحة": "دورات الرياضة والسياحة",
+  "كليات الزراعة والبيئة": "دورات الزراعة والبيئة",
+};
+
+function normalizeAr(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[إأآا]/g, "ا")
+    .replace(/ة/g, "ه")
+    .replace(/ى/g, "ي")
+    .replace(/[\u064B-\u065F]/g, "")
+    .trim();
+}
+
+/** استرجاع اسم قسم الدورات وإجمالي عدد الدورات المتوفرة لحقل التخصص */
+export function getCourseCountForMajorField(field: string): {
+  category: CourseCategory;
+  count: number;
+} {
+  const category =
+    MAJOR_FIELD_TO_COURSE_CATEGORY[field] ?? "دورات التكنولوجيا والذكاء الاصطناعي";
+  const count = courses.filter((c) => c.category === category).length;
+  return { category, count };
+}
+
+/**
+ * محرك الاقتراح الذكي للدورات التدريبية لكل تخصص:
+ * يدمج الدورات المرتبطة مباشرة بالتخصص مع أحدث الدورات التخصصية المضافة من قاعدة الـ 481 دورة
+ * ضمن نفس القطاع الأكاديمي وبحسب تطابق الكلمات المفتاحية للتخصص.
+ */
+export function getRecommendedCoursesForMajor(
+  major: {
+    slug: string;
+    name: string;
+    field: string;
+    certificationIds: string[];
+  },
+  limit = 6,
+): Course[] {
+  const targetCategory = MAJOR_FIELD_TO_COURSE_CATEGORY[major.field];
+  const categoryPool = targetCategory
+    ? courses.filter((c) => c.category === targetCategory)
+    : courses;
+
+  const normMajorName = normalizeAr(major.name);
+  const stopWords = new Set(["في", "من", "على", "مع", "كلية", "كليه", "تخصص", "علم", "علوم", "اداره", "هندسه", "وال", "او"]);
+  const nameTokens = normMajorName
+    .split(/\s+/)
+    .map((w) => w.replace(/^ال/, ""))
+    .filter((w) => w.length >= 3 && !stopWords.has(w));
+
+  const slugTokens = major.slug
+    .toLowerCase()
+    .split("-")
+    .filter((w) => w.length >= 3 && w !== "and" && w !== "for");
+
+  const directIds = new Set(major.certificationIds);
+
+  const scored = categoryPool.map((course, idx) => {
+    let score = 0;
+    const hay = normalizeAr(
+      `${course.title} ${course.summary} ${course.fields.join(" ")} ${course.provider}`,
+    );
+
+    if (directIds.has(course.id)) {
+      score += 25;
+    }
+
+    if (hay.includes(normMajorName)) {
+      score += 40;
+    }
+
+    for (const token of nameTokens) {
+      if (hay.includes(token)) {
+        score += 15;
+      }
+    }
+
+    for (const st of slugTokens) {
+      if (hay.includes(st)) {
+        score += 12;
+      }
+    }
+
+    // تفضيل الدورات التخصصية الجديدة لتنويع المقترحات بجانب الدورات الأساسية
+    const isNewExcelCourse = /^(med|eng|tech|sci|biz|law|hum|sharia|media|edu|art|agri|sport)-\d+$/.test(
+      course.id,
+    );
+    if (isNewExcelCourse && score > 0) {
+      score += 8;
+    } else if (isNewExcelCourse) {
+      score += 2;
+    }
+
+    return { course, score, idx };
+  });
+
+  scored.sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    return a.idx - b.idx;
+  });
+
+  return scored.slice(0, limit).map((item) => item.course);
+}
+

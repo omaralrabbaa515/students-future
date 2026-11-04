@@ -574,6 +574,33 @@ function InternationalStudentsGuidePage() {
                       {selectedCountryObj.equivalencyDocStatus}
                     </p>
                   </div>
+
+                  <div className="pt-3 border-t border-border/70 flex flex-wrap gap-2">
+                    <Link
+                      to="/advisor"
+                      search={{
+                        q: `أنا طالب وافد بشهادة ${selectedCountryObj.country} (${selectedTrackObj.trackName}) ومعدلي الأردني المعادل ${calculatedJordanGpa.toFixed(1)}%، ما أفضل التخصصات والجامعات المتاحة لي مع استثناء الـ 5 علامات؟`,
+                      }}
+                      className="inline-flex items-center gap-1.5 rounded-xl bg-brand text-brand-foreground px-3.5 py-2 text-xs font-bold shadow-xs hover:opacity-95 transition-opacity"
+                    >
+                      <Sparkles className="size-3.5" />
+                      <span>استشر المستشار الذكي بمعدلك المعادل ({calculatedJordanGpa.toFixed(1)}%)</span>
+                    </Link>
+                    <Link
+                      to="/majors"
+                      className="inline-flex items-center gap-1 rounded-xl border border-border bg-surface px-3 py-2 text-xs font-bold text-foreground hover:border-brand/50 transition-colors"
+                    >
+                      <GraduationCap className="size-3.5 text-brand" />
+                      <span>دليل التخصصات</span>
+                    </Link>
+                    <Link
+                      to="/universities"
+                      className="inline-flex items-center gap-1 rounded-xl border border-border bg-surface px-3 py-2 text-xs font-bold text-foreground hover:border-brand/50 transition-colors"
+                    >
+                      <Building2 className="size-3.5 text-brand" />
+                      <span>استكشاف الجامعات</span>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>

@@ -1,6 +1,6 @@
-import { createFileRoute, ErrorComponent } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
-import { BookOpen, ExternalLink, GraduationCap, Search, Sparkles } from "lucide-react";
+import { createFileRoute, ErrorComponent, Link } from "@tanstack/react-router";
+import { useEffect, useMemo, useState } from "react";
+import { BookOpen, Bot, ExternalLink, GraduationCap, Search, Sparkles } from "lucide-react";
 
 import {
   courseCategories,
@@ -12,7 +12,23 @@ import { getPlatformMeta } from "@/lib/public-data.functions";
 import { EMPTY_PLATFORM_META, formatDate, type PlatformMeta } from "@/lib/platform-data";
 import { buildMetaTags, buildBreadcrumbSchema, SITE_URL } from "@/lib/seo";
 
+type CertificationsSearch = {
+  category?: string | undefined;
+  q?: string | undefined;
+};
+
 export const Route = createFileRoute("/certifications")({
+  validateSearch: (search: Record<string, unknown>): CertificationsSearch => {
+    const rawCat = typeof search["category"] === "string" ? search["category"].trim() : undefined;
+    const rawQ = typeof search["q"] === "string" ? search["q"].trim() : undefined;
+    return {
+      category:
+        rawCat && (courseCategories as readonly string[]).includes(rawCat)
+          ? (rawCat as CourseCategory)
+          : undefined,
+      q: rawQ || undefined,
+    };
+  },
   staleTime: 1000 * 60 * 5, // كاش فوري 5 دقائق لتسريع التنقل
   loader: async () => {
     let meta: PlatformMeta = EMPTY_PLATFORM_META;
@@ -45,9 +61,21 @@ const ALL_CATEGORY = "جميع الدورات";
 
 function FreeCoursesPage() {
   const { meta } = Route.useLoaderData();
-  const [selectedCategory, setSelectedCategory] = useState<string>(ALL_CATEGORY);
+  const searchParams = Route.useSearch();
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    searchParams.category ?? ALL_CATEGORY,
+  );
   const [provider, setProvider] = useState("الكل");
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(searchParams.q ?? "");
+
+  useEffect(() => {
+    if (searchParams.category) {
+      setSelectedCategory(searchParams.category);
+    }
+    if (searchParams.q !== undefined) {
+      setQuery(searchParams.q);
+    }
+  }, [searchParams.category, searchParams.q]);
 
   const brokenLinks = useMemo(() => {
     const map = new Map<string, string>();
@@ -71,19 +99,19 @@ function FreeCoursesPage() {
     return counts;
   }, []);
 
-  const filteredCourses = useMemo(
-    () =>
-      courses.filter(
-        (course) =>
-          (selectedCategory === ALL_CATEGORY || course.category === selectedCategory) &&
-          (provider === "الكل" || course.provider === provider) &&
-          (!query.trim() ||
-            course.title.includes(query.trim()) ||
-            course.summary.includes(query.trim()) ||
-            course.fields.some((field) => field.includes(query.trim()))),
-      ),
-    [selectedCategory, provider, query],
-  );
+  const filteredCourses = useMemo(() => {
+    const qLower = query.trim().toLowerCase();
+    return courses.filter(
+      (course) =>
+        (selectedCategory === ALL_CATEGORY || course.category === selectedCategory) &&
+        (provider === "الكل" || course.provider === provider) &&
+        (!qLower ||
+          course.title.toLowerCase().includes(qLower) ||
+          course.summary.toLowerCase().includes(qLower) ||
+          course.provider.toLowerCase().includes(qLower) ||
+          course.fields.some((field) => field.toLowerCase().includes(qLower))),
+    );
+  }, [selectedCategory, provider, query]);
 
   const breadcrumbsSchema = buildBreadcrumbSchema([
     { name: "الرئيسية", path: "/" },
@@ -256,15 +284,22 @@ function FreeCoursesPage() {
               </div>
             </div>
 
-            <div className="mt-5 pt-3 border-t border-border/60 flex items-center justify-between">
-              <span className="text-[11px] font-extrabold text-accent">مجانية 100%</span>
+            <div className="mt-5 pt-3 border-t border-border/60 flex items-center justify-between gap-2">
+              <Link
+                to="/advisor"
+                search={{ q: `${course.fields[0] ?? course.category} ودورة ${course.title}` }}
+                className="inline-flex items-center gap-1 text-[11px] font-bold text-muted-foreground hover:text-brand transition-colors"
+              >
+                <Bot className="size-3.5 text-brand" />
+                <span>اسأل المستشار</span>
+              </Link>
               <a
                 href={course.url}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-1.5 rounded-xl bg-brand/10 hover:bg-brand text-brand hover:text-brand-foreground px-3.5 py-1.5 text-xs font-bold transition-colors cursor-pointer"
               >
-                <span>رابط الدورة</span>
+                <span>رابط الدورة (مجانية 100%)</span>
                 <ExternalLink className="size-3.5" />
               </a>
             </div>

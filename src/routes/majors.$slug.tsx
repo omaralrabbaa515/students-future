@@ -1,7 +1,10 @@
 import { createFileRoute, ErrorComponent, Link, notFound } from "@tanstack/react-router";
 
-import { getCertificationsByIds, courses } from "@/data/certifications";
-import { getMajor } from "@/data/majors";
+import {
+  getRecommendedCoursesForMajor,
+  getCourseCountForMajorField,
+} from "@/data/certifications";
+import { getMajor, majors } from "@/data/majors";
 import { getPlatformMeta } from "@/lib/public-data.functions";
 import {
   EMPTY_PLATFORM_META,
@@ -74,21 +77,8 @@ function badge(value: string) {
 
 function MajorPage() {
   const { major, meta } = Route.useLoaderData();
-  const matchedCerts = getCertificationsByIds(major.certificationIds);
-  const certs =
-    matchedCerts.length > 0
-      ? matchedCerts
-      : courses
-          .filter((c) =>
-            c.fields.some((f) => f.includes(major.name) || major.field.includes(f) || major.name.includes(f)),
-          )
-          .slice(0, 3).length > 0
-      ? courses
-          .filter((c) =>
-            c.fields.some((f) => f.includes(major.name) || major.field.includes(f) || major.name.includes(f)),
-          )
-          .slice(0, 3)
-      : courses.slice(0, 3);
+  const certs = getRecommendedCoursesForMajor(major, 6);
+  const sectorCourseInfo = getCourseCountForMajorField(major.field);
   const rows = Math.max(major.publicUniversities.length, major.privateUniversities.length);
   const overrides = overridesFor(meta, "major", major.slug);
   const employmentRate = overrides["employmentRate"]?.value ?? major.employmentRate;
@@ -133,14 +123,26 @@ function MajorPage() {
           search={{ q: major.name }}
           className="bg-brand text-brand-foreground rounded-xl px-5 py-2.5 text-sm font-bold transition-transform hover:-translate-y-0.5"
         >
-          اسأل المستشار عن هذا التخصص
+          اسأل المستشار الذكي عن هذا التخصص
         </Link>
         <a
           href="#certs"
-          className="border-border hover:border-brand rounded-xl border px-5 py-2.5 text-sm font-bold transition-colors"
+          className="border-border hover:border-brand rounded-xl border px-4 py-2.5 text-sm font-bold transition-colors"
         >
-          الشهادات الموصى بها
+          الدورات المجانية المقترحة ({certs.length} من أصل {sectorCourseInfo.count})
         </a>
+        <Link
+          to="/compare"
+          className="border-border hover:border-brand rounded-xl border px-4 py-2.5 text-sm font-bold transition-colors"
+        >
+          قارن في مختبر المقارنة
+        </Link>
+        <Link
+          to="/international-guide"
+          className="border-border hover:border-brand rounded-xl border px-4 py-2.5 text-sm font-bold transition-colors"
+        >
+          شروط القبول للطلبة الوافدين
+        </Link>
       </div>
 
       <Section title="1) مؤشر التشغيل والطلب">
@@ -170,21 +172,45 @@ function MajorPage() {
           <table className="w-full border-collapse text-sm">
             <thead>
               <tr className="bg-surface-2">
-                <th className="border-border border p-2 text-right">جامعات حكومية</th>
-                <th className="border-border border p-2 text-right">جامعات خاصة</th>
+                <th className="border-border border p-2 text-right">جامعات حكومية (اضغط للاستكشاف)</th>
+                <th className="border-border border p-2 text-right">جامعات خاصة (اضغط للاستكشاف)</th>
               </tr>
             </thead>
             <tbody>
-              {Array.from({ length: rows }).map((_, index) => (
-                <tr key={index}>
-                  <td className="border-border border p-2">
-                    {major.publicUniversities[index] ?? "—"}
-                  </td>
-                  <td className="border-border border p-2">
-                    {major.privateUniversities[index] ?? "—"}
-                  </td>
-                </tr>
-              ))}
+              {Array.from({ length: rows }).map((_, index) => {
+                const pubUni = major.publicUniversities[index];
+                const privUni = major.privateUniversities[index];
+                return (
+                  <tr key={index}>
+                    <td className="border-border border p-2">
+                      {pubUni ? (
+                        <Link
+                          to="/universities"
+                          search={{ q: pubUni }}
+                          className="text-brand-ink hover:underline font-semibold"
+                        >
+                          {pubUni}
+                        </Link>
+                      ) : (
+                        "—"
+                      )}
+                    </td>
+                    <td className="border-border border p-2">
+                      {privUni ? (
+                        <Link
+                          to="/universities"
+                          search={{ q: privUni }}
+                          className="text-brand-ink hover:underline font-semibold"
+                        >
+                          {privUni}
+                        </Link>
+                      ) : (
+                        "—"
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -196,6 +222,20 @@ function MajorPage() {
           <span className="font-bold">التدريب العملي والمختبرات: </span>
           {major.trainingNotes}
         </p>
+        <div className="mt-4 flex flex-wrap gap-2">
+          <Link
+            to="/universities"
+            className="text-brand-ink hover:underline text-xs font-bold inline-flex items-center gap-1 rounded-xl border border-brand/30 bg-brand/5 px-3.5 py-2"
+          >
+            <span>استكشف تفاصيل الجامعات الحاضنة وما يميز كل جامعة في مستكشف الجامعات ←</span>
+          </Link>
+          <Link
+            to="/international-guide"
+            className="text-foreground hover:border-brand text-xs font-bold inline-flex items-center gap-1 rounded-xl border border-border bg-surface px-3.5 py-2"
+          >
+            <span>معادلة الشهادات العربية واستثناء الـ 5 علامات للوافدين ←</span>
+          </Link>
+        </div>
       </Section>
 
       <Section title="3) أثر الذكاء الاصطناعي والأتمتة">
@@ -209,39 +249,88 @@ function MajorPage() {
       </Section>
 
       <Section title="4) مسار الدورات المجانية المعززة للتنافسية" id="certs">
+        <p className="text-muted-foreground mb-4 text-xs sm:text-sm leading-7">
+          أقوى الدورات والشهادات المجانية المعتمدة المقترحة خصيصاً لطلبة{" "}
+          <span className="font-bold text-foreground">{major.name}</span> من قسم{" "}
+          <span className="font-bold text-brand-ink">{sectorCourseInfo.category}</span> (يضم القسم{" "}
+          <span className="font-bold text-foreground">{sectorCourseInfo.count} دورة مجانية</span>):
+        </p>
         <div className="space-y-3">
           {certs.map((cert) => (
             <div key={cert.id} className="card-surface p-5 rounded-2xl">
-              <h3 className="font-display font-bold text-foreground">{cert.title}</h3>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h3 className="font-display font-bold text-foreground">{cert.title}</h3>
+                <span className="rounded-full bg-brand/10 text-brand-ink px-2.5 py-0.5 text-[11px] font-bold">
+                  {cert.category}
+                </span>
+              </div>
               <p className="text-muted-foreground mt-1 text-xs">
-                الجهة المانحة: {cert.provider} · {cert.category}
+                الجهة المانحة: <span className="font-semibold text-foreground">{cert.provider}</span>
               </p>
               <p className="mt-2 text-sm leading-7">{cert.summary}</p>
               <p className="bg-surface text-foreground mt-2 rounded-xl px-3 py-2 text-xs leading-6">
                 <span className="font-bold text-brand">طريقة التسجيل والحصول على الدورة: </span>
                 {cert.howToGet}
               </p>
-              <a
-                href={cert.url}
-                target="_blank"
-                rel="noreferrer"
-                className="text-brand-ink hover:underline mt-2 inline-block text-sm break-all font-bold"
-              >
-                رابط الدورة المباشر: {cert.url}
-              </a>
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
+                <a
+                  href={cert.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-brand-ink hover:underline text-sm break-all font-bold"
+                >
+                  رابط الدورة المباشر: {cert.url}
+                </a>
+                <Link
+                  to="/advisor"
+                  search={{ q: `كيف تفيدني دورة ${cert.title} في تخصص ${major.name}؟` }}
+                  className="text-xs font-bold text-muted-foreground hover:text-brand underline"
+                >
+                  اسأل المستشار عن هذه الدورة
+                </Link>
+              </div>
             </div>
           ))}
+        </div>
+
+        <div className="mt-5 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-brand/30 bg-brand/5 p-4">
+          <p className="text-xs sm:text-sm font-semibold text-foreground">
+            هل تبحث عن المزيد من الدورات المجانية في مجال{" "}
+            <span className="font-bold text-brand-ink">{major.field}</span>؟
+          </p>
+          <Link
+            to="/certifications"
+            search={{ category: sectorCourseInfo.category }}
+            className="bg-brand text-brand-foreground rounded-xl px-4 py-2 text-xs font-bold shadow-xs transition-transform hover:-translate-y-0.5"
+          >
+            استعرض جميع {sectorCourseInfo.category} ({sectorCourseInfo.count} دورة) ←
+          </Link>
         </div>
       </Section>
 
       <Section title="5) البدائل الأكاديمية الذكية">
-        <ul className="space-y-2">
-          {major.alternatives.map((alt) => (
-            <li key={alt.name} className="leading-8">
-              <span className="font-bold">{alt.name}: </span>
-              {alt.reason}
-            </li>
-          ))}
+        <ul className="space-y-2.5">
+          {major.alternatives.map((alt) => {
+            const matchedAltMajor = majors.find(
+              (m) => m.name === alt.name || m.name.includes(alt.name) || alt.name.includes(m.name),
+            );
+            return (
+              <li key={alt.name} className="leading-8">
+                {matchedAltMajor ? (
+                  <Link
+                    to="/majors/$slug"
+                    params={{ slug: matchedAltMajor.slug }}
+                    className="font-bold text-brand-ink hover:underline"
+                  >
+                    {alt.name}:{" "}
+                  </Link>
+                ) : (
+                  <span className="font-bold">{alt.name}: </span>
+                )}
+                {alt.reason}
+              </li>
+            );
+          })}
         </ul>
       </Section>
 
@@ -249,7 +338,7 @@ function MajorPage() {
         للحصول على توجيه مخصص بالكامل، أخبر المستشار الذكي بمعدل الثانوية العامة (التوجيهي)،
         والجامعات المفضلة لديك، وميولك المهنية.
         <Link to="/advisor" search={{ q: major.name }} className="text-brand-ink ms-2 font-bold underline">
-          ابدأ المحادثة
+          ابدأ المحادثة مع المستشار الذكي ←
         </Link>
       </div>
     </div>

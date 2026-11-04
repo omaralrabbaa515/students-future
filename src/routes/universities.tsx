@@ -1,5 +1,5 @@
 import { createFileRoute, Link, ErrorComponent } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Building2,
   MapPin,
@@ -25,7 +25,13 @@ import {
 } from "@/data/universities";
 import { majors } from "@/data/majors";
 
+type UniversitiesSearch = { q?: string | undefined };
+
 export const Route = createFileRoute("/universities")({
+  validateSearch: (search: Record<string, unknown>): UniversitiesSearch => {
+    const raw = search["q"];
+    return { q: typeof raw === "string" && raw.trim() ? raw.trim() : undefined };
+  },
   errorComponent: ErrorComponent,
   notFoundComponent: () => (
     <p className="mx-auto max-w-3xl px-4 py-12 text-sm">الصفحة غير موجودة.</p>
@@ -84,10 +90,17 @@ const DISTINCTION_HIGHLIGHTS = [
 ];
 
 function UniversitiesExplorerPage() {
+  const { q: initialQ } = Route.useSearch();
   const [selectedType, setSelectedType] = useState<FilterType>("الكل");
   const [selectedRegion, setSelectedRegion] = useState<FilterRegion>("الكل");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(initialQ ?? "");
   const [selectedUniId, setSelectedUniId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (initialQ !== undefined) {
+      setSearchQuery(initialQ);
+    }
+  }, [initialQ]);
 
   const publicCount = useMemo(
     () =>

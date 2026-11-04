@@ -1,5 +1,10 @@
 import { majors, type Major } from "@/data/majors";
-import { certifications, type Certification } from "@/data/certifications";
+import {
+  certifications,
+  getRecommendedCoursesForMajor,
+  getCourseCountForMajorField,
+  type Certification,
+} from "@/data/certifications";
 import { universities, type University } from "@/data/universities";
 import {
   OFFICIAL_ADMISSIONS_DATA,
@@ -8,6 +13,12 @@ import {
   type SectorSalaryBenchmark,
   type CivilServiceMetric,
 } from "@/data/official-market-stats";
+import {
+  COUNTRIES_EQUIVALENCY_DATA,
+  JORDAN_FOUR_ACADEMIC_FIELDS,
+  ADMISSION_THRESHOLDS_TABLE,
+  GUIDE_PARTS_META,
+} from "@/data/international-guide";
 
 /** تطبيع النص العربي للبحث المرن وفهم اللهجة الأردنية والعربية الفصحى */
 export function normalizeArabic(text: string): string {
@@ -230,19 +241,55 @@ export function getCertificationsForField(fieldName: string): Certification[] {
   return certifications.slice(0, 3);
 }
 
-/** استخراج الشهادات الاحترافية للتخصص مع الالتزام بمجاله */
-export function getCertificationsForMajor(major: Major): Certification[] {
-  const fieldCerts = getCertificationsForField(major.field);
-  const targetCategory = FIELD_TO_CERT_CATEGORY[major.field];
+/** استخراج الشهادات الاحترافية للتخصص مع الالتزام بمجاله ودمج قاعدة الـ 481 دورة */
+export function getCertificationsForMajor(major: Major, limit = 4): Certification[] {
+  return getRecommendedCoursesForMajor(major, limit);
+}
 
-  const linked = certifications.filter(
-    (c) =>
-      major.certificationIds.includes(c.id) &&
-      (!targetCategory || c.category === targetCategory),
-  );
-  if (linked.length > 0) return linked.slice(0, 3);
+/** البحث الذكي في قاعدة الـ 481 دورة حسب الكلمات المفتاحية أو الجهة المانحة */
+export function searchCertificationsByQuery(query: string, limit = 5): Certification[] {
+  const norm = normalizeArabic(query);
+  const stopWords = new Set([
+    "دورات",
+    "دوره",
+    "شهادات",
+    "شهاده",
+    "كورس",
+    "كورسات",
+    "اعطني",
+    "بدي",
+    "اريد",
+    "عن",
+    "في",
+    "مجال",
+    "مجانيه",
+    "معتمدة",
+    "معتمده",
+    "افضل",
+    "اقوي",
+  ]);
+  const tokens = norm
+    .split(/\s+/)
+    .map((w) => w.replace(/^ال/, ""))
+    .filter((w) => w.length >= 3 && !stopWords.has(w));
 
-  return fieldCerts.slice(0, 3);
+  if (tokens.length === 0) return [];
+
+  const scored = certifications
+    .map((c) => {
+      const hay = normalizeArabic(
+        `${c.title} ${c.summary} ${c.provider} ${c.category} ${c.fields.join(" ")}`,
+      );
+      let score = 0;
+      for (const t of tokens) {
+        if (hay.includes(t)) score += 15;
+      }
+      return { c, score };
+    })
+    .filter((x) => x.score > 0);
+
+  scored.sort((a, b) => b.score - a.score);
+  return scored.slice(0, limit).map((x) => x.c);
 }
 
 const UNIVERSITY_KEYWORDS: { words: string[]; id: string }[] = [
@@ -2011,7 +2058,156 @@ export function generateLocalAdvisorResponse(
   }
 
   // -------------------------------------------------------------------------
-  // 10) نية السؤال عن الشهادات والدورات المجانية (مع دعم كامل لذاكرة المحادثة!)
+  // 9.5) نية السؤال عن مرشد الطلبة الوافدين، معادلة الشهادات العربية، والحقول الأربعة (2009/2010)
+  // -------------------------------------------------------------------------
+  const matchedArabCountry = COUNTRIES_EQUIVALENCY_DATA.find((c) => {
+    const cNorm = normalizeArabic(c.country);
+    // تجنب التقاط "الأردن" إلا إذا سأل عن معادلة أو حقول أو وافدين
+    if (c.number === 1) return false;
+    const shortNames = cNorm
+      .split(/\s+/)
+      .filter(
+        (w) =>
+          w.length >= 3 &&
+          !["الجمهوريه", "المملكه", "دوله", "سلطنه", "العربيه", "المتحده", "الاسلاميه", "الديمقراطيه", "الشعبيه"].includes(w),
+      );
+    return shortNames.some((sn) => norm.includes(sn));
+  });
+
+  const isInternationalGuideIntent =
+    norm.includes("وافد") ||
+    norm.includes("الوافدين") ||
+    norm.includes("غير الاردني") ||
+    norm.includes("البرنامج الدولي") ||
+    norm.includes("ادرس في الاردن") ||
+    norm.includes("معادله") ||
+    norm.includes("المعادله") ||
+    norm.includes("وثيقه معادله") ||
+    norm.includes("كتاب معادله") ||
+    norm.includes("استثناء 5") ||
+    norm.includes("5 علامات") ||
+    norm.includes("خمس علامات") ||
+    norm.includes("الحقول الاربعه") ||
+    norm.includes("اربعه حقول") ||
+    norm.includes("4 حقول") ||
+    norm.includes("حقول اكاديميه") ||
+    norm.includes("جيل 2009") ||
+    norm.includes("جيل 2010") ||
+    norm.includes("الحقل الصحي") ||
+    norm.includes("الحقل الهندسي") ||
+    norm.includes("حقل تكنولوجيا") ||
+    norm.includes("حقل الاعمال") ||
+    norm.includes("قدرات وتحصيلي") ||
+    norm.includes("تصديق الشهاد") ||
+    norm.includes("سلسله التصديق") ||
+    norm.includes("امتحان تاهيلي") ||
+    (Boolean(matchedArabCountry) &&
+      (norm.includes("شهاد") ||
+        norm.includes("ثانوي") ||
+        norm.includes("بكالوريا") ||
+        norm.includes("طالب") ||
+        norm.includes("معدل") ||
+        norm.includes("قبول") ||
+        norm.includes("ادرس")));
+
+  if (isInternationalGuideIntent) {
+    // 1) إذا سأل عن الحقول الأكاديمية الأربعة الجديدة في الأردن (جيلي 2009 و2010)
+    if (
+      (norm.includes("الحقول الاربعه") ||
+        norm.includes("اربعه حقول") ||
+        norm.includes("4 حقول") ||
+        norm.includes("جيل 2009") ||
+        norm.includes("جيل 2010") ||
+        norm.includes("الحقل الصحي") ||
+        norm.includes("الحقل الهندسي") ||
+        norm.includes("حقل تكنولوجيا") ||
+        norm.includes("حقل الاعمال")) &&
+      !matchedArabCountry
+    ) {
+      const fieldsText = JORDAN_FOUR_ACADEMIC_FIELDS.map(
+        (f, idx) =>
+          `${idx + 1}. **${f.name}:**\n   - **مواد التخصص الإجبارية:** ${f.coreSubjects.join("، ")}.\n   - **الكليات والتخصصات المتاحة:** ${f.allowedMajorCategories.join("، ")}.\n   - **قاعدة الربط:** ${f.summary}`,
+      ).join("\n\n");
+
+      return `بموجب التعديل الوزاري المعتمد لطلبة جيلي **2009 و2010 وما بعدهم** في الأردن، تم دمج وتقليص الحقول في المسار الأكاديمي لتصبح **4 حقول أكاديمية رئيسية فقط** (مع استمرار النظام في دعم خريجي جيل 2008 ذوي الـ 6 حقول والسنوات الأقدم علمي/أدبي) 🎓🇯🇴:
+
+${fieldsText}
+
+---
+🔗 **استكشف التفاصيل الكاملة في:** **[مرشد الطلبة الوافدين والحقول الأربعة (9 أجزاء مستقلة)](/international-guide)**
+💬 **ما هو الحقل الأكاديمي أو دولة الشهادة الثانوية التي تود معرفة التخصصات المتاحة لها؟**`;
+    }
+
+    // 2) إذا ذكر دولة عربية محددة من الـ 22 دولة
+    if (matchedArabCountry) {
+      const tracksText = matchedArabCountry.tracks
+        .map(
+          (t) =>
+            `• **${t.trackName}** ⬅️ يُسكّن في: **(${t.mappedJordanFields.join(" + ")})**\n  *${t.details}*`,
+        )
+        .join("\n");
+
+      const gradeEvaluation = memory.studentGrade
+        ? `\n\n🎯 **تحليل فرص قبولك بمعدلك المعادل (${memory.studentGrade}%) مع استثناء الـ 5 علامات للطلبة الوافدين:**\n` +
+          (memory.studentGrade >= 80
+            ? `- ✅ **مؤهل للطب البشري وطب الأسنان** (الحد الأدنى للوافدين **80%** بدلاً من 85% للأردنيين) وجميع تخصصات الصيدلة والهندسة والحاسوب!`
+            : memory.studentGrade >= 75
+              ? `- ✅ **مؤهل للصيدلة، دكتور صيدلة، الهندسة بكافة فروعها، والطب البيطري** (الحد الأدنى للوافدين **75%** بدلاً من 80%) بالإضافة لتكنولوجيا المعلومات والأعمال!`
+              : memory.studentGrade >= 65
+                ? `- ✅ **مؤهل للتمريض، العلوم الطبية المساندة، الحقوق، الشريعة، تكنولوجيا المعلومات، والأعمال** في الجامعات الرسمية والخاصة (الحد الأدنى للوافدين **65%**)!`
+                : memory.studentGrade >= 60
+                  ? `- ✅ **مؤهل للقبول في الجامعات الأردنية الخاصة** في التخصصات التي يبلغ حدها الأدنى 65% للأردنيين (حيث ينزل للوافدين إلى **60%** كسقف أدنى مطلق)!`
+                  : `- ⚠️ المعدل أقل من السقف الأدنى المطلق للقبول في الجامعات الأردنية (60%).`)
+        : "";
+
+      return `إليك القواعد الرسمية المعتمدة لمعادلة وتسكين شهادة **${matchedArabCountry.country}** (**${matchedArabCountry.certificateName}** — الفئة ${matchedArabCountry.category}) في الجامعات الأردنية 🌍🎓:
+
+- **📐 القاعدة الحسابية للمعدل:** ${matchedArabCountry.calculationRule}
+- **📄 موقف وثيقة المعادلة من وزارة التربية الأردنية:** ${matchedArabCountry.equivalencyDocStatus}
+
+### 🏛️ تسكين الشعب والمسارات في الحقول الأكاديمية الأردنية الأربعة:
+${tracksText}${
+        matchedArabCountry.specialNotes
+          ? `\n\n⚠️ **ملاحظة تنظيمية هامة:** ${matchedArabCountry.specialNotes}`
+          : ""
+      }${gradeEvaluation}
+
+---
+🔗 **جرب أداة الحساب الفوري:** **[محاكي معادلة الشهادات العربية في مرشد الطلبة الوافدين](/international-guide)**
+💬 **كم معدلك أو مجموعك في الشهادة الثانوية لنحسب لك التخصصات والجامعات المتاحة فوراً؟**`;
+    }
+
+    // 3) رد شامل عن مرشد الطلبة الوافدين واستثناء الـ 5 علامات والأجزاء التسعة
+    const thresholdsPreview = ADMISSION_THRESHOLDS_TABLE.slice(0, 6)
+      .map(
+        (row) =>
+          `| ${row.majorGroup} | **${row.jordanPublicMin}** | **${row.jordanPrivateMin}** | **${row.intlWithExceptionMin}** |`,
+      )
+      .join("\n");
+
+    return `أهلاً بك في **مرشد الطلبة الوافدين (البرنامج الدولي — ادرس في الأردن)**  🌍🎓!
+صممنا لك في المنصة قسماً كاملاً ومستقلاً مكوناً من **9 أجزاء تفصيلية** يغطي كافة القواعد الرسمية لوزارة التعليم العالي ووحدة تنسيق القبول الموحد:
+
+### 🌟 أبرز قواعد قبول الطلبة الوافدين في الجامعات الأردنية:
+1. **استثناء الـ 5 علامات للطلبة الوافدين:** تسمح أسس القبول باستثناء الطالب غير الأردني بخصم يصل إلى **5 علامات مئوية** عن الحدود الدنيا المقررة للطلبة الأردنيين (شريطة ألا يقل المعدل في أي تخصص عن **60%** في الجامعات الخاصة و**65%** في الرسمية).
+2. **معادلة الشهادات العربية (22 دولة):**
+   - **الفئة 1 (النسبة المئوية 1:1):** فلسطين، الكويت، قطر، عُمان، البحرين، اليمن، السودان، ليبيا.
+   - **الفئة 2 (المجموع الكلي للدرجات):** مصر، سوريا، العراق، لبنان، الصومال.
+   - **الفئة 3 (النظام المغاربي من 20 × 5):** الجزائر، المغرب، تونس، موريتانيا، جيبوتي، جزر القمر.
+   - **الفئة 4 (نظام المسارات والتقييم):** السعودية (مع شرط قدرات وتحصيلي للمعادلة) والإمارات.
+3. **ربط الشهادات بالحقول الأكاديمية الأربعة الجديدة (2009/2010):** الحقل الصحي، الحقل الهندسي، حقل تكنولوجيا المعلومات، وحقل الأعمال.
+
+| مجموعة التخصصات | الحد الأدنى للأردنيين (رسمية) | الحد الأدنى للأردنيين (خاصة) | الحد الأدنى للوافدين (بعد خصم 5 علامات) |
+| :--- | :---: | :---: | :---: |
+${thresholdsPreview}
+
+---
+🔗 **انتقل مباشرة إلى:** **[مرشد الطلبة الوافدين الشامل (الأجزاء التسعة ومحاكي المعادلة)](/international-guide)**
+💬 **من أي دولة شهادتك الثانوية وكم معدلك؟ اكتبها لي وسأحسب لك معادلتك والتخصصات المفتوحة لك فوراً!**`;
+  }
+
+  // -------------------------------------------------------------------------
+  // 10) نية السؤال عن الشهادات والدورات المجانية (مع دعم كامل لقاعدة الـ 481 دورة وذاكرة المحادثة!)
   // -------------------------------------------------------------------------
   const isCertsIntent =
     norm.includes("شهادات") ||
@@ -2024,26 +2220,31 @@ export function generateLocalAdvisorResponse(
     norm.includes("مهارات مطلوبه");
 
   if (isCertsIntent) {
+    // أولاً: فحص إذا كان الطالب يبحث عن دورات بكلمة مفتاحية محددة أو جهة مانحة من بين الـ 481 دورة
+    const keywordMatches = searchCertificationsByQuery(userQuery, 5);
+
     if (memory.activeMajor) {
-      const certs = getCertificationsForMajor(memory.activeMajor);
+      const certs = getCertificationsForMajor(memory.activeMajor, 5);
+      const sectorInfo = getCourseCountForMajorField(memory.activeMajor.field);
       const certsText = certs
         .map(
           (c, i) =>
-            `${i + 1}. **[${c.title}](${c.url})** — *(المانح: ${c.provider})*\n   - **كيف تحصل عليها مجاناً؟** ${c.howToGet}\n   - **ماذا تضيف لسيرتك الذاتية؟** ${c.summary}`,
+            `${i + 1}. **[${c.title}](${c.url})** — *(المانح: ${c.provider} | ${c.category})*\n   - **كيف تحصل عليها مجاناً؟** ${c.howToGet}\n   - **ماذا تضيف لسيرتك الذاتية؟** ${c.summary}`,
         )
         .join("\n\n");
 
-      return `لدعم سيرتك الذاتية في تخصص **${memory.activeMajor.name}** والتفوق على الخريجين في المقابلات، إليك أقوى **الشهادات والدورات العالمية المجانية المعتمدة** 📜🚀:
+      return `لدعم سيرتك الذاتية في تخصص **${memory.activeMajor.name}** والتفوق على الخريجين في المقابلات، إليك أقوى **5 دورات وشهادات عالمية مجانية معتمدة** مقترحة لك من قسم **${sectorInfo.category}** (الذي يضم **${sectorInfo.count} دورة مجانية** من أصل **${certifications.length} دورة** في المنصة) 📜🚀:
 
 ${certsText}
 
 ---
-💡 **نصيحة عملية:** ابدأ بأخذ الشهادة الأولى خلال فصلك الدراسي القادم وأضفها مباشرة إلى حسابك على **LinkedIn**!
+🔗 **[استعرض جميع ${sectorInfo.category} (${sectorInfo.count} دورة مجانية) في بنك الدورات](/certifications)**
 💬 **هل تريد معرفة أفضل الجامعات لدراسة ${memory.activeMajor.name} أم حساب تكاليفه الدراسية؟**`;
     }
 
     if (memory.activeSector) {
-      const certs = getCertificationsForField(memory.activeSector).slice(0, 4);
+      const certs = getCertificationsForField(memory.activeSector).slice(0, 5);
+      const sectorInfo = getCourseCountForMajorField(memory.activeSector);
       const certsText = certs
         .map(
           (c, i) =>
@@ -2051,17 +2252,35 @@ ${certsText}
         )
         .join("\n\n");
 
-      return `إليك أقوى **الشهادات والدورات العالمية المجانية المعتمدة** لـ **${memory.activeSector}** 📜🚀:
+      return `إليك أقوى **الشهادات والدورات العالمية المجانية المعتمدة** لـ **${memory.activeSector}** (يتوفر في هذا القسم **${sectorInfo.count} دورة مجانية معتمدة**) 📜🚀:
 
 ${certsText}
 
 ---
+🔗 **[تصفح كافة دورات هذا القطاع (${sectorInfo.count} دورة) في بنك الدورات](/certifications)**
 💬 **ما هو التخصص المحدد داخل ${memory.activeSector} الذي تود التركيز عليه؟**`;
     }
 
-    return `منصتنا توفر لك **${certifications.length} دورة وشهادة عالمية مجانية معتمدة** مقسمة على 13 قطاعاً أكاديمياً 📜✨!
+    if (keywordMatches.length > 0) {
+      const certsText = keywordMatches
+        .map(
+          (c, i) =>
+            `${i + 1}. **[${c.title}](${c.url})** — *(المانح: ${c.provider} | القسم: ${c.category})*\n   - **طريقة الحصول مجاناً:** ${c.howToGet}\n   - **الفائدة المهنية:** ${c.summary}`,
+        )
+        .join("\n\n");
 
-أخبرني فقط: **ما هو تخصصك أو المجال الذي تهتم به (مثل: الأمن السيبراني، الطب والتمريض، الهندسة، إدارة الأعمال، القانون، التصميم)؟** وسأعطيك الروابط المباشرة لأقوى الشهادات المجانية الخاصة به فوراً!`;
+      return `وجدتُ لك في بنك دورات المنصة (**${certifications.length} دورة مجانية معتمدة**) أبرز الدورات المطابقة لطلبك 📜✨:
+
+${certsText}
+
+---
+🔗 **[استكشف جميع الدورات الـ ${certifications.length} في بنك الدورات المجانية](/certifications)**
+💬 **هل تود اقتراح دورات إضافية لتخصص جامعي محدد؟**`;
+    }
+
+    return `منصتنا توفر لك **${certifications.length} دورة وشهادة عالمية مجانية معتمدة** مقسمة بدقة على **13 قطاعاً أكاديمياً** (الطبية والصحية: 91، الإدارية والمالية: 87، التكنولوجيا والذكاء الاصطناعي: 77، التربية: 44، الإعلام: 31، اللغات والإنسانيات: 31، الزراعة والبيئة: 24، الهندسة: 21، الفنون والتصميم: 18، القانون: 16، العلوم الأساسية: 16، الرياضة والسياحة: 14، الشريعة: 11) 📜✨!
+
+أخبرني فقط: **ما هو تخصصك أو المجال الذي تهتم به؟** وسأعطيك الروابط المباشرة لأقوى الشهادات المجانية الخاصة به فوراً!`;
   }
 
   // -------------------------------------------------------------------------

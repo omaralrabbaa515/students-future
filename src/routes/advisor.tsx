@@ -50,10 +50,11 @@ const STARTER_QUESTIONS = [
   { icon: "⚖️", text: "قارن بين الأمن السيبراني والذكاء الاصطناعي من حيث الرواتب والطلب" },
   { icon: "💰", text: "كم رواتب تخصصات تكنولوجيا المعلومات والتمريض في الأردن والخليج؟" },
   { icon: "🎯", text: "معدلي 85 علمي بالتوجيهي.. شو أفضل التخصصات والجامعات إلي؟" },
+  { icon: "🌍", text: "أنا طالب وافد بشهادة عربية.. كيف أحسب معادلتي واستثناء الـ 5 علامات والحقول الأربعة؟" },
+  { icon: "📜", text: "اقترح لي أقوى الدورات والشهادات المجانية المعتمدة لتقوية سيرتي الذاتية" },
   { icon: "💳", text: "كم سعر ساعة الطب البشري وهندسة البرمجيات في التنافس والموازي؟" },
   { icon: "🏛️", text: "قارن بين الجامعة الأردنية وجامعة العلوم والتكنولوجيا (التكنو)" },
   { icon: "🩺", text: "احكيلي عن التخصصات الطبية والصحية وأيها أسرع توظيفاً؟" },
-  { icon: "✈️", text: "ما هي أقوى التخصصات للعمل عن بُعد بالدولار أو السفر للخليج وألمانيا؟" },
   { icon: "🇩🇪", text: "احكيلي عن الجامعة الألمانية الأردنية وسنة التدريب في ألمانيا" },
 ];
 
@@ -80,7 +81,11 @@ function Advisor() {
   useEffect(() => {
     if (q && !sentInitial.current) {
       sentInitial.current = true;
-      void sendMessage({ text: `أرغب بتحليل شامل واستشارة تفاعلية لتخصص: ${q}` });
+      const initialPrompt =
+        q.trim().split(/\s+/).length > 4
+          ? q.trim()
+          : `أرغب بتحليل شامل واستشارة تفاعلية لتخصص: ${q}`;
+      void sendMessage({ text: initialPrompt });
     }
   }, [q, sendMessage]);
 
@@ -133,17 +138,23 @@ function Advisor() {
             المستشار الذكي المعتمد
           </h1>
           <p className="text-muted-foreground mt-2 text-sm leading-7 max-w-2xl">
-            استشر المستشار عن أي تخصص في الجامعات الأردنية ليحلل لك مؤشرات التشغيل، خريطة الجامعات والاعتمادات، أثر الأتمتة، والشهادات العالمية المجانية للوصول لخطة قرار عملية متكاملة.
+            متكامل مع كافة أقسام المنصة: يحلل مؤشرات التشغيل للـ 121 تخصصاً، ويقارن الـ 19 جامعة أردنية، ويقترح عليك من بنك الـ 481 دورة مجانية معتمدة، ويجيب عن معادلة الشهادات العربية والحقول الأربعة للطلبة الوافدين.
           </p>
         </div>
 
-        <div className="flex sm:flex-col gap-2 shrink-0">
+        <div className="flex flex-wrap sm:flex-col gap-2 shrink-0">
           <Link
             to="/compare"
             className="inline-flex items-center gap-1.5 rounded-xl border border-secondary/40 bg-secondary/10 px-3.5 py-2 text-xs font-bold text-secondary hover:bg-secondary/20 transition-colors"
           >
             <Scale className="size-3.5" />
             <span>مختبر المقارنة اللحظية</span>
+          </Link>
+          <Link
+            to="/international-guide"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-brand/40 bg-brand/10 px-3.5 py-2 text-xs font-bold text-brand-ink hover:bg-brand/20 transition-colors"
+          >
+            <span>🌍 مرشد الطلبة الوافدين</span>
           </Link>
           <Link
             to="/account"
