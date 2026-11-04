@@ -4,7 +4,7 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://students-future.com/</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -15,7 +15,7 @@
   </url>
   <url>
     <loc>https://students-future.com/advisor</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
     <image:image>
@@ -26,37 +26,37 @@
   </url>
   <url>
     <loc>https://students-future.com/majors</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://students-future.com/compare</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://students-future.com/certifications</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://students-future.com/sources</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://students-future.com/auth</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.50</priority>
   </url>
   <url>
     <loc>https://students-future.com/majors/computer-science</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -67,7 +67,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/software-engineering</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -78,7 +78,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/data-science-ai</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -89,7 +89,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/cybersecurity</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -100,7 +100,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/mis</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -111,7 +111,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/civil-engineering</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -122,7 +122,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/electrical-engineering</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -133,7 +133,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/nursing</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -144,7 +144,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/pharmacy</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -155,7 +155,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/medical-lab</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -166,7 +166,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/accounting</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -177,7 +177,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/business-administration</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -188,7 +188,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/law</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -199,7 +199,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/english-language</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -210,7 +210,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/arabic-language</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -221,7 +221,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/education-classroom-teacher</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -232,7 +232,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/psychology</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -243,7 +243,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/political-science</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -254,7 +254,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/media-journalism</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -265,7 +265,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/agricultural-engineering</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -276,7 +276,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/mathematics</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -287,7 +287,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/tourism-hospitality</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -298,7 +298,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/human-medicine</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -309,7 +309,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/dentistry</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -320,7 +320,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/pharm-d</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -331,7 +331,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/midwifery</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -342,7 +342,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/physical-therapy</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -353,7 +353,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/occupational-therapy</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -364,7 +364,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/clinical-nutrition-dietetics</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -375,7 +375,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/radiology-medical-imaging</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -386,7 +386,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/audiology-speech-pathology</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -397,7 +397,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/medical-equipment-technology</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -408,7 +408,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/health-administration-hospitals</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -419,7 +419,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/optometry</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -430,7 +430,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/public-health-environment</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -441,7 +441,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/anatomy-basic-medical-sciences</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -452,7 +452,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/architectural-engineering</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -463,7 +463,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/mechanical-engineering</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -474,7 +474,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/chemical-engineering</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -485,7 +485,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/industrial-engineering</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -496,7 +496,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/electronic-engineering</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -507,7 +507,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/telecommunications-engineering</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -518,7 +518,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/mechatronics-engineering</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -529,7 +529,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/biomedical-engineering</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -540,7 +540,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/renewable-energy-engineering</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -551,7 +551,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/computer-engineering</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -562,7 +562,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/materials-manufacturing-engineering</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -573,7 +573,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/surveying-geomatics</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -584,7 +584,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/nuclear-engineering</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -595,7 +595,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/interior-architecture</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -606,7 +606,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/mining-geological-engineering</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -617,7 +617,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/urban-planning-engineering</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -628,7 +628,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/computer-information-systems</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -639,7 +639,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/virtual-augmented-reality</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -650,7 +650,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/business-information-technology</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -661,7 +661,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/cloud-computing</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -672,7 +672,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/game-development</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -683,7 +683,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/web-design-interactive-media</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -694,7 +694,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/physics</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -705,7 +705,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/chemistry</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -716,7 +716,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/biology-microbiology</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -727,7 +727,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/geology-earth-sciences</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -738,7 +738,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/biotechnology</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -749,7 +749,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/medical-physics</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -760,7 +760,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/applied-chemistry</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -771,7 +771,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/statistics</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -782,7 +782,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/banking-financial-sciences</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -793,7 +793,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/marketing</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -804,7 +804,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/digital-marketing</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -815,7 +815,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/international-business</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -826,7 +826,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/economics</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -837,7 +837,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/human-resources</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -848,7 +848,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/supply-chain-logistics</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -859,7 +859,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/e-business-ecommerce</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -870,7 +870,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/actuarial-science</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -881,7 +881,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/event-management</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -892,7 +892,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/international-law</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -903,7 +903,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/commercial-law</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -914,7 +914,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/translation</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -925,7 +925,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/french-language</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -936,7 +936,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/german-english</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -947,7 +947,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/italian-english</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -958,7 +958,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/spanish-english</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -969,7 +969,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/chinese-english</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -980,7 +980,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/russian-english</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -991,7 +991,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/turkish-english</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -1002,7 +1002,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/history</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1013,7 +1013,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/geography</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1024,7 +1024,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/philosophy</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1035,7 +1035,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/sociology-social-work</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1046,7 +1046,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/archaeology-museums</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1057,7 +1057,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/anthropology</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1068,7 +1068,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/fiqh-usul</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1079,7 +1079,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/usul-al-din</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1090,7 +1090,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/islamic-banking</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1101,7 +1101,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/sharia-judiciary</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1112,7 +1112,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/islamic-studies</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1123,7 +1123,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/quranic-recitation</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1134,7 +1134,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/radio-television</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1145,7 +1145,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/public-relations-advertising</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1156,7 +1156,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/digital-new-media</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -1167,7 +1167,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/early-childhood-education</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1178,7 +1178,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/special-education</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -1189,7 +1189,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/counseling-mental-health</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1200,7 +1200,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/curriculum-instruction</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1211,7 +1211,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/educational-administration</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1222,7 +1222,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/interior-design</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1233,7 +1233,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/graphic-design</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1244,7 +1244,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/theatrical-film-design</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1255,7 +1255,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/music-arts</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1266,7 +1266,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/visual-fine-arts</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1277,7 +1277,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/fashion-design</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -1288,7 +1288,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/animation-multimedia</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -1299,7 +1299,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/plant-production</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1310,7 +1310,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/animal-production</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1321,7 +1321,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/water-environment-management</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -1332,7 +1332,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/land-water-environment</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1343,7 +1343,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/agricultural-economics</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1354,7 +1354,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/food-technology-agriculture</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>
@@ -1365,7 +1365,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/physical-education</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
     <image:image>
@@ -1376,7 +1376,7 @@
   </url>
   <url>
     <loc>https://students-future.com/majors/tour-guiding-heritage</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
     <image:image>

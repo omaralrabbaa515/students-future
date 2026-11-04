@@ -123,7 +123,7 @@ const SIDEBAR_ITEMS: {
 }[] = [
   { id: "overview", label: "المؤشرات العامة الحية", category: "analytics", icon: LayoutDashboard },
   { id: "traffic", label: "الزيارات وسلوك الطلاب", category: "analytics", icon: TrendingUp },
-  { id: "master_editor", label: "تعبئة وإدارة معلومات المنصة 🛠️", category: "management", icon: Database, badge: "215 دورة" },
+  { id: "master_editor", label: "تعبئة وإدارة معلومات المنصة 🛠️", category: "management", icon: Database, badge: `${certifications.length} دورة` },
   { id: "ai_scout", label: "وكيل البحث والتعبئة الذاتي 🤖", category: "management", icon: Radar, badge: "جديد" },
   { id: "vision_importer", label: "التعبئة الذكية عبر الصور 📷", category: "management", icon: Camera, badge: "جديد" },
   { id: "users", label: "إدارة المستخدمين والطلاب", category: "management", icon: Users },
@@ -242,9 +242,9 @@ function MasterAdminPage() {
   // Platform Copywriting texts state
   const [platformTexts, setPlatformTexts] = useState({
     heroTitle: "اعرف مستقبل تخصصك ومسارك المهني قبل أن تختار",
-    heroSubtitle: "جولة استرشادية تفاعلية تربط معدلك في التوجيهي بنِسَب التشغيل والركود الموثقة في ديوان الخدمة وسجّل، مع خارطة دورات عالمية مجانية معتمدة من هارفارد وغوغل وإدراك تمنحك ميزة تنافسية حقيقية.",
+    heroSubtitle: "جولة استرشادية تفاعلية تربط معدلك في التوجيهي بنِسَب التشغيل والركود الموثقة في ديوان الخدمة وسجّل، مع خارطة دورات عالمية مجانية معتمدة تمنحك ميزة تنافسية حقيقية.",
     bannerNotice: "تحديثات القبول الموحد 2026 ودليل الجامعات الأردنية الـ 19 ونسب ديوان الخدمة الجديدة مفعلة الآن رسمياً.",
-    statsCounterText: "34 مصدراً رسمياً موثقاً · 121 تخصصاً مصنفاً بالرواتب · 215 دورة مجانية معتمدة · 19 جامعة أردنية",
+    statsCounterText: `34 مصدراً رسمياً موثقاً · 121 تخصصاً مصنفاً بالرواتب · ${certifications.length} دورة مجانية معتمدة · 19 جامعة أردنية`,
     footerDisclaimer: "جميع نِسَب التشغيل والتصنيفات تقديرات استرشادية مبنية على أحدث البيانات الرسمية المتاحة من ديوان الخدمة المدنية (هيئة الخدمة والإدارة العامة) ودائرة الإحصاءات العامة ووزارة التعليم العالي ومنصة سجّل الوطنية.",
   });
 
@@ -279,7 +279,12 @@ function MasterAdminPage() {
         const savedCerts = localStorage.getItem("platform_custom_certs");
         if (savedCerts) {
           const parsed = JSON.parse(savedCerts);
-          if (Array.isArray(parsed) && parsed.length > 0) setEditableCertsList(parsed);
+          if (Array.isArray(parsed) && parsed.length >= certifications.length) {
+            setEditableCertsList(parsed);
+          } else {
+            setEditableCertsList(certifications);
+            localStorage.setItem("platform_custom_certs", JSON.stringify(certifications));
+          }
         }
         const savedMajors = localStorage.getItem("platform_custom_majors");
         if (savedMajors) {
@@ -4481,11 +4486,11 @@ function MasterAdminPage() {
             <div className="rounded-3xl border border-border bg-card p-6 shadow-sm">
               <h3 className="font-display text-sm font-bold text-foreground mb-3 flex items-center gap-2">
                 <Award className="size-4 text-emerald-500" />
-                فحص روابط الشهادات والدورات المجانية ({data?.brokenLinks.length || 0} معطلة من أصل 215 دورة معتمدة)
+                فحص روابط الشهادات والدورات المجانية ({data?.brokenLinks.length || 0} معطلة من أصل {certifications.length} دورة معتمدة)
               </h3>
               {(!data?.brokenLinks || data.brokenLinks.length === 0) ? (
                 <p className="text-xs text-emerald-600 dark:text-emerald-400 font-bold p-4 bg-emerald-500/10 rounded-2xl">
-                  ✓ جميع روابط الشهادات والدورات المجانية الـ 215 المعتمدة (Alison, Edraak, Saylor, HP LIFE, Zadi, M3aarf, OpenLearn, FAO) تعمل بكفاءة 100%.
+                  ✓ جميع روابط الشهادات والدورات المجانية الـ {certifications.length} المعتمدة تعمل بكفاءة 100%.
                 </p>
               ) : (
                 <div className="space-y-2">

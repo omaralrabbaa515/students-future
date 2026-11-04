@@ -53,7 +53,7 @@
     {
       "name": "دورات مجانية",
       "short_name": "دورات",
-      "description": "215+ دورة وشهادة عالمية مجانية معتمدة",
+      "description": "481 دورة وشهادة عالمية مجانية معتمدة",
       "url": "/certifications",
       "icons": [{ "src": "/logo.png", "sizes": "96x96" }]
     }
