@@ -2126,7 +2126,7 @@ export function generateLocalAdvisorResponse(
     ) {
       const fieldsText = JORDAN_FOUR_ACADEMIC_FIELDS.map(
         (f, idx) =>
-          `${idx + 1}. **${f.name}:**\n   - **مواد التخصص الإجبارية:** ${f.coreSubjects.join("، ")}.\n   - **الكليات والتخصصات المتاحة:** ${f.allowedMajorCategories.join("، ")}.\n   - **قاعدة الربط:** ${f.summary}`,
+          `${idx + 1}. **${f.name} (${f.shortName}):**\n   - **الكليات والتخصصات المتاحة:** ${f.eligibleMajors}\n   - **قاعدة العبور والربط:** ${f.crossAccessNote}`,
       ).join("\n\n");
 
       return `بموجب التعديل الوزاري المعتمد لطلبة جيلي **2009 و2010 وما بعدهم** في الأردن، تم دمج وتقليص الحقول في المسار الأكاديمي لتصبح **4 حقول أكاديمية رئيسية فقط** (مع استمرار النظام في دعم خريجي جيل 2008 ذوي الـ 6 حقول والسنوات الأقدم علمي/أدبي) 🎓🇯🇴:
@@ -2181,7 +2181,7 @@ ${tracksText}${
     const thresholdsPreview = ADMISSION_THRESHOLDS_TABLE.slice(0, 6)
       .map(
         (row) =>
-          `| ${row.majorGroup} | **${row.jordanPublicMin}** | **${row.jordanPrivateMin}** | **${row.intlWithExceptionMin}** |`,
+          `| ${row.majorGroup} | **${row.publicUniMin}** | **${row.privateUniMin}** | **${row.withExpatException}** |`,
       )
       .join("\n");
 

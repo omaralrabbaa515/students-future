@@ -48,7 +48,7 @@ const admissionsCatalog = OFFICIAL_ADMISSIONS_DATA.map(
 
 const fourAcademicFieldsCatalog = JORDAN_FOUR_ACADEMIC_FIELDS.map(
   (f) =>
-    `• ${f.name}: المواد الإجبارية [${f.coreSubjects.join("، ")}] | التخصصات المتاحة [${f.allowedMajorCategories.join("، ")}] | ${f.summary}`,
+    `• ${f.name} (${f.shortName}): التخصصات المتاحة [${f.eligibleMajors}] | قاعدة الربط [${f.crossAccessNote}]`,
 ).join("\n");
 
 const internationalCountriesCatalog = COUNTRIES_EQUIVALENCY_DATA.map(
@@ -58,7 +58,7 @@ const internationalCountriesCatalog = COUNTRIES_EQUIVALENCY_DATA.map(
 
 const internationalThresholdsCatalog = ADMISSION_THRESHOLDS_TABLE.map(
   (t) =>
-    `• ${t.majorGroup}: الحد الأدنى للأردنيين (رسمية: ${t.jordanPublicMin}، خاصة: ${t.jordanPrivateMin}) | للطلبة الوافدين مع استثناء الـ 5 علامات: ${t.intlWithExceptionMin}`,
+    `• ${t.majorGroup}: الحد الأدنى للأردنيين (رسمية: ${t.publicUniMin}، خاصة: ${t.privateUniMin}) | للطلبة الوافدين مع استثناء الـ 5 علامات: ${t.withExpatException} | الحقول المطلوبة: ${t.requiredFields}`,
 ).join("\n");
 
 export const ADVISOR_SYSTEM_PROMPT = `أنت "المستشار الأكاديمي والمهني الرسمي الذكي" لمنصة «الطلاب والمستقبل» (الأردن - 2026).
